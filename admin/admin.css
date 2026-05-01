@@ -81,11 +81,11 @@ body { font-family: var(--font); font-size: 14px; color: var(--text); background
   padding: 14px 20px;
   border-top: 1px solid rgba(255,255,255,0.07);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
 }
 .sidebar__user { font-size: 12px; color: rgba(255,255,255,0.4); }
-.sidebar__user strong { display: block; color: rgba(255,255,255,0.7); font-weight: 500; }
+.sidebar__user strong { display: block; color: rgba(255,255,255,0.7); font-weight: 500; margin-bottom: 1px; }
 .sidebar__signout {
   font-size: 12px;
   color: rgba(255,255,255,0.3);
@@ -93,6 +93,7 @@ body { font-family: var(--font); font-size: 14px; color: var(--text); background
   border: none;
   cursor: pointer;
   padding: 0;
+  text-align: left;
   transition: color 130ms;
 }
 .sidebar__signout:hover { color: rgba(255,255,255,0.7); }
