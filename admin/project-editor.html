@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Editor — Parallax Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <a href="index.html" class="sidebar__logo">Parallax<span>.</span> <span class="sidebar__badge">Admin</span></a>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Content</div>
+      <a href="index.html">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="articles.html">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path d="M4 6h16M4 10h16M4 14h10"/></svg>
+        Articles
+      </a>
+      <a href="projects.html" class="active">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+        Projects
+      </a>
+      <div class="sidebar__section-label">Site</div>
+      <a href="../index.html" target="_blank">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        View Site
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <strong id="sb-email">—</strong>
+        Parallax Studio
+      </div>
+      <button class="sidebar__signout" id="signout-btn">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <span class="topbar__crumb"><a href="projects.html" style="color:var(--text-2);text-decoration:none;">Projects</a> / <strong id="topbar-title">New Project</strong></span>
+      <div class="topbar__right">
+        <a href="projects.html" class="btn btn--ghost btn--sm">Cancel</a>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="form-layout">
+
+        <!-- Left: main fields -->
+        <div>
+
+          <!-- Overview -->
+          <div class="form-card">
+            <h2>Overview</h2>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div class="form-grid">
+                <div class="field">
+                  <label>Project Title</label>
+                  <input type="text" id="f-title" placeholder="e.g. BMW Brand Identity">
+                </div>
+                <div class="field">
+                  <label>Client</label>
+                  <input type="text" id="f-client" placeholder="e.g. BMW Group">
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Slug</label>
+                  <input type="text" id="f-slug" placeholder="bmw-brand-identity">
+                  <span class="field__hint">URL-friendly identifier</span>
+                </div>
+                <div class="field">
+                  <label>Year</label>
+                  <input type="text" id="f-year" placeholder="e.g. 2025">
+                </div>
+              </div>
+              <div class="field">
+                <label>Services (comma-separated)</label>
+                <input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital">
+              </div>
+              <div class="field">
+                <label>Overview</label>
+                <textarea id="f-overview" placeholder="Project overview shown in the case study…" style="min-height:120px;"></textarea>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Hero Image URL</label>
+                  <input type="text" id="f-hero-image" placeholder="https://…">
+                </div>
+                <div class="field">
+                  <label>Cover Image URL</label>
+                  <input type="text" id="f-cover-image" placeholder="https://… (used in work grid)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="form-card">
+            <h2>Numbers</h2>
+            <div class="form-grid">
+              <div class="field">
+                <label>Stat 1 — Value</label>
+                <input type="text" id="f-stat1-val" placeholder="e.g. 240">
+              </div>
+              <div class="field">
+                <label>Stat 1 — Label</label>
+                <input type="text" id="f-stat1-label" placeholder="e.g. Brand touchpoints">
+              </div>
+              <div class="field">
+                <label>Stat 2 — Value</label>
+                <input type="text" id="f-stat2-val" placeholder="e.g. 18">
+              </div>
+              <div class="field">
+                <label>Stat 2 — Label</label>
+                <input type="text" id="f-stat2-label" placeholder="e.g. Countries launched">
+              </div>
+              <div class="field">
+                <label>Stat 3 — Value</label>
+                <input type="text" id="f-stat3-val" placeholder="e.g. 4x">
+              </div>
+              <div class="field">
+                <label>Stat 3 — Label</label>
+                <input type="text" id="f-stat3-label" placeholder="e.g. Engagement increase">
+              </div>
+              <div class="field">
+                <label>Stat 4 — Value</label>
+                <input type="text" id="f-stat4-val" placeholder="e.g. 98">
+              </div>
+              <div class="field">
+                <label>Stat 4 — Label</label>
+                <input type="text" id="f-stat4-label" placeholder="e.g. NPS score">
+              </div>
+              <div class="field">
+                <label>Stat 5 — Value</label>
+                <input type="text" id="f-stat5-val" placeholder="e.g. 12">
+              </div>
+              <div class="field">
+                <label>Stat 5 — Label</label>
+                <input type="text" id="f-stat5-label" placeholder="e.g. Weeks to launch">
+              </div>
+            </div>
+          </div>
+
+          <!-- Outcomes -->
+          <div class="form-card">
+            <h2>Outcomes</h2>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div class="form-grid">
+                <div class="field">
+                  <label>Outcome 1 — Title</label>
+                  <input type="text" id="f-out1-title" placeholder="e.g. Global Rollout">
+                </div>
+                <div class="field">
+                  <label>Outcome 1 — Description</label>
+                  <input type="text" id="f-out1-sub" placeholder="Short description">
+                </div>
+                <div class="field">
+                  <label>Outcome 2 — Title</label>
+                  <input type="text" id="f-out2-title" placeholder="e.g. Award Recognition">
+                </div>
+                <div class="field">
+                  <label>Outcome 2 — Description</label>
+                  <input type="text" id="f-out2-sub" placeholder="Short description">
+                </div>
+                <div class="field">
+                  <label>Outcome 3 — Title</label>
+                  <input type="text" id="f-out3-title" placeholder="e.g. Team Adoption">
+                </div>
+                <div class="field">
+                  <label>Outcome 3 — Description</label>
+                  <input type="text" id="f-out3-sub" placeholder="Short description">
+                </div>
+                <div class="field">
+                  <label>Outcome 4 — Title</label>
+                  <input type="text" id="f-out4-title" placeholder="e.g. Client Retention">
+                </div>
+                <div class="field">
+                  <label>Outcome 4 — Description</label>
+                  <input type="text" id="f-out4-sub" placeholder="Short description">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quote -->
+          <div class="form-card">
+            <h2>Client Quote</h2>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div class="field">
+                <label>Quote</label>
+                <textarea id="f-quote" placeholder="What the client said…" style="min-height:90px;"></textarea>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Attribution — Name</label>
+                  <input type="text" id="f-quote-name" placeholder="e.g. John Smith">
+                </div>
+                <div class="field">
+                  <label>Attribution — Role</label>
+                  <input type="text" id="f-quote-role" placeholder="e.g. CMO, BMW Group">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: publish sidebar -->
+        <div class="form-sidebar">
+          <div class="form-card">
+            <h2>Publish</h2>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div class="field">
+                <label>Status</label>
+                <select id="f-status">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
+              <button class="btn btn--primary" style="width:100%; justify-content:center;" id="save-btn">Save Project</button>
+              <button class="btn btn--danger btn--sm" style="width:100%; justify-content:center; display:none;" id="delete-btn">Delete Project</button>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <h2>Related Projects</h2>
+            <div class="field">
+              <label>Pinned Related (slugs)</label>
+              <textarea id="f-pinned" placeholder="one-slug-per-line" style="min-height:80px; font-family:monospace; font-size:12px;"></textarea>
+              <span class="field__hint">Leave blank for auto-suggest</span>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <h2>Brand Images</h2>
+            <div class="field">
+              <label>Primary Image URLs</label>
+              <textarea id="f-brand-images" placeholder="One URL per line" style="min-height:100px; font-family:monospace; font-size:12px;"></textarea>
+              <span class="field__hint">Logo marks and brand assets</span>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <h2>Digital — Phone Screens</h2>
+            <div class="field">
+              <label>Phone Image URLs</label>
+              <textarea id="f-phones" placeholder="One URL per line" style="min-height:100px; font-family:monospace; font-size:12px;"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    const params  = new URLSearchParams(location.search);
+    const editId  = params.get('id');
+    let workspaceId = null;
+
+    function slugify(str) {
+      return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    document.getElementById('f-title').addEventListener('input', e => {
+      if (!editId) document.getElementById('f-slug').value = slugify(e.target.value);
+    });
+
+    function lines(str) { return str ? str.split('\n').map(s => s.trim()).filter(Boolean) : []; }
+    function csv(str)   { return str ? str.split(',').map(s => s.trim()).filter(Boolean) : []; }
+
+    async function save() {
+      const btn = document.getElementById('save-btn');
+      btn.textContent = 'Saving…';
+      btn.disabled = true;
+
+      const payload = {
+        workspace_id:            workspaceId,
+        title:                   document.getElementById('f-title').value.trim(),
+        slug:                    document.getElementById('f-slug').value.trim(),
+        client:                  document.getElementById('f-client').value.trim(),
+        year:                    document.getElementById('f-year').value.trim(),
+        services:                csv(document.getElementById('f-services').value),
+        overview:                document.getElementById('f-overview').value.trim(),
+        hero_image_url:          document.getElementById('f-hero-image').value.trim(),
+        cover_image_url:         document.getElementById('f-cover-image').value.trim(),
+        stat1_value:             document.getElementById('f-stat1-val').value.trim(),
+        stat1_label:             document.getElementById('f-stat1-label').value.trim(),
+        stat2_value:             document.getElementById('f-stat2-val').value.trim(),
+        stat2_label:             document.getElementById('f-stat2-label').value.trim(),
+        stat3_value:             document.getElementById('f-stat3-val').value.trim(),
+        stat3_label:             document.getElementById('f-stat3-label').value.trim(),
+        stat4_value:             document.getElementById('f-stat4-val').value.trim(),
+        stat4_label:             document.getElementById('f-stat4-label').value.trim(),
+        stat5_value:             document.getElementById('f-stat5-val').value.trim(),
+        stat5_label:             document.getElementById('f-stat5-label').value.trim(),
+        outcome1_title:          document.getElementById('f-out1-title').value.trim(),
+        outcome1_description:    document.getElementById('f-out1-sub').value.trim(),
+        outcome2_title:          document.getElementById('f-out2-title').value.trim(),
+        outcome2_description:    document.getElementById('f-out2-sub').value.trim(),
+        outcome3_title:          document.getElementById('f-out3-title').value.trim(),
+        outcome3_description:    document.getElementById('f-out3-sub').value.trim(),
+        outcome4_title:          document.getElementById('f-out4-title').value.trim(),
+        outcome4_description:    document.getElementById('f-out4-sub').value.trim(),
+        quote_text:              document.getElementById('f-quote').value.trim(),
+        quote_attribution_name:  document.getElementById('f-quote-name').value.trim(),
+        quote_attribution_role:  document.getElementById('f-quote-role').value.trim(),
+        status:                  document.getElementById('f-status').value,
+        pinned_related:          lines(document.getElementById('f-pinned').value),
+        branding_primary_images: lines(document.getElementById('f-brand-images').value),
+        digital_phones:          lines(document.getElementById('f-phones').value),
+      };
+
+      let error;
+      if (editId) {
+        ({ error } = await db.from('case_studies').update(payload).eq('id', editId));
+      } else {
+        let data;
+        ({ data, error } = await db.from('case_studies').insert(payload).select().single());
+        if (!error && data) {
+          history.replaceState({}, '', `?id=${data.id}`);
+          document.getElementById('delete-btn').style.display = 'block';
+          document.getElementById('topbar-title').textContent = payload.title || 'Edit Project';
+        }
+      }
+
+      btn.textContent = 'Save Project';
+      btn.disabled = false;
+
+      if (error) { showToast('Error: ' + error.message); }
+      else        { showToast('Saved successfully'); }
+    }
+
+    (async () => {
+      const session = await requireAuth();
+      document.getElementById('sb-email').textContent = session.user.email;
+
+      document.getElementById('signout-btn').addEventListener('click', async () => {
+        await db.auth.signOut();
+        window.location.href = 'login.html';
+      });
+
+      const { data: ws } = await db.from('workspaces').select('id').limit(1).single();
+      workspaceId = ws?.id;
+
+      if (editId) {
+        document.getElementById('topbar-title').textContent = 'Edit Project';
+        document.getElementById('delete-btn').style.display = 'block';
+
+        const { data: p } = await db.from('case_studies').select('*').eq('id', editId).single();
+        if (p) {
+          document.getElementById('f-title').value         = p.title || '';
+          document.getElementById('f-slug').value          = p.slug || '';
+          document.getElementById('f-client').value        = p.client || '';
+          document.getElementById('f-year').value          = p.year || '';
+          document.getElementById('f-services').value      = (p.services || []).join(', ');
+          document.getElementById('f-overview').value      = p.overview || '';
+          document.getElementById('f-hero-image').value    = p.hero_image_url || '';
+          document.getElementById('f-cover-image').value   = p.cover_image_url || '';
+          document.getElementById('f-stat1-val').value     = p.stat1_value || '';
+          document.getElementById('f-stat1-label').value   = p.stat1_label || '';
+          document.getElementById('f-stat2-val').value     = p.stat2_value || '';
+          document.getElementById('f-stat2-label').value   = p.stat2_label || '';
+          document.getElementById('f-stat3-val').value     = p.stat3_value || '';
+          document.getElementById('f-stat3-label').value   = p.stat3_label || '';
+          document.getElementById('f-stat4-val').value     = p.stat4_value || '';
+          document.getElementById('f-stat4-label').value   = p.stat4_label || '';
+          document.getElementById('f-stat5-val').value     = p.stat5_value || '';
+          document.getElementById('f-stat5-label').value   = p.stat5_label || '';
+          document.getElementById('f-out1-title').value    = p.outcome1_title || '';
+          document.getElementById('f-out1-sub').value      = p.outcome1_description || '';
+          document.getElementById('f-out2-title').value    = p.outcome2_title || '';
+          document.getElementById('f-out2-sub').value      = p.outcome2_description || '';
+          document.getElementById('f-out3-title').value    = p.outcome3_title || '';
+          document.getElementById('f-out3-sub').value      = p.outcome3_description || '';
+          document.getElementById('f-out4-title').value    = p.outcome4_title || '';
+          document.getElementById('f-out4-sub').value      = p.outcome4_description || '';
+          document.getElementById('f-quote').value         = p.quote_text || '';
+          document.getElementById('f-quote-name').value    = p.quote_attribution_name || '';
+          document.getElementById('f-quote-role').value    = p.quote_attribution_role || '';
+          document.getElementById('f-status').value        = p.status || 'draft';
+          document.getElementById('f-pinned').value        = (p.pinned_related || []).join('\n');
+          document.getElementById('f-brand-images').value  = (p.branding_primary_images || []).join('\n');
+          document.getElementById('f-phones').value        = (p.digital_phones || []).join('\n');
+        }
+      }
+
+      document.getElementById('save-btn').addEventListener('click', save);
+
+      document.getElementById('delete-btn').addEventListener('click', async () => {
+        if (!confirm('Delete this project? This cannot be undone.')) return;
+        const { error } = await db.from('case_studies').delete().eq('id', editId);
+        if (error) { showToast('Error: ' + error.message); return; }
+        window.location.href = 'projects.html';
+      });
+    })();
+  </script>
+</body>
+</html>
