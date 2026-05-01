@@ -5,122 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Editor — Parallax Admin</title>
   <link rel="stylesheet" href="admin.css">
-  <style>
-    .section-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 28px 0 0;
-    }
-    .section-divider__label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-2);
-      white-space: nowrap;
-    }
-    .section-divider__line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .img-grid {
-      display: grid;
-      gap: 14px;
-    }
-    .img-grid--2 { grid-template-columns: 1fr 1fr; }
-    .img-grid--3 { grid-template-columns: 1fr 1fr 1fr; }
-    .img-grid--4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-
-    .img-slot {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .img-slot__label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-2);
-    }
-    .img-slot__label span {
-      font-size: 10px;
-      font-weight: 400;
-      text-transform: none;
-      letter-spacing: 0;
-      color: #aaa;
-      margin-left: 4px;
-    }
-    .img-slot__box {
-      border: 1.5px dashed var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      position: relative;
-      background: var(--bg);
-      cursor: pointer;
-      transition: border-color 150ms;
-    }
-    .img-slot__box:hover { border-color: #a1a1aa; }
-    .img-slot__box input[type=file] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-    }
-    .img-slot__empty {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 12px;
-      gap: 6px;
-      color: var(--text-2);
-    }
-    .img-slot__empty svg { opacity: 0.3; }
-    .img-slot__empty span { font-size: 11px; }
-    .img-slot__preview {
-      width: 100%;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-      display: block;
-    }
-    .img-slot__preview--tall { aspect-ratio: 9/16; }
-    .img-slot__preview--wide { aspect-ratio: 16/9; }
-    .img-slot__preview--square { aspect-ratio: 1/1; }
-    .img-slot__remove {
-      position: absolute;
-      top: 6px; right: 6px;
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.55);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-      line-height: 1;
-      transition: background 120ms;
-    }
-    .img-slot__remove:hover { background: rgba(0,0,0,0.8); }
-    .img-slot__uploading {
-      position: absolute;
-      inset: 0;
-      background: rgba(255,255,255,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: var(--text-2);
-    }
-  </style>
 </head>
 <body>
 
@@ -157,7 +41,10 @@
 
   <div class="main">
     <header class="topbar">
-      <span class="topbar__crumb"><a href="projects.html" style="color:var(--text-2);text-decoration:none;">Projects</a> / <strong id="topbar-title">New Project</strong></span>
+      <span class="topbar__crumb">
+        <a href="projects.html" style="color:var(--text-2);text-decoration:none;">Projects</a> /
+        <strong id="topbar-title">New Project</strong>
+      </span>
       <div class="topbar__right">
         <button class="btn btn--primary" id="save-btn">Save Project</button>
         <a href="projects.html" class="btn btn--ghost">Cancel</a>
@@ -170,15 +57,23 @@
         <!-- ── LEFT COLUMN ── -->
         <div>
 
-          <!-- OVERVIEW -->
-          <div class="form-card">
-            <h2>Overview</h2>
-            <div style="display:flex;flex-direction:column;gap:16px;">
-              <div class="form-grid">
+          <!-- 00 — OVERVIEW -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">00</span>
+                <div>
+                  <div class="pe-section__title">Overview</div>
+                  <div class="pe-section__desc">Project details and metadata</div>
+                </div>
+              </div>
+            </div>
+            <div class="pe-section__body">
+              <div class="form-grid" style="margin-bottom:14px;">
                 <div class="field"><label>Project Title</label><input type="text" id="f-title" placeholder="e.g. BMW Brand Identity"></div>
                 <div class="field"><label>Client</label><input type="text" id="f-client" placeholder="e.g. BMW Group"></div>
               </div>
-              <div class="form-grid">
+              <div class="form-grid" style="margin-bottom:14px;">
                 <div class="field">
                   <label>Slug</label>
                   <input type="text" id="f-slug" placeholder="bmw-brand-identity">
@@ -186,280 +81,371 @@
                 </div>
                 <div class="field"><label>Year</label><input type="text" id="f-year" placeholder="2025"></div>
               </div>
-              <div class="field"><label>Services (comma-separated)</label><input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital"></div>
-              <div class="field"><label>Overview</label><textarea id="f-overview" placeholder="Project overview shown in the case study…" style="min-height:120px;"></textarea></div>
-            </div>
-          </div>
-
-          <!-- ── HERO ── -->
-          <div class="form-card" style="margin-top:0;">
-            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
-              <span class="section-divider__label">Hero</span>
-              <span class="section-divider__line"></span>
-              <span style="font-size:11px;color:#aaa;">1 image</span>
-            </div>
-            <div class="img-grid img-grid--2">
-              <div class="img-slot" style="grid-column:span 2;">
-                <div class="img-slot__label">Hero Background <span>Full-width image at the top of the case study</span></div>
-                <div class="img-slot__box" style="aspect-ratio:21/8;" data-slot="img_hero" data-ratio="wide">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
-                </div>
+              <div class="field" style="margin-bottom:14px;">
+                <label>Services</label>
+                <input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital (comma-separated)">
+              </div>
+              <div class="field">
+                <label>Overview</label>
+                <textarea id="f-overview" placeholder="Project overview shown in the case study…" style="min-height:110px;"></textarea>
               </div>
             </div>
           </div>
 
-          <!-- ── IDENTITY ── -->
-          <div class="form-card" style="margin-top:0;">
-            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
-              <span class="section-divider__label">Identity</span>
-              <span class="section-divider__line"></span>
-              <span style="font-size:11px;color:#aaa;">7 images</span>
+          <!-- 01 — HERO -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">01</span>
+                <div>
+                  <div class="pe-section__title">Hero</div>
+                  <div class="pe-section__desc">Full-width cover image at the top of the case study</div>
+                </div>
+              </div>
+              <span class="pe-section__count">1 image</span>
             </div>
-
-            <p style="font-size:12px;color:var(--text-2);margin-bottom:14px;">Logo Marks <span style="color:#bbb;">— cycles through automatically on the page</span></p>
-            <div class="img-grid img-grid--3" style="margin-bottom:20px;">
+            <div class="pe-section__body">
               <div class="img-slot">
-                <div class="img-slot__label">Mark 01 <span>Wordmark</span></div>
-                <div class="img-slot__box" data-slot="img_identity_mark_01" data-ratio="square">
+                <div class="img-slot__label">Hero Background</div>
+                <div class="img-slot__box" data-slot="img_hero" data-ratio="hero" style="aspect-ratio:21/8;">
                   <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Mark 02 <span>Stacked lockup</span></div>
-                <div class="img-slot__box" data-slot="img_identity_mark_02" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Mark 03 <span>Monogram</span></div>
-                <div class="img-slot__box" data-slot="img_identity_mark_03" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
-                </div>
-              </div>
-            </div>
-
-            <p style="font-size:12px;color:var(--text-2);margin-bottom:14px;">Construction & Variants</p>
-            <div class="img-grid img-grid--4">
-              <div class="img-slot">
-                <div class="img-slot__label">Construction <span>Grid/guidelines</span></div>
-                <div class="img-slot__box" data-slot="img_identity_construction" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Light variant</div>
-                <div class="img-slot__box" data-slot="img_identity_variant_light" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Dark variant</div>
-                <div class="img-slot__box" data-slot="img_identity_variant_dark" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Accent variant</div>
-                <div class="img-slot__box" data-slot="img_identity_variant_accent" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  <div class="img-slot__empty">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                    <span>Click to upload</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- ── APPLICATIONS ── -->
-          <div class="form-card" style="margin-top:0;">
-            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
-              <span class="section-divider__label">Applications</span>
-              <span class="section-divider__line"></span>
-              <span style="font-size:11px;color:#aaa;">8 images</span>
+          <!-- 02 — IDENTITY -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">02</span>
+                <div>
+                  <div class="pe-section__title">Identity</div>
+                  <div class="pe-section__desc">Logo marks, construction grid, and colour variants</div>
+                </div>
+              </div>
+              <span class="pe-section__count">7 images</span>
             </div>
-            <div class="img-grid img-grid--4">
-              <div class="img-slot" style="grid-column:span 2;">
-                <div class="img-slot__label">Signage <span>Lead / largest tile</span></div>
-                <div class="img-slot__box" data-slot="img_app_signage" data-ratio="wide">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+            <div class="pe-section__body">
+
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Logo Marks — cycles automatically on the page</div>
+                <div class="img-grid img-grid--3">
+                  <div class="img-slot">
+                    <div class="img-slot__label">Mark 01 <span>Wordmark</span></div>
+                    <div class="img-slot__box" data-slot="img_identity_mark_01" data-ratio="square" style="aspect-ratio:1;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Mark 02 <span>Stacked</span></div>
+                    <div class="img-slot__box" data-slot="img_identity_mark_02" data-ratio="square" style="aspect-ratio:1;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Mark 03 <span>Monogram</span></div>
+                    <div class="img-slot__box" data-slot="img_identity_mark_03" data-ratio="square" style="aspect-ratio:1;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="img-slot" style="grid-column:span 2;">
-                <div class="img-slot__label">Stationery</div>
-                <div class="img-slot__box" data-slot="img_app_stationery" data-ratio="wide">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Construction & Colour Variants</div>
+                <div class="img-grid img-grid--4">
+                  <div class="img-slot">
+                    <div class="img-slot__label">Construction</div>
+                    <div class="img-slot__box" data-slot="img_identity_construction" data-ratio="square" style="aspect-ratio:1;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Light variant</div>
+                    <div class="img-slot__box" data-slot="img_identity_variant_light" data-ratio="square" style="aspect-ratio:1;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Dark variant</div>
+                    <div class="img-slot__box" data-slot="img_identity_variant_dark" data-ratio="square" style="aspect-ratio:1;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Accent variant</div>
+                    <div class="img-slot__box" data-slot="img_identity_variant_accent" data-ratio="square" style="aspect-ratio:1;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Packaging</div>
-                <div class="img-slot__box" data-slot="img_app_packaging" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+
+            </div>
+          </div>
+
+          <!-- 03 — APPLICATIONS -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">03</span>
+                <div>
+                  <div class="pe-section__title">Applications</div>
+                  <div class="pe-section__desc">Brand in use — print, packaging, environmental, and more</div>
                 </div>
               </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Letterhead</div>
-                <div class="img-slot__box" data-slot="img_app_letterhead" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+              <span class="pe-section__count">8 images</span>
+            </div>
+            <div class="pe-section__body">
+              <div class="img-grid img-grid--4">
+                <div class="img-slot" style="grid-column:span 2;">
+                  <div class="img-slot__label">Signage <span>Lead tile</span></div>
+                  <div class="img-slot__box" data-slot="img_app_signage" data-ratio="wide" style="aspect-ratio:16/9;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                  </div>
                 </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Apparel</div>
-                <div class="img-slot__box" data-slot="img_app_apparel" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                <div class="img-slot" style="grid-column:span 2;">
+                  <div class="img-slot__label">Stationery</div>
+                  <div class="img-slot__box" data-slot="img_app_stationery" data-ratio="wide" style="aspect-ratio:16/9;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                  </div>
                 </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Brochure</div>
-                <div class="img-slot__box" data-slot="img_app_brochure" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                <div class="img-slot">
+                  <div class="img-slot__label">Packaging</div>
+                  <div class="img-slot__box" data-slot="img_app_packaging" data-ratio="square" style="aspect-ratio:1;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  </div>
                 </div>
-              </div>
-              <div class="img-slot" style="grid-column:span 2;">
-                <div class="img-slot__label">Livery <span>Vehicle wrap</span></div>
-                <div class="img-slot__box" data-slot="img_app_livery" data-ratio="wide">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                <div class="img-slot">
+                  <div class="img-slot__label">Letterhead</div>
+                  <div class="img-slot__box" data-slot="img_app_letterhead" data-ratio="square" style="aspect-ratio:1;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  </div>
                 </div>
-              </div>
-              <div class="img-slot" style="grid-column:span 2;">
-                <div class="img-slot__label">Environmental <span>Wayfinding / spaces</span></div>
-                <div class="img-slot__box" data-slot="img_app_environmental" data-ratio="wide">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                <div class="img-slot">
+                  <div class="img-slot__label">Apparel</div>
+                  <div class="img-slot__box" data-slot="img_app_apparel" data-ratio="square" style="aspect-ratio:1;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  </div>
+                </div>
+                <div class="img-slot">
+                  <div class="img-slot__label">Brochure</div>
+                  <div class="img-slot__box" data-slot="img_app_brochure" data-ratio="square" style="aspect-ratio:1;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  </div>
+                </div>
+                <div class="img-slot" style="grid-column:span 2;">
+                  <div class="img-slot__label">Livery <span>Vehicle wrap</span></div>
+                  <div class="img-slot__box" data-slot="img_app_livery" data-ratio="wide" style="aspect-ratio:16/9;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                  </div>
+                </div>
+                <div class="img-slot" style="grid-column:span 2;">
+                  <div class="img-slot__label">Environmental <span>Wayfinding / spaces</span></div>
+                  <div class="img-slot__box" data-slot="img_app_environmental" data-ratio="wide" style="aspect-ratio:16/9;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- ── DIGITAL ── -->
-          <div class="form-card" style="margin-top:0;">
-            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
-              <span class="section-divider__label">Digital</span>
-              <span class="section-divider__line"></span>
-              <span style="font-size:11px;color:#aaa;">5 images</span>
+          <!-- 04 — DIGITAL -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">04</span>
+                <div>
+                  <div class="pe-section__title">Digital</div>
+                  <div class="pe-section__desc">Website, mobile screens, and device mockups</div>
+                </div>
+              </div>
+              <span class="pe-section__count">5 images</span>
             </div>
-            <div class="img-grid img-grid--4">
-              <div class="img-slot" style="grid-column:span 4;">
-                <div class="img-slot__label">Desktop Website <span>Full-width desktop mockup</span></div>
-                <div class="img-slot__box" data-slot="img_digital_desktop" data-ratio="wide">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+            <div class="pe-section__body">
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Desktop</div>
+                <div class="img-slot">
+                  <div class="img-slot__label">Website Desktop <span>Full-width browser mockup</span></div>
+                  <div class="img-slot__box" data-slot="img_digital_desktop" data-ratio="wide" style="aspect-ratio:16/9;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                  </div>
                 </div>
               </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Phone 01 <span>Home screen</span></div>
-                <div class="img-slot__box" data-slot="img_digital_phone_01" data-ratio="tall">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Mobile Screens</div>
+                <div class="img-grid img-grid--3">
+                  <div class="img-slot">
+                    <div class="img-slot__label">Phone 01 <span>Home</span></div>
+                    <div class="img-slot__box" data-slot="img_digital_phone_01" data-ratio="tall" style="aspect-ratio:9/16;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Phone 02</div>
+                    <div class="img-slot__box" data-slot="img_digital_phone_02" data-ratio="tall" style="aspect-ratio:9/16;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Phone 03</div>
+                    <div class="img-slot__box" data-slot="img_digital_phone_03" data-ratio="tall" style="aspect-ratio:9/16;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Phone 02</div>
-                <div class="img-slot__box" data-slot="img_digital_phone_02" data-ratio="tall">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Phone 03</div>
-                <div class="img-slot__box" data-slot="img_digital_phone_03" data-ratio="tall">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Laptop / Tablet</div>
-                <div class="img-slot__box" data-slot="img_digital_laptop" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── RELATED PROJECTS ── -->
-          <div class="form-card" style="margin-top:0;">
-            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
-              <span class="section-divider__label">Related Projects</span>
-              <span class="section-divider__line"></span>
-              <span style="font-size:11px;color:#aaa;">3 thumbnails</span>
-            </div>
-            <div class="img-grid img-grid--3">
-              <div class="img-slot">
-                <div class="img-slot__label">Related 01</div>
-                <div class="img-slot__box" data-slot="img_related_01" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Related 02</div>
-                <div class="img-slot__box" data-slot="img_related_02" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                </div>
-              </div>
-              <div class="img-slot">
-                <div class="img-slot__label">Related 03</div>
-                <div class="img-slot__box" data-slot="img_related_03" data-ratio="square">
-                  <input type="file" accept="image/*">
-                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Other</div>
+                <div class="img-grid img-grid--2">
+                  <div class="img-slot">
+                    <div class="img-slot__label">Laptop / Tablet</div>
+                    <div class="img-slot__box" data-slot="img_digital_laptop" data-ratio="wide" style="aspect-ratio:16/9;">
+                      <input type="file" accept="image/*">
+                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- ── NUMBERS ── -->
-          <div class="form-card">
-            <h2>Numbers</h2>
-            <div class="form-grid">
-              <div class="field"><label>Stat 1 — Value</label><input type="text" id="f-stat1-val" placeholder="240+"></div>
-              <div class="field"><label>Stat 1 — Label</label><input type="text" id="f-stat1-label" placeholder="Brand touchpoints"></div>
-              <div class="field"><label>Stat 2 — Value</label><input type="text" id="f-stat2-val" placeholder="18"></div>
-              <div class="field"><label>Stat 2 — Label</label><input type="text" id="f-stat2-label" placeholder="Countries launched"></div>
-              <div class="field"><label>Stat 3 — Value</label><input type="text" id="f-stat3-val" placeholder="4x"></div>
-              <div class="field"><label>Stat 3 — Label</label><input type="text" id="f-stat3-label" placeholder="Engagement increase"></div>
-              <div class="field"><label>Stat 4 — Value</label><input type="text" id="f-stat4-val" placeholder="98"></div>
-              <div class="field"><label>Stat 4 — Label</label><input type="text" id="f-stat4-label" placeholder="NPS score"></div>
-              <div class="field"><label>Stat 5 — Value</label><input type="text" id="f-stat5-val" placeholder="12"></div>
-              <div class="field"><label>Stat 5 — Label</label><input type="text" id="f-stat5-label" placeholder="Weeks to launch"></div>
+          <!-- 05 — NUMBERS -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">05</span>
+                <div>
+                  <div class="pe-section__title">Numbers</div>
+                  <div class="pe-section__desc">Key project statistics shown below the overview</div>
+                </div>
+              </div>
+              <span class="pe-section__count">5 stats</span>
+            </div>
+            <div class="pe-section__body">
+              <div class="form-grid">
+                <div class="field"><label>Stat 1 — Value</label><input type="text" id="f-stat1-val" placeholder="240+"></div>
+                <div class="field"><label>Stat 1 — Label</label><input type="text" id="f-stat1-label" placeholder="Brand touchpoints"></div>
+                <div class="field"><label>Stat 2 — Value</label><input type="text" id="f-stat2-val" placeholder="18"></div>
+                <div class="field"><label>Stat 2 — Label</label><input type="text" id="f-stat2-label" placeholder="Countries launched"></div>
+                <div class="field"><label>Stat 3 — Value</label><input type="text" id="f-stat3-val" placeholder="4x"></div>
+                <div class="field"><label>Stat 3 — Label</label><input type="text" id="f-stat3-label" placeholder="Engagement increase"></div>
+                <div class="field"><label>Stat 4 — Value</label><input type="text" id="f-stat4-val" placeholder="98"></div>
+                <div class="field"><label>Stat 4 — Label</label><input type="text" id="f-stat4-label" placeholder="NPS score"></div>
+                <div class="field"><label>Stat 5 — Value</label><input type="text" id="f-stat5-val" placeholder="12"></div>
+                <div class="field"><label>Stat 5 — Label</label><input type="text" id="f-stat5-label" placeholder="Weeks to launch"></div>
+              </div>
             </div>
           </div>
 
-          <!-- ── OUTCOMES ── -->
-          <div class="form-card">
-            <h2>Outcomes</h2>
-            <div class="form-grid">
-              <div class="field"><label>Outcome 1 — Title</label><input type="text" id="f-out1-title" placeholder="Global Rollout"></div>
-              <div class="field"><label>Outcome 1 — Description</label><input type="text" id="f-out1-sub" placeholder="Short description"></div>
-              <div class="field"><label>Outcome 2 — Title</label><input type="text" id="f-out2-title" placeholder="Award Recognition"></div>
-              <div class="field"><label>Outcome 2 — Description</label><input type="text" id="f-out2-sub" placeholder="Short description"></div>
-              <div class="field"><label>Outcome 3 — Title</label><input type="text" id="f-out3-title" placeholder="Team Adoption"></div>
-              <div class="field"><label>Outcome 3 — Description</label><input type="text" id="f-out3-sub" placeholder="Short description"></div>
-              <div class="field"><label>Outcome 4 — Title</label><input type="text" id="f-out4-title" placeholder="Client Retention"></div>
-              <div class="field"><label>Outcome 4 — Description</label><input type="text" id="f-out4-sub" placeholder="Short description"></div>
+          <!-- 06 — OUTCOMES -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">06</span>
+                <div>
+                  <div class="pe-section__title">Outcomes</div>
+                  <div class="pe-section__desc">Four key results shown as cards at the bottom</div>
+                </div>
+              </div>
+              <span class="pe-section__count">4 cards</span>
+            </div>
+            <div class="pe-section__body">
+              <div class="form-grid">
+                <div class="field"><label>Outcome 1 — Title</label><input type="text" id="f-out1-title" placeholder="Global Rollout"></div>
+                <div class="field"><label>Outcome 1 — Description</label><input type="text" id="f-out1-sub" placeholder="Launched across 18 markets"></div>
+                <div class="field"><label>Outcome 2 — Title</label><input type="text" id="f-out2-title" placeholder="Award Recognition"></div>
+                <div class="field"><label>Outcome 2 — Description</label><input type="text" id="f-out2-sub" placeholder="Short description"></div>
+                <div class="field"><label>Outcome 3 — Title</label><input type="text" id="f-out3-title" placeholder="Team Adoption"></div>
+                <div class="field"><label>Outcome 3 — Description</label><input type="text" id="f-out3-sub" placeholder="Short description"></div>
+                <div class="field"><label>Outcome 4 — Title</label><input type="text" id="f-out4-title" placeholder="Client Retention"></div>
+                <div class="field"><label>Outcome 4 — Description</label><input type="text" id="f-out4-sub" placeholder="Short description"></div>
+              </div>
             </div>
           </div>
 
-          <!-- ── QUOTE ── -->
-          <div class="form-card">
-            <h2>Client Quote</h2>
-            <div style="display:flex;flex-direction:column;gap:16px;">
-              <div class="field"><label>Quote</label><textarea id="f-quote" placeholder="What the client said…" style="min-height:90px;"></textarea></div>
+          <!-- 07 — QUOTE -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">07</span>
+                <div>
+                  <div class="pe-section__title">Client Quote</div>
+                  <div class="pe-section__desc">Testimonial shown in the project footer</div>
+                </div>
+              </div>
+            </div>
+            <div class="pe-section__body">
+              <div class="field" style="margin-bottom:14px;">
+                <label>Quote</label>
+                <textarea id="f-quote" placeholder="What the client said…" style="min-height:90px;"></textarea>
+              </div>
               <div class="form-grid">
                 <div class="field"><label>Name</label><input type="text" id="f-quote-name" placeholder="John Smith"></div>
                 <div class="field"><label>Role</label><input type="text" id="f-quote-role" placeholder="CMO, BMW Group"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 08 — RELATED -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">08</span>
+                <div>
+                  <div class="pe-section__title">Related Projects</div>
+                  <div class="pe-section__desc">Thumbnails shown in the "More Work" section</div>
+                </div>
+              </div>
+              <span class="pe-section__count">3 images</span>
+            </div>
+            <div class="pe-section__body">
+              <div class="img-grid img-grid--3">
+                <div class="img-slot">
+                  <div class="img-slot__label">Related 01</div>
+                  <div class="img-slot__box" data-slot="img_related_01" data-ratio="square" style="aspect-ratio:1;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  </div>
+                </div>
+                <div class="img-slot">
+                  <div class="img-slot__label">Related 02</div>
+                  <div class="img-slot__box" data-slot="img_related_02" data-ratio="square" style="aspect-ratio:1;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  </div>
+                </div>
+                <div class="img-slot">
+                  <div class="img-slot__label">Related 03</div>
+                  <div class="img-slot__box" data-slot="img_related_03" data-ratio="square" style="aspect-ratio:1;">
+                    <input type="file" accept="image/*">
+                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -492,15 +478,21 @@
             </div>
           </div>
 
-          <div class="form-card" style="background:#fafafa;">
-            <h2 style="color:var(--text-2);">Image slots</h2>
-            <div style="font-size:12px;color:var(--text-2);line-height:1.7;">
-              <div>🖼 Hero — 1</div>
-              <div>🔵 Identity — 7</div>
-              <div>📦 Applications — 8</div>
-              <div>💻 Digital — 5</div>
-              <div>🔗 Related — 3</div>
-              <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-weight:600;">Total — 24 slots</div>
+          <div class="form-card">
+            <h2>Page sections</h2>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text-2);">
+              <div style="display:flex;justify-content:space-between;"><span>00 Overview</span><span>—</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>01 Hero</span><span style="color:var(--text);font-weight:500;">1 img</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>02 Identity</span><span style="color:var(--text);font-weight:500;">7 img</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>03 Applications</span><span style="color:var(--text);font-weight:500;">8 img</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>04 Digital</span><span style="color:var(--text);font-weight:500;">5 img</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>05 Numbers</span><span>5 stats</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>06 Outcomes</span><span>4 cards</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>07 Quote</span><span>—</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>08 Related</span><span style="color:var(--text);font-weight:500;">3 img</span></div>
+              <div style="border-top:1px solid var(--border);padding-top:8px;margin-top:4px;display:flex;justify-content:space-between;font-weight:600;color:var(--text);">
+                <span>Total images</span><span>24</span>
+              </div>
             </div>
           </div>
         </div>
@@ -514,11 +506,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
   <script>
-    const params  = new URLSearchParams(location.search);
-    const editId  = params.get('id');
+    const params = new URLSearchParams(location.search);
+    const editId = params.get('id');
     let workspaceId = null;
-
-    // Tracks current URL value per slot
     const slotValues = {};
 
     function slugify(str) {
@@ -528,23 +518,17 @@
       if (!editId) document.getElementById('f-slug').value = slugify(e.target.value);
     });
 
-    // ── Slot rendering ──
+    const uploadIcon = `<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>`;
+
     function renderSlot(box, url) {
       const slot  = box.dataset.slot;
       const ratio = box.dataset.ratio;
       slotValues[slot] = url;
-
-      const ratioClass = ratio === 'tall' ? 'img-slot__preview--tall'
-                       : ratio === 'wide' ? 'img-slot__preview--wide'
-                       : ratio === 'square' ? 'img-slot__preview--square'
-                       : 'img-slot__preview';
-
+      const ratioClass = `img-slot__preview--${ratio}`;
       box.innerHTML = `
         <img src="${url}" class="img-slot__preview ${ratioClass}">
         <button class="img-slot__remove" data-slot="${slot}">×</button>
-        <input type="file" accept="image/*" style="display:none;">
       `;
-
       box.querySelector('.img-slot__remove').addEventListener('click', e => {
         e.stopPropagation();
         slotValues[slot] = null;
@@ -555,31 +539,24 @@
     function resetSlot(box) {
       box.innerHTML = `
         <input type="file" accept="image/*">
-        <div class="img-slot__empty">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-          <span>Click to upload</span>
-        </div>
+        <div class="img-slot__empty">${uploadIcon}<span>Click to upload</span></div>
       `;
       wireSlot(box);
     }
 
-    function showUploading(box) {
+    async function uploadToSlot(file, box) {
+      const slot = box.dataset.slot;
+      const slug = document.getElementById('f-slug').value.trim() || 'project';
+      const ext  = file.name.split('.').pop();
+      const path = `projects/${slug}/${slot}.${ext}`;
+
       const spinner = document.createElement('div');
       spinner.className = 'img-slot__uploading';
       spinner.textContent = 'Uploading…';
       box.appendChild(spinner);
-      return () => spinner.remove();
-    }
-
-    async function uploadToSlot(file, box) {
-      const slot   = box.dataset.slot;
-      const slug   = document.getElementById('f-slug').value.trim() || 'project';
-      const ext    = file.name.split('.').pop();
-      const path   = `projects/${slug}/${slot}.${ext}`;
-      const done   = showUploading(box);
 
       const { error } = await db.storage.from('parallax-assets').upload(path, file, { upsert: true });
-      done();
+      spinner.remove();
       if (error) { showToast('Upload error: ' + error.message); return; }
 
       const { data } = db.storage.from('parallax-assets').getPublicUrl(path);
@@ -592,26 +569,20 @@
       input.addEventListener('change', async () => {
         if (input.files[0]) await uploadToSlot(input.files[0], box);
       });
-
-      // Also make the whole box clickable
       box.addEventListener('click', () => {
-        const inp = box.querySelector('input[type=file]');
-        if (inp && !box.querySelector('.img-slot__preview')) inp.click();
+        if (!box.querySelector('.img-slot__preview')) box.querySelector('input[type=file]')?.click();
       });
     }
 
-    // Wire all slots on load
     document.querySelectorAll('.img-slot__box').forEach(wireSlot);
 
-    // ── Save ──
     function csv(str)   { return str ? str.split(',').map(s => s.trim()).filter(Boolean) : []; }
     function lines(str) { return str ? str.split('\n').map(s => s.trim()).filter(Boolean) : []; }
 
     async function save() {
       const btn  = document.getElementById('save-btn');
       const btn2 = document.getElementById('save-btn-sidebar');
-      btn.textContent = 'Saving…'; btn.disabled = true;
-      btn2.textContent = 'Saving…'; btn2.disabled = true;
+      [btn, btn2].forEach(b => { b.textContent = 'Saving…'; b.disabled = true; });
 
       const payload = {
         workspace_id:           workspaceId,
@@ -644,7 +615,6 @@
         quote_text:             document.getElementById('f-quote').value.trim(),
         quote_attribution_name: document.getElementById('f-quote-name').value.trim(),
         quote_attribution_role: document.getElementById('f-quote-role').value.trim(),
-        // All 24 image slots
         ...slotValues,
       };
 
@@ -661,8 +631,7 @@
         }
       }
 
-      btn.textContent = 'Save Project'; btn.disabled = false;
-      btn2.textContent = 'Save Project'; btn2.disabled = false;
+      [btn, btn2].forEach(b => { b.textContent = 'Save Project'; b.disabled = false; });
       if (error) showToast('Error: ' + error.message);
       else       showToast('Saved successfully');
     }
@@ -713,7 +682,6 @@
           document.getElementById('f-status').value      = p.status || 'draft';
           document.getElementById('f-pinned').value      = (p.pinned_related || []).join('\n');
 
-          // Load existing images into slots
           const imageFields = [
             'img_hero',
             'img_identity_mark_01','img_identity_mark_02','img_identity_mark_03',
@@ -734,7 +702,6 @@
 
       document.getElementById('save-btn').addEventListener('click', save);
       document.getElementById('save-btn-sidebar').addEventListener('click', save);
-
       document.getElementById('delete-btn').addEventListener('click', async () => {
         if (!confirm('Delete this project? This cannot be undone.')) return;
         const { error } = await db.from('case_studies').delete().eq('id', editId);
