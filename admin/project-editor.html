@@ -50,13 +50,13 @@
     <div class="content">
       <div class="form-layout">
 
-        <!-- Left: main fields -->
+        <!-- Left -->
         <div>
 
           <!-- Overview -->
           <div class="form-card">
             <h2>Overview</h2>
-            <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex;flex-direction:column;gap:16px;">
               <div class="form-grid">
                 <div class="field">
                   <label>Project Title</label>
@@ -71,7 +71,7 @@
                 <div class="field">
                   <label>Slug</label>
                   <input type="text" id="f-slug" placeholder="bmw-brand-identity">
-                  <span class="field__hint">URL-friendly identifier</span>
+                  <span class="field__hint">URL identifier — auto-fills from title</span>
                 </div>
                 <div class="field">
                   <label>Year</label>
@@ -86,16 +86,66 @@
                 <label>Overview</label>
                 <textarea id="f-overview" placeholder="Project overview shown in the case study…" style="min-height:120px;"></textarea>
               </div>
-              <div class="form-grid">
-                <div class="field">
-                  <label>Hero Image URL</label>
-                  <input type="text" id="f-hero-image" placeholder="https://…">
-                </div>
-                <div class="field">
-                  <label>Cover Image URL</label>
-                  <input type="text" id="f-cover-image" placeholder="https://… (used in work grid)">
+            </div>
+          </div>
+
+          <!-- Images -->
+          <div class="form-card">
+            <h2>Images</h2>
+            <div style="display:flex;flex-direction:column;gap:20px;">
+
+              <div class="field">
+                <label>Hero Image</label>
+                <div class="img-upload" id="upload-hero">
+                  <div class="img-upload__preview" id="preview-hero"></div>
+                  <label class="img-upload__btn">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                    Upload image
+                    <input type="file" accept="image/*" data-target="hero">
+                  </label>
+                  <span class="img-upload__status" id="status-hero"></span>
                 </div>
               </div>
+
+              <div class="field">
+                <label>Cover Image <span style="font-weight:400;text-transform:none;letter-spacing:0;">(shown in work grid)</span></label>
+                <div class="img-upload" id="upload-cover">
+                  <div class="img-upload__preview" id="preview-cover"></div>
+                  <label class="img-upload__btn">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                    Upload image
+                    <input type="file" accept="image/*" data-target="cover">
+                  </label>
+                  <span class="img-upload__status" id="status-cover"></span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Brand / Logo Images</label>
+                <div class="img-upload" id="upload-brand">
+                  <div class="img-upload__preview" id="preview-brand"></div>
+                  <label class="img-upload__btn">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                    Upload images
+                    <input type="file" accept="image/*" multiple data-target="brand">
+                  </label>
+                  <span class="img-upload__status" id="status-brand"></span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Digital — Phone Screens</label>
+                <div class="img-upload" id="upload-phones">
+                  <div class="img-upload__preview" id="preview-phones"></div>
+                  <label class="img-upload__btn">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                    Upload images
+                    <input type="file" accept="image/*" multiple data-target="phones">
+                  </label>
+                  <span class="img-upload__status" id="status-phones"></span>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -103,118 +153,56 @@
           <div class="form-card">
             <h2>Numbers</h2>
             <div class="form-grid">
-              <div class="field">
-                <label>Stat 1 — Value</label>
-                <input type="text" id="f-stat1-val" placeholder="e.g. 240">
-              </div>
-              <div class="field">
-                <label>Stat 1 — Label</label>
-                <input type="text" id="f-stat1-label" placeholder="e.g. Brand touchpoints">
-              </div>
-              <div class="field">
-                <label>Stat 2 — Value</label>
-                <input type="text" id="f-stat2-val" placeholder="e.g. 18">
-              </div>
-              <div class="field">
-                <label>Stat 2 — Label</label>
-                <input type="text" id="f-stat2-label" placeholder="e.g. Countries launched">
-              </div>
-              <div class="field">
-                <label>Stat 3 — Value</label>
-                <input type="text" id="f-stat3-val" placeholder="e.g. 4x">
-              </div>
-              <div class="field">
-                <label>Stat 3 — Label</label>
-                <input type="text" id="f-stat3-label" placeholder="e.g. Engagement increase">
-              </div>
-              <div class="field">
-                <label>Stat 4 — Value</label>
-                <input type="text" id="f-stat4-val" placeholder="e.g. 98">
-              </div>
-              <div class="field">
-                <label>Stat 4 — Label</label>
-                <input type="text" id="f-stat4-label" placeholder="e.g. NPS score">
-              </div>
-              <div class="field">
-                <label>Stat 5 — Value</label>
-                <input type="text" id="f-stat5-val" placeholder="e.g. 12">
-              </div>
-              <div class="field">
-                <label>Stat 5 — Label</label>
-                <input type="text" id="f-stat5-label" placeholder="e.g. Weeks to launch">
-              </div>
+              <div class="field"><label>Stat 1 — Value</label><input type="text" id="f-stat1-val" placeholder="e.g. 240+"></div>
+              <div class="field"><label>Stat 1 — Label</label><input type="text" id="f-stat1-label" placeholder="e.g. Brand touchpoints"></div>
+              <div class="field"><label>Stat 2 — Value</label><input type="text" id="f-stat2-val" placeholder="e.g. 18"></div>
+              <div class="field"><label>Stat 2 — Label</label><input type="text" id="f-stat2-label" placeholder="e.g. Countries launched"></div>
+              <div class="field"><label>Stat 3 — Value</label><input type="text" id="f-stat3-val" placeholder="e.g. 4x"></div>
+              <div class="field"><label>Stat 3 — Label</label><input type="text" id="f-stat3-label" placeholder="e.g. Engagement increase"></div>
+              <div class="field"><label>Stat 4 — Value</label><input type="text" id="f-stat4-val" placeholder="e.g. 98"></div>
+              <div class="field"><label>Stat 4 — Label</label><input type="text" id="f-stat4-label" placeholder="e.g. NPS score"></div>
+              <div class="field"><label>Stat 5 — Value</label><input type="text" id="f-stat5-val" placeholder="e.g. 12"></div>
+              <div class="field"><label>Stat 5 — Label</label><input type="text" id="f-stat5-label" placeholder="e.g. Weeks to launch"></div>
             </div>
           </div>
 
           <!-- Outcomes -->
           <div class="form-card">
             <h2>Outcomes</h2>
-            <div style="display:flex; flex-direction:column; gap:16px;">
-              <div class="form-grid">
-                <div class="field">
-                  <label>Outcome 1 — Title</label>
-                  <input type="text" id="f-out1-title" placeholder="e.g. Global Rollout">
-                </div>
-                <div class="field">
-                  <label>Outcome 1 — Description</label>
-                  <input type="text" id="f-out1-sub" placeholder="Short description">
-                </div>
-                <div class="field">
-                  <label>Outcome 2 — Title</label>
-                  <input type="text" id="f-out2-title" placeholder="e.g. Award Recognition">
-                </div>
-                <div class="field">
-                  <label>Outcome 2 — Description</label>
-                  <input type="text" id="f-out2-sub" placeholder="Short description">
-                </div>
-                <div class="field">
-                  <label>Outcome 3 — Title</label>
-                  <input type="text" id="f-out3-title" placeholder="e.g. Team Adoption">
-                </div>
-                <div class="field">
-                  <label>Outcome 3 — Description</label>
-                  <input type="text" id="f-out3-sub" placeholder="Short description">
-                </div>
-                <div class="field">
-                  <label>Outcome 4 — Title</label>
-                  <input type="text" id="f-out4-title" placeholder="e.g. Client Retention">
-                </div>
-                <div class="field">
-                  <label>Outcome 4 — Description</label>
-                  <input type="text" id="f-out4-sub" placeholder="Short description">
-                </div>
-              </div>
+            <div class="form-grid">
+              <div class="field"><label>Outcome 1 — Title</label><input type="text" id="f-out1-title" placeholder="e.g. Global Rollout"></div>
+              <div class="field"><label>Outcome 1 — Description</label><input type="text" id="f-out1-sub" placeholder="Short description"></div>
+              <div class="field"><label>Outcome 2 — Title</label><input type="text" id="f-out2-title" placeholder="e.g. Award Recognition"></div>
+              <div class="field"><label>Outcome 2 — Description</label><input type="text" id="f-out2-sub" placeholder="Short description"></div>
+              <div class="field"><label>Outcome 3 — Title</label><input type="text" id="f-out3-title" placeholder="e.g. Team Adoption"></div>
+              <div class="field"><label>Outcome 3 — Description</label><input type="text" id="f-out3-sub" placeholder="Short description"></div>
+              <div class="field"><label>Outcome 4 — Title</label><input type="text" id="f-out4-title" placeholder="e.g. Client Retention"></div>
+              <div class="field"><label>Outcome 4 — Description</label><input type="text" id="f-out4-sub" placeholder="Short description"></div>
             </div>
           </div>
 
           <!-- Quote -->
           <div class="form-card">
             <h2>Client Quote</h2>
-            <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex;flex-direction:column;gap:16px;">
               <div class="field">
                 <label>Quote</label>
                 <textarea id="f-quote" placeholder="What the client said…" style="min-height:90px;"></textarea>
               </div>
               <div class="form-grid">
-                <div class="field">
-                  <label>Attribution — Name</label>
-                  <input type="text" id="f-quote-name" placeholder="e.g. John Smith">
-                </div>
-                <div class="field">
-                  <label>Attribution — Role</label>
-                  <input type="text" id="f-quote-role" placeholder="e.g. CMO, BMW Group">
-                </div>
+                <div class="field"><label>Name</label><input type="text" id="f-quote-name" placeholder="e.g. John Smith"></div>
+                <div class="field"><label>Role</label><input type="text" id="f-quote-role" placeholder="e.g. CMO, BMW Group"></div>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- Right: publish sidebar -->
+        <!-- Right sidebar -->
         <div class="form-sidebar">
           <div class="form-card">
             <h2>Publish</h2>
-            <div style="display:flex; flex-direction:column; gap:14px;">
+            <div style="display:flex;flex-direction:column;gap:14px;">
               <div class="field">
                 <label>Status</label>
                 <select id="f-status">
@@ -222,8 +210,8 @@
                   <option value="published">Published</option>
                 </select>
               </div>
-              <button class="btn btn--primary" style="width:100%; justify-content:center;" id="save-btn">Save Project</button>
-              <button class="btn btn--danger btn--sm" style="width:100%; justify-content:center; display:none;" id="delete-btn">Delete Project</button>
+              <button class="btn btn--primary" style="width:100%;justify-content:center;" id="save-btn">Save Project</button>
+              <button class="btn btn--danger btn--sm" style="width:100%;justify-content:center;display:none;" id="delete-btn">Delete Project</button>
             </div>
           </div>
 
@@ -231,25 +219,8 @@
             <h2>Related Projects</h2>
             <div class="field">
               <label>Pinned Related (slugs)</label>
-              <textarea id="f-pinned" placeholder="one-slug-per-line" style="min-height:80px; font-family:monospace; font-size:12px;"></textarea>
+              <textarea id="f-pinned" placeholder="one-slug-per-line" style="min-height:80px;font-family:monospace;font-size:12px;"></textarea>
               <span class="field__hint">Leave blank for auto-suggest</span>
-            </div>
-          </div>
-
-          <div class="form-card">
-            <h2>Brand Images</h2>
-            <div class="field">
-              <label>Primary Image URLs</label>
-              <textarea id="f-brand-images" placeholder="One URL per line" style="min-height:100px; font-family:monospace; font-size:12px;"></textarea>
-              <span class="field__hint">Logo marks and brand assets</span>
-            </div>
-          </div>
-
-          <div class="form-card">
-            <h2>Digital — Phone Screens</h2>
-            <div class="field">
-              <label>Phone Image URLs</label>
-              <textarea id="f-phones" placeholder="One URL per line" style="min-height:100px; font-family:monospace; font-size:12px;"></textarea>
             </div>
           </div>
         </div>
@@ -267,6 +238,9 @@
     const editId  = params.get('id');
     let workspaceId = null;
 
+    // Stores uploaded URLs per slot
+    const imageData = { hero: null, cover: null, brand: [], phones: [] };
+
     function slugify(str) {
       return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     }
@@ -275,8 +249,84 @@
       if (!editId) document.getElementById('f-slug').value = slugify(e.target.value);
     });
 
-    function lines(str) { return str ? str.split('\n').map(s => s.trim()).filter(Boolean) : []; }
+    // ── Image upload ──
+    function addThumb(previewId, url, onRemove) {
+      const wrap = document.getElementById(previewId);
+      const div  = document.createElement('div');
+      div.className = 'img-upload__thumb';
+      div.innerHTML = `<img src="${url}"><button title="Remove">×</button>`;
+      div.querySelector('button').addEventListener('click', () => { div.remove(); onRemove(); });
+      wrap.appendChild(div);
+    }
+
+    function setStatus(id, msg) {
+      document.getElementById('status-' + id).textContent = msg;
+    }
+
+    async function uploadFile(file, slot) {
+      const slug   = document.getElementById('f-slug').value.trim() || 'project';
+      const ext    = file.name.split('.').pop();
+      const path   = `projects/${slug}/${slot}-${Date.now()}.${ext}`;
+      const bucket = 'parallax-assets';
+
+      setStatus(slot.replace(/\d$/, ''), 'Uploading…');
+      const { error } = await db.storage.from(bucket).upload(path, file, { upsert: true });
+      if (error) { setStatus(slot, 'Error: ' + error.message); return null; }
+
+      const { data } = db.storage.from(bucket).getPublicUrl(path);
+      setStatus(slot.replace(/\d$/, ''), '');
+      return data.publicUrl;
+    }
+
+    // Wire up all upload inputs
+    document.querySelectorAll('.img-upload__btn input[type=file]').forEach(input => {
+      input.addEventListener('change', async () => {
+        const target = input.dataset.target;
+        const files  = Array.from(input.files);
+
+        for (const file of files) {
+          const url = await uploadFile(file, target);
+          if (!url) continue;
+
+          if (target === 'hero') {
+            imageData.hero = url;
+            document.getElementById('preview-hero').innerHTML = '';
+            addThumb('preview-hero', url, () => { imageData.hero = null; });
+          } else if (target === 'cover') {
+            imageData.cover = url;
+            document.getElementById('preview-cover').innerHTML = '';
+            addThumb('preview-cover', url, () => { imageData.cover = null; });
+          } else if (target === 'brand') {
+            imageData.brand.push(url);
+            addThumb('preview-brand', url, () => {
+              imageData.brand = imageData.brand.filter(u => u !== url);
+            });
+          } else if (target === 'phones') {
+            imageData.phones.push(url);
+            addThumb('preview-phones', url, () => {
+              imageData.phones = imageData.phones.filter(u => u !== url);
+            });
+          }
+        }
+        input.value = '';
+      });
+    });
+
+    function loadExistingImage(previewId, url, slot) {
+      if (!url) return;
+      if (Array.isArray(url)) {
+        url.forEach(u => {
+          imageData[slot].push(u);
+          addThumb(previewId, u, () => { imageData[slot] = imageData[slot].filter(x => x !== u); });
+        });
+      } else {
+        imageData[slot] = url;
+        addThumb(previewId, url, () => { imageData[slot] = null; });
+      }
+    }
+
     function csv(str)   { return str ? str.split(',').map(s => s.trim()).filter(Boolean) : []; }
+    function lines(str) { return str ? str.split('\n').map(s => s.trim()).filter(Boolean) : []; }
 
     async function save() {
       const btn = document.getElementById('save-btn');
@@ -291,8 +341,10 @@
         year:                    document.getElementById('f-year').value.trim(),
         services:                csv(document.getElementById('f-services').value),
         overview:                document.getElementById('f-overview').value.trim(),
-        hero_image_url:          document.getElementById('f-hero-image').value.trim(),
-        cover_image_url:         document.getElementById('f-cover-image').value.trim(),
+        hero_image_url:          imageData.hero,
+        cover_image_url:         imageData.cover,
+        branding_primary_images: imageData.brand,
+        digital_phones:          imageData.phones,
         stat1_value:             document.getElementById('f-stat1-val').value.trim(),
         stat1_label:             document.getElementById('f-stat1-label').value.trim(),
         stat2_value:             document.getElementById('f-stat2-val').value.trim(),
@@ -316,8 +368,6 @@
         quote_attribution_role:  document.getElementById('f-quote-role').value.trim(),
         status:                  document.getElementById('f-status').value,
         pinned_related:          lines(document.getElementById('f-pinned').value),
-        branding_primary_images: lines(document.getElementById('f-brand-images').value),
-        digital_phones:          lines(document.getElementById('f-phones').value),
       };
 
       let error;
@@ -335,9 +385,8 @@
 
       btn.textContent = 'Save Project';
       btn.disabled = false;
-
-      if (error) { showToast('Error: ' + error.message); }
-      else        { showToast('Saved successfully'); }
+      if (error) showToast('Error: ' + error.message);
+      else       showToast('Saved successfully');
     }
 
     (async () => {
@@ -358,39 +407,40 @@
 
         const { data: p } = await db.from('case_studies').select('*').eq('id', editId).single();
         if (p) {
-          document.getElementById('f-title').value         = p.title || '';
-          document.getElementById('f-slug').value          = p.slug || '';
-          document.getElementById('f-client').value        = p.client || '';
-          document.getElementById('f-year').value          = p.year || '';
-          document.getElementById('f-services').value      = (p.services || []).join(', ');
-          document.getElementById('f-overview').value      = p.overview || '';
-          document.getElementById('f-hero-image').value    = p.hero_image_url || '';
-          document.getElementById('f-cover-image').value   = p.cover_image_url || '';
-          document.getElementById('f-stat1-val').value     = p.stat1_value || '';
-          document.getElementById('f-stat1-label').value   = p.stat1_label || '';
-          document.getElementById('f-stat2-val').value     = p.stat2_value || '';
-          document.getElementById('f-stat2-label').value   = p.stat2_label || '';
-          document.getElementById('f-stat3-val').value     = p.stat3_value || '';
-          document.getElementById('f-stat3-label').value   = p.stat3_label || '';
-          document.getElementById('f-stat4-val').value     = p.stat4_value || '';
-          document.getElementById('f-stat4-label').value   = p.stat4_label || '';
-          document.getElementById('f-stat5-val').value     = p.stat5_value || '';
-          document.getElementById('f-stat5-label').value   = p.stat5_label || '';
-          document.getElementById('f-out1-title').value    = p.outcome1_title || '';
-          document.getElementById('f-out1-sub').value      = p.outcome1_description || '';
-          document.getElementById('f-out2-title').value    = p.outcome2_title || '';
-          document.getElementById('f-out2-sub').value      = p.outcome2_description || '';
-          document.getElementById('f-out3-title').value    = p.outcome3_title || '';
-          document.getElementById('f-out3-sub').value      = p.outcome3_description || '';
-          document.getElementById('f-out4-title').value    = p.outcome4_title || '';
-          document.getElementById('f-out4-sub').value      = p.outcome4_description || '';
-          document.getElementById('f-quote').value         = p.quote_text || '';
-          document.getElementById('f-quote-name').value    = p.quote_attribution_name || '';
-          document.getElementById('f-quote-role').value    = p.quote_attribution_role || '';
-          document.getElementById('f-status').value        = p.status || 'draft';
-          document.getElementById('f-pinned').value        = (p.pinned_related || []).join('\n');
-          document.getElementById('f-brand-images').value  = (p.branding_primary_images || []).join('\n');
-          document.getElementById('f-phones').value        = (p.digital_phones || []).join('\n');
+          document.getElementById('f-title').value       = p.title || '';
+          document.getElementById('f-slug').value        = p.slug || '';
+          document.getElementById('f-client').value      = p.client || '';
+          document.getElementById('f-year').value        = p.year || '';
+          document.getElementById('f-services').value    = (p.services || []).join(', ');
+          document.getElementById('f-overview').value    = p.overview || '';
+          document.getElementById('f-stat1-val').value   = p.stat1_value || '';
+          document.getElementById('f-stat1-label').value = p.stat1_label || '';
+          document.getElementById('f-stat2-val').value   = p.stat2_value || '';
+          document.getElementById('f-stat2-label').value = p.stat2_label || '';
+          document.getElementById('f-stat3-val').value   = p.stat3_value || '';
+          document.getElementById('f-stat3-label').value = p.stat3_label || '';
+          document.getElementById('f-stat4-val').value   = p.stat4_value || '';
+          document.getElementById('f-stat4-label').value = p.stat4_label || '';
+          document.getElementById('f-stat5-val').value   = p.stat5_value || '';
+          document.getElementById('f-stat5-label').value = p.stat5_label || '';
+          document.getElementById('f-out1-title').value  = p.outcome1_title || '';
+          document.getElementById('f-out1-sub').value    = p.outcome1_description || '';
+          document.getElementById('f-out2-title').value  = p.outcome2_title || '';
+          document.getElementById('f-out2-sub').value    = p.outcome2_description || '';
+          document.getElementById('f-out3-title').value  = p.outcome3_title || '';
+          document.getElementById('f-out3-sub').value    = p.outcome3_description || '';
+          document.getElementById('f-out4-title').value  = p.outcome4_title || '';
+          document.getElementById('f-out4-sub').value    = p.outcome4_description || '';
+          document.getElementById('f-quote').value       = p.quote_text || '';
+          document.getElementById('f-quote-name').value  = p.quote_attribution_name || '';
+          document.getElementById('f-quote-role').value  = p.quote_attribution_role || '';
+          document.getElementById('f-status').value      = p.status || 'draft';
+          document.getElementById('f-pinned').value      = (p.pinned_related || []).join('\n');
+
+          loadExistingImage('preview-hero',   p.hero_image_url,          'hero');
+          loadExistingImage('preview-cover',  p.cover_image_url,         'cover');
+          loadExistingImage('preview-brand',  p.branding_primary_images, 'brand');
+          loadExistingImage('preview-phones', p.digital_phones,          'phones');
         }
       }
 
