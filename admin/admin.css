@@ -296,12 +296,11 @@ tbody tr:hover td { background: #fafafa; }
 .pe-section__header-left { display: flex; align-items: baseline; gap: 10px; }
 
 .pe-section__num {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #bbb;
+  letter-spacing: -0.02em;
+  color: #ccc;
   font-variant-numeric: tabular-nums;
-  width: 20px;
 }
 
 .pe-section__title {
@@ -391,9 +390,11 @@ tbody tr:hover td { background: #fafafa; }
   width: 100%; height: 100%;
 }
 .img-slot__empty {
+  position: absolute;
+  inset: 0;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 18px 12px; gap: 5px;
+  gap: 5px;
   color: #ccc;
 }
 .img-slot__empty span { font-size: 11px; }
