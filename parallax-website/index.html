@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Parallax — Building the future of digital experiences">
+  <title>Parallax | Design System</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- System metadata annotations -->
+  <div class="system-meta system-meta--tl" aria-hidden="true">AXIS // 01.0</div>
+  <div class="system-meta system-meta--br" aria-hidden="true">COORD // 51.5072° N, 0.1276° W</div>
+
+  <!-- Margin frame with crosshairs -->
+  <div class="margin-frame" aria-hidden="true">
+    <span class="crosshair crosshair--tl"></span>
+    <span class="crosshair crosshair--tr"></span>
+    <span class="crosshair crosshair--bl"></span>
+    <span class="crosshair crosshair--br"></span>
+    <span class="dimension-label dimension-label--top">&#10235; 120px Pad &#10236;</span>
+    <span class="dimension-label dimension-label--left">&#10235; 120px Pad &#10236;</span>
+  </div>
+
+  <!-- Background geometry layer -->
+  <div class="viewport-layer" aria-hidden="true">
+    <div class="bg-geometry" id="parallax-bg">
+      <svg class="svg-drafting" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="micro-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <g id="geo-center">
+          <rect class="geo-fill" fill="url(#micro-grid)"/>
+          <circle cx="0" cy="0" r="450" stroke="var(--color-border)" stroke-width="1" fill="none"/>
+          <circle cx="-150" cy="0" r="300" stroke="var(--color-border)" stroke-width="1" fill="none"/>
+          <circle cx="150" cy="0" r="150" stroke="var(--color-border)" stroke-width="1" fill="none"/>
+          <line x1="-2000" y1="0" x2="2000" y2="0" stroke="var(--color-line-strong)" stroke-dasharray="4 8" stroke-width="1"/>
+          <line x1="0" y1="-2000" x2="0" y2="2000" stroke="var(--color-line-strong)" stroke-dasharray="4 8" stroke-width="1"/>
+          <rect x="-300" y="-150" width="150" height="300" stroke="var(--color-line-strong)" fill="var(--color-grid)" stroke-width="1"/>
+          <rect x="-300" y="-150" width="600" height="150" stroke="var(--color-line-strong)" fill="none" stroke-width="1"/>
+          <circle cx="-300" cy="-150" r="3" fill="var(--color-text-secondary)"/>
+          <circle cx="-150" cy="0" r="3" fill="var(--color-text-secondary)"/>
+          <circle cx="300" cy="0" r="3" fill="var(--color-text-secondary)"/>
+          <path d="M 0 -450 A 450 450 0 0 1 318 -318" fill="none" stroke="var(--color-line-strong)" stroke-width="2"/>
+          <text x="180" y="-380" fill="var(--color-text-secondary)" font-family="monospace" font-size="10" transform="rotate(45, 180, -380)">45° ARC</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="container">
+  </header>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Hero -->
+    <section id="hero" class="hero">
+      <div class="hero__content" id="parallax-headline">
+        <h1 class="hero__headline">
+          <span class="highlight">Design</span> is never neutral.<br>
+          It <span class="highlight">changes</span> depending on<br>
+          where you <span class="highlight">stand</span>.
+        </h1>
+        <p class="hero__sub">
+          We engineer structural brand systems and digital environments.
+          Precision over decoration. Logic over assumption.
+          Welcome to the Parallax coordinate space.
+        </p>
+        <div class="hero__ctas">
+          <button class="btn btn--ghost" type="button">See Our Work ↓</button>
+          <button class="btn btn--ghost" type="button">Start a Conversation</button>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator" aria-hidden="true">
+        <span class="system-meta">Scroll</span>
+        <span class="scroll-indicator__line"></span>
+      </div>
+    </section>
+
+    <!-- Problem / Stakes -->
+    <section id="problem" class="problem">
+      <div class="problem__bg-number" aria-hidden="true">02</div>
+
+      <header class="problem__header">
+        <div class="mono-label">Problem / Stakes</div>
+        <h2 class="problem__headline">
+          The Problem With<br>
+          <span class="highlight highlight--subtle">"Good Enough"</span> Design
+        </h2>
+        <p class="problem__intro">
+          Here's what happens when design is treated as the final polish instead of the foundation:
+        </p>
+      </header>
+
+      <!-- Perspective cards -->
+      <div class="perspective-stage">
+        <article class="p-card p-card--left p-card--broken">
+          <div class="p-card__meta">ERR_01 // SYSTEM_BROKEN</div>
+          <h3 class="p-card__title">Beautiful brochures for broken systems.</h3>
+          <p class="p-card__body">Slick interfaces that solve the wrong problem. Brand identities that say nothing. Websites optimized for aesthetics, not outcomes.</p>
+          <span class="p-card__corner" aria-hidden="true"></span>
+        </article>
+
+        <article class="p-card p-card--center">
+          <div class="p-card__waste" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="var(--color-line-strong)" stroke-width="1" stroke-dasharray="4 8"/>
+              <circle cx="50" cy="50" r="30" fill="none" stroke="var(--color-accent)" stroke-width="0.5" stroke-dasharray="2 4"/>
+            </svg>
+          </div>
+          <div class="p-card__meta">ERR_02 // STRATEGY_FLAW</div>
+          <h3 class="p-card__title">Redesigns that don't move the needle.</h3>
+          <p class="p-card__body">You waste time and money. Because if the underlying strategy is flawed, no amount of visual refinement will fix it.</p>
+          <span class="p-card__corner" aria-hidden="true"></span>
+        </article>
+
+        <article class="p-card p-card--right">
+          <div class="p-card__sameness" aria-hidden="true"></div>
+          <div class="p-card__meta">ERR_03 // DIFF_FAILURE</div>
+          <h3 class="p-card__title">Drowning in a sea of sameness.</h3>
+          <p class="p-card__body">You miss the opportunity to differentiate where it matters most. Standing out requires more than good taste. It requires reframing the problem entirely.</p>
+          <span class="p-card__corner" aria-hidden="true"></span>
+        </article>
+      </div>
+
+      <!-- Conclusion -->
+      <div class="conclusion">
+        <div class="conclusion__statement">
+          <p class="conclusion__text">
+            Design is never neutral. It either <strong>clarifies</strong> your intent—or <strong>obscures</strong> it.
+          </p>
+        </div>
+
+        <div class="conclusion__question">
+          <span class="conclusion__prefix">The question is:</span>
+          <p class="conclusion__body">
+            Are you designing from<br>
+            <span class="conclusion__perspective">[ ONE PERSPECTIVE ]</span>
+          </p>
+
+          <div class="many-wrapper" id="many-text">
+            <span class="many-text many-text--back" aria-hidden="true">OR MANY?</span>
+            <span class="many-text many-text--mid" aria-hidden="true">OR MANY?</span>
+            <span class="many-text many-text--front">OR MANY?</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="container">
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

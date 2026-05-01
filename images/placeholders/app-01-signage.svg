@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="spot" cx="50%" cy="20%" r="60%">
+      <stop offset="0" stop-color="#1A73E8" stop-opacity="0.22"/>
+      <stop offset="0.6" stop-color="#0A1E3F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" y1="0.6" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A1E3F"/>
+      <stop offset="1" stop-color="#050D1F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="700" fill="#0A1E3F"/>
+  <rect width="1600" height="700" fill="url(#spot)"/>
+  <!-- Wall plane -->
+  <rect x="0" y="0" width="1600" height="520" fill="#0E2348"/>
+  <!-- Floor plane -->
+  <rect x="0" y="520" width="1600" height="180" fill="url(#floor)"/>
+  <!-- Floor reflection -->
+  <g opacity="0.18">
+    <rect x="688" y="528" width="224" height="6" fill="#1A73E8"/>
+  </g>
+  <!-- Glowing mark on wall -->
+  <g transform="translate(688 200)">
+    <rect x="0" y="0" width="224" height="224" fill="none" stroke="#F5F5F2" stroke-width="10"/>
+    <path d="M48 184 L48 56 L112 138 L176 56 L176 184" fill="#F5F5F2"/>
+    <!-- Soft glow halo -->
+    <rect x="-30" y="-30" width="284" height="284" fill="none" stroke="#1A73E8" stroke-width="2" opacity="0.35"/>
+    <rect x="-60" y="-60" width="344" height="344" fill="none" stroke="#1A73E8" stroke-width="1" opacity="0.18"/>
+  </g>
+  <!-- Spotlight beams -->
+  <g opacity="0.12" fill="#1A73E8">
+    <polygon points="600,0 700,0 800,520 700,520"/>
+    <polygon points="900,0 1000,0 900,520 800,520"/>
+  </g>
+  <text x="40" y="40" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="13" letter-spacing="2" fill="#F5F5F2" opacity="0.45">01 — SIGNAGE</text>
+  <text x="1560" y="680" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#F5F5F2" opacity="0.35">SHOWROOM / FACADE</text>
+</svg>

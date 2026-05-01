@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 900" preserveAspectRatio="xMidYMid slice">
+  <rect width="400" height="900" fill="#1A1A1A"/>
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" fill="#F5F5F2">
+    <text x="32" y="40" font-size="12" letter-spacing="1">9:41</text>
+    <text x="368" y="40" text-anchor="end" font-size="10" opacity="0.85">·· · 5G  100%</text>
+  </g>
+  <text x="32" y="148" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" letter-spacing="2" fill="#C99A2E">— LIVE LOCATION</text>
+  <text x="32" y="200" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="800" fill="#F5F5F2" letter-spacing="-1">Vehicle status</text>
+  <!-- Map area -->
+  <g transform="translate(32 240)">
+    <rect width="336" height="280" fill="#262626"/>
+    <!-- Map grid -->
+    <g stroke="#F5F5F2" stroke-opacity="0.07" fill="none">
+      <path d="M0 70 H336 M0 140 H336 M0 210 H336"/>
+      <path d="M84 0 V280 M168 0 V280 M252 0 V280"/>
+    </g>
+    <!-- Roads -->
+    <path d="M0 140 Q120 80 220 140 T336 200" stroke="#C99A2E" stroke-width="2" fill="none" opacity="0.7"/>
+    <path d="M40 0 L80 280" stroke="#F5F5F2" stroke-width="1" opacity="0.15"/>
+    <!-- Pin -->
+    <circle cx="200" cy="140" r="8" fill="#C99A2E"/>
+    <circle cx="200" cy="140" r="22" fill="#C99A2E" opacity="0.25"/>
+    <circle cx="200" cy="140" r="40" fill="none" stroke="#C99A2E" stroke-width="1" opacity="0.4"/>
+  </g>
+  <!-- Vehicle stats -->
+  <g transform="translate(32 560)" font-family="ui-monospace, Menlo, Consolas, monospace">
+    <line x1="0" y1="0" x2="336" y2="0" stroke="#F5F5F2" stroke-opacity="0.08"/>
+    <text y="34" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.5">RANGE</text>
+    <text y="68" font-family="ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="700" fill="#F5F5F2" letter-spacing="-0.5">324 mi</text>
+    <text x="180" y="34" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.5">CHARGE</text>
+    <text x="180" y="68" font-family="ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="700" fill="#C99A2E" letter-spacing="-0.5">82%</text>
+  </g>
+  <g transform="translate(32 680)" font-family="ui-monospace, Menlo, Consolas, monospace">
+    <line x1="0" y1="0" x2="336" y2="0" stroke="#F5F5F2" stroke-opacity="0.08"/>
+    <text y="34" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.5">CABIN</text>
+    <text y="68" font-family="ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="700" fill="#F5F5F2" letter-spacing="-0.5">19°</text>
+    <text x="180" y="34" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.5">LAST DRIVE</text>
+    <text x="180" y="68" font-family="ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="700" fill="#F5F5F2" letter-spacing="-0.5">3h ago</text>
+  </g>
+  <g transform="translate(32 820)">
+    <rect width="336" height="48" fill="#C99A2E"/>
+    <text x="168" y="31" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#1A1A1A">UNLOCK →</text>
+  </g>
+</svg>

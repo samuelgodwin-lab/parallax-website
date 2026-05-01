@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="r2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3A1E4A"/>
+      <stop offset="1" stop-color="#1A0E22"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="240" fill="url(#r2)"/>
+  <!-- Data viz: ascending chart + scattered points -->
+  <g stroke="#F5F5F2" stroke-opacity="0.1" fill="none">
+    <path d="M0 60 H600 M0 120 H600 M0 180 H600"/>
+  </g>
+  <!-- Bars -->
+  <g fill="#F5F5F2" opacity="0.85">
+    <rect x="40"  y="160" width="36" height="60"/>
+    <rect x="92"  y="120" width="36" height="100" opacity="0.75"/>
+    <rect x="144" y="140" width="36" height="80"/>
+    <rect x="196" y="80"  width="36" height="140" opacity="0.85"/>
+    <rect x="248" y="100" width="36" height="120"/>
+    <rect x="300" y="60"  width="36" height="160" fill="#E89BFF" opacity="0.9"/>
+    <rect x="352" y="40"  width="36" height="180" fill="#E89BFF"/>
+    <rect x="404" y="80"  width="36" height="140" opacity="0.85"/>
+    <rect x="456" y="60"  width="36" height="160"/>
+    <rect x="508" y="30"  width="36" height="190" fill="#E89BFF"/>
+  </g>
+  <!-- Trend line -->
+  <path d="M58 180 L110 130 L162 150 L214 90 L266 110 L318 70 L370 50 L422 90 L474 70 L526 40" stroke="#E89BFF" stroke-width="2" fill="none"/>
+  <!-- Data points -->
+  <g fill="#E89BFF">
+    <circle cx="58" cy="180" r="3"/>
+    <circle cx="266" cy="110" r="3"/>
+    <circle cx="370" cy="50" r="4"/>
+    <circle cx="526" cy="40" r="4"/>
+  </g>
+  <text x="24" y="36" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" letter-spacing="2" fill="#F5F5F2" opacity="0.55">SPORTRADAR — LIVE DATA</text>
+</svg>

@@ -1,0 +1,3272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallax — Digital Craft Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       PARALLAX — Agency Landing Page
+       Skills: taste-skill (DV:8 MI:6 VD:4) + impeccable + emil-design-eng
+       Brand: Parallax design system, dark brutalist-minimal
+    ============================================================ */
+
+    :root {
+      /* OKLCH palette — white background light theme */
+      --bg:             oklch(1 0 0);             /* white background                */
+      --surface:        oklch(0.98 0.001 0);     /* very light gray surfaces        */
+      --surface-raised: oklch(0.96 0.001 0);     /* light gray focused inputs       */
+      --text:           oklch(0 0 0);             /* black text                      */
+      --text-2:         oklch(0.40 0.005 0);    /* secondary — dark gray           */
+      --text-3:         oklch(0.55 0.005 0);    /* tertiary — medium gray          */
+      --accent:         oklch(0.60 0.18 249);   /* brand orange #358ff8            */
+      --accent-hi:      oklch(0.70 0.14 249);   /* lighter orange for hover        */
+      --accent-muted:   oklch(0.60 0.18 249 / 0.14);
+      --border:         oklch(0 0 0 / 0.15);    /* dark border                     */
+      --border-strong:  oklch(0 0 0 / 0.30);    /* strong dark border              */
+      --success:        oklch(0.84  0.19  154);   /* green                           */
+      --danger:         oklch(0.63  0.22   29);   /* red                             */
+      --cta-tertiary:   oklch(0.50 0.005 0);    /* grey for tertiary CTAs          */
+
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      /* Emil's easing curves */
+      --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+
+      /* 4pt spacing scale */
+      --s1:4px; --s2:8px; --s3:12px; --s4:16px;
+      --s6:24px; --s8:32px; --s12:48px; --s16:64px; --s24:96px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-d);
+      font-synthesis: none;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    /* ---- Layout ---- */
+    .w {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 80px);
+      background-image: none !important;
+    }
+
+    /* ============================================================
+       SCROLL REVEAL — Emil: opacity + translateY, never scale(0)
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition:
+        opacity   420ms var(--ease-out),
+        transform 420ms var(--ease-out);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* Stagger: children cascade at 55ms intervals */
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity   380ms var(--ease-out),
+        transform 380ms var(--ease-out);
+    }
+    .stagger.in > *:nth-child(1)   { opacity:1; transform:none; transition-delay:  0ms; }
+    .stagger.in > *:nth-child(2)   { opacity:1; transform:none; transition-delay: 55ms; }
+    .stagger.in > *:nth-child(3)   { opacity:1; transform:none; transition-delay:110ms; }
+    .stagger.in > *:nth-child(4)   { opacity:1; transform:none; transition-delay:165ms; }
+    .stagger.in > *:nth-child(5)   { opacity:1; transform:none; transition-delay:220ms; }
+    .stagger.in > *:nth-child(6)   { opacity:1; transform:none; transition-delay:275ms; }
+    .stagger.in > *:nth-child(n+7) { opacity:1; transform:none; transition-delay:330ms; }
+
+    /* ============================================================
+       NAV + FULL-SCREEN MENU OVERLAY
+    ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 20px 0;
+      transition:
+        background   300ms var(--ease-out),
+        backdrop-filter 300ms var(--ease-out);
+    }
+    .nav.scrolled {
+      background: oklch(1 0 0 / 0.75);
+      backdrop-filter: blur(18px) saturate(1.4);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      z-index: 210;
+      transition: color 300ms var(--ease-out);
+    }
+    .nav__logo span { color: var(--accent); transition: color 300ms var(--ease-out); }
+    .menu-open .nav__logo { color: var(--text); }
+
+    /* Hamburger button */
+    .nav__burger {
+      position: relative;
+      z-index: 210;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 0;
+      transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .nav__burger:hover { border-color: var(--accent); }
+    }
+    .nav__burger:active { transform: scale(0.95); }
+
+    .nav__burger-line {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--text);
+      transform-origin: center;
+      transition:
+        transform  360ms var(--ease-out),
+        opacity    200ms var(--ease-out),
+        width      300ms var(--ease-out),
+        background 200ms var(--ease-out);
+    }
+    .menu-open .nav__burger-line {
+      background: white;
+    }
+    /* Animate to X when open — center-to-center distance = 1.5px + 5px gap + 0.75px = 6.5px */
+    .menu-open .nav__burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg);  }
+    .menu-open .nav__burger-line:nth-child(2) { opacity: 0; width: 0; }
+    .menu-open .nav__burger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ---- Full-screen overlay ---- */
+    .nav__overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      pointer-events: none;
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 600ms var(--ease-inout);
+    }
+    .menu-open .nav__overlay {
+      pointer-events: auto;
+      clip-path: inset(0 0 0% 0);
+    }
+
+    /* Left panel — orange fill */
+    .nav__overlay-left {
+      background: var(--accent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(48px, 8vw, 96px);
+      padding-top: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle texture grid on orange */
+    .nav__overlay-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(oklch(0 0 0 / 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, oklch(0 0 0 / 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Right panel — dark fill */
+    .nav__overlay-right {
+      background: oklch(0.07 0.003 249);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(48px, 8vw, 96px);
+      padding-top: 100px;
+    }
+
+    /* Nav links */
+    .nav__menu-links {
+      list-style: none;
+    }
+    .nav__menu-links li {
+      overflow: hidden;
+    }
+    .nav__menu-links a {
+      display: block;
+      font-size: clamp(52px, 7vw, 100px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.0;
+      color: oklch(0.97 0.002 35);
+      text-decoration: none;
+      transform: translateY(110%);
+      transition:
+        transform 560ms var(--ease-out),
+        color     200ms var(--ease-out);
+    }
+    .nav__menu-links li:nth-child(1) a { transition-delay:  80ms, 0ms; }
+    .nav__menu-links li:nth-child(2) a { transition-delay: 140ms, 0ms; }
+    .nav__menu-links li:nth-child(3) a { transition-delay: 200ms, 0ms; }
+    .menu-open .nav__menu-links a { transform: translateY(0); }
+    @media (hover:hover) and (pointer:fine) {
+      .nav__menu-links a:hover { color: oklch(0.08 0.003 249); }
+    }
+
+    /* Index numbers beside links */
+    .nav__menu-links a::before {
+      content: attr(data-index);
+      font-family: var(--font-m);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.10em;
+      vertical-align: super;
+      margin-right: 10px;
+      opacity: 0.5;
+    }
+
+    /* Right-panel meta info */
+    .nav__meta {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 400ms var(--ease-out) 300ms, transform 400ms var(--ease-out) 300ms;
+    }
+    .menu-open .nav__meta { opacity: 1; transform: none; }
+
+    .nav__meta-label {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: var(--s3);
+    }
+    .nav__meta-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-m);
+      font-size: 10.5px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: oklch(0.98 0.002 0);
+      text-decoration: none;
+      border: 1px solid oklch(0.98 0.002 0);
+      padding: 12px 20px;
+      transition:
+        border-color 200ms var(--ease-out),
+        box-shadow   200ms var(--ease-out),
+        transform    160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .nav__meta-cta:hover {
+        border-color: var(--accent);
+        box-shadow: 3px 3px 0 0 var(--accent);
+        transform: translate(-1.5px, -1.5px);
+      }
+    }
+
+    .nav__meta-tagline {
+      font-size: 13px;
+      color: var(--text-3);
+      line-height: 1.6;
+      max-width: 28ch;
+      margin-top: var(--s12);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 400ms var(--ease-out) 380ms, transform 400ms var(--ease-out) 380ms;
+    }
+    .menu-open .nav__meta-tagline { opacity: 1; transform: none; }
+
+    @media (max-width: 640px) {
+      .nav__overlay { grid-template-columns: 1fr; }
+      .nav__overlay-right { display: none; }
+      .nav__menu-links a { font-size: clamp(44px, 12vw, 72px); }
+    }
+
+    /* ============================================================
+       HERO — left-aligned asymmetric (taste-skill ANTI-CENTER rule)
+    ============================================================ */
+    .hero {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding-top: 128px;
+      padding-bottom: var(--s24);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Hero video background — contained to hero section */
+    .hero__video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    /* Ensure content is above video and effects */
+    .hero__wrap {
+      position: relative;
+      z-index: 3;
+    }
+    .hero__wrap {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Parallax brand grid texture — hidden to show video */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.022) 1px, transparent 1px);
+      background-size: 56px 56px;
+      pointer-events: none;
+      display: none;
+    }
+    /* Ambient glow removed */
+    .hero::after { display: none; }
+
+    /* ---- Hero cursor colour-reveal FX ---- */
+    .hero__cursor-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 700ms var(--ease-out);
+    }
+    .hero:hover .hero__cursor-fx { opacity: 1; }
+    /* Brighter grid revealed at cursor position — soft edges, 15% smaller */
+    .hero__cursor-fx::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.16) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(
+        circle 411px at var(--hx, 85%) var(--hy, 50%),
+        black 5%, transparent 75%
+      );
+      mask-image: radial-gradient(
+        circle 411px at var(--hx, 85%) var(--hy, 50%),
+        black 5%, transparent 75%
+      );
+    }
+    /* Accent colour sweep — soft edges, 15% smaller */
+    .hero__cursor-fx::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle 367px at var(--hx, 85%) var(--hy, 50%),
+        oklch(0.60 0.20 249 / 0.18) 10%,
+        transparent 69%
+      );
+    }
+
+    .hero__body {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-bottom: var(--s12);
+    }
+    .hero__foot {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    /* Load-in animations staggered — Emil: opacity+translateY, custom easing */
+    .hero__eye {
+      font-family: var(--font-m);
+      font-size: 10.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: var(--s6);
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 560ms var(--ease-out) 200ms forwards;
+    }
+    .hero__eye::before {
+      content: '';
+      width: 28px; height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero__h1 {
+      font-size: clamp(32px, 4.7vw, 70px);
+      font-weight: 800;
+      letter-spacing: -0.048em;
+      line-height: 0.92;
+      margin-bottom: var(--s8);
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp 680ms var(--ease-out) 340ms forwards;
+    }
+    /* Accent word: solid color — BANNED: gradient text */
+    .hero__h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero__h1 em { font-style: normal; color: var(--accent); }
+
+    .hero__p {
+      font-size: clamp(16px, 1.7vw, 19px);
+      color: var(--text-2);
+      max-width: 52ch;
+      line-height: 1.72;
+      margin-bottom: var(--s12);
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 560ms var(--ease-out) 500ms forwards;
+    }
+
+    .hero__btns {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 560ms var(--ease-out) 640ms forwards;
+      margin-top: 4px;
+    }
+
+    /* ---- Shared button base ---- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 14px 26px;
+      transition:
+        background    200ms var(--ease-out),
+        color         200ms var(--ease-out),
+        border-color  200ms var(--ease-out),
+        box-shadow    200ms var(--ease-out),
+        transform     160ms var(--ease-out);
+    }
+    /* Emil: scale(0.97) on :active — tactile press feedback */
+    .btn:active { transform: scale(0.97) !important; box-shadow: none !important; }
+
+    .btn-p {
+      color: var(--bg);
+      background: var(--text);
+      border: 1px solid var(--text);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-p:hover {
+        border-color: var(--accent);
+        box-shadow: 3px 3px 0 0 var(--accent);
+        transform: translate(-1.5px, -1.5px);
+      }
+    }
+
+    .btn-g {
+      color: var(--text-2);
+      background: transparent;
+      border: 1px solid var(--border-strong);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-g:hover {
+        color: var(--text);
+        border-color: var(--accent);
+        box-shadow: 3px 3px 0 0 var(--accent);
+        transform: translate(-1.5px, -1.5px);
+      }
+    }
+
+    /* Tertiary button — grey */
+    .btn-t {
+      color: var(--cta-tertiary);
+      background: transparent;
+      border: 1px solid var(--cta-tertiary);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-t:hover {
+        color: var(--text);
+        border-color: var(--text);
+        box-shadow: 3px 3px 0 0 var(--cta-tertiary);
+        transform: translate(-1.5px, -1.5px);
+      }
+    }
+
+    /* Hero stats strip — in-flow, inside hero__foot */
+    .hero__stats {
+      display: flex;
+      gap: clamp(24px, 5vw, 64px);
+      opacity: 0;
+      animation: fadeUp 560ms var(--ease-out) 800ms forwards;
+    }
+    .hero__sn {
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      display: block;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: 'tnum' 1;
+    }
+    .hero__sn-plus { color: var(--accent); }
+    .hero__sl {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      display: block;
+      margin-top: 5px;
+    }
+
+    /* Scroll indicator — in-flow, inside hero__foot */
+    .hero__scroll {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      opacity: 0;
+      animation: fadeUp 560ms var(--ease-out) 920ms forwards;
+    }
+    .hero__scroll-line {
+      width: 36px; height: 1px;
+      background: currentColor;
+      animation: breathe 2.4s ease-in-out infinite;
+    }
+
+    /* ============================================================
+       MARQUEE — kinetic, infinite
+    ============================================================ */
+    .marquee {
+      background: var(--accent);
+      border: none;
+      padding: 16px 0;
+      overflow: hidden;
+    }
+    .marquee__t {
+      display: flex;
+      align-items: center;
+      gap: var(--s12);
+      white-space: nowrap;
+      animation: marquee 28s linear infinite;
+      width: max-content;
+    }
+    .marquee__i {
+      font-family: var(--font-m);
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: white;
+      flex-shrink: 0;
+    }
+    .marquee__sep { color: oklch(1 0 0 / 0.5); margin: 0 var(--s2); }
+
+    /* ============================================================
+       SECTION UTILITY
+    ============================================================ */
+    .slabel {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: var(--s6);
+    }
+    .slabel::before {
+      content: '';
+      width: 22px; height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .sh {
+      font-size: clamp(32px, 4vw, 58px);
+      font-weight: 700;
+      letter-spacing: -0.042em;
+      line-height: 1.0;
+      font-feature-settings: 'ss01' 1, 'kern' 1;
+      text-wrap: balance;
+    }
+    .sh em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       WORK — asymmetric 6-col bento (BANNED: 3-equal-col grid)
+    ============================================================ */
+    .work {
+      padding: var(--s24) 0;
+      border-top: 1px solid var(--border);
+      background: #f9f8f8;
+      background-image: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .work::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: none;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      display: none;
+    }
+    .work > * { position: relative; z-index: 1; }
+    .work__hdr {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--s8);
+      margin-bottom: var(--s12);
+    }
+    .work__all {
+      font-family: var(--font-m);
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding-bottom: 3px;
+      transition: color 200ms var(--ease-out), gap 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .work__all:hover { color: var(--text); gap: 13px; }
+    }
+
+    /* ── Bento Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    /* ── Layout 1: cards 1–4 ── */
+    .pc:nth-child(1) { grid-column: span 5; grid-row: span 2; }
+    .pc:nth-child(2) { grid-column: span 7; }
+    .pc:nth-child(3) { grid-column: span 7; }
+    .pc:nth-child(4) { grid-column: span 12; }
+
+    /* ── Layout 2: cards 5–6 ── */
+    .pc:nth-child(5) { grid-column: span 4; }
+    .pc:nth-child(6) { grid-column: span 8; }
+
+    /* ── Per-card gradient backgrounds ── */
+    .pc:nth-child(1) { --card-bg: linear-gradient(145deg, oklch(0.14 0.08 249) 0%, oklch(0.20 0.12 238) 50%, oklch(0.09 0.05 262) 100%); }
+    .pc:nth-child(2) { --card-bg: linear-gradient(145deg, oklch(0.13 0.04 28) 0%, oklch(0.22 0.07 20) 55%, oklch(0.09 0.01 5) 100%); }
+    .pc:nth-child(3) { --card-bg: linear-gradient(145deg, oklch(0.30 0.13 35) 0%, oklch(0.18 0.09 28) 50%, oklch(0.11 0.04 42) 100%); }
+    .pc:nth-child(4) { --card-bg: linear-gradient(145deg, oklch(0.16 0.07 155) 0%, oklch(0.24 0.10 148) 50%, oklch(0.12 0.05 168) 100%); }
+    .pc:nth-child(5) { --card-bg: linear-gradient(145deg, oklch(0.17 0.08 292) 0%, oklch(0.24 0.10 280) 50%, oklch(0.11 0.04 308) 100%); }
+    .pc:nth-child(6) { --card-bg: linear-gradient(145deg, oklch(0.10 0.005 0) 0%, oklch(0.20 0.010 0) 55%, oklch(0.07 0.002 0) 100%); }
+
+    /* ── Card shell ── */
+    .pc {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    /* ── Image area ── */
+    .pc__img {
+      position: relative;
+      overflow: hidden;
+      height: 300px;
+      flex-shrink: 0;
+      background: var(--card-bg, oklch(0.10 0.05 249));
+    }
+    /* Card 1 (BMW) — stretches to fill full 2-row grid cell */
+    .pc:nth-child(1) .pc__img { flex: 1; height: auto; min-height: 0; }
+    /* Full-width landscape card (4) */
+    .pc:nth-child(4) .pc__img { height: 340px; }
+
+    /* Actual photo */
+    .pc__photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 700ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .pc:hover .pc__photo { transform: scale(1.05); }
+    }
+
+    /* Dark gradient overlay */
+    .pc__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        oklch(0 0 0 / 0.18) 0%,
+        oklch(0 0 0 / 0.52) 100%
+      );
+      z-index: 1;
+    }
+
+    /* Inner container for logo + industry tag */
+    .pc__img-inner {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px 24px;
+    }
+
+    /* Logo */
+    .pc__logo-img {
+      display: block;
+      height: 24px;
+      width: auto;
+      max-width: 110px;
+      object-fit: contain;
+      object-position: left center;
+      filter: brightness(0) invert(1);
+      opacity: 0.90;
+    }
+
+    /* Logo text fallback */
+    .pc__logo-text {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: white;
+      opacity: 0.90;
+    }
+
+    /* Industry tag */
+    .pc__industry {
+      display: inline-flex;
+      align-self: flex-end;
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: oklch(1 0 0 / 0.75);
+      border: 1px solid oklch(1 0 0 / 0.25);
+      padding: 4px 9px;
+      background: oklch(0 0 0 / 0.22);
+    }
+
+    /* ── Info area (below image) ── */
+    .pc__info {
+      padding: 16px 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-top: 1px solid var(--border);
+      transition: border-color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .pc:hover .pc__info { border-color: var(--accent); }
+    }
+
+    .pc__discipline {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    .pc__name {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--text);
+      transition: color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .pc:hover .pc__name { color: var(--accent); }
+    }
+
+    .pc__meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .pc__client {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    .pc__yr {
+      font-family: var(--font-m);
+      font-size: 9px;
+      color: var(--text-3);
+    }
+    .pc__yr::before { content: '· '; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: repeat(6, 1fr); gap: 14px; }
+      .pc:nth-child(1) { grid-column: span 6; grid-row: span 1; }
+      .pc:nth-child(1) .pc__img { min-height: 320px; }
+      .pc:nth-child(2),
+      .pc:nth-child(3) { grid-column: span 3; }
+      .pc:nth-child(4) { grid-column: span 6; }
+      .pc:nth-child(5) { grid-column: span 2; }
+      .pc:nth-child(6) { grid-column: span 4; }
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; gap: 10px; }
+      .pc:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+      .pc__img { min-height: 240px !important; }
+    }
+
+    /* ---- Work cursor grid reveal FX ---- */
+    .work__cursor-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 700ms var(--ease-out);
+      display: none;
+    }
+    .work:hover .work__cursor-fx { opacity: 0; }
+    .work__cursor-fx::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: none;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       SERVICES — sticky left + expandable accordion right
+    ============================================================ */
+    .services {
+      padding: var(--s24) 0;
+      border-top: 1px solid var(--border);
+      background: #000000;
+      color: white;
+    }
+    .services .slabel { color: var(--accent); }
+    .services .sh { color: white; }
+    .services .sh em { color: var(--accent); }
+    .services .svcs__desc { color: oklch(0.90 0.002 0); }
+    .services .svc__n { color: oklch(0.70 0.003 0); }
+    .services .svc__name { color: white; }
+    .services .svc__body { color: oklch(0.90 0.002 0); }
+    .services .svc__toggle { color: oklch(0.70 0.003 0); }
+    .services .svc.open .svc__toggle { color: var(--accent); }
+    .services .svc { border-top: 1px solid oklch(0.25 0.002 0); }
+    .services .svc:last-child { border-bottom: 1px solid oklch(0.25 0.002 0); }
+    .svcs__wrap {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: var(--s16);
+      align-items: start;
+    }
+    .svcs__left {
+      position: sticky;
+      top: 96px;
+    }
+    .svcs__desc {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.72;
+      margin-top: var(--s6);
+      max-width: 34ch;
+    }
+
+    .svcs__list { display: flex; flex-direction: column; }
+
+    .svc {
+      display: grid;
+      grid-template-columns: 64px 1fr 28px;
+      align-items: start;
+      gap: var(--s4);
+      padding: var(--s6) 0;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .svc:last-child { border-bottom: 1px solid var(--border); }
+
+    .svc__n {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text-3);
+      padding-top: 5px;
+    }
+    .svc__name {
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      padding-top: 3px;
+      transition: color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .svc:hover .svc__name { color: var(--accent); }
+    }
+
+    /* Emil: grid-template-rows for height animation (NOT max-height) */
+    .svc__shell {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 400ms var(--ease-out);
+    }
+    .svc.open .svc__shell { grid-template-rows: 1fr; }
+    .svc__inner { overflow: hidden; min-height: 0; }
+    .svc__body {
+      font-size: 13.5px;
+      color: var(--text-2);
+      line-height: 1.65;
+      padding: var(--s3) 0 var(--s2);
+      max-width: 58ch;
+    }
+
+    .svc__toggle {
+      font-size: 15px;
+      color: var(--text-3);
+      padding-top: 4px;
+      user-select: none;
+      transition:
+        transform 320ms var(--ease-out),
+        color     200ms var(--ease-out);
+    }
+    .svc.open .svc__toggle { transform: rotate(45deg); color: var(--accent); }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    .testi {
+      padding: var(--s24) 0;
+      position: relative;
+      overflow: hidden;
+      border-bottom: none !important;
+    }
+
+    /* Testimonials video background — contained to section */
+    .testi__video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+    .testi > .w {
+      position: relative;
+      z-index: 1;
+    }
+    .testi__clip {
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .testi__track {
+      display: flex;
+      transition: transform 500ms var(--ease-out);
+    }
+    .tslide {
+      flex: 0 0 100%;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: var(--s16);
+      align-items: start;
+    }
+
+    /* Opening mark — solid color, no gradient */
+    .tslide__mark {
+      font-size: clamp(56px, 8vw, 90px);
+      font-weight: 800;
+      line-height: 0.82;
+      color: var(--accent);
+      margin-bottom: var(--s4);
+      display: block;
+      font-style: normal;
+    }
+    .tslide__q {
+      font-size: clamp(19px, 2.5vw, 32px);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.28;
+      max-width: 72ch;
+      font-style: normal;
+    }
+    .tslide__attr { padding-top: var(--s3); }
+    .tslide__name {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 3px;
+    }
+    .tslide__role {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text-3);
+      text-transform: uppercase;
+    }
+
+    .testi__nav {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      margin-top: var(--s12);
+    }
+    .testi__btn {
+      width: 38px; height: 38px;
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      color: var(--text-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition:
+        border-color 200ms var(--ease-out),
+        background   200ms var(--ease-out),
+        color        200ms var(--ease-out),
+        transform    160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .testi__btn:hover {
+        border-color: var(--accent);
+        background: var(--accent-muted);
+        color: var(--text);
+      }
+    }
+    .testi__btn:active { transform: scale(0.97); }
+
+    .testi__dots { display: flex; gap: 7px; align-items: center; }
+    .tdot {
+      width: 4px; height: 4px;
+      background: var(--text-3);
+      border: none;
+      cursor: pointer;
+      transition:
+        background 200ms var(--ease-out),
+        transform  200ms var(--ease-out);
+    }
+    .tdot.on { background: var(--accent); transform: scale(1.6); }
+
+    /* ============================================================
+       PRICING
+    ============================================================ */
+    .pricing {
+      padding: var(--s24) 0;
+      border-top: 1px solid var(--border);
+      background: #000000;
+      color: white;
+    }
+    .pricing .slabel { color: var(--accent); }
+    .pricing .sh { color: white; }
+    .pricing .sh em { color: var(--accent); }
+    .pricing__cards { background: transparent; gap: var(--s16); }
+    .pricing .prc { background: oklch(0.08 0.003 0); color: white; border-right: 1px solid oklch(0.25 0.002 0); padding: var(--s12); min-height: auto; justify-content: flex-start; }
+    .pricing .prc:hover { background: oklch(0.10 0.003 0); }
+    .pricing .prc:hover .prc__name { color: var(--accent); }
+    .pricing .prc__tag { color: var(--accent); font-weight: 600; margin-bottom: var(--s6); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+    .pricing .prc__name { color: white; transition: color 240ms var(--ease-out); font-size: clamp(24px, 2.5vw, 32px); margin-bottom: var(--s6); }
+    .pricing .prc__desc { color: oklch(0.70 0.003 0); margin-bottom: var(--s8); font-size: 15px; line-height: 1.6; }
+    .pricing .prc__cta { color: oklch(0.60 0.003 0); font-size: 10px; margin-top: auto; }
+    .pricing .prc__img { display: none; }
+    .pricing .prc__illus { display: none; }
+    .pricing .work__all { color: oklch(0.85 0.002 0); }
+    .pricing .work__all:hover { color: white; }
+    .pricing__hd {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: var(--s12);
+      gap: var(--s8);
+    }
+    .pricing__cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      background: transparent;
+      overflow: visible;
+    }
+
+    /* Card — same DNA as project cards */
+    .prc {
+      background: var(--bg);
+      padding: var(--s8);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background 300ms var(--ease-out);
+      --glow: oklch(0.60 0.18 249 / 0.20);
+      --gline: oklch(0.70 0.14 249);
+    }
+    .prc:nth-child(2) {
+      --glow: oklch(0.60 0.18 249 / 0.28);
+      --gline: var(--accent);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .prc:hover { background: var(--surface); }
+      .prc:hover .prc__name { color: var(--accent); }
+      .prc:hover .prc__line { transform: scaleX(1); }
+      .prc:hover .prc__arrow { opacity: 1; transform: translate(0,0); }
+    }
+    /* Magnetic spotlight — same as project cards */
+    .prc::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 90% 80% at var(--gx, 50%) var(--gy, 50%),
+        var(--glow) 0%, transparent 68%
+      );
+      opacity: 0;
+      transition: opacity 480ms var(--ease-out);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .prc > * { position: relative; z-index: 1; }
+
+    .prc__tag {
+      font-family: var(--font-m);
+      font-size: 8.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: var(--s4);
+    }
+    .prc:nth-child(2) .prc__tag {
+      color: var(--accent);
+      border: 1px solid oklch(0.60 0.18 249 / 0.32);
+      display: inline-flex;
+      padding: 2px 7px;
+      margin-bottom: var(--s3);
+    }
+    .prc__name {
+      font-size: clamp(22px, 2.4vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      transition: color 240ms var(--ease-out);
+    }
+    .prc__price { display: none; }
+    .prc__desc {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.6;
+      max-width: 34ch;
+      margin-top: var(--s4);
+      margin-bottom: var(--s6);
+    }
+    .prc__cta {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .prc__line {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 280ms var(--ease-out);
+    }
+    .prc__arrow {
+      position: absolute;
+      top: auto; bottom: var(--s8); right: var(--s8);
+      font-size: 14px;
+      color: var(--accent);
+      opacity: 0;
+      transform: translate(-4px, -4px);
+      transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+    }
+
+    /* Pricing card image container (top) */
+    .prc__img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: var(--s6);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .prc__img svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    /* Orange hover overlay on image */
+    .prc__img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: oklch(0.60 0.18 249 / 0.15);
+      opacity: 0;
+      transition: opacity 300ms var(--ease-out);
+    }
+    .prc:hover .prc__img::after { opacity: 1; }
+
+    /* Pricing card line-drawing illustration (legacy - now in .prc__img) */
+    .prc__illus {
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* ---- Pricing drawer (slides in from right) ---- */
+    .prc-drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(520px, 100vw);
+      background: var(--accent);
+      z-index: 500;
+      transform: translateX(100%);
+      transition: transform 500ms var(--ease-inout);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .prc-drawer.is-open { transform: translateX(0); }
+
+    .prc-drawer__close {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: flex-end;
+      padding: var(--s6) var(--s8) 0;
+      z-index: 10;
+    }
+    .prc-drawer__close-btn {
+      width: 40px; height: 40px;
+      background: oklch(0 0 0 / 0.12);
+      border: 1px solid oklch(0 0 0 / 0.18);
+      color: oklch(0.97 0.002 35);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 180ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .prc-drawer__close-btn:hover { background: oklch(0 0 0 / 0.22); }
+    }
+
+    .prc-drawer__body {
+      padding: var(--s4) var(--s8) var(--s16);
+      flex: 1;
+    }
+    .prc-drawer__tag {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: oklch(0.97 0.002 35 / 0.65);
+      margin-bottom: var(--s4);
+    }
+    .prc-drawer__name {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 0.95;
+      color: #000000;
+      margin-bottom: var(--s6);
+    }
+    .prc-drawer__price {
+      font-size: clamp(48px, 7vw, 72px);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: oklch(0.97 0.002 35);
+      margin-bottom: var(--s8);
+    }
+    .prc-drawer__price sup { font-size: 0.45em; vertical-align: super; }
+    .prc-drawer__price span { font-size: 0.35em; font-weight: 400; opacity: 0.6; letter-spacing: 0; }
+    .prc-drawer__divider {
+      height: 1px;
+      background: oklch(0 0 0 / 0.15);
+      margin: var(--s6) 0;
+    }
+    .prc-drawer__section-label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: oklch(0.97 0.002 35 / 0.60);
+      margin-bottom: var(--s4);
+    }
+    .prc-drawer__list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin-bottom: var(--s8);
+    }
+    .prc-drawer__list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: oklch(0.97 0.002 35);
+      line-height: 1.5;
+    }
+    .prc-drawer__list li::before {
+      content: '→';
+      font-family: var(--font-m);
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      opacity: 0.7;
+    }
+    .prc-drawer__note {
+      font-size: 12.5px;
+      color: oklch(0.97 0.002 35 / 0.65);
+      line-height: 1.6;
+      margin-bottom: var(--s8);
+    }
+    .prc-drawer__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: white;
+      background: #000000;
+      border: 1px solid #000000;
+      padding: 14px 26px;
+      cursor: pointer;
+      text-decoration: none;
+      width: 100%;
+      justify-content: center;
+      transition: box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out), color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .prc-drawer__btn:hover {
+        color: white;
+        border-color: white;
+        box-shadow: 3px 3px 0 0 white;
+        transform: translate(-1.5px, -1.5px);
+      }
+    }
+    .prc-drawer__btn:active { transform: scale(0.97); box-shadow: none; }
+
+    /* Overlay scrim */
+    .prc-scrim {
+      position: fixed;
+      inset: 0;
+      background: oklch(0 0 0 / 0.5);
+      z-index: 499;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 400ms var(--ease-out);
+    }
+    .prc-scrim.is-open { opacity: 1; pointer-events: auto; }
+
+    /* ============================================================
+       BLOG
+    ============================================================ */
+    .blog {
+      padding: var(--s24) 0;
+      border-top: 1px solid var(--border);
+      background: #f9f8f8;
+    }
+    .blog__hd {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: var(--s12);
+      gap: var(--s8);
+    }
+    .blog__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: oklch(0 0 0 / 0.045);
+    }
+    .bpost {
+      background: var(--bg);
+      padding: var(--s8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 280ms var(--ease-out);
+      text-decoration: none;
+      color: inherit;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .bpost:hover { background: var(--surface); }
+      .bpost:hover .bpost__title { color: var(--accent); }
+      .bpost:hover .bpost__line { transform: scaleX(1); }
+    }
+    .bpost__line {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 280ms var(--ease-out);
+    }
+    .bpost__cat {
+      font-family: var(--font-m);
+      font-size: 8.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .bpost__title {
+      font-size: clamp(17px, 1.8vw, 22px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--text);
+      transition: color 220ms var(--ease-out);
+    }
+    .bpost__excerpt {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 42ch;
+      flex: 1;
+    }
+    .bpost__foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--s3);
+      padding-top: var(--s4);
+      border-top: 1px solid var(--border);
+    }
+    .bpost__meta {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .bpost__arrow {
+      font-size: 13px;
+      color: var(--text-3);
+      transition: color 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .bpost:hover .bpost__arrow { color: var(--accent); transform: translateX(3px); }
+    }
+
+    /* Blog post image placeholder */
+    .bpost__img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: var(--s6);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .bpost__img svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    /* Orange hover overlay — disabled, hover only on text */
+    .bpost__img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: oklch(0.60 0.18 249 / 0.18);
+      opacity: 0;
+      transition: opacity 300ms var(--ease-out);
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .pricing__cards, .blog__grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    .contact {
+      padding: var(--s24) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 500px;
+      gap: var(--s24);
+      align-items: start;
+    }
+    .contact__h {
+      font-size: clamp(40px, 5.5vw, 76px);
+      font-weight: 800;
+      letter-spacing: -0.048em;
+      line-height: 0.93;
+      margin-bottom: var(--s6);
+      font-feature-settings: 'ss01' 1, 'kern' 1;
+    }
+    .contact__h em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .contact__p {
+      font-size: 16px;
+      color: var(--text-2);
+      line-height: 1.7;
+      max-width: 44ch;
+      margin-bottom: var(--s12);
+    }
+    .contact__dl { display: flex; flex-direction: column; gap: var(--s3); }
+    .contact__row { display: flex; align-items: baseline; gap: var(--s4); }
+    .contact__k {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      width: 72px;
+      flex-shrink: 0;
+    }
+    .contact__v {
+      font-size: 13.5px;
+      color: var(--text-2);
+    }
+    .contact__v a {
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 180ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .contact__v a:hover { color: var(--text); }
+    }
+    .avail { color: var(--success) !important; }
+
+    /* ---- Contact cursor grid reveal FX ---- */
+    .contact__cursor-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 700ms var(--ease-out);
+    }
+    .contact:hover .contact__cursor-fx { opacity: 0.65; }
+    /* Grid revealed at cursor position — soft edges */
+    .contact__cursor-fx::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(
+        circle 411px at var(--cx, 50%) var(--cy, 50%),
+        black 5%, transparent 75%
+      );
+      mask-image: radial-gradient(
+        circle 411px at var(--cx, 50%) var(--cy, 50%),
+        black 5%, transparent 75%
+      );
+    }
+    /* Accent colour sweep — soft edges */
+    .contact__cursor-fx::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle 367px at var(--cx, 50%) var(--cy, 50%),
+        oklch(0.60 0.20 249 / 0.18) 10%,
+        transparent 69%
+      );
+    }
+
+    /* ---- Form ---- */
+    .form { display: flex; flex-direction: column; gap: var(--s4); }
+    .fg { display: flex; flex-direction: column; gap: var(--s2); }
+    .fg label {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .fg input,
+    .fg textarea,
+    .fg select {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      font-family: var(--font-d);
+      font-size: 16px; /* ≥16px prevents iOS auto-zoom on focus */
+      padding: 11px 14px;
+      outline: none;
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      transition:
+        border-color 200ms var(--ease-out),
+        background   200ms var(--ease-out);
+    }
+    .fg input::placeholder,
+    .fg textarea::placeholder { color: var(--text-3); }
+    .fg input:focus,
+    .fg textarea:focus,
+    .fg select:focus {
+      border-color: var(--accent);
+      background: var(--surface-raised);
+    }
+    .fg textarea { resize: vertical; min-height: 108px; line-height: 1.6; }
+    /* Custom select arrow — replaces ugly browser default */
+    .fg select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23000000'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+    .fg select option { background: #191919; color: #f0f0f0; }
+
+    /* Error state */
+    .fg.err input,
+    .fg.err textarea { border-color: var(--danger); }
+    .fg__e {
+      font-family: var(--font-m);
+      font-size: 9px;
+      color: var(--danger);
+      letter-spacing: 0.07em;
+      display: none;
+    }
+    .fg.err .fg__e { display: block; }
+
+    .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+
+    .form__sub {
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--text);
+      border: 1px solid var(--text);
+      padding: 15px 28px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: var(--s2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition:
+        background    200ms var(--ease-out),
+        color         200ms var(--ease-out),
+        border-color  200ms var(--ease-out),
+        box-shadow    200ms var(--ease-out),
+        transform     160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .form__sub:hover {
+        border-color: var(--accent);
+        box-shadow: 3px 3px 0 0 var(--accent);
+        transform: translate(-1.5px, -1.5px);
+      }
+    }
+    .form__sub:active { transform: scale(0.97); box-shadow: none; }
+    .form__sub:disabled { opacity: 0.52; cursor: not-allowed; transform: none !important; }
+
+    .form__ok {
+      display: none;
+      padding: var(--s12);
+      border: 1px solid rgba(61,232,138,0.24);
+      background: rgba(61,232,138,0.04);
+      text-align: center;
+    }
+    .form__ok.show { display: block; }
+    .form__ok h3 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--success);
+      margin-bottom: 6px;
+    }
+    .form__ok p {
+      font-family: var(--font-m);
+      font-size: 11px;
+      color: var(--text-2);
+      letter-spacing: 0.07em;
+    }
+
+    /* ============================================================
+       WORLD CLOCKS
+    ============================================================ */
+    .clocks {
+      border-top: 1px solid var(--border);
+      padding: var(--s8) 0;
+    }
+    .clocks__inner {
+      display: flex;
+      align-items: center;
+      gap: clamp(var(--s8), 6vw, var(--s24));
+    }
+    .clocks__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      white-space: nowrap;
+      margin-right: auto;
+    }
+    .clock {
+      display: flex;
+      align-items: baseline;
+      gap: var(--s3);
+    }
+    .clock__city {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      min-width: 52px;
+    }
+    .clock__time {
+      font-family: var(--font-m);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-2);
+      font-variant-numeric: tabular-nums;
+      transition: color 800ms linear;
+    }
+    .clock__time.tick { color: var(--accent); }
+    .clock__sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      align-self: center;
+    }
+    @media (max-width: 600px) {
+      .clocks__inner { flex-wrap: wrap; gap: var(--s6); }
+      .clocks__label { width: 100%; margin-right: 0; }
+      .clock__sep { display: none; }
+    }
+
+    /* ============================================================
+       CLIENT LOGOS STRIP
+    ============================================================ */
+    .logos-strip {
+      background: var(--accent);
+      border: none !important;
+      border-top: none !important;
+      padding: var(--s8) 0;
+      box-shadow: none !important;
+      outline: none !important;
+      margin-top: -1px;
+    }
+    .logos-strip .w {
+      border: none !important;
+    }
+    .logos-strip__inner {
+      display: flex;
+      align-items: center;
+      gap: clamp(var(--s8), 6vw, var(--s24));
+    }
+    .logos-strip__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: oklch(1 0 0 / 0.7);
+      white-space: nowrap;
+      margin-right: auto;
+    }
+    .logo-sep {
+      width: 1px;
+      height: 20px;
+      background: oklch(1 0 0 / 0.3);
+      flex-shrink: 0;
+    }
+    .logo-mark {
+      opacity: 0.72;
+      transition: opacity 240ms var(--ease-out);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .logo-mark:hover { opacity: 1; }
+    }
+    @media (max-width: 700px) {
+      .logos-strip__inner { flex-wrap: wrap; gap: var(--s6); }
+      .logos-strip__label { width: 100%; margin-right: 0; }
+      .logo-sep { display: none; }
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      padding: var(--s8) 0;
+      background: var(--accent);
+    }
+    .footer__in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s6);
+    }
+    .footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
+    .footer__copy {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      color: white;
+      letter-spacing: 0.08em;
+    }
+    .footer__links { display: flex; gap: var(--s6); list-style: none; }
+    .footer__links a {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+      text-decoration: none;
+      transition: color 180ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .footer__links a:hover { color: var(--text-2); }
+    }
+
+    /* ============================================================
+       KEYFRAMES
+    ============================================================ */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes breathe {
+      0%,100% { width: 36px; }
+      50%      { width: 20px; }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 960px) {
+      .svcs__wrap { grid-template-columns: 1fr; gap: var(--s8); }
+      .svcs__left { position: relative; top: 0; }
+    }
+    @media (max-width: 768px) {
+      .hero__stats { gap: var(--s6); flex-wrap: wrap; }
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pc:nth-child(n) { grid-column: span 1; min-height: 180px; }
+      .pc:nth-child(1) { grid-column: span 2; min-height: 240px; }
+      .tslide { grid-template-columns: 1fr; gap: var(--s6); }
+      .contact__grid { grid-template-columns: 1fr; gap: var(--s12); }
+      .form__row { grid-template-columns: 1fr; }
+      .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); }
+    }
+    @media (max-width: 480px) {
+      .hero__scroll { display: none; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (prefers-reduced-motion)
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .stagger > *,
+      .hero__eye, .hero__h1, .hero__p,
+      .hero__btns, .hero__stats, .hero__scroll {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .reveal.in, .stagger.in > * { opacity:1; transform:none; }
+      .marquee__t { animation: none; }
+      .hero__scroll-line { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav class="nav" id="main-nav">
+    <div class="w">
+      <div class="nav__inner">
+        <a href="#" class="nav__logo">Parallax<span>.</span></a>
+        <button class="nav__burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Full-screen menu overlay -->
+  <div class="nav__overlay" id="nav-overlay" aria-hidden="true">
+    <div class="nav__overlay-left">
+      <ul class="nav__menu-links">
+        <li><a href="#work"     data-index="01" id="mnav-work">Work</a></li>
+        <li><a href="#services" data-index="02" id="mnav-services">Services</a></li>
+        <li><a href="#"         data-index="03" id="mnav-about">About</a></li>
+        <li><a href="#blog"     data-index="04" id="mnav-articles">Articles</a></li>
+      </ul>
+    </div>
+    <div class="nav__overlay-right">
+      <div class="nav__meta">
+        <p class="nav__meta-label">Ready to build?</p>
+        <a href="#contact" class="nav__meta-cta" id="mnav-contact">Start a Project ↗</a>
+      </div>
+      <p class="nav__meta-tagline">Precision over decoration.<br>Logic over assumption.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="hero" id="home">
+    <video class="hero__video" autoplay muted loop playsinline preload="auto">
+      <source src="Video/Hero video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="w hero__wrap">
+
+      <div class="hero__body">
+        <p class="hero__eye">Digital Craft Studio - EST 2010</p>
+        <h1 class="hero__h1">
+          The answer changes<br>
+          when you shift your<br>
+          <em>perspective.</em>
+        </h1>
+        <p class="hero__p">
+          Parallax is a design and engineering studio. We work at the intersection of strategy, craft, and technology — because the best solutions rarely come from a single point of view.
+        </p>
+        <div class="hero__btns">
+          <a href="#work" class="btn btn-p">View Our Work &#8594;</a>
+          <a href="#contact" class="btn btn-g">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="hero__foot">
+        <div class="hero__stats">
+          <div>
+            <span class="hero__sn">100<span class="hero__sn-plus">+</span></span>
+            <span class="hero__sl">projects shipped</span>
+          </div>
+          <div>
+            <span class="hero__sn">3M<span class="hero__sn-plus">+</span></span>
+            <span class="hero__sl">users reached</span>
+          </div>
+          <div>
+            <span class="hero__sn">8<span class="hero__sn-plus">+</span></span>
+            <span class="hero__sl">industries served</span>
+          </div>
+          <div>
+            <span class="hero__sn">15<span class="hero__sn-plus">+</span></span>
+            <span class="hero__sl">years expertise</span>
+          </div>
+        </div>
+        <div class="hero__scroll">
+          <span class="hero__scroll-line"></span>
+          Scroll
+        </div>
+      </div>
+
+    </div>
+    <div class="hero__cursor-fx" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================================
+       MARQUEE — kinetic text band
+  ============================================================ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__t">
+      <span class="marquee__i">Brand Identity</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Interface Design</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Motion Engineering</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Frontend Architecture</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Design Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Creative Direction</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Brand Identity</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Interface Design</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Motion Engineering</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Frontend Architecture</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Design Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Creative Direction</span><span class="marquee__sep">&middot;</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WORK — 3×3 asymmetric bento
+  ============================================================ -->
+  <section class="work" id="work">
+    <div class="work__cursor-fx"></div>
+    <div class="w">
+      <div class="work__hdr reveal">
+        <div>
+          <p class="slabel">Selected Work</p>
+          <h2 class="sh">Problems reframed.<br>Outcomes <em>earned.</em></h2>
+        </div>
+        <a href="work.html" class="work__all">Full Archive &#8594;</a>
+      </div>
+
+      <div class="grid reveal">
+
+        <!-- 01 — BMW · 5 cols × 2 rows -->
+        <a class="pc" href="work/bmw.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="images/work/BMW.jpg" alt="BMW project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/BMW.svg" alt="BMW">
+              <span class="pc__industry">Automotive</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Interface Design · Frontend Engineering</p>
+            <h2 class="pc__name">Digital Platform Redesign</h2>
+            <div class="pc__meta">
+              <span class="pc__client">BMW Group</span>
+              <span class="pc__yr">2024</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 02 — Nissan · 7 cols -->
+        <a class="pc" href="work/nissan.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80" alt="Nissan project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Nissan.svg" alt="Nissan">
+              <span class="pc__industry">Automotive</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Brand Systems · Digital Strategy</p>
+            <h2 class="pc__name">Connected Car Brand Experience</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Nissan</span>
+              <span class="pc__yr">2023</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 03 — Sportradar · 7 cols -->
+        <a class="pc" href="work/sportradar.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=900&q=80" alt="Sportradar project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Sportradar.svg" alt="Sportradar">
+              <span class="pc__industry">Sports & Media</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Interface Design · Data Visualisation</p>
+            <h2 class="pc__name">Live Sports Data Dashboard</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Sportradar</span>
+              <span class="pc__yr">2023</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 04 — Vestas · 12 cols full width -->
+        <a class="pc" href="work/vestas.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=1400&q=80" alt="Vestas project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Vestas.svg" alt="Vestas">
+              <span class="pc__industry">Energy</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Digital Strategy · Motion & Interaction</p>
+            <h2 class="pc__name">Sustainability Annual Report</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Vestas</span>
+              <span class="pc__yr">2022</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 05 — Biblica · 4 cols -->
+        <a class="pc" href="work/biblica.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Biblica project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Biblica.svg" alt="Biblica">
+              <span class="pc__industry">Non-profit</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Interface Design · Brand Systems</p>
+            <h2 class="pc__name">Scripture Platform Redesign</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Biblica</span>
+              <span class="pc__yr">2022</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 06 — Accenture · 8 cols -->
+        <a class="pc" href="work/accenture.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80" alt="Accenture project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Accenture.svg" alt="Accenture">
+              <span class="pc__industry">Consulting</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Brand Systems · Frontend Engineering</p>
+            <h2 class="pc__name">Enterprise Design System</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Accenture</span>
+              <span class="pc__yr">2021</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section class="services" id="services">
+    <div class="w">
+      <div class="svcs__wrap">
+
+        <div class="svcs__left reveal">
+          <p class="slabel">What We Do</p>
+          <h2 class="sh">Six disciplines.<br>One <em>standard.</em></h2>
+          <p class="svcs__desc">We start by questioning the brief. Every discipline we practice runs on the same principle - clarity before form.</p>
+          <a href="services.html" class="btn btn-p" style="margin-top: 46px; display: inline-flex; border-color: white;">Explore Services</a>
+        </div>
+
+        <div class="svcs__list stagger">
+
+          <div class="svc" data-svc>
+            <span class="svc__n">01</span>
+            <div>
+              <div class="svc__name">Brand Systems</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">Logo, identity, voice, and design language built as a complete system. Not just how you look, but how you scale across every surface.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">02</span>
+            <div>
+              <div class="svc__name">Creative Direction</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">When you need a single coherent vision across all touchpoints — campaigns, brand books, launch moments — we direct it end to end.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">03</span>
+            <div>
+              <div class="svc__name">Digital Strategy</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">We map the gap between where your product is and where it needs to be — research, positioning, architecture. Then we build the roadmap to close it.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">04</span>
+            <div>
+              <div class="svc__name">Frontend Engineering</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">We write production code. React, Next.js, TypeScript. Built for performance, built for teams, built to last past the handoff.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">05</span>
+            <div>
+              <div class="svc__name">Interface Design</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">Screens that think. We design every state, every edge case, every micro-interaction before a single line of code is written.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">06</span>
+            <div>
+              <div class="svc__name">Motion &amp; Interaction</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">The gap between software that works and software people love is how it moves. We choreograph interfaces with precision timing and physics-based motion.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TESTIMONIALS
+  ============================================================ -->
+  <section class="testi" id="clients">
+    <video class="testi__video" autoplay muted loop playsinline preload="auto">
+      <source src="Video/Testimonial_Blue.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="w">
+      <p class="slabel reveal">Client Voices</p>
+
+      <div class="testi__clip reveal">
+        <div class="testi__track" id="ttrack">
+
+          <div class="tslide">
+            <div>
+              <em class="tslide__mark">&ldquo;</em>
+              <blockquote class="tslide__q">Parallax didn't just redesign our product — they rebuilt how our team thinks about design. Three months after launch, activation went from 31% to 58%.</blockquote>
+            </div>
+            <div class="tslide__attr">
+              <p class="tslide__name">Miriam Osei-Bonsu</p>
+              <p class="tslide__role">Head of Product &mdash; Mondra</p>
+            </div>
+          </div>
+
+          <div class="tslide">
+            <div>
+              <em class="tslide__mark">&ldquo;</em>
+              <blockquote class="tslide__q">I've worked with a dozen design studios. Parallax is the first that pushed back when our idea was wrong — and they were right every single time.</blockquote>
+            </div>
+            <div class="tslide__attr">
+              <p class="tslide__name">Th&eacute;o Calvino</p>
+              <p class="tslide__role">Founder &mdash; Velt Studio</p>
+            </div>
+          </div>
+
+          <div class="tslide">
+            <div>
+              <em class="tslide__mark">&ldquo;</em>
+              <blockquote class="tslide__q">Our data platform went from something engineers tolerated to something customers pay extra for. Parallax did that in 14 weeks.</blockquote>
+            </div>
+            <div class="tslide__attr">
+              <p class="tslide__name">Priya Nambiar</p>
+              <p class="tslide__role">VP Engineering &mdash; Helix Systems</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="testi__nav">
+          <button class="testi__btn" id="tprev" aria-label="Previous">&#8592;</button>
+          <div class="testi__dots" id="tdots">
+            <button class="tdot on" aria-label="Slide 1"></button>
+            <button class="tdot"    aria-label="Slide 2"></button>
+            <button class="tdot"    aria-label="Slide 3"></button>
+          </div>
+          <button class="testi__btn" id="tnext" aria-label="Next">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CLIENT LOGOS STRIP
+  ============================================================ -->
+  <div class="logos-strip">
+    <div class="w">
+      <div class="logos-strip__inner">
+        <span class="logos-strip__label">Much More</span>
+
+        <!-- Biblica -->
+        <div class="logo-mark">
+          <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 102.4" style="height: 22.96875px; width: auto;">
+            <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+            <g id="Layer_1-2" data-name="Layer 1"><g><path class="logo-cls-1" d="M104.4,70.9c2,0,3.6,1.6,3.6,3.6,0,2.1-1.6,3.6-3.7,3.6s-3.7-1.6-3.7-3.6c.1-2,1.7-3.6,3.8-3.6h0ZM104.3,71.5c-1.6,0-2.9,1.3-2.9,3s1.2,3,2.9,3c1.6,0,2.8-1.3,2.8-3s-1.1-3-2.8-3h0ZM103.7,76.5h-.7v-3.8c.4-.1.8-.1,1.3-.1.6,0,.9.1,1.2.3.2.2.4.5.4.8,0,.5-.3.8-.7.9h0c.3.1.5.4.6.9.1.6.2.8.3.9h-.7c-.1-.1-.2-.5-.3-1-.1-.4-.3-.6-.9-.6h-.5s0,1.7,0,1.7ZM103.7,74.4h.5c.5,0,1-.2,1-.6s-.2-.6-.9-.6h-.5v1.2h-.1Z"/><path class="logo-cls-1" d="M48.8,63.4c0,2-1.2,3.9-3.5,3.9-.8,0-1.6-.2-2.2-.5v-6.3c.6-.4,1.4-.7,2.4-.7,2.1,0,3.3,1.6,3.3,3.6M19.7,61.5h-2.7v5.1h1.7c1.6,0,2.7-.1,3.4-.4,1-.4,1.3-1.2,1.3-2.1,0-1.8-1.2-2.6-3.7-2.6M22.6,56.1c0-.7-.2-1.4-1-1.8-.7-.4-2-.5-3.2-.5h-1.4v4.7h2.4c1.9-.1,3.2-.8,3.2-2.4M89.9,66.2c0,.9.8,1.4,1.8,1.4.7,0,1.4-.3,2-.6v-2c-.5-.1-1.1-.2-1.5-.2-1.2,0-2.3.3-2.3,1.4M102.4,51.2c0,5.3-.8,10.3-2.3,15.1-.3.6-.8.9-1.3.9-.6,0-.9-.5-.9-1.1v-4.7c0-1.8-.5-3-1.6-3.9s-2.8-1.3-4.7-1.3c-2,0-3.7.5-4.9,1.1v3.7c1.1-.6,2.5-1.1,4.1-1.1,1,0,1.8.2,2.2.6.3.3.5.8.5,1.5v.5c-.8-.2-1.6-.3-2.4-.3-1.4,0-2.8.3-3.9,1-1,.7-1.7,1.8-1.7,3.4,0,1.4.6,2.6,1.6,3.3.9.6,2,.9,3.2.9,1.6,0,3-.5,3.9-1.2h.1c.8.8,1.9,1.1,3,1.1.4,0,.8,0,1.1-.1-7.6,18.6-26,31.8-47.4,31.8-28.1,0-51-22.9-51-51.2S22.9,0,51.2,0s51.2,22.9,51.2,51.2M59.3,44.5l5.1,1.6,1.6,8.5,1.6-8.5,5.1-1.6-5.1-1.6-1.6-5.2-1.6,5.1-5.1,1.7ZM27.9,64.3c0-2.5-1.3-4.2-3.9-5v-.1c1.9-.7,3.1-2,3.1-4.2,0-1.7-.7-3.1-2.3-4-1.4-.8-3.5-1.2-6.2-1.2h-6v20.6h6.1c2.2,0,3.9-.3,5.4-.8,2.5-.9,3.8-2.8,3.8-5.3M35,56.5h-4.3v14h4.3v-14ZM35.4,52.1c0-1.4-1.1-2.5-2.5-2.5s-2.5,1.1-2.5,2.5,1.1,2.5,2.5,2.5c1.3-.1,2.5-1.2,2.5-2.5M53.1,63.2c0-4.3-3.1-7-6.6-7-1.3,0-2.6.4-3.4,1h-.1v-8.3h-4.3v21.9l3.4-.6c1,.4,2.1.7,3.5.7,4.3-.1,7.5-3.2,7.5-7.7M60.1,48.8h-4.3v21.7h4.3v-21.7ZM68.1,56.5h-4.3v14h4.3v-14ZM83.3,65.7c-1.2.9-2.7,1.4-4.1,1.4-2.3,0-3.9-1.5-3.9-3.6s1.6-3.7,3.9-3.7c1.3,0,2.7.5,3.9,1.3v-4c-1.1-.6-2.6-.9-4.1-.9-4.4,0-8,2.9-8,7.3s3.3,7.3,7.8,7.3c1.6,0,3.2-.3,4.6-1.1v-4h-.1Z"/></g></g>
+          </svg>
+        </div>
+
+        <div class="logo-sep"></div>
+
+        <!-- BMW -->
+        <div class="logo-mark">
+          <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.39 71.82" style="height: 22.96875px; width: auto;">
+            <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+            <g id="Layer_1-2" data-name="Layer 1"><g><path class="logo-cls-1" d="M36.19,0C16.2,0,0,16.08,0,35.91s16.2,35.91,36.19,35.91,36.19-16.08,36.19-35.91S56.18,0,36.19,0ZM70.03,35.91c0,18.54-15.15,33.58-33.84,33.58S2.35,54.45,2.35,35.91,17.5,2.33,36.19,2.33s33.84,15.03,33.84,33.58Z"/><path class="logo-cls-1" d="M53.74,20.67c.49.52,1.2,1.37,1.6,1.88l7.33-4.62c-.37-.48-.95-1.2-1.38-1.71l-4.64,3.05-.32.27.24-.34,2.05-4.06-1.45-1.44-4.09,2.03-.34.23.27-.31,3.07-4.6c-.54-.46-1.06-.87-1.72-1.38l-4.65,7.26c.59.45,1.37,1.11,1.86,1.56l4.38-2.26.28-.2-.21.28-2.27,4.35h0ZM37.11,11.47l2-4.45.13-.39-.04.41.21,5.95c.7.07,1.43.16,2.14.28l-.33-8.81c-1-.11-2-.19-2.99-.23l-1.97,4.86-.07.36-.07-.36-1.97-4.86c-1,.04-1.99.12-2.99.23l-.33,8.81c.72-.12,1.44-.21,2.14-.28l.21-5.95-.04-.41.13.39,2,4.45s1.82,0,1.82,0ZM20.91,18.49c1.16-1.21,1.81-2.61.66-3.94-.63-.72-1.69-.88-2.57-.53l-.09.03.03-.08c.13-.34.21-1.44-.73-2.2-.46-.37-1.04-.51-1.62-.45-1.09.11-1.92.85-4.2,3.37-.69.76-1.69,1.96-2.29,2.74l6.25,5.89c2.07-2.28,2.92-3.12,4.55-4.83ZM12.75,17.05c1.26-1.53,2.6-2.92,3.2-3.47.19-.17.4-.35.65-.41.41-.11.84.18.93.6.1.42-.17.82-.47,1.15-.67.75-3.11,3.28-3.11,3.28l-1.21-1.15h0ZM15.2,19.35s2.38-2.5,3.16-3.29c.31-.32.51-.51.72-.61.27-.13.57-.16.84.02.26.18.39.48.32.78-.08.36-.37.7-.61.96l-3.15,3.35s-1.27-1.19-1.27-1.19Z"/><path class="logo-cls-1" d="M57.66,35.91h-21.46V14.61c11.86,0,21.46,9.53,21.46,21.3ZM36.19,35.91v21.3c-11.86,0-21.46-9.53-21.46-21.3,0,0,21.46,0,21.46,0Z"/></g></g>
+          </svg>
+        </div>
+
+        <div class="logo-sep"></div>
+
+        <!-- Vestas -->
+        <div class="logo-mark">
+          <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310.99 81.84" style="height: 13.125px; width: auto;">
+            <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+            <g id="Layer_1-2" data-name="Layer 1"><g><polygon class="logo-cls-1" points="181 22.84 198.89 16.18 181 9.33 181 0 211.64 12.37 211.64 19.98 181 32.36 181 22.84"/><path class="logo-cls-1" d="M11.8,81.84c-6.47,0-11.8-3.24-11.8-10.47v-.38c0-8.75,7.61-11.8,16.94-11.8h4.38v-1.71c0-3.62-1.52-5.71-5.33-5.71-3.43,0-5.14,1.9-5.33,4.57H1.14c.76-7.99,7.04-11.8,15.42-11.8s14.85,3.62,14.85,12.56v23.98h-9.71v-4.19c-1.9,2.66-5.14,4.95-9.9,4.95ZM21.32,69.28v-3.43h-4c-4.95,0-7.42,1.33-7.42,4.57v.38c0,2.47,1.52,4.19,4.95,4.19,3.43-.19,6.47-2.09,6.47-5.71ZM54.05,81.84c-9.9,0-17.13-6.09-17.13-18.27v-.57c0-12.18,7.61-18.65,17.13-18.65,8.18,0,14.85,4.19,15.61,13.51h-9.52c-.57-3.43-2.47-5.71-5.9-5.71-4.19,0-7.23,3.43-7.23,10.47v1.14c0,7.23,2.66,10.47,7.23,10.47,3.43,0,5.9-2.47,6.47-6.47h9.14c-.57,8.37-6.09,14.08-15.8,14.08ZM91.36,81.84c-9.9,0-17.13-6.09-17.13-18.27v-.57c0-12.18,7.61-18.65,17.13-18.65,8.18,0,14.85,4.19,15.61,13.51h-9.52c-.57-3.43-2.47-5.71-5.9-5.71-4.19,0-7.23,3.43-7.23,10.47v1.14c0,7.23,2.66,10.47,7.23,10.47,3.43,0,5.9-2.47,6.47-6.47h9.14c-.57,8.37-6.09,14.08-15.8,14.08ZM128.85,81.84c-10.28,0-17.32-6.09-17.32-18.08v-.76c0-11.99,7.42-18.65,17.13-18.65,8.95,0,16.37,4.95,16.37,16.94v4.38h-23.41c.38,6.47,3.24,8.95,7.42,8.95,3.81,0,5.9-2.09,6.66-4.57h9.33c-1.14,6.66-6.85,11.8-16.18,11.8ZM121.81,59h13.32c-.19-5.33-2.66-7.61-6.66-7.61-3.05.19-5.9,1.9-6.66,7.61ZM151.12,45.3h10.09v5.33c1.71-3.43,5.33-6.09,10.85-6.09,6.47,0,10.85,4,10.85,12.56v23.98h-10.09v-22.46c0-4.19-1.71-6.09-5.33-6.09-3.43,0-6.28,2.09-6.28,6.66v21.89h-10.09v-35.78h0ZM201.36,34.45v10.85h6.85v7.42h-6.85v16.94c0,2.66,1.14,4,3.62,4,1.52,0,2.47-.19,3.43-.57v7.8c-1.14.38-3.24.76-5.71.76-7.8,0-11.42-3.62-11.42-10.85v-18.08h-4.19v-7.42h4.19v-6.66l10.09-4.19ZM245.9,81.08h-9.9v-5.33c-1.71,3.43-5.14,6.09-10.47,6.09-6.47,0-11.23-4-11.23-12.37v-24.17h10.09v22.84c0,4.19,1.71,6.09,5.14,6.09s6.28-2.28,6.28-6.66v-22.27h10.09v35.78ZM253.32,45.3h10.09v6.66c2.09-4.76,5.52-7.04,10.85-7.04v9.9c-6.85,0-10.85,2.09-10.85,7.99v18.46h-10.09v-35.97ZM294.62,81.84c-10.28,0-17.32-6.09-17.32-18.08v-.76c0-11.99,7.42-18.65,17.13-18.65,8.95,0,16.37,4.95,16.37,16.94v4.38h-23.22c.38,6.47,3.24,8.95,7.42,8.95,3.81,0,5.9-2.09,6.66-4.57h9.33c-1.52,6.66-7.04,11.8-16.37,11.8ZM287.39,59h13.51c-.19-5.33-2.66-7.61-6.66-7.61-3.05.19-5.9,1.9-6.85,7.61Z"/></g></g>
+          </svg>
+        </div>
+
+        <div class="logo-sep"></div>
+
+        <!-- Nissan -->
+        <div class="logo-mark">
+          <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 421.7" style="height: 22.96875px; width: auto;">
+            <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+            <g id="Layer_1-2" data-name="Layer 1"><g id="Layer_1-3" data-name="Layer 1"><g id="Nissan_Badge" data-name="Nissan Badge"><g><path class="logo-cls-1" d="M293.7,227.7c-.4.1-2,.1-2.7.1h-51.6v12h52.5c.4,0,3.5,0,4.1-.1,10.7-1,15.6-9.9,15.6-17.7s-5.1-16.6-14.8-17.5c-1.9-.2-3.5-.2-4.2-.2h-34.3c-1.5,0-3.2-.1-3.8-.3-2.7-.7-3.7-3.1-3.7-5.1,0-1.8,1-4.2,3.8-5,.8-.2,1.7-.3,3.6-.3h49.5v-11.8h-50.3c-2.1,0-3.7.1-5,.3-8.6,1.2-14.6,8.1-14.6,16.9,0,7.2,4.5,15.6,14.4,17,1.8.2,4.3.2,5.4.2h33.4c.6,0,2.1,0,2.4.1,3.8.5,5.1,3.3,5.1,5.8s-1.5,5-4.8,5.6Z"/><path class="logo-cls-1" d="M195.9,227.7c-.4.1-2,.1-2.6.1h-51.7v12h52.5c.4,0,3.5,0,4.1-.1,10.7-1,15.6-9.9,15.6-17.7s-5.1-16.6-14.8-17.5c-1.9-.2-3.5-.2-4.2-.2h-34.3c-1.5,0-3.2-.1-3.8-.3-2.7-.7-3.7-3.1-3.7-5.1,0-1.8,1-4.2,3.8-5,.8-.2,1.7-.3,3.6-.3h49.5v-11.8h-50.3c-2.1,0-3.7.1-5,.3-8.6,1.2-14.6,8.1-14.6,16.9,0,7.2,4.5,15.6,14.4,17,1.8.2,4.3.2,5.4.2h33.4c.6,0,2.1,0,2.4.1,3.8.5,5.1,3.3,5.1,5.8,0,2.4-1.4,5-4.8,5.6Z"/><rect class="logo-cls-1" x="101.7" y="181.4" width="13" height="58.7"/><polygon class="logo-cls-1" points="73 240.1 73 181.4 60 181.4 60 225.2 16.7 181.4 0 181.4 0 240.1 13 240.1 13 196.1 56.6 240.1 73 240.1"/><polygon class="logo-cls-1" points="491.1 181.4 491.1 225.2 447.8 181.4 431.1 181.4 431.1 240.1 444.1 240.1 444.1 196.1 487.6 240.1 504 240.1 504 181.4 491.1 181.4"/><path class="logo-cls-1" d="M363.4,181.4l-36.6,58.7h15.8l6.5-10.5h42.7l6.5,10.5h15.7l-36.6-58.7h-14ZM385.1,218.5h-29.3l14.7-23.6,14.6,23.6Z"/><path class="logo-cls-1" d="M72.3,148.1C98.5,71.6,170.7,20.2,252.1,20.2s153.7,51.4,179.8,127.9l.2.6h57.3v-6.9l-23.8-2.8c-14.7-1.7-17.8-8.2-21.8-16.4l-1-2C408.4,47.4,333.5,0,252.1,0S95.8,47.4,61.4,120.8l-1,2c-4,8.2-7.1,14.7-21.8,16.4l-23.8,2.8v6.9h57.2l.3-.8Z"/><path class="logo-cls-1" d="M432.1,272.9l-.2.6c-26.2,76.5-98.4,127.8-179.8,127.8h0c-81.4,0-153.7-51.4-179.8-127.9l-.2-.6H14.9v6.9l23.8,2.8c14.7,1.7,17.8,8.2,21.8,16.4l1,2c34.4,73.4,109.3,120.8,190.7,120.8h0c81.4,0,156.3-47.4,190.7-120.7l1-2c4-8.2,7.1-14.7,21.8-16.4l23.8-2.8v-6.9h-57.4Z"/></g></g></g></g>
+          </svg>
+        </div>
+
+        <div class="logo-sep"></div>
+
+        <!-- Sportradar -->
+        <div class="logo-mark">
+          <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 399.99 49.23" style="height: 13px; width: auto;">
+            <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+            <g id="Layer_1-2" data-name="Layer 1"><g id="Layer_2-2" data-name="Layer 2"><g id="Ebene_1" data-name="Ebene 1"><path class="logo-cls-1" d="M0,29.91h4.38v1.37c0,3.44,1.8,4.85,6.62,4.85h10.06c7.05,0,9.29-.27,9.29-4.41v-.23c0-2.67-.77-4.11-6.38-4.11h-14.51c-6.62-.03-9.06-2.17-9.06-7.45v-1.6c0-4.55,2.57-7.05,14.14-7.05h7.19c10.59,0,12.07,3.04,12.07,6.99v1.47h-4.38v-.27c0-4.28-2.84-4.38-7.95-4.38h-8.19c-6.72.03-8.19.67-8.19,3.81v1.04c0,2.31.77,3.61,5.68,3.61h12.37c7.05,0,11.86.7,11.86,8.22v.1c.03,7.82-7.19,8.09-12.9,8.09h-8.66c-6.92,0-13.44,0-13.44-8.39v-1.64Z"/><path class="logo-cls-1" d="M41.38,11.66h4.38v4.41h.1c1.37-3.38,5.18-4.85,9.32-4.85h8.92c6.65,0,12.87,2.14,12.87,11.73v4.91c0,8.99-3.98,12.07-13.64,12.07h-8.92c-4.98,0-7.19-1.24-8.19-4.11h-.1v13.4h-4.75V11.66ZM72.26,23.03c0-5.41-1.74-7.95-8.36-7.95h-9.32c-6.18,0-8.52,3.21-8.52,8.02v5.31c0,6.65,4.11,7.75,9.12,7.75h8.36c5.48,0,8.72-1.2,8.72-7.65v-5.48Z"/><path class="logo-cls-1" d="M136.46,11.66h4.38v4.04h.1c1.74-3.61,5.31-4.48,8.52-4.48h4.41c8.79,0,11.66,2.84,11.66,9.66v3.34h-4.34v-1.2c0-6.85-1.44-7.95-9.76-7.95h-2.91c-4.98,0-7.35,3.18-7.35,6.75v17.68h-4.68l-.03-27.84Z"/><path class="logo-cls-1" d="M175.06,15.51h-6.12v-3.84h6.12v-6.58h4.68v6.58h18.65v3.81h-18.62v13.87c0,5.18,1.8,6.78,6.92,6.78h1.47c6.22,0,7.22-1.3,7.22-7.15v-2.07h3.81v3.04c0,5.58-.53,9.99-10.7,9.99h-2.57c-8.82,0-10.86-4.24-10.86-8.79v-15.64Z"/><path class="logo-cls-1" d="M205.18,11.66h9.83v5.28h.1c1.2-4.41,5.45-5.75,10.19-5.75,7.65,0,10.63,3.28,10.63,11,0,.7-.07,1.47-.1,2.47h-9.06c0-3.54-.84-5.25-5.01-5.25-3.61,0-6.12,1.37-6.12,4.68v15.41h-10.46V11.66Z"/><path class="logo-cls-1" d="M239.84,29.75c0-7.55,5.25-8.02,15.41-8.02,5.75,0,8.92.17,10.93,2.24v-2.47c0-2.74-.8-3.71-4.91-3.71h-6.18c-3.04,0-3.91.27-4.04,2.24h-10.16c0-7.55,3.71-8.79,12.57-8.79h12.17c7.19,0,11.03,3.44,11.03,9.99v18.28h-9.93v-3.14c-2.91,3.01-3.98,3.61-9.22,3.61h-7.15c-6.38.07-10.46-1.37-10.46-7.92v-2.31h-.03ZM258.52,33.39c7.22,0,7.85-1.1,7.85-2.94,0-2.07-.6-2.84-6.38-2.84h-4.61c-4.41,0-5.35.97-5.35,3.28,0,1.8,1.44,2.51,5.48,2.51h3.01Z"/><path class="logo-cls-1" d="M281.91,23.09c0-7.09,1.64-11.83,14.91-11.83h3.11c4.31,0,8.72,1.2,9.39,5.58h.1V0h10.46v39.5h-9.83v-5.15h-.1c-1.14,3.44-3.78,5.58-10.09,5.58h-3.04c-13.27,0-14.91-4.75-14.91-11.83v-5.01ZM292.07,27.21c0,3.11.5,4.85,5.48,4.85h6.18c4.11,0,6.32-.94,6.32-5.11v-2.74c0-4.21-2.17-5.11-6.32-5.11h-6.18c-5.01,0-5.48,1.74-5.48,4.85v3.28Z"/><path class="logo-cls-1" d="M325.73,29.75c0-7.55,5.25-8.02,15.41-8.02,5.72,0,8.92.17,10.93,2.24v-2.47c0-2.74-.8-3.71-4.91-3.71h-6.18c-3.07,0-3.94.27-4.04,2.24h-10.13c0-7.55,3.71-8.79,12.57-8.79h12.17c7.22,0,11.03,3.44,11.03,9.99v18.28h-9.93v-3.14c-2.87,3.01-3.98,3.61-9.22,3.61h-7.19c-6.38.07-10.49-1.37-10.49-7.92v-2.31ZM344.41,33.39c7.19,0,7.85-1.1,7.85-2.94,0-2.07-.6-2.84-6.38-2.84h-4.65c-4.41,0-5.35.97-5.35,3.28,0,1.8,1.44,2.51,5.48,2.51h3.04Z"/><path class="logo-cls-1" d="M369.21,11.66h9.83v5.28h.1c1.2-4.41,5.45-5.75,10.19-5.75,7.65,0,10.66,3.28,10.66,11,0,.7-.07,1.47-.1,2.47h-9.06c0-3.54-.8-5.25-5.01-5.25-3.61,0-6.12,1.37-6.12,4.68v15.41h-10.49V11.66Z"/><path class="logo-cls-1" d="M111.19,15.01h-9.59c-5.48,0-9.29,1.24-9.29,7.75v5.58c0,6.48,3.81,7.75,9.29,7.75h9.59c5.45,0,9.29-1.27,9.29-7.75v-5.58c-.03-6.52-3.84-7.75-9.29-7.75Z"/><path class="logo-cls-1" d="M110.69,7.19h-8.59c-11.36,0-19.69,2.74-19.69,14.44v7.82c0,11.73,8.32,14.4,19.69,14.4h8.59c11.36,0,19.69-2.74,19.69-14.4v-7.82c0-11.73-8.29-14.44-19.69-14.44ZM125.17,28.61c0,9.16-6.48,11.3-15.41,11.3h-6.72c-8.92,0-15.41-2.14-15.41-11.3v-6.12c0-9.16,6.52-11.3,15.41-11.3h6.72c8.92,0,15.41,2.14,15.41,11.3v6.12Z"/></g></g></g>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PRICING
+  ============================================================ -->
+  <section class="pricing" id="pricing">
+    <div class="w">
+      <div class="work__hdr reveal">
+        <div>
+          <p class="slabel">Investment</p>
+          <h2 class="sh">Transparent pricing.<br>No <em>surprises.</em></h2>
+        </div>
+        <a href="#contact" class="work__all">Start a Project &#8594;</a>
+      </div>
+
+      <div class="pricing__cards reveal">
+
+        <!-- Starter -->
+        <article class="prc" data-plan="starter">
+          <div class="prc__img">
+            <svg class="prc__illus" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="20" y="20" width="100" height="70" stroke="rgba(255,255,255,0.18)" stroke-width="0.7"/>
+              <rect x="20" y="60" width="100" height="30" stroke="rgba(255,255,255,0.10)" stroke-width="0.6" fill="rgba(255,255,255,0.02)"/>
+              <line x1="20" y1="20" x2="80" y2="20" stroke="#358ff8" stroke-width="1.2"/>
+              <line x1="70" y1="20" x2="70" y2="90" stroke="rgba(255,255,255,0.08)" stroke-width="0.5" stroke-dasharray="2 4"/>
+              <line x1="130" y1="20" x2="130" y2="90" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2 3"/>
+              <line x1="126" y1="20" x2="134" y2="20" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+              <line x1="126" y1="90" x2="134" y2="90" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+              <circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.25)"/>
+              <circle cx="120" cy="20" r="1.5" fill="rgba(255,255,255,0.15)"/>
+              <circle cx="20" cy="90" r="1.5" fill="rgba(255,255,255,0.15)"/>
+              <circle cx="120" cy="90" r="2" fill="rgba(255,255,255,0.25)"/>
+              <path d="M20 20 L20 34 M20 20 L34 20" stroke="#358ff8" stroke-width="1.2"/>
+              <line x1="20" y1="120" x2="120" y2="120" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+              <line x1="50" y1="90" x2="50" y2="120" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+              <line x1="90" y1="90" x2="90" y2="120" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+            </svg>
+          </div>
+          <div>
+            <p class="prc__tag">Starter</p>
+            <h3 class="prc__name">Foundation</h3>
+            <div class="prc__price"><sup>€</sup>12,000<span> / project</span></div>
+            <p class="prc__desc">Brand identity + single digital touchpoint. Ideal for early-stage companies that need to move fast without sacrificing quality.</p>
+          </div>
+          <div>
+            <p class="prc__cta">View what's included ↗</p>
+          </div>
+          <div class="prc__line"></div>
+          <span class="prc__arrow">↗</span>
+        </article>
+
+        <!-- Studio -->
+        <article class="prc" data-plan="studio">
+          <div class="prc__img">
+            <svg class="prc__illus" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="15" y="25" width="85" height="55" stroke="rgba(255,255,255,0.10)" stroke-width="0.6" transform="rotate(-3 57.5 52.5)"/>
+              <rect x="25" y="30" width="85" height="55" stroke="rgba(255,255,255,0.15)" stroke-width="0.6"/>
+              <rect x="35" y="35" width="85" height="55" stroke="#358ff8" stroke-width="0.8" fill="oklch(0.60 0.18 249 / 0.04)"/>
+              <line x1="78" y1="35" x2="78" y2="90" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <line x1="35" y1="62" x2="120" y2="62" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <circle cx="35" cy="35" r="2" fill="#358ff8" fill-opacity="0.8"/>
+              <circle cx="120" cy="90" r="2" fill="#358ff8" fill-opacity="0.8"/>
+              <circle cx="120" cy="35" r="1.5" fill="rgba(255,255,255,0.25)"/>
+              <circle cx="35" cy="90" r="1.5" fill="rgba(255,255,255,0.25)"/>
+              <line x1="35" y1="35" x2="120" y2="90" stroke="rgba(255,255,255,0.07)" stroke-width="0.5" stroke-dasharray="3 4"/>
+              <line x1="15" y1="100" x2="130" y2="100" stroke="rgba(255,255,255,0.10)" stroke-width="0.5"/>
+              <line x1="15" y1="105" x2="50" y2="105" stroke="#358ff8" stroke-width="0.8"/>
+            </svg>
+          </div>
+          <div>
+            <p class="prc__tag">Most Popular</p>
+            <h3 class="prc__name">Studio</h3>
+            <div class="prc__price"><sup>€</sup>28,000<span> / project</span></div>
+            <p class="prc__desc">Complete brand system, product UI, and build-ready design specifications. Our most requested engagement.</p>
+          </div>
+          <div>
+            <p class="prc__cta">View what's included ↗</p>
+          </div>
+          <div class="prc__line"></div>
+          <span class="prc__arrow">↗</span>
+        </article>
+
+        <!-- Custom -->
+        <article class="prc" data-plan="custom">
+          <div class="prc__img">
+            <svg class="prc__illus" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20 90 A70 70 0 0 1 90 20" stroke="rgba(255,255,255,0.10)" stroke-width="0.6"/>
+              <path d="M30 105 A75 75 0 0 1 105 30" stroke="rgba(255,255,255,0.08)" stroke-width="0.6"/>
+              <path d="M10 80 A60 60 0 0 1 80 10" stroke="rgba(255,255,255,0.07)" stroke-width="0.6"/>
+              <path d="M20 70 A50 50 0 0 1 70 20" stroke="#358ff8" stroke-width="1.0"/>
+              <line x1="20" y1="90" x2="110" y2="20" stroke="rgba(255,255,255,0.08)" stroke-width="0.5" stroke-dasharray="2 5"/>
+              <line x1="20" y1="90" x2="120" y2="50" stroke="rgba(255,255,255,0.08)" stroke-width="0.5" stroke-dasharray="2 5"/>
+              <line x1="20" y1="90" x2="90" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="0.5" stroke-dasharray="2 5"/>
+              <circle cx="20" cy="90" r="3" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="0.8"/>
+              <circle cx="20" cy="90" r="1.5" fill="#358ff8"/>
+              <circle cx="90" cy="20" r="1.5" fill="rgba(255,255,255,0.3)"/>
+              <circle cx="70" cy="20" r="1" fill="#358ff8" fill-opacity="0.7"/>
+              <circle cx="20" cy="70" r="1" fill="#358ff8" fill-opacity="0.7"/>
+              <path d="M60 100 Q70 90 80 100 Q90 110 100 100" stroke="rgba(255,255,255,0.12)" stroke-width="0.6" fill="none"/>
+            </svg>
+          </div>
+          <div>
+            <p class="prc__tag">Enterprise</p>
+            <h3 class="prc__name">Custom</h3>
+            <div class="prc__price" style="font-size:clamp(24px,3vw,36px);letter-spacing:-0.03em;">Let's talk</div>
+            <p class="prc__desc">Multi-phase engagements, embedded design teams, and long-term partnerships. Scoped to your exact needs.</p>
+          </div>
+          <div>
+            <p class="prc__cta">Start a conversation ↗</p>
+          </div>
+          <div class="prc__line"></div>
+          <span class="prc__arrow">↗</span>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing drawer -->
+  <div class="prc-scrim" id="prc-scrim"></div>
+  <aside class="prc-drawer" id="prc-drawer" aria-hidden="true">
+    <div class="prc-drawer__close">
+      <button class="prc-drawer__close-btn" id="prc-close" aria-label="Close">✕</button>
+    </div>
+    <div class="prc-drawer__body" id="prc-drawer-body">
+      <!-- populated by JS -->
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       BLOG
+  ============================================================ -->
+  <section class="blog" id="blog">
+    <div class="w">
+      <div class="work__hdr reveal">
+        <div>
+          <p class="slabel">Thinking</p>
+          <h2 class="sh">From the <em>studio.</em></h2>
+        </div>
+        <a href="#" class="work__all">All Articles &#8594;</a>
+      </div>
+
+      <div class="blog__grid reveal">
+
+        <a class="bpost" href="#">
+          <div class="bpost__img">
+            <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80&sat=-100" alt="Abstract geometric architecture" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <span class="bpost__cat">Design Strategy</span>
+          <h3 class="bpost__title">Why most redesigns fail before a pixel is drawn</h3>
+          <p class="bpost__excerpt">The problem isn't execution — it's the brief. Here's how we diagnose broken strategy before it becomes expensive visual work.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">8 Apr 2026 &nbsp;·&nbsp; 6 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+          <div class="bpost__line"></div>
+        </a>
+
+        <a class="bpost" href="#">
+          <div class="bpost__img">
+            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80&sat=-100" alt="Modular design systems and structure" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <span class="bpost__cat">Brand Systems</span>
+          <h3 class="bpost__title">The case for building a design system before your MVP</h3>
+          <p class="bpost__excerpt">Teams that skip the system pay for it at scale. We'll show you exactly when it matters — and when it doesn't.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">22 Mar 2026 &nbsp;·&nbsp; 5 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+          <div class="bpost__line"></div>
+        </a>
+
+        <a class="bpost" href="#">
+          <div class="bpost__img">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80&sat=-100" alt="Team collaboration and process" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <span class="bpost__cat">Process</span>
+          <h3 class="bpost__title">What 47 projects taught us about client collaboration</h3>
+          <p class="bpost__excerpt">The studios that do the best work aren't the ones with the best taste. They're the ones with the clearest process.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">5 Mar 2026 &nbsp;·&nbsp; 7 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+          <div class="bpost__line"></div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section class="contact" id="contact">
+    <div class="contact__cursor-fx" aria-hidden="true"></div>
+    <div class="w">
+      <div class="contact__grid">
+
+        <div class="reveal">
+          <p class="slabel">Work With Us</p>
+          <h2 class="contact__h">Ready to<br>shift your<br><em>perspective?</em></h2>
+          <p class="contact__p">We're selective about the projects we take on — and the people we take them on with. Tell us what you're working on.</p>
+          <div class="contact__dl">
+            <div class="contact__row">
+              <span class="contact__k">Email</span>
+              <span class="contact__v"><a href="mailto:studio@parallax.design">studio@parallax.design</a></span>
+            </div>
+            <div class="contact__row">
+              <span class="contact__k">Location</span>
+              <span class="contact__v">San Francisco, CA</span>
+            </div>
+            <div class="contact__row">
+              <span class="contact__k">Available</span>
+              <span class="contact__v avail">Open for Q3 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <form class="form" id="cf" novalidate>
+            <div class="form__row">
+              <div class="fg" id="fg-n">
+                <label for="fn">Name</label>
+                <input type="text" id="fn" name="name" placeholder="Your full name" autocomplete="name">
+                <span class="fg__e">Name is required.</span>
+              </div>
+              <div class="fg">
+                <label for="fc">Company</label>
+                <input type="text" id="fc" name="company" placeholder="Optional" autocomplete="organization">
+              </div>
+            </div>
+            <div class="fg" id="fg-e">
+              <label for="fe">Email</label>
+              <input type="email" id="fe" name="email" placeholder="you@company.com" autocomplete="email">
+              <span class="fg__e">A valid email is required.</span>
+            </div>
+            <div class="fg">
+              <label for="fb">Budget Range</label>
+              <select id="fb" name="budget">
+                <option value="" disabled selected>Select a range</option>
+                <option value="25-50k">$25K &ndash; $50K</option>
+                <option value="50-100k">$50K &ndash; $100K</option>
+                <option value="100-250k">$100K &ndash; $250K</option>
+                <option value="250k+">$250K+</option>
+              </select>
+            </div>
+            <div class="fg" id="fg-m">
+              <label for="fm">Project Brief</label>
+              <textarea id="fm" name="message" placeholder="What are you building? What problem needs solving?"></textarea>
+              <span class="fg__e">Please describe your project (min. 10 chars).</span>
+            </div>
+            <button type="submit" class="form__sub" id="fsub">
+              <span id="fsubl">Send Enquiry</span>
+            </button>
+            <div class="form__ok" id="fok">
+              <h3>Message received.</h3>
+              <p>We reply within 1&ndash;2 business days.</p>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WORLD CLOCKS
+  ============================================================ -->
+  <div class="clocks">
+    <div class="w">
+      <div class="clocks__inner">
+        <span class="clocks__label">Global Presence</span>
+        <div class="clock">
+          <span class="clock__city">Munich</span>
+          <span class="clock__time" id="clock-de">--:--</span>
+        </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Dubai</span>
+          <span class="clock__time" id="clock-ae">--:--</span>
+        </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Bengaluru</span>
+          <span class="clock__time" id="clock-in">--:--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="w">
+      <div class="footer__in">
+        <span class="footer__logo">Parallax.</span>
+        <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
+        <ul class="footer__links">
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Dribbble</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- (cursor preview removed) -->
+  <div style="display:none" aria-hidden="true">
+        <div class="pv pv--1">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="16" y="16" width="228" height="36" rx="2" fill="oklch(0.18 0.015 272)" opacity=".9"/>
+            <rect x="16" y="60" width="70" height="84" rx="2" fill="oklch(0.16 0.013 272)"/>
+            <rect x="94" y="60" width="70" height="38" rx="2" fill="oklch(0.20 0.005 100)"/>
+            <rect x="94" y="106" width="70" height="38" rx="2" fill="oklch(0.15 0.010 272)"/>
+            <rect x="172" y="60" width="72" height="84" rx="2" fill="oklch(0.16 0.013 272)"/>
+            <rect x="24" y="24" width="40" height="6" rx="1" fill="oklch(0.60 0.18 249)"/>
+            <rect x="24" y="70" width="30" height="4" rx="1" fill="oklch(0.52 0.14 35)" opacity=".7"/>
+            <rect x="24" y="80" width="50" height="10" rx="1" fill="oklch(0.75 0.004 100)" opacity=".9"/>
+            <rect x="24" y="96" width="44" height="3" rx="1" fill="oklch(0.38 0.005 100)" opacity=".6"/>
+            <rect x="102" y="68" width="32" height="4" rx="1" fill="oklch(0.52 0.14 35)" opacity=".7"/>
+            <rect x="102" y="78" width="54" height="12" rx="1" fill="oklch(0.70 0.14 249)" opacity=".9"/>
+            <rect x="180" y="68" width="36" height="4" rx="1" fill="oklch(0.52 0.14 35)" opacity=".7"/>
+            <rect x="180" y="78" width="48" height="3" rx="1" fill="oklch(0.38 0.005 100)" opacity=".5"/>
+            <rect x="180" y="86" width="56" height="3" rx="1" fill="oklch(0.38 0.005 100)" opacity=".4"/>
+            <rect x="180" y="94" width="40" height="3" rx="1" fill="oklch(0.38 0.005 100)" opacity=".3"/>
+          </svg>
+        </div>
+        <!-- Pane 2 — Velt: editorial grid -->
+        <div class="pv pv--2">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.10 0.008 40)"/>
+            <rect x="16" y="16" width="130" height="80" rx="1" fill="oklch(0.16 0.010 40)"/>
+            <rect x="154" y="16" width="90" height="36" rx="1" fill="oklch(0.15 0.008 40)"/>
+            <rect x="154" y="60" width="90" height="36" rx="1" fill="oklch(0.20 0.012 30)"/>
+            <rect x="16" y="104" width="60" height="40" rx="1" fill="oklch(0.15 0.008 40)"/>
+            <rect x="84" y="104" width="60" height="40" rx="1" fill="oklch(0.18 0.010 40)"/>
+            <rect x="152" y="104" width="92" height="40" rx="1" fill="oklch(0.14 0.006 40)"/>
+            <rect x="24" y="52" width="60" height="5" rx="1" fill="oklch(0.80 0.005 40)" opacity=".8"/>
+            <rect x="24" y="62" width="90" height="3" rx="1" fill="oklch(0.45 0.006 40)" opacity=".6"/>
+            <rect x="24" y="70" width="75" height="3" rx="1" fill="oklch(0.45 0.006 40)" opacity=".5"/>
+          </svg>
+        </div>
+        <!-- Pane 3 — Helix: data viz -->
+        <div class="pv pv--3">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.09 0.012 210)"/>
+            <polyline points="20,130 50,100 80,110 110,70 140,85 170,50 200,60 230,30" fill="none" stroke="oklch(0.55 0.20 200)" stroke-width="2"/>
+            <circle cx="170" cy="50" r="4" fill="oklch(0.65 0.22 200)"/>
+            <line x1="20" y1="130" x2="240" y2="130" stroke="oklch(0.30 0.010 210)" stroke-width="1"/>
+            <line x1="20" y1="100" x2="240" y2="100" stroke="oklch(0.20 0.008 210)" stroke-width="1" stroke-dasharray="3 4"/>
+            <line x1="20" y1="70"  x2="240" y2="70"  stroke="oklch(0.20 0.008 210)" stroke-width="1" stroke-dasharray="3 4"/>
+            <line x1="20" y1="40"  x2="240" y2="40"  stroke="oklch(0.20 0.008 210)" stroke-width="1" stroke-dasharray="3 4"/>
+            <rect x="16" y="16" width="80" height="16" rx="2" fill="oklch(0.15 0.012 210)"/>
+            <rect x="104" y="16" width="40" height="16" rx="2" fill="oklch(0.15 0.012 210)"/>
+            <rect x="152" y="16" width="40" height="16" rx="2" fill="oklch(0.22 0.018 200)"/>
+          </svg>
+        </div>
+        <!-- Pane 4 — Orin: mobile app -->
+        <div class="pv pv--4">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.10 0.010 300)"/>
+            <rect x="90" y="10" width="80" height="140" rx="8" fill="oklch(0.14 0.012 290)" stroke="oklch(0.25 0.012 290)" stroke-width="1"/>
+            <rect x="98" y="24" width="64" height="8" rx="1" fill="oklch(0.30 0.010 290)" opacity=".7"/>
+            <rect x="98" y="38" width="64" height="44" rx="4" fill="oklch(0.60 0.18 249)" opacity=".8"/>
+            <rect x="98" y="88" width="28" height="4" rx="1" fill="oklch(0.70 0.005 290)" opacity=".8"/>
+            <rect x="98" y="97" width="20" height="3" rx="1" fill="oklch(0.40 0.008 290)" opacity=".6"/>
+            <rect x="98" y="107" width="64" height="20" rx="3" fill="oklch(0.18 0.010 290)"/>
+            <circle cx="130" cy="59" r="14" fill="oklch(0.70 0.005 290)" opacity=".15"/>
+            <text x="130" y="64" text-anchor="middle" fill="oklch(0.90 0.005 290)" font-size="16" font-family="monospace" opacity=".9">▶</text>
+          </svg>
+        </div>
+        <!-- Pane 5 — Crest: finance dashboard -->
+        <div class="pv pv--5">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.09 0.009 150)"/>
+            <rect x="16" y="16" width="50" height="50" rx="2" fill="oklch(0.14 0.012 150)"/>
+            <rect x="74" y="16" width="50" height="50" rx="2" fill="oklch(0.14 0.012 150)"/>
+            <rect x="132" y="16" width="50" height="50" rx="2" fill="oklch(0.19 0.016 150)"/>
+            <rect x="190" y="16" width="54" height="50" rx="2" fill="oklch(0.14 0.012 150)"/>
+            <rect x="16" y="74" width="228" height="70" rx="2" fill="oklch(0.13 0.010 150)"/>
+            <rect x="24" y="22" width="24" height="4" rx="1" fill="oklch(0.42 0.010 150)" opacity=".7"/>
+            <rect x="24" y="32" width="34" height="10" rx="1" fill="oklch(0.72 0.004 150)" opacity=".9"/>
+            <rect x="140" y="22" width="24" height="4" rx="1" fill="oklch(0.42 0.010 150)" opacity=".7"/>
+            <rect x="140" y="32" width="34" height="10" rx="1" fill="oklch(0.60 0.20 150)" opacity=".9"/>
+            <!-- bar chart -->
+            <rect x="28"  y="110" width="14" height="26" rx="1" fill="oklch(0.35 0.12 150)" opacity=".7"/>
+            <rect x="48"  y="98"  width="14" height="38" rx="1" fill="oklch(0.40 0.14 150)" opacity=".8"/>
+            <rect x="68"  y="104" width="14" height="32" rx="1" fill="oklch(0.35 0.12 150)" opacity=".7"/>
+            <rect x="88"  y="90"  width="14" height="46" rx="1" fill="oklch(0.55 0.20 150)" opacity=".9"/>
+            <rect x="108" y="96"  width="14" height="40" rx="1" fill="oklch(0.40 0.14 150)" opacity=".8"/>
+            <rect x="128" y="86"  width="14" height="50" rx="1" fill="oklch(0.55 0.20 150)" opacity=".9"/>
+          </svg>
+        </div>
+        <!-- Pane 6 — Folio: photography portfolio -->
+        <div class="pv pv--6">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.13 0.005 280)"/>
+            <rect x="16" y="30" width="108" height="100" rx="1" fill="oklch(0.19 0.007 280)"/>
+            <rect x="132" y="30" width="52" height="48" rx="1" fill="oklch(0.17 0.006 280)"/>
+            <rect x="192" y="30" width="52" height="48" rx="1" fill="oklch(0.22 0.008 280)"/>
+            <rect x="132" y="86" width="112" height="44" rx="1" fill="oklch(0.17 0.006 280)"/>
+            <rect x="16" y="16" width="40" height="6" rx="1" fill="oklch(0.85 0.004 280)" opacity=".9"/>
+            <rect x="180" y="16" width="64" height="6" rx="1" fill="oklch(0.42 0.007 280)" opacity=".6"/>
+          </svg>
+        </div>
+        <!-- Pane 7 — Axiom: onboarding flow -->
+        <div class="pv pv--7">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.10 0.010 225)"/>
+            <rect x="50" y="20" width="160" height="120" rx="4" fill="oklch(0.15 0.012 225)" stroke="oklch(0.25 0.010 225)" stroke-width="1"/>
+            <rect x="66" y="36" width="60" height="5" rx="1" fill="oklch(0.75 0.005 225)" opacity=".9"/>
+            <rect x="66" y="48" width="110" height="3" rx="1" fill="oklch(0.40 0.008 225)" opacity=".6"/>
+            <rect x="66" y="56" width="90" height="3" rx="1" fill="oklch(0.40 0.008 225)" opacity=".5"/>
+            <rect x="66" y="70" width="128" height="22" rx="2" fill="oklch(0.12 0.010 225)" stroke="oklch(0.28 0.010 225)" stroke-width="1"/>
+            <rect x="66" y="100" width="128" height="22" rx="2" fill="oklch(0.12 0.010 225)" stroke="oklch(0.28 0.010 225)" stroke-width="1"/>
+            <rect x="90" y="128" width="80" height="8" rx="2" fill="oklch(0.60 0.18 249)"/>
+            <!-- progress dots -->
+            <circle cx="118" cy="22" r="3" fill="oklch(0.60 0.18 249)"/>
+            <circle cx="128" cy="22" r="3" fill="oklch(0.28 0.010 225)"/>
+            <circle cx="138" cy="22" r="3" fill="oklch(0.28 0.010 225)"/>
+            <circle cx="148" cy="22" r="3" fill="oklch(0.28 0.010 225)"/>
+          </svg>
+        </div>
+        <!-- Pane 8 — Torse: brand identity -->
+        <div class="pv pv--8">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.11 0.008 20)"/>
+            <!-- logo mark sketch -->
+            <polygon points="130,30 160,80 100,80" fill="none" stroke="oklch(0.75 0.005 20)" stroke-width="1.5" opacity=".8"/>
+            <circle cx="130" cy="80" r="30" fill="none" stroke="oklch(0.45 0.010 20)" stroke-width="1" opacity=".6"/>
+            <line x1="80" y1="80" x2="180" y2="80" stroke="oklch(0.35 0.008 20)" stroke-width="1" opacity=".5"/>
+            <!-- type specimen -->
+            <rect x="16" y="118" width="80" height="8" rx="1" fill="oklch(0.75 0.005 20)" opacity=".8"/>
+            <rect x="16" y="132" width="55" height="4" rx="1" fill="oklch(0.40 0.008 20)" opacity=".6"/>
+            <rect x="164" y="118" width="80" height="4" rx="1" fill="oklch(0.35 0.006 20)" opacity=".5"/>
+            <rect x="164" y="128" width="60" height="4" rx="1" fill="oklch(0.35 0.006 20)" opacity=".4"/>
+            <rect x="164" y="138" width="72" height="4" rx="1" fill="oklch(0.35 0.006 20)" opacity=".3"/>
+          </svg>
+        </div>
+        <!-- Pane 9 — Meridian: public dashboard -->
+        <div class="pv pv--9">
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="260" height="160" fill="oklch(0.09 0.014 175)"/>
+            <rect x="16" y="16" width="228" height="28" rx="2" fill="oklch(0.13 0.016 175)"/>
+            <rect x="16" y="52" width="110" height="92" rx="2" fill="oklch(0.12 0.014 175)"/>
+            <rect x="134" y="52" width="110" height="44" rx="2" fill="oklch(0.14 0.016 175)"/>
+            <rect x="134" y="104" width="110" height="40" rx="2" fill="oklch(0.12 0.014 175)"/>
+            <!-- map dots -->
+            <circle cx="60"  cy="92" r="6" fill="oklch(0.55 0.20 160)" opacity=".7"/>
+            <circle cx="80"  cy="76" r="4" fill="oklch(0.55 0.20 160)" opacity=".6"/>
+            <circle cx="44"  cy="108" r="3" fill="oklch(0.55 0.20 160)" opacity=".5"/>
+            <circle cx="100" cy="100" r="5" fill="oklch(0.65 0.22 150)" opacity=".8"/>
+            <circle cx="72"  cy="115" r="3" fill="oklch(0.55 0.20 160)" opacity=".5"/>
+            <rect x="24" y="22" width="40" height="5" rx="1" fill="oklch(0.75 0.005 175)" opacity=".9"/>
+            <rect x="142" y="60" width="30" height="4" rx="1" fill="oklch(0.42 0.010 175)" opacity=".7"/>
+            <rect x="142" y="70" width="48" height="8" rx="1" fill="oklch(0.62 0.20 150)" opacity=".9"/>
+          </svg>
+        </div>
+  </div>
+
+  <!-- ============================================================
+       JS
+  ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* NAV — scroll-triggered frosted glass */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* WORLD CLOCKS */
+    (function () {
+      const zones = [
+        { id: 'clock-de', tz: 'Europe/Berlin'  },
+        { id: 'clock-ae', tz: 'Asia/Dubai'     },
+        { id: 'clock-in', tz: 'Asia/Kolkata'   },
+      ];
+
+      function fmt(tz) {
+        return new Date().toLocaleTimeString('en-GB', {
+          timeZone: tz,
+          hour:   '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        });
+      }
+
+      function tick() {
+        zones.forEach(({ id, tz }) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const t = fmt(tz);
+          if (el.textContent !== t) {
+            el.textContent = t;
+            el.classList.add('tick');
+            setTimeout(() => el.classList.remove('tick'), 700);
+          }
+        });
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
+
+    /* NAV MENU — full-screen overlay toggle */
+    const burger  = document.getElementById('nav-burger');
+    const overlay = document.getElementById('nav-overlay');
+
+    function openMenu() {
+      document.body.classList.add('menu-open');
+      burger.setAttribute('aria-expanded', 'true');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      document.body.classList.remove('menu-open');
+      burger.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    burger.addEventListener('click', () => {
+      document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
+    });
+
+    /* Close on any overlay link click */
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => setTimeout(closeMenu, 80));
+    });
+
+    /* Close on Escape */
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    /* SCROLL REVEAL — IntersectionObserver */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
+
+    document.querySelectorAll('.reveal, .stagger').forEach(el => io.observe(el));
+
+    /* SERVICES ACCORDION
+       One item open at a time. Emil: grid-template-rows handles height. */
+    document.querySelectorAll('[data-svc]').forEach(item => {
+      item.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('[data-svc]').forEach(s => s.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+
+    /* TESTIMONIALS SLIDER */
+    (function () {
+      const track = document.getElementById('ttrack');
+      const dots  = document.querySelectorAll('.tdot');
+      const prev  = document.getElementById('tprev');
+      const next  = document.getElementById('tnext');
+      const n     = dots.length;
+      let   i     = 0, timer;
+
+      function go(idx) {
+        i = ((idx % n) + n) % n;
+        track.style.transform = `translateX(-${i * 100}%)`;
+        dots.forEach((d, j) => d.classList.toggle('on', j === i));
+      }
+      function restart() {
+        clearInterval(timer);
+        timer = setInterval(() => go(i + 1), 6000);
+      }
+
+      prev.addEventListener('click',  () => { go(i - 1); restart(); });
+      next.addEventListener('click',  () => { go(i + 1); restart(); });
+      dots.forEach((d, j) => d.addEventListener('click', () => { go(j); restart(); }));
+
+      const wrap = track.closest('.testi__clip');
+      wrap.addEventListener('mouseenter', () => clearInterval(timer));
+      wrap.addEventListener('mouseleave', restart);
+
+      restart();
+    })();
+
+    /* MAGNETIC SPOTLIGHT — tracks cursor inside project + pricing cards */
+    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      document.querySelectorAll('.pc, .prc').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+          const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+          card.style.setProperty('--gx', x + '%');
+          card.style.setProperty('--gy', y + '%');
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--gx', '50%');
+          card.style.setProperty('--gy', '50%');
+        });
+      });
+    }
+
+    /* HERO CURSOR COLOUR-REVEAL FX */
+    const hero = document.querySelector('.hero');
+    if (hero && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      hero.addEventListener('mousemove', e => {
+        const r = hero.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+        const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+        hero.style.setProperty('--hx', x + '%');
+        hero.style.setProperty('--hy', y + '%');
+      });
+      hero.addEventListener('mouseleave', () => {
+        hero.style.setProperty('--hx', '85%');
+        hero.style.setProperty('--hy', '50%');
+      });
+    }
+
+    /* WORK SECTION CURSOR FX */
+    (function () {
+      const work = document.querySelector('.work');
+      if (!work) return;
+
+      work.addEventListener('mousemove', e => {
+        const r = work.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+        const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+        work.style.setProperty('--wx', x + '%');
+        work.style.setProperty('--wy', y + '%');
+      });
+      work.addEventListener('mouseleave', () => {
+        work.style.setProperty('--wx', '50%');
+        work.style.setProperty('--wy', '50%');
+      });
+    })();
+
+    /* CONTACT SECTION CURSOR FX */
+    (function () {
+      const contact = document.querySelector('.contact');
+      if (!contact) return;
+
+      contact.addEventListener('mousemove', e => {
+        const r = contact.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+        const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+        contact.style.setProperty('--cx', x + '%');
+        contact.style.setProperty('--cy', y + '%');
+      });
+      contact.addEventListener('mouseleave', () => {
+        contact.style.setProperty('--cx', '50%');
+        contact.style.setProperty('--cy', '50%');
+      });
+    })();
+
+    /* PRICING DRAWER */
+    (function () {
+      const drawer = document.getElementById('prc-drawer');
+      const scrim  = document.getElementById('prc-scrim');
+      const body   = document.getElementById('prc-drawer-body');
+      const closeBtn = document.getElementById('prc-close');
+
+      const plans = {
+        starter: {
+          tag: 'Starter',
+          name: 'Foundation',
+          price: '2,500€',
+          period: 'onwards',
+          includes: [
+            'Brand strategy workshop (half-day)',
+            'Logo mark + full identity system',
+            'Typography + colour token set',
+            'One digital touchpoint (landing page or app screen set)',
+            'Brand guidelines document (PDF + Figma)',
+            'Two rounds of revisions',
+          ],
+          note: 'Typical turnaround: 4–6 weeks. 50% upfront, 50% on delivery.',
+          cta: 'Book a Discovery Call',
+        },
+        studio: {
+          tag: 'Most Popular',
+          name: 'Studio',
+          price: '5,000€',
+          period: 'onwards',
+          includes: [
+            'Everything in Foundation',
+            'Full product UI design (up to 40 screens)',
+            'Component library in Figma (design system)',
+            'Interaction & motion specifications',
+            'Developer handoff package',
+            'Frontend build (React / Next.js)',
+            'Three rounds of revisions',
+            'Two weeks post-launch support',
+          ],
+          note: 'Typical turnaround: 8–12 weeks. 40% upfront, 40% at mid-point, 20% on delivery.',
+          cta: 'Start a Studio Project',
+        },
+        custom: {
+          tag: 'Enterprise',
+          name: 'Custom',
+          price: 'Let\'s talk',
+          period: '',
+          includes: [
+            'Multi-phase brand + product engagements',
+            'Embedded design team (2–4 designers)',
+            'Ongoing retainer or milestone-based billing',
+            'Direct access to founding team',
+            'Priority scheduling & response',
+            'White-label options available',
+          ],
+          note: 'We take on 1–2 custom engagements per quarter. Reach out early.',
+          cta: 'Start a Conversation',
+        },
+      };
+
+      function openDrawer(plan) {
+        const p = plans[plan];
+        if (!p) return;
+        body.innerHTML = `
+          <p class="prc-drawer__tag">${p.tag}</p>
+          <h2 class="prc-drawer__name">${p.name}</h2>
+          <div class="prc-drawer__price">${p.price}${p.period ? `<span> ${p.period}</span>` : ''}</div>
+          <div class="prc-drawer__divider"></div>
+          <p class="prc-drawer__section-label">What's included</p>
+          <ul class="prc-drawer__list">
+            ${p.includes.map(i => `<li>${i}</li>`).join('')}
+          </ul>
+          <div class="prc-drawer__divider"></div>
+          <p class="prc-drawer__note">${p.note}</p>
+          <a href="#contact" class="prc-drawer__btn" id="prc-cta">${p.cta} ↗</a>
+        `;
+        drawer.classList.add('is-open');
+        scrim.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        document.getElementById('prc-cta').addEventListener('click', closeDrawer);
+      }
+
+      function closeDrawer() {
+        drawer.classList.remove('is-open');
+        scrim.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.prc').forEach(card => {
+        card.addEventListener('click', () => openDrawer(card.dataset.plan));
+      });
+
+      closeBtn.addEventListener('click', closeDrawer);
+      scrim.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+    })();
+
+    /* CONTACT FORM — validation + simulated send */
+    (function () {
+      const form = document.getElementById('cf');
+      const btn  = document.getElementById('fsub');
+      const lbl  = document.getElementById('fsubl');
+      const ok   = document.getElementById('fok');
+      const re   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function setErr(id, has) {
+        document.getElementById(id).classList.toggle('err', has);
+      }
+
+      function validate() {
+        const name = document.getElementById('fn').value.trim();
+        const mail = document.getElementById('fe').value.trim();
+        const msg  = document.getElementById('fm').value.trim();
+        let valid  = true;
+        if (!name)            { setErr('fg-n', true);  valid = false; } else setErr('fg-n', false);
+        if (!re.test(mail))   { setErr('fg-e', true);  valid = false; } else setErr('fg-e', false);
+        if (msg.length < 10)  { setErr('fg-m', true);  valid = false; } else setErr('fg-m', false);
+        return valid;
+      }
+
+      /* Live validation on blur */
+      document.getElementById('fn').addEventListener('blur', () => {
+        setErr('fg-n', !document.getElementById('fn').value.trim());
+      });
+      document.getElementById('fe').addEventListener('blur', () => {
+        setErr('fg-e', !re.test(document.getElementById('fe').value.trim()));
+      });
+      document.getElementById('fm').addEventListener('blur', () => {
+        setErr('fg-m', document.getElementById('fm').value.trim().length < 10);
+      });
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        if (!validate()) return;
+        btn.disabled = true;
+        lbl.textContent = 'Sending\u2026';
+        setTimeout(() => {
+          form.style.display = 'none';
+          ok.classList.add('show');
+        }, 1500);
+      });
+    })();
+
+  })();
+  </script>
+</body>
+</html>

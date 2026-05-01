@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F5F5F2"/>
+      <stop offset="1" stop-color="#EFEFEA"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="320" fill="url(#g1)"/>
+  <g fill="#0A1E3F">
+    <!-- Geometric mark: arrow-into-frame -->
+    <rect x="172" y="116" width="88" height="88" fill="none" stroke="#0A1E3F" stroke-width="6"/>
+    <path d="M196 160 L240 160 L228 148 M240 160 L228 172" stroke="#0A1E3F" stroke-width="6" fill="none" stroke-linecap="square"/>
+  </g>
+  <text x="296" y="186" font-family="ui-sans-serif, -apple-system, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-3" fill="#0A1E3F">MARK<tspan fill="#1A73E8">.</tspan></text>
+  <text x="36" y="38" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#0A1E3F" opacity="0.5">01 — WORDMARK</text>
+</svg>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CMS: <title>{site.name} Articles — {site.tagline}</title> -->
+  <title>Articles — Parallax Digital Craft Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:             oklch(1 0 0);
+      --surface:        oklch(0.98 0.001 0);
+      --surface-raised: oklch(0.96 0.001 0);
+      --text:           oklch(0 0 0);
+      --text-2:         oklch(0.40 0.005 0);
+      --text-3:         oklch(0.55 0.005 0);
+      --accent:         oklch(0.60 0.18 249);
+      --accent-hi:      oklch(0.70 0.14 249);
+      --accent-muted:   oklch(0.60 0.18 249 / 0.14);
+      --border:         oklch(0 0 0 / 0.15);
+      --border-strong:  oklch(0 0 0 / 0.30);
+
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+
+      --s1:4px; --s2:8px; --s3:12px; --s4:16px;
+      --s6:24px; --s8:32px; --s12:48px; --s16:64px; --s24:96px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-d);
+      font-synthesis: none;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+    .w { max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px); }
+
+    /* ---- Scroll Reveal ---- */
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out); }
+    .reveal.in { opacity: 1; transform: none; }
+    .stagger > * { opacity: 0; transform: translateY(8px); transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out); }
+    .stagger.in > *:nth-child(1) { opacity:1; transform:none; transition-delay:   0ms; }
+    .stagger.in > *:nth-child(2) { opacity:1; transform:none; transition-delay:  55ms; }
+    .stagger.in > *:nth-child(3) { opacity:1; transform:none; transition-delay: 110ms; }
+    .stagger.in > *:nth-child(4) { opacity:1; transform:none; transition-delay: 165ms; }
+    .stagger.in > *:nth-child(5) { opacity:1; transform:none; transition-delay: 220ms; }
+    .stagger.in > *:nth-child(6) { opacity:1; transform:none; transition-delay: 275ms; }
+    .stagger.in > *:nth-child(n+7) { opacity:1; transform:none; transition-delay: 330ms; }
+
+    /* ---- Nav ---- */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 20px 0; transition: background 300ms var(--ease-out), backdrop-filter 300ms var(--ease-out); }
+    .nav.scrolled { background: oklch(1 0 0 / 0.75); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-size: 17px; font-weight: 800; letter-spacing: -0.045em; color: var(--text); text-decoration: none; position: relative; z-index: 210; transition: color 300ms var(--ease-out); }
+    .nav__logo span { color: var(--accent); }
+    .menu-open .nav__logo { color: white; }
+    .nav__burger { position: relative; z-index: 210; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--border-strong); cursor: pointer; flex-direction: column; gap: 5px; padding: 0; transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .nav__burger:hover { border-color: var(--accent); } }
+    .nav__burger:active { transform: scale(0.95); }
+    .nav__burger-line { display: block; width: 18px; height: 1.5px; background: var(--text); transform-origin: center; transition: transform 360ms var(--ease-out), opacity 200ms var(--ease-out), width 300ms var(--ease-out), background 200ms var(--ease-out); }
+    .menu-open .nav__burger-line { background: white; }
+    .menu-open .nav__burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .menu-open .nav__burger-line:nth-child(2) { opacity: 0; width: 0; }
+    .menu-open .nav__burger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav__overlay { position: fixed; inset: 0; z-index: 190; display: grid; grid-template-columns: 1fr 1fr; pointer-events: none; clip-path: inset(0 0 100% 0); transition: clip-path 600ms var(--ease-inout); }
+    .menu-open .nav__overlay { pointer-events: auto; clip-path: inset(0 0 0% 0); }
+    .nav__overlay-left { background: var(--accent); display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(48px, 8vw, 96px); padding-top: 100px; position: relative; overflow: hidden; }
+    .nav__overlay-left::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(oklch(0 0 0 / 0.04) 1px, transparent 1px), linear-gradient(90deg, oklch(0 0 0 / 0.04) 1px, transparent 1px); background-size: 40px 40px; }
+    .nav__overlay-right { background: oklch(0.07 0.003 249); display: flex; flex-direction: column; justify-content: space-between; padding: clamp(48px, 8vw, 96px); padding-top: 100px; }
+    .nav__menu-links { list-style: none; }
+    .nav__menu-links li { overflow: hidden; }
+    .nav__menu-links a { display: block; font-size: clamp(52px, 7vw, 100px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.0; color: oklch(0.97 0.002 35); text-decoration: none; transform: translateY(110%); transition: transform 560ms var(--ease-out), color 200ms var(--ease-out); }
+    .nav__menu-links a.active { color: oklch(0.08 0.003 249); }
+    .nav__menu-links li:nth-child(1) a { transition-delay:  80ms, 0ms; }
+    .nav__menu-links li:nth-child(2) a { transition-delay: 140ms, 0ms; }
+    .nav__menu-links li:nth-child(3) a { transition-delay: 200ms, 0ms; }
+    .nav__menu-links li:nth-child(4) a { transition-delay: 260ms, 0ms; }
+    .menu-open .nav__menu-links a { transform: translateY(0); }
+    @media (hover:hover) and (pointer:fine) { .nav__menu-links a:hover { color: oklch(0.08 0.003 249); } }
+    .nav__menu-links a::before { content: attr(data-index); font-family: var(--font-m); font-size: 11px; font-weight: 400; letter-spacing: 0.10em; vertical-align: super; margin-right: 10px; opacity: 0.5; }
+    .nav__meta { opacity: 0; transform: translateY(12px); transition: opacity 400ms var(--ease-out) 300ms, transform 400ms var(--ease-out) 300ms; }
+    .menu-open .nav__meta { opacity: 1; transform: none; }
+    .nav__meta-label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.65 0.002 0); margin-bottom: var(--s3); }
+    .nav__meta-cta { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-m); font-size: 10.5px; letter-spacing: 0.11em; text-transform: uppercase; color: oklch(0.98 0.002 0); text-decoration: none; border: 1px solid oklch(0.98 0.002 0); padding: 12px 20px; transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .nav__meta-cta:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); } }
+    .nav__meta-tagline { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.08em; color: oklch(0.45 0.002 0); line-height: 1.8; }
+
+    /* ---- Buttons ---- */
+    .btn { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-m); font-size: 11px; letter-spacing: 0.11em; text-transform: uppercase; font-weight: 500; text-decoration: none; cursor: pointer; padding: 14px 26px; transition: background 200ms var(--ease-out), color 200ms var(--ease-out), border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out); }
+    .btn:active { transform: scale(0.97) !important; box-shadow: none !important; }
+    .btn-p { color: var(--bg); background: var(--text); border: 1px solid var(--text); }
+    @media (hover:hover) and (pointer:fine) { .btn-p:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); } }
+    .btn-g { color: var(--text-2); background: transparent; border: 1px solid var(--border-strong); }
+    @media (hover:hover) and (pointer:fine) { .btn-g:hover { color: var(--text); border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); } }
+
+    /* ---- Section Utilities ---- */
+    .slabel { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6); }
+    .slabel::before { content: ''; width: 22px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .sh { font-size: clamp(32px, 4vw, 58px); font-weight: 700; letter-spacing: -0.042em; line-height: 1.0; font-feature-settings: 'ss01' 1, 'kern' 1; text-wrap: balance; }
+    .sh em { font-style: normal; color: var(--accent); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .art-hero {
+      padding-top: 160px;
+      padding-bottom: var(--s16);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .art-hero__inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--s8);
+    }
+    .art-hero__h1 {
+      font-size: clamp(32px, 4.7vw, 70px);
+      font-weight: 800;
+      letter-spacing: -0.048em;
+      line-height: 0.92;
+      margin-top: var(--s4);
+      margin-bottom: var(--s6);
+    }
+    .art-hero__h1 em { font-style: normal; color: var(--accent); }
+    .art-hero__p {
+      font-size: clamp(16px, 1.7vw, 19px);
+      color: var(--text-2);
+      max-width: 48ch;
+      line-height: 1.72;
+    }
+    .art-hero__stats {
+      display: flex;
+      gap: clamp(var(--s8), 4vw, var(--s16));
+      flex-shrink: 0;
+      padding-bottom: 4px;
+    }
+    .art-hero__stat-n {
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      display: block;
+    }
+    .art-hero__stat-n em { font-style: normal; color: var(--accent); }
+    .art-hero__stat-l {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      display: block;
+      margin-top: 5px;
+    }
+    @media (max-width: 768px) {
+      .art-hero__inner { flex-direction: column; align-items: flex-start; gap: var(--s8); }
+    }
+
+    /* ============================================================
+       FEATURED POST
+    ============================================================ */
+    .afeat {
+      padding: var(--s16) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .afeat__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: oklch(0.06 0.003 249);
+      overflow: hidden;
+      transition: box-shadow 280ms var(--ease-out);
+      text-decoration: none;
+      color: inherit;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .afeat__inner:hover { box-shadow: 0 12px 48px oklch(0 0 0 / 0.16); }
+      .afeat__inner:hover .afeat__img-inner { transform: scale(1.03); }
+      .afeat__inner:hover .afeat__cta { gap: 14px; }
+    }
+    .afeat__img {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: oklch(0.10 0.003 249);
+    }
+    .afeat__img-inner {
+      position: absolute;
+      inset: 0;
+      transition: transform 700ms var(--ease-out);
+    }
+    .afeat__img-inner svg { width: 100%; height: 100%; display: block; }
+    .afeat__body {
+      padding: clamp(var(--s8), 5vw, var(--s16));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--s6);
+    }
+    .afeat__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .afeat__label::before { content: ''; width: 18px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .afeat__title {
+      font-size: clamp(22px, 2.8vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.042em;
+      line-height: 1.05;
+      color: white;
+    }
+    .afeat__title em { font-style: normal; color: var(--accent); }
+    .afeat__excerpt {
+      font-size: 15px;
+      color: oklch(1 0 0 / 0.55);
+      line-height: 1.72;
+      max-width: 52ch;
+    }
+    .afeat__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s4);
+      padding-top: var(--s6);
+      border-top: 1px solid oklch(1 0 0 / 0.1);
+    }
+    .afeat__byline {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: oklch(1 0 0 / 0.45);
+    }
+    .afeat__byline strong { color: oklch(1 0 0 / 0.7); }
+    .afeat__cta {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: gap 200ms var(--ease-out);
+    }
+    @media (max-width: 860px) {
+      .afeat__inner { grid-template-columns: 1fr; }
+      .afeat__img { aspect-ratio: 16/7; }
+    }
+
+    /* ============================================================
+       FILTER BAR
+    ============================================================ */
+    .afilter {
+      padding: var(--s6) 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 64px;
+      background: oklch(1 0 0 / 0.92);
+      backdrop-filter: blur(16px) saturate(1.3);
+      -webkit-backdrop-filter: blur(16px) saturate(1.3);
+      z-index: 100;
+    }
+    .afilter__inner {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      flex-wrap: wrap;
+    }
+    .afilter__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-right: var(--s3);
+    }
+    .afilter__btn {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: color 180ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+    .afilter__btn:hover { color: var(--text); border-color: var(--border-strong); }
+    .afilter__btn.active { color: white; background: var(--text); border-color: var(--text); }
+    .afilter__count {
+      margin-left: auto;
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: var(--text-3);
+    }
+
+    /* ============================================================
+       BLOG GRID
+    ============================================================ */
+    .blog-archive {
+      padding: var(--s16) 0;
+      background: #f8f8f8;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: oklch(0 0 0 / 0.08);
+      margin-bottom: var(--s12);
+    }
+    .bpost {
+      background: var(--bg);
+      padding: var(--s8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 280ms var(--ease-out);
+      text-decoration: none;
+      color: inherit;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .bpost:hover { background: var(--surface); }
+      .bpost:hover .bpost__title { color: var(--accent); }
+      .bpost:hover .bpost__line { transform: scaleX(1); }
+    }
+    .bpost__line { position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 280ms var(--ease-out); }
+    .bpost__img { width: 100%; aspect-ratio: 16/9; background: var(--surface); border: 1px solid var(--border); margin-bottom: var(--s3); position: relative; overflow: hidden; flex-shrink: 0; }
+    .bpost__img svg { width: 100%; height: 100%; display: block; }
+    .bpost__cat { font-family: var(--font-m); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .bpost__title { font-size: clamp(17px, 1.8vw, 22px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; color: var(--text); transition: color 220ms var(--ease-out); }
+    .bpost__excerpt { font-size: 13px; color: var(--text-2); line-height: 1.65; max-width: 42ch; flex: 1; }
+    .bpost__foot { display: flex; align-items: center; justify-content: space-between; margin-top: var(--s3); padding-top: var(--s4); border-top: 1px solid var(--border); }
+    .bpost__meta { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-3); }
+    .bpost__arrow { font-size: 13px; color: var(--text-3); transition: color 180ms var(--ease-out), transform 180ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .bpost:hover .bpost__arrow { color: var(--accent); transform: translate(3px, -3px); } }
+
+    /* hidden by filter */
+    .bpost[hidden] { display: none; }
+
+    /* Load more */
+    .blog-more {
+      display: flex;
+      justify-content: center;
+      padding-top: var(--s4);
+    }
+
+    /* ============================================================
+       WORLD CLOCKS + FOOTER
+    ============================================================ */
+    .clocks { border-top: 1px solid var(--border); padding: var(--s8) 0; }
+    .clocks__inner { display: flex; align-items: center; gap: clamp(var(--s8), 6vw, var(--s24)); }
+    .clocks__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; margin-right: auto; }
+    .clock { display: flex; align-items: baseline; gap: var(--s3); }
+    .clock__city { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); min-width: 52px; }
+    .clock__time { font-family: var(--font-m); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-2); font-variant-numeric: tabular-nums; transition: color 150ms var(--ease-out); }
+    .clock__time.tick { color: var(--accent); }
+    .clock__sep { width: 1px; height: 20px; background: var(--border); align-self: center; }
+    @media (max-width: 600px) { .clocks__inner { flex-wrap: wrap; gap: var(--s6); } .clocks__label { width: 100%; margin-right: 0; } .clock__sep { display: none; } }
+
+    .footer { padding: var(--s8) 0; background: var(--accent); }
+    .footer__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
+    .footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
+    .footer__copy { font-family: var(--font-m); font-size: 9.5px; color: white; letter-spacing: 0.08em; }
+    .footer__links { display: flex; gap: var(--s6); list-style: none; }
+    .footer__links a { font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: white; text-decoration: none; transition: color 180ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .footer__links a:hover { color: oklch(0 0 0 / 0.5); } }
+    @media (max-width: 600px) { .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); } }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .blog-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .nav__overlay { grid-template-columns: 1fr; } .nav__overlay-right { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="main-nav">
+    <div class="w">
+      <div class="nav__inner">
+        <a href="parallax-landing.html" class="nav__logo">Parallax<span>.</span></a>
+        <button class="nav__burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav__overlay" id="nav-overlay" aria-hidden="true">
+    <div class="nav__overlay-left">
+      <ul class="nav__menu-links">
+        <li><a href="work.html"              data-index="01">Work</a></li>
+        <li><a href="parallax-landing.html#services" data-index="02">Services</a></li>
+        <li><a href="about.html"             data-index="03">About</a></li>
+        <li><a href="articles.html"          data-index="04" class="active">Articles</a></li>
+      </ul>
+    </div>
+    <div class="nav__overlay-right">
+      <div class="nav__meta">
+        <p class="nav__meta-label">Ready to build?</p>
+        <a href="parallax-landing.html#contact" class="nav__meta-cta">Start a Project ↗</a>
+      </div>
+      <p class="nav__meta-tagline">Precision over decoration.<br>Logic over assumption.</p>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <!-- CMS: articles.hero { heading, subheading, stats[] } -->
+  <section class="art-hero">
+    <div class="w">
+      <div class="art-hero__inner reveal">
+        <div>
+          <p class="slabel">Articles</p>
+          <h1 class="art-hero__h1">Thinking out<br><em>loud.</em></h1>
+          <p class="art-hero__p">Writing on design, engineering, and the decisions that sit between them.</p>
+        </div>
+        <div class="art-hero__stats stagger">
+          <div>
+            <span class="art-hero__stat-n">24<em>+</em></span>
+            <span class="art-hero__stat-l">Articles</span>
+          </div>
+          <div>
+            <span class="art-hero__stat-n">5</span>
+            <span class="art-hero__stat-l">Topics</span>
+          </div>
+          <div>
+            <span class="art-hero__stat-n">Weekly</span>
+            <span class="art-hero__stat-l">Cadence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED POST -->
+  <!-- CMS: articles.featured { category, title, excerpt, date, author, slug, image } -->
+  <section class="afeat">
+    <div class="w">
+      <a href="article.html" class="afeat__inner reveal">
+        <div class="afeat__img">
+          <div class="afeat__img-inner">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="800" height="600" fill="oklch(0.10 0.003 249)"/>
+              <rect x="60" y="60" width="240" height="3" fill="oklch(0.60 0.18 249 / 0.4)"/>
+              <rect x="60" y="80" width="160" height="3" fill="oklch(1 0 0 / 0.1)"/>
+              <rect x="60" y="160" width="680" height="200" rx="2" fill="oklch(0.14 0.004 249)"/>
+              <rect x="80" y="180" width="120" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.6)"/>
+              <rect x="80" y="200" width="300" height="28" rx="2" fill="oklch(1 0 0 / 0.85)"/>
+              <rect x="80" y="240" width="260" height="8" rx="2" fill="oklch(1 0 0 / 0.25)"/>
+              <rect x="80" y="256" width="220" height="8" rx="2" fill="oklch(1 0 0 / 0.15)"/>
+              <rect x="80" y="300" width="80" height="26" rx="2" fill="oklch(0.60 0.18 249)"/>
+              <circle cx="680" cy="260" r="60" fill="oklch(0.60 0.18 249 / 0.08)"/>
+              <circle cx="680" cy="260" r="35" fill="oklch(0.60 0.18 249 / 0.14)"/>
+            </svg>
+          </div>
+        </div>
+        <div class="afeat__body">
+          <div>
+            <!-- CMS: {article.category} -->
+            <p class="afeat__label">Featured · Brand Identity</p>
+            <!-- CMS: {article.title} -->
+            <h2 class="afeat__title">Why most design systems<br>fail before <em>they ship.</em></h2>
+          </div>
+          <!-- CMS: {article.excerpt} -->
+          <p class="afeat__excerpt">The problem isn't the components. It's the governance model — and the assumption that a Figma library is the same thing as a system.</p>
+          <div class="afeat__meta">
+            <!-- CMS: {article.author}, {article.date}, {article.readTime} -->
+            <span class="afeat__byline"><strong>Samuel Godwin</strong> &nbsp;·&nbsp; 12 Apr 2026 &nbsp;·&nbsp; 8 min read</span>
+            <span class="afeat__cta">Read Article →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <!-- CMS: articles.categories[] -->
+  <div class="afilter" id="afilter">
+    <div class="w">
+      <div class="afilter__inner">
+        <span class="afilter__label">Filter</span>
+        <button class="afilter__btn active" data-filter="all">All</button>
+        <button class="afilter__btn" data-filter="brand">Brand Identity</button>
+        <button class="afilter__btn" data-filter="interface">Interface Design</button>
+        <button class="afilter__btn" data-filter="engineering">Engineering</button>
+        <button class="afilter__btn" data-filter="process">Process</button>
+        <button class="afilter__btn" data-filter="opinion">Opinion</button>
+        <!-- CMS: <span class="afilter__count" id="afilter-count">{articles.count} articles</span> -->
+        <span class="afilter__count" id="afilter-count">24 articles</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE GRID -->
+  <!-- CMS: articles.list[] — each article: { slug, category, title, excerpt, date, readTime, image } -->
+  <section class="blog-archive">
+    <div class="w">
+      <div class="blog-grid stagger" id="blog-grid">
+
+        <a href="article.html" class="bpost" data-category="brand">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="80" height="6" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="24" y="40" width="200" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/><rect x="24" y="62" width="160" height="6" rx="2" fill="oklch(0 0 0 / 0.07)"/><circle cx="500" cy="169" r="90" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="24" y="280" width="48" height="24" rx="2" fill="oklch(0.60 0.18 249)"/></svg>
+          </div>
+          <span class="bpost__cat">Brand Identity</span>
+          <h3 class="bpost__title">The mark before the meaning</h3>
+          <p class="bpost__excerpt">How to sequence identity work so the logo earns its shape rather than inheriting it.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">8 Apr 2026 · 6 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="interface">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="552" height="40" rx="3" fill="oklch(0 0 0 / 0.06)"/><rect x="32" y="80" width="180" height="200" rx="3" fill="oklch(0 0 0 / 0.05)"/><rect x="228" y="80" width="348" height="95" rx="3" fill="oklch(0.60 0.18 249 / 0.12)"/><rect x="228" y="185" width="166" height="95" rx="3" fill="oklch(0 0 0 / 0.05)"/><rect x="410" y="185" width="166" height="95" rx="3" fill="oklch(0 0 0 / 0.05)"/></svg>
+          </div>
+          <span class="bpost__cat">Interface Design</span>
+          <h3 class="bpost__title">Grids that think, not just align</h3>
+          <p class="bpost__excerpt">A layout system should communicate hierarchy before a single element is placed.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">1 Apr 2026 · 5 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="engineering">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.08 0.003 249)"/><rect x="24" y="40" width="60" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.7)"/><rect x="24" y="60" width="200" height="6" rx="2" fill="oklch(1 0 0 / 0.3)"/><rect x="24" y="76" width="160" height="6" rx="2" fill="oklch(1 0 0 / 0.15)"/><rect x="24" y="92" width="180" height="6" rx="2" fill="oklch(1 0 0 / 0.2)"/><rect x="60" y="200" width="480" height="1" fill="oklch(1 0 0 / 0.08)"/><rect x="60" y="220" width="480" height="1" fill="oklch(1 0 0 / 0.05)"/><rect x="60" y="240" width="480" height="1" fill="oklch(1 0 0 / 0.05)"/></svg>
+          </div>
+          <span class="bpost__cat">Engineering</span>
+          <h3 class="bpost__title">Token pipelines without the ceremony</h3>
+          <p class="bpost__excerpt">Style Dictionary is powerful. Most teams use 10% of it and maintain 100% of the config.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">24 Mar 2026 · 9 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="process">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.96 0.001 0)"/><circle cx="120" cy="169" r="60" fill="none" stroke="oklch(0.60 0.18 249)" stroke-width="2"/><circle cx="300" cy="169" r="60" fill="none" stroke="oklch(0 0 0 / 0.15)" stroke-width="2"/><circle cx="480" cy="169" r="60" fill="none" stroke="oklch(0 0 0 / 0.1)" stroke-width="2"/><line x1="180" y1="169" x2="240" y2="169" stroke="oklch(0.60 0.18 249 / 0.4)" stroke-width="2"/><line x1="360" y1="169" x2="420" y2="169" stroke="oklch(0 0 0 / 0.15)" stroke-width="2"/></svg>
+          </div>
+          <span class="bpost__cat">Process</span>
+          <h3 class="bpost__title">The brief is a hypothesis</h3>
+          <p class="bpost__excerpt">Treating every client brief as a starting point — not a specification — changes what you build.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">17 Mar 2026 · 4 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="interface">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="552" height="290" rx="4" fill="oklch(0 0 0 / 0.04)"/><rect x="44" y="44" width="200" height="12" rx="2" fill="oklch(0 0 0 / 0.1)"/><rect x="44" y="64" width="140" height="8" rx="2" fill="oklch(0 0 0 / 0.06)"/><rect x="44" y="100" width="512" height="180" rx="3" fill="oklch(0.60 0.18 249 / 0.07)"/><rect x="64" y="120" width="80" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="64" y="138" width="240" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/></svg>
+          </div>
+          <span class="bpost__cat">Interface Design</span>
+          <h3 class="bpost__title">Designing for the second visit</h3>
+          <p class="bpost__excerpt">First-time UX and repeat-use UX require fundamentally different things from the same interface.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">10 Mar 2026 · 7 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="opinion">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.08 0.003 249)"/><rect x="24" y="60" width="552" height="2" fill="oklch(1 0 0 / 0.06)"/><text x="44" y="168" font-family="serif" font-size="120" fill="oklch(0.60 0.18 249 / 0.2)" font-style="italic">"</text><rect x="44" y="190" width="300" height="8" rx="2" fill="oklch(1 0 0 / 0.2)"/><rect x="44" y="208" width="240" height="8" rx="2" fill="oklch(1 0 0 / 0.12)"/></svg>
+          </div>
+          <span class="bpost__cat">Opinion</span>
+          <h3 class="bpost__title">AI won't replace designers. Bad briefs will.</h3>
+          <p class="bpost__excerpt">The real threat to design practice isn't the tools. It's the devaluation of thinking time.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">3 Mar 2026 · 5 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="brand">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.96 0.001 0)"/><rect x="200" y="80" width="200" height="200" rx="2" fill="oklch(0 0 0 / 0.08)"/><rect x="220" y="100" width="160" height="160" rx="2" fill="oklch(0.60 0.18 249 / 0.15)"/><line x1="0" y1="169" x2="600" y2="169" stroke="oklch(0 0 0 / 0.06)" stroke-width="1" stroke-dasharray="4 4"/><line x1="300" y1="0" x2="300" y2="338" stroke="oklch(0 0 0 / 0.06)" stroke-width="1" stroke-dasharray="4 4"/></svg>
+          </div>
+          <span class="bpost__cat">Brand Identity</span>
+          <h3 class="bpost__title">Construction grids aren't decoration</h3>
+          <p class="bpost__excerpt">The grid behind the mark is the argument for its proportions. Show your working.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">24 Feb 2026 · 4 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="engineering">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.08 0.003 249)"/><rect x="24" y="50" width="80" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.6)"/><rect x="24" y="70" width="260" height="6" rx="2" fill="oklch(1 0 0 / 0.25)"/><rect x="24" y="86" width="200" height="6" rx="2" fill="oklch(1 0 0 / 0.15)"/><rect x="44" y="140" width="3" height="120" fill="oklch(0.60 0.18 249 / 0.4)"/><rect x="60" y="140" width="500" height="6" rx="2" fill="oklch(1 0 0 / 0.08)"/><rect x="60" y="158" width="400" height="6" rx="2" fill="oklch(1 0 0 / 0.06)"/><rect x="60" y="176" width="460" height="6" rx="2" fill="oklch(1 0 0 / 0.08)"/><rect x="60" y="194" width="360" height="6" rx="2" fill="oklch(1 0 0 / 0.05)"/></svg>
+          </div>
+          <span class="bpost__cat">Engineering</span>
+          <h3 class="bpost__title">Writing CSS that documents itself</h3>
+          <p class="bpost__excerpt">Naming conventions that carry enough context that comments become optional, not default.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">17 Feb 2026 · 6 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost" data-category="process">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.96 0.001 0)"/><rect x="24" y="40" width="552" height="1" fill="oklch(0 0 0 / 0.08)"/><rect x="24" y="100" width="260" height="200" rx="3" fill="oklch(0 0 0 / 0.04)"/><rect x="44" y="120" width="80" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="44" y="140" width="200" height="6" rx="2" fill="oklch(0 0 0 / 0.1)"/><rect x="44" y="156" width="160" height="6" rx="2" fill="oklch(0 0 0 / 0.07)"/><rect x="316" y="100" width="260" height="96" rx="3" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="316" y="208" width="260" height="96" rx="3" fill="oklch(0 0 0 / 0.04)"/></svg>
+          </div>
+          <span class="bpost__cat">Process</span>
+          <h3 class="bpost__title">When to stop researching and start deciding</h3>
+          <p class="bpost__excerpt">More data rarely produces better decisions. Here's the threshold worth knowing.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">10 Feb 2026 · 5 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="blog-more reveal">
+        <button class="btn btn-g" id="load-more">Load More Articles</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORLD CLOCKS -->
+  <div class="clocks">
+    <div class="w">
+      <div class="clocks__inner">
+        <span class="clocks__label">Global Presence</span>
+        <div class="clock"><span class="clock__city">Munich</span><span class="clock__time" id="clock-de">--:--:--</span></div>
+        <div class="clock__sep"></div>
+        <div class="clock"><span class="clock__city">Dubai</span><span class="clock__time" id="clock-ae">--:--:--</span></div>
+        <div class="clock__sep"></div>
+        <div class="clock"><span class="clock__city">Bengaluru</span><span class="clock__time" id="clock-in">--:--:--</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="w">
+      <div class="footer__in">
+        <span class="footer__logo">Parallax.</span>
+        <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
+        <ul class="footer__links">
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Dribbble</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ---- Nav ---- */
+    const nav = document.getElementById('main-nav');
+    const burger = document.getElementById('nav-burger');
+    const overlay = document.getElementById('nav-overlay');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    burger.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('menu-open');
+      burger.setAttribute('aria-expanded', isOpen);
+      overlay.setAttribute('aria-hidden', !isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      document.body.classList.remove('menu-open');
+      burger.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }));
+
+    /* ---- Scroll Reveal ---- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .stagger').forEach(el => io.observe(el));
+
+    /* ---- Filter ---- */
+    const filterBtns = document.querySelectorAll('.afilter__btn');
+    const posts = document.querySelectorAll('.bpost');
+    const countEl = document.getElementById('afilter-count');
+    let activeFilter = 'all';
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        if (filter === activeFilter) return;
+        activeFilter = filter;
+        filterBtns.forEach(b => b.classList.toggle('active', b === btn));
+        let visible = 0;
+        posts.forEach(post => {
+          const match = filter === 'all' || post.dataset.category === filter;
+          post.hidden = !match;
+          if (match) visible++;
+        });
+        countEl.textContent = visible + ' article' + (visible !== 1 ? 's' : '');
+      });
+    });
+
+    /* ---- World Clocks ---- */
+    (function () {
+      const zones = [
+        { id: 'clock-de', tz: 'Europe/Berlin' },
+        { id: 'clock-ae', tz: 'Asia/Dubai' },
+        { id: 'clock-in', tz: 'Asia/Kolkata' },
+      ];
+      function fmt(tz) {
+        return new Date().toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+      }
+      function tick() {
+        zones.forEach(({ id, tz }) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const t = fmt(tz);
+          if (el.textContent !== t) { el.textContent = t; el.classList.add('tick'); setTimeout(() => el.classList.remove('tick'), 150); }
+        });
+      }
+      tick(); setInterval(tick, 1000);
+    })();
+  </script>
+
+</body>
+</html>

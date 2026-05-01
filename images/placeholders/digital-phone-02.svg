@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1080" preserveAspectRatio="xMidYMid slice">
+  <rect width="500" height="1080" fill="#F5F5F2"/>
+  <!-- Status bar -->
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" fill="#0A1E3F">
+    <text x="40" y="44" font-size="14" letter-spacing="1">9:41</text>
+    <text x="460" y="44" text-anchor="end" font-size="11" letter-spacing="1.5" opacity="0.85">·· · 5G  100%</text>
+  </g>
+  <!-- Top bar -->
+  <g transform="translate(40 92)" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#0A1E3F">
+    <text>← BACK</text>
+    <text x="420" text-anchor="end" fill="#1A73E8">SAVE</text>
+  </g>
+  <!-- Title -->
+  <text x="40" y="180" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#1A73E8">— STEP 02 / 06</text>
+  <text x="40" y="232" font-family="ui-sans-serif, system-ui, sans-serif" font-size="36" font-weight="800" fill="#0A1E3F" letter-spacing="-1.5">Choose your</text>
+  <text x="40" y="280" font-family="ui-sans-serif, system-ui, sans-serif" font-size="36" font-weight="800" fill="#0A1E3F" letter-spacing="-1.5">finish.</text>
+  <!-- Vehicle preview -->
+  <g transform="translate(40 340)">
+    <rect x="0" y="0" width="420" height="260" fill="#EAEAE3"/>
+    <g transform="translate(60 80)">
+      <path d="M0 100 L20 70 L60 50 L160 40 L240 40 L300 50 L340 70 L360 100 L360 120 L0 120 Z" fill="#0A1E3F"/>
+      <path d="M40 70 L80 50 L160 42 L240 42 L280 60 Z" fill="#1A73E8" opacity="0.5"/>
+      <circle cx="64" cy="124" r="20" fill="#0A0A0A"/>
+      <circle cx="296" cy="124" r="20" fill="#0A0A0A"/>
+    </g>
+  </g>
+  <!-- Color swatches -->
+  <text x="40" y="652" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" letter-spacing="2" fill="#0A1E3F" opacity="0.55">EXTERIOR · SELECT</text>
+  <g transform="translate(40 680)">
+    <rect x="0"   y="0" width="60" height="60" fill="#0A1E3F"/>
+    <rect x="-3"  y="-3" width="66" height="66" fill="none" stroke="#1A73E8" stroke-width="2"/>
+    <rect x="80"  y="0" width="60" height="60" fill="#F5F5F2" stroke="#0A1E3F" stroke-opacity="0.15"/>
+    <rect x="160" y="0" width="60" height="60" fill="#C99A2E"/>
+    <rect x="240" y="0" width="60" height="60" fill="#CC3333"/>
+    <rect x="320" y="0" width="60" height="60" fill="#2A2A2A"/>
+  </g>
+  <!-- Specs row -->
+  <g transform="translate(40 800)" font-family="ui-monospace, Menlo, Consolas, monospace">
+    <line x1="0" y1="0" x2="420" y2="0" stroke="#0A1E3F" stroke-opacity="0.1"/>
+    <text y="36" font-size="10" letter-spacing="1.5" fill="#0A1E3F" opacity="0.5">POWER</text>
+    <text y="68" font-size="22" font-weight="600" fill="#0A1E3F" font-family="ui-sans-serif, system-ui, sans-serif" letter-spacing="-0.5">340 hp</text>
+    <text x="220" y="36" font-size="10" letter-spacing="1.5" fill="#0A1E3F" opacity="0.5">0—60</text>
+    <text x="220" y="68" font-size="22" font-weight="600" fill="#0A1E3F" font-family="ui-sans-serif, system-ui, sans-serif" letter-spacing="-0.5">4.6s</text>
+  </g>
+  <!-- CTA -->
+  <g transform="translate(40 920)">
+    <rect x="0" y="0" width="420" height="56" fill="#0A1E3F"/>
+    <text x="210" y="36" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#F5F5F2">CONTINUE →</text>
+  </g>
+  <!-- Home indicator -->
+  <rect x="180" y="1040" width="140" height="4" fill="#0A1E3F" opacity="0.4"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet">
+  <rect width="320" height="320" fill="#F5F5F2"/>
+  <g fill="none" stroke="#0A1E3F" stroke-width="10" stroke-linecap="square">
+    <rect x="100" y="100" width="120" height="120"/>
+    <path d="M132 196 L132 124 L160 168 L188 124 L188 196" fill="#0A1E3F" stroke="none"/>
+  </g>
+  <circle cx="220" cy="100" r="6" fill="#1A73E8"/>
+  <text x="36" y="38" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#0A1E3F" opacity="0.5">03 — MONOGRAM</text>
+</svg>

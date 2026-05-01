@@ -1,0 +1,10 @@
+.DS_Store
+Screenshots/
+Ai/
+Ref/
+Screenshot*.png
+.claude/
+Video/
+*.mp4
+*.mov
+*.webm

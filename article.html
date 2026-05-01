@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CMS: <title>{article.title} — Parallax</title> -->
+  <title>Why most design systems fail before they ship — Parallax</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:             oklch(1 0 0);
+      --surface:        oklch(0.98 0.001 0);
+      --surface-raised: oklch(0.96 0.001 0);
+      --text:           oklch(0 0 0);
+      --text-2:         oklch(0.40 0.005 0);
+      --text-3:         oklch(0.55 0.005 0);
+      --accent:         oklch(0.60 0.18 249);
+      --accent-hi:      oklch(0.70 0.14 249);
+      --accent-muted:   oklch(0.60 0.18 249 / 0.14);
+      --border:         oklch(0 0 0 / 0.15);
+      --border-strong:  oklch(0 0 0 / 0.30);
+
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+
+      --s1:4px; --s2:8px; --s3:12px; --s4:16px;
+      --s6:24px; --s8:32px; --s12:48px; --s16:64px; --s24:96px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-d);
+      font-synthesis: none;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+    .w { max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px); }
+
+    /* ---- Scroll Reveal ---- */
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out); }
+    .reveal.in { opacity: 1; transform: none; }
+    .stagger > * { opacity: 0; transform: translateY(8px); transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out); }
+    .stagger.in > *:nth-child(1) { opacity:1; transform:none; transition-delay:   0ms; }
+    .stagger.in > *:nth-child(2) { opacity:1; transform:none; transition-delay:  55ms; }
+    .stagger.in > *:nth-child(3) { opacity:1; transform:none; transition-delay: 110ms; }
+    .stagger.in > *:nth-child(n+4) { opacity:1; transform:none; transition-delay: 165ms; }
+
+    /* ---- Nav ---- */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 20px 0; transition: background 300ms var(--ease-out), backdrop-filter 300ms var(--ease-out); }
+    .nav.scrolled { background: oklch(1 0 0 / 0.75); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-size: 17px; font-weight: 800; letter-spacing: -0.045em; color: var(--text); text-decoration: none; position: relative; z-index: 210; transition: color 300ms var(--ease-out); }
+    .nav__logo span { color: var(--accent); }
+    .menu-open .nav__logo { color: white; }
+    .nav__burger { position: relative; z-index: 210; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--border-strong); cursor: pointer; flex-direction: column; gap: 5px; padding: 0; transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .nav__burger:hover { border-color: var(--accent); } }
+    .nav__burger:active { transform: scale(0.95); }
+    .nav__burger-line { display: block; width: 18px; height: 1.5px; background: var(--text); transform-origin: center; transition: transform 360ms var(--ease-out), opacity 200ms var(--ease-out), width 300ms var(--ease-out), background 200ms var(--ease-out); }
+    .menu-open .nav__burger-line { background: white; }
+    .menu-open .nav__burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .menu-open .nav__burger-line:nth-child(2) { opacity: 0; width: 0; }
+    .menu-open .nav__burger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav__overlay { position: fixed; inset: 0; z-index: 190; display: grid; grid-template-columns: 1fr 1fr; pointer-events: none; clip-path: inset(0 0 100% 0); transition: clip-path 600ms var(--ease-inout); }
+    .menu-open .nav__overlay { pointer-events: auto; clip-path: inset(0 0 0% 0); }
+    .nav__overlay-left { background: var(--accent); display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(48px, 8vw, 96px); padding-top: 100px; position: relative; overflow: hidden; }
+    .nav__overlay-left::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(oklch(0 0 0 / 0.04) 1px, transparent 1px), linear-gradient(90deg, oklch(0 0 0 / 0.04) 1px, transparent 1px); background-size: 40px 40px; }
+    .nav__overlay-right { background: oklch(0.07 0.003 249); display: flex; flex-direction: column; justify-content: space-between; padding: clamp(48px, 8vw, 96px); padding-top: 100px; }
+    .nav__menu-links { list-style: none; }
+    .nav__menu-links li { overflow: hidden; }
+    .nav__menu-links a { display: block; font-size: clamp(52px, 7vw, 100px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.0; color: oklch(0.97 0.002 35); text-decoration: none; transform: translateY(110%); transition: transform 560ms var(--ease-out), color 200ms var(--ease-out); }
+    .nav__menu-links a.active { color: oklch(0.08 0.003 249); }
+    .nav__menu-links li:nth-child(1) a { transition-delay:  80ms, 0ms; }
+    .nav__menu-links li:nth-child(2) a { transition-delay: 140ms, 0ms; }
+    .nav__menu-links li:nth-child(3) a { transition-delay: 200ms, 0ms; }
+    .nav__menu-links li:nth-child(4) a { transition-delay: 260ms, 0ms; }
+    .menu-open .nav__menu-links a { transform: translateY(0); }
+    @media (hover:hover) and (pointer:fine) { .nav__menu-links a:hover { color: oklch(0.08 0.003 249); } }
+    .nav__menu-links a::before { content: attr(data-index); font-family: var(--font-m); font-size: 11px; font-weight: 400; letter-spacing: 0.10em; vertical-align: super; margin-right: 10px; opacity: 0.5; }
+    .nav__meta { opacity: 0; transform: translateY(12px); transition: opacity 400ms var(--ease-out) 300ms, transform 400ms var(--ease-out) 300ms; }
+    .menu-open .nav__meta { opacity: 1; transform: none; }
+    .nav__meta-label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.65 0.002 0); margin-bottom: var(--s3); }
+    .nav__meta-cta { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-m); font-size: 10.5px; letter-spacing: 0.11em; text-transform: uppercase; color: oklch(0.98 0.002 0); text-decoration: none; border: 1px solid oklch(0.98 0.002 0); padding: 12px 20px; transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .nav__meta-cta:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); } }
+    .nav__meta-tagline { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.08em; color: oklch(0.45 0.002 0); line-height: 1.8; }
+
+    /* ---- Buttons ---- */
+    .btn { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-m); font-size: 11px; letter-spacing: 0.11em; text-transform: uppercase; font-weight: 500; text-decoration: none; cursor: pointer; padding: 14px 26px; transition: background 200ms var(--ease-out), color 200ms var(--ease-out), border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out); }
+    .btn:active { transform: scale(0.97) !important; box-shadow: none !important; }
+    .btn-p { color: var(--bg); background: var(--text); border: 1px solid var(--text); }
+    @media (hover:hover) and (pointer:fine) { .btn-p:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); } }
+    .btn-g { color: var(--text-2); background: transparent; border: 1px solid var(--border-strong); }
+    @media (hover:hover) and (pointer:fine) { .btn-g:hover { color: var(--text); border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); } }
+
+    /* ---- Section Utilities ---- */
+    .slabel { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6); }
+    .slabel::before { content: ''; width: 22px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .sh { font-size: clamp(32px, 4vw, 58px); font-weight: 700; letter-spacing: -0.042em; line-height: 1.0; font-feature-settings: 'ss01' 1, 'kern' 1; text-wrap: balance; }
+    .sh em { font-style: normal; color: var(--accent); }
+
+    /* ============================================================
+       ARTICLE HEADER
+    ============================================================ */
+    .post-header {
+      padding-top: 140px;
+      padding-bottom: var(--s12);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    /* Breadcrumb */
+    .post-crumb {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      margin-bottom: var(--s8);
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .post-crumb a { color: var(--text-3); text-decoration: none; transition: color 180ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .post-crumb a:hover { color: var(--accent); } }
+    .post-crumb__sep { opacity: 0.4; }
+    .post-crumb__current { color: var(--text-2); }
+
+    /* Category tag */
+    .post-cat {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: var(--s6);
+    }
+    .post-cat::before { content: ''; width: 18px; height: 1px; background: var(--accent); flex-shrink: 0; }
+
+    /* Title */
+    .post-title {
+      font-size: clamp(32px, 4.7vw, 70px);
+      font-weight: 800;
+      letter-spacing: -0.048em;
+      line-height: 0.92;
+      max-width: 900px;
+      margin-bottom: var(--s8);
+    }
+    .post-title em { font-style: normal; color: var(--accent); }
+
+    /* Meta strip */
+    .post-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--s6);
+      padding-top: var(--s6);
+      border-top: 1px solid var(--border);
+    }
+    .post-meta__author {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+    }
+    .post-meta__avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: oklch(0.60 0.18 249 / 0.15);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .post-meta__avatar svg { width: 100%; height: 100%; }
+    .post-meta__name {
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .post-meta__role {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .post-meta__divider { width: 1px; height: 28px; background: var(--border); }
+    .post-meta__item {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .post-meta__item strong { color: var(--text-2); font-weight: 500; }
+
+    /* Progress bar */
+    .post-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--accent);
+      z-index: 300;
+      width: 0%;
+      transition: width 80ms linear;
+    }
+
+    /* ============================================================
+       HERO IMAGE
+    ============================================================ */
+    .post-hero-img {
+      width: 100%;
+      aspect-ratio: 21/8;
+      background: oklch(0.08 0.003 249);
+      overflow: hidden;
+      position: relative;
+    }
+    .post-hero-img svg { width: 100%; height: 100%; display: block; }
+    .post-hero-img figcaption {
+      position: absolute;
+      bottom: var(--s4);
+      right: var(--s6);
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: oklch(1 0 0 / 0.4);
+    }
+    @media (max-width: 768px) { .post-hero-img { aspect-ratio: 16/7; } }
+
+    /* ============================================================
+       ARTICLE LAYOUT — sidebar + body
+    ============================================================ */
+    .post-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: clamp(var(--s12), 6vw, var(--s24));
+      padding: var(--s16) 0 var(--s24);
+      align-items: start;
+    }
+
+    /* Sticky sidebar */
+    .post-sidebar {
+      position: sticky;
+      top: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s8);
+    }
+    .post-sidebar__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: var(--s3);
+    }
+    .post-toc {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+    }
+    .post-toc a {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text-3);
+      text-decoration: none;
+      line-height: 1.5;
+      transition: color 180ms var(--ease-out);
+      display: block;
+      padding-left: var(--s3);
+      border-left: 1.5px solid var(--border);
+    }
+    .post-toc a:hover { color: var(--accent); border-left-color: var(--accent); }
+    .post-toc a.active { color: var(--accent); border-left-color: var(--accent); }
+
+    .post-sidebar__share { display: flex; flex-direction: column; gap: var(--s2); }
+    .post-share-btn {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: color 180ms var(--ease-out), border-color 180ms var(--ease-out);
+      text-decoration: none;
+      display: block;
+    }
+    @media (hover:hover) and (pointer:fine) { .post-share-btn:hover { color: var(--text); border-color: var(--accent); } }
+
+    @media (max-width: 900px) {
+      .post-layout { grid-template-columns: 1fr; }
+      .post-sidebar { position: relative; top: 0; flex-direction: row; flex-wrap: wrap; gap: var(--s4); border-bottom: 1px solid var(--border); padding-bottom: var(--s8); }
+      .post-toc { display: none; }
+    }
+
+    /* ============================================================
+       ARTICLE BODY — prose
+    ============================================================ */
+    .post-body {
+      max-width: 72ch;
+    }
+
+    /* Lead paragraph */
+    .post-body .lead {
+      font-size: clamp(17px, 1.6vw, 20px);
+      color: var(--text-2);
+      line-height: 1.72;
+      margin-bottom: var(--s8);
+      font-weight: 400;
+    }
+
+    /* Standard paragraphs */
+    .post-body p {
+      font-size: 17px;
+      color: var(--text-2);
+      line-height: 1.8;
+      margin-bottom: var(--s6);
+    }
+
+    /* Section headings */
+    .post-body h2 {
+      font-size: clamp(22px, 2.4vw, 30px);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-top: var(--s16);
+      margin-bottom: var(--s6);
+      padding-top: var(--s8);
+      border-top: 1px solid var(--border);
+    }
+    .post-body h3 {
+      font-size: clamp(17px, 1.8vw, 22px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      color: var(--text);
+      margin-top: var(--s12);
+      margin-bottom: var(--s4);
+    }
+
+    /* Blockquote */
+    .post-body blockquote {
+      margin: var(--s12) 0;
+      padding: var(--s6) var(--s8);
+      border-left: 3px solid var(--accent);
+      background: oklch(0.60 0.18 249 / 0.04);
+    }
+    .post-body blockquote p {
+      font-size: clamp(17px, 1.8vw, 22px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.45;
+      color: var(--text);
+      margin-bottom: 0;
+    }
+    .post-body blockquote cite {
+      display: block;
+      margin-top: var(--s3);
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      font-style: normal;
+    }
+
+    /* Inline code */
+    .post-body code {
+      font-family: var(--font-m);
+      font-size: 0.88em;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      color: var(--accent);
+    }
+
+    /* Code block */
+    .post-body pre {
+      background: oklch(0.07 0.003 249);
+      border: 1px solid oklch(1 0 0 / 0.08);
+      padding: var(--s6) var(--s8);
+      overflow-x: auto;
+      margin: var(--s8) 0;
+    }
+    .post-body pre code {
+      font-size: 13px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: oklch(0.85 0.002 0);
+      line-height: 1.7;
+    }
+
+    /* Lists */
+    .post-body ul, .post-body ol {
+      padding-left: var(--s6);
+      margin-bottom: var(--s6);
+    }
+    .post-body li {
+      font-size: 17px;
+      color: var(--text-2);
+      line-height: 1.8;
+      margin-bottom: var(--s2);
+    }
+    .post-body ul li::marker { color: var(--accent); }
+    .post-body ol li::marker { font-family: var(--font-m); font-size: 13px; color: var(--accent); }
+
+    /* Horizontal rule */
+    .post-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: var(--s16) 0;
+    }
+
+    /* Callout box */
+    .post-callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: var(--s6) var(--s8);
+      margin: var(--s8) 0;
+    }
+    .post-callout__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--s3);
+    }
+    .post-callout p {
+      margin-bottom: 0 !important;
+      font-size: 15px !important;
+      line-height: 1.72 !important;
+    }
+
+    /* Image within article */
+    .post-body figure {
+      margin: var(--s12) 0;
+    }
+    .post-body figure img,
+    .post-body figure svg {
+      width: 100%;
+      display: block;
+    }
+    .post-body figcaption {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-top: var(--s3);
+      text-align: center;
+    }
+
+    /* ============================================================
+       ARTICLE FOOTER — tags + share
+    ============================================================ */
+    .post-footer {
+      padding: var(--s6) 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .post-footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--s6);
+    }
+    .post-tags {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      flex-wrap: wrap;
+    }
+    .post-tags__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-right: var(--s2);
+    }
+    .post-tag {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      text-decoration: none;
+      transition: color 180ms var(--ease-out), border-color 180ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) { .post-tag:hover { color: var(--accent); border-color: var(--accent); } }
+    .post-share {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+    }
+    .post-share__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .post-share-link {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      transition: color 180ms var(--ease-out), border-color 180ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) { .post-share-link:hover { color: var(--accent); border-color: var(--accent); } }
+
+    /* ============================================================
+       RELATED ARTICLES
+    ============================================================ */
+    .post-related {
+      padding: var(--s16) 0;
+      background: var(--surface);
+    }
+    .post-related__hdr {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: var(--s12);
+      gap: var(--s8);
+    }
+    .post-related__all {
+      font-family: var(--font-m);
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: color 200ms var(--ease-out), gap 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) { .post-related__all:hover { color: var(--text); gap: 13px; } }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: oklch(0 0 0 / 0.08);
+    }
+    .bpost { background: var(--bg); padding: var(--s8); display: flex; flex-direction: column; gap: var(--s4); cursor: pointer; position: relative; overflow: hidden; transition: background 280ms var(--ease-out); text-decoration: none; color: inherit; }
+    @media (hover:hover) and (pointer:fine) {
+      .bpost:hover { background: var(--surface); }
+      .bpost:hover .bpost__title { color: var(--accent); }
+      .bpost:hover .bpost__line { transform: scaleX(1); }
+    }
+    .bpost__line { position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 280ms var(--ease-out); }
+    .bpost__img { width: 100%; aspect-ratio: 16/9; background: var(--surface); border: 1px solid var(--border); margin-bottom: var(--s3); position: relative; overflow: hidden; flex-shrink: 0; }
+    .bpost__img svg { width: 100%; height: 100%; display: block; }
+    .bpost__cat { font-family: var(--font-m); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .bpost__title { font-size: clamp(17px, 1.8vw, 22px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; color: var(--text); transition: color 220ms var(--ease-out); }
+    .bpost__excerpt { font-size: 13px; color: var(--text-2); line-height: 1.65; max-width: 42ch; flex: 1; }
+    .bpost__foot { display: flex; align-items: center; justify-content: space-between; margin-top: var(--s3); padding-top: var(--s4); border-top: 1px solid var(--border); }
+    .bpost__meta { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-3); }
+    .bpost__arrow { font-size: 13px; color: var(--text-3); transition: color 180ms var(--ease-out), transform 180ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .bpost:hover .bpost__arrow { color: var(--accent); transform: translate(3px, -3px); } }
+    @media (max-width: 768px) { .related-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       WORLD CLOCKS + FOOTER
+    ============================================================ */
+    .clocks { border-top: 1px solid var(--border); padding: var(--s8) 0; }
+    .clocks__inner { display: flex; align-items: center; gap: clamp(var(--s8), 6vw, var(--s24)); }
+    .clocks__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; margin-right: auto; }
+    .clock { display: flex; align-items: baseline; gap: var(--s3); }
+    .clock__city { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); min-width: 52px; }
+    .clock__time { font-family: var(--font-m); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-2); font-variant-numeric: tabular-nums; transition: color 150ms var(--ease-out); }
+    .clock__time.tick { color: var(--accent); }
+    .clock__sep { width: 1px; height: 20px; background: var(--border); align-self: center; }
+    @media (max-width: 600px) { .clocks__inner { flex-wrap: wrap; gap: var(--s6); } .clocks__label { width: 100%; margin-right: 0; } .clock__sep { display: none; } }
+
+    .footer { padding: var(--s8) 0; background: var(--accent); }
+    .footer__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
+    .footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
+    .footer__copy { font-family: var(--font-m); font-size: 9.5px; color: white; letter-spacing: 0.08em; }
+    .footer__links { display: flex; gap: var(--s6); list-style: none; }
+    .footer__links a { font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: white; text-decoration: none; transition: color 180ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .footer__links a:hover { color: oklch(0 0 0 / 0.5); } }
+    @media (max-width: 600px) { .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); } }
+
+    @media (max-width: 640px) { .nav__overlay { grid-template-columns: 1fr; } .nav__overlay-right { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+
+  <!-- Read progress bar -->
+  <div class="post-progress" id="post-progress" role="progressbar" aria-label="Reading progress"></div>
+
+  <!-- NAV -->
+  <nav class="nav" id="main-nav">
+    <div class="w">
+      <div class="nav__inner">
+        <a href="parallax-landing.html" class="nav__logo">Parallax<span>.</span></a>
+        <button class="nav__burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav__overlay" id="nav-overlay" aria-hidden="true">
+    <div class="nav__overlay-left">
+      <ul class="nav__menu-links">
+        <li><a href="work.html"              data-index="01">Work</a></li>
+        <li><a href="parallax-landing.html#services" data-index="02">Services</a></li>
+        <li><a href="about.html"             data-index="03">About</a></li>
+        <li><a href="articles.html"          data-index="04" class="active">Articles</a></li>
+      </ul>
+    </div>
+    <div class="nav__overlay-right">
+      <div class="nav__meta">
+        <p class="nav__meta-label">Ready to build?</p>
+        <a href="parallax-landing.html#contact" class="nav__meta-cta">Start a Project ↗</a>
+      </div>
+      <p class="nav__meta-tagline">Precision over decoration.<br>Logic over assumption.</p>
+    </div>
+  </div>
+
+  <!-- ARTICLE HEADER -->
+  <!-- CMS: article { category, title, author, date, readTime } -->
+  <header class="post-header">
+    <div class="w">
+
+      <nav class="post-crumb reveal" aria-label="Breadcrumb">
+        <a href="parallax-landing.html">Home</a>
+        <span class="post-crumb__sep">/</span>
+        <a href="articles.html">Articles</a>
+        <span class="post-crumb__sep">/</span>
+        <!-- CMS: {article.category} -->
+        <a href="articles.html">Brand Identity</a>
+        <span class="post-crumb__sep">/</span>
+        <span class="post-crumb__current">Current article</span>
+      </nav>
+
+      <!-- CMS: {article.category} -->
+      <p class="post-cat reveal">Brand Identity</p>
+
+      <!-- CMS: {article.title} -->
+      <h1 class="post-title reveal">Why most design systems<br>fail before <em>they ship.</em></h1>
+
+      <div class="post-meta reveal">
+        <div class="post-meta__author">
+          <div class="post-meta__avatar" aria-hidden="true">
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" fill="oklch(0.60 0.18 249 / 0.15)"/>
+              <circle cx="16" cy="13" r="5" fill="oklch(0.60 0.18 249 / 0.5)"/>
+              <ellipse cx="16" cy="26" rx="9" ry="6" fill="oklch(0.60 0.18 249 / 0.3)"/>
+            </svg>
+          </div>
+          <div>
+            <!-- CMS: {article.author.name}, {article.author.role} -->
+            <p class="post-meta__name">Samuel Godwin</p>
+            <p class="post-meta__role">Creative Director</p>
+          </div>
+        </div>
+        <div class="post-meta__divider" aria-hidden="true"></div>
+        <!-- CMS: {article.date} -->
+        <div class="post-meta__item"><strong>12 Apr 2026</strong></div>
+        <div class="post-meta__divider" aria-hidden="true"></div>
+        <!-- CMS: {article.readTime} -->
+        <div class="post-meta__item"><strong>8 min</strong> read</div>
+        <div class="post-meta__divider" aria-hidden="true"></div>
+        <div class="post-meta__item">Brand Identity</div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- HERO IMAGE -->
+  <!-- CMS: {article.heroImage.src}, {article.heroImage.caption} -->
+  <figure class="post-hero-img">
+    <svg viewBox="0 0 1400 533" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="1400" height="533" fill="oklch(0.07 0.003 249)"/>
+      <rect x="0" y="0" width="1400" height="533" fill="linear-gradient(180deg, oklch(0.06 0.003 249) 0%, oklch(0.12 0.005 249) 100%)"/>
+      <circle cx="200" cy="266" r="300" fill="oklch(0.60 0.18 249 / 0.05)"/>
+      <circle cx="1200" cy="266" r="250" fill="oklch(0.60 0.18 249 / 0.06)"/>
+      <rect x="400" y="100" width="600" height="333" rx="4" fill="oklch(0.12 0.004 249)"/>
+      <rect x="440" y="140" width="120" height="10" rx="3" fill="oklch(0.60 0.18 249 / 0.6)"/>
+      <rect x="440" y="164" width="380" height="36" rx="3" fill="oklch(1 0 0 / 0.85)"/>
+      <rect x="440" y="212" width="300" height="10" rx="3" fill="oklch(1 0 0 / 0.2)"/>
+      <rect x="440" y="230" width="260" height="10" rx="3" fill="oklch(1 0 0 / 0.12)"/>
+      <rect x="440" y="280" width="80" height="32" rx="2" fill="oklch(0.60 0.18 249)"/>
+      <rect x="536" y="280" width="120" height="32" rx="2" fill="oklch(1 0 0 / 0.06)" stroke="oklch(1 0 0 / 0.12)" stroke-width="1"/>
+      <line x1="0" y1="532" x2="1400" y2="532" stroke="oklch(1 0 0 / 0.06)" stroke-width="1"/>
+    </svg>
+    <!-- CMS: {article.heroImage.caption} -->
+    <figcaption>Illustration: Design system governance model</figcaption>
+  </figure>
+
+  <!-- ARTICLE BODY -->
+  <div class="w">
+    <div class="post-layout">
+
+      <!-- Sticky sidebar -->
+      <aside class="post-sidebar" aria-label="Article navigation">
+        <div>
+          <p class="post-sidebar__label">Contents</p>
+          <!-- CMS: auto-generated from article headings -->
+          <ol class="post-toc" id="post-toc">
+            <li><a href="#s1">The real failure mode</a></li>
+            <li><a href="#s2">Governance, not components</a></li>
+            <li><a href="#s3">What survives handoff</a></li>
+            <li><a href="#s4">The token contract</a></li>
+            <li><a href="#s5">Making it stick</a></li>
+          </ol>
+        </div>
+        <div>
+          <p class="post-sidebar__label">Share</p>
+          <div class="post-sidebar__share">
+            <a href="#" class="post-share-btn">Twitter / X ↗</a>
+            <a href="#" class="post-share-btn">LinkedIn ↗</a>
+            <button class="post-share-btn" id="copy-link">Copy link</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Article content -->
+      <!-- CMS: {article.body} — rendered from markdown/rich text -->
+      <article class="post-body" id="post-body">
+
+        <p class="lead">The problem isn't the components. It's the governance model — and the assumption that a Figma library is the same thing as a system.</p>
+
+        <p>Every quarter, another team ships a design system. And every quarter, another team is quietly rebuilding their product from scratch six months later because the system broke under real conditions. The library exists. The tokens are named. The documentation is thorough. But nothing actually uses it.</p>
+
+        <p>I've watched this happen at enough companies now to be confident it isn't a tooling problem. Figma is fine. Storybook is fine. The token pipeline is fine. What fails is the chain of custody — the moment where a system stops being the designer's responsibility and starts being everyone's.</p>
+
+        <h2 id="s1">The real failure mode</h2>
+
+        <p>Most design systems fail not at launch but at the second major feature. The first feature is built by the team that created the system — people who know where the edges are, what the components can and can't do, and how to file a ticket when something is missing. They navigate it fluently because they built the map.</p>
+
+        <p>The second feature is built by someone else. And that person doesn't have the map.</p>
+
+        <blockquote>
+          <p>A system that only its creators can navigate is a library. A system is something that survives its creators moving on.</p>
+          <cite>— Parallax Internal, 2024 retrospective</cite>
+        </blockquote>
+
+        <p>This isn't a documentation problem either. More documentation doesn't fix this. Better documentation might delay it slightly. The fix is structural — who owns the system changes, and you have to design for that transfer explicitly.</p>
+
+        <h2 id="s2">Governance, not components</h2>
+
+        <p>Here's what most system documentation covers: component API, prop tables, usage guidelines, do/don't examples. Here's what it almost never covers: who decides when a component needs to change, how long that decision takes, what happens in the meantime, and who gets to make the emergency call at 11pm before a launch.</p>
+
+        <div class="post-callout">
+          <p class="post-callout__label">Key principle</p>
+          <p>Document the decision process as rigorously as you document the components. The process is what makes a system durable — not the Figma file.</p>
+        </div>
+
+        <p>Governance is the unsexy part of systems work. It doesn't generate Dribbble shots. Nobody puts "RFC process designer" on their portfolio. But it's the thing that determines whether your system is still coherent in eighteen months, or whether it's drifted into twelve slightly different interpretations of the same button.</p>
+
+        <h2 id="s3">What survives handoff</h2>
+
+        <p>When we built the BMW design system, we had a specific constraint: the system had to be operable by engineers who had never met a designer on the team. This wasn't a theoretical future state — it was the reality of how BMW's internal teams were structured. Product teams in Munich didn't have embedded designers for routine feature work.</p>
+
+        <p>That constraint forced a useful question: what would a developer need to make a correct decision without asking anyone?</p>
+
+        <figure>
+          <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="700" height="280" fill="oklch(0.97 0.001 0)"/>
+            <rect x="20" y="20" width="200" height="240" rx="3" fill="oklch(0.93 0.001 0)"/>
+            <rect x="36" y="36" width="80" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/>
+            <rect x="36" y="56" width="168" height="6" rx="2" fill="oklch(0 0 0 / 0.1)"/>
+            <rect x="36" y="70" width="140" height="6" rx="2" fill="oklch(0 0 0 / 0.07)"/>
+            <rect x="36" y="100" width="168" height="1" fill="oklch(0 0 0 / 0.08)"/>
+            <rect x="36" y="116" width="100" height="6" rx="2" fill="oklch(0 0 0 / 0.08)"/>
+            <rect x="36" y="130" width="80" height="6" rx="2" fill="oklch(0 0 0 / 0.06)"/>
+            <rect x="36" y="144" width="120" height="6" rx="2" fill="oklch(0 0 0 / 0.08)"/>
+            <rect x="36" y="200" width="60" height="24" rx="2" fill="oklch(0.60 0.18 249)"/>
+            <rect x="240" y="20" width="440" height="240" rx="3" fill="oklch(0.08 0.003 249)"/>
+            <rect x="260" y="40" width="100" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/>
+            <rect x="260" y="60" width="360" height="10" rx="2" fill="oklch(1 0 0 / 0.7)"/>
+            <rect x="260" y="82" width="300" height="6" rx="2" fill="oklch(1 0 0 / 0.25)"/>
+            <rect x="260" y="96" width="260" height="6" rx="2" fill="oklch(1 0 0 / 0.15)"/>
+            <rect x="260" y="140" width="400" height="1" fill="oklch(1 0 0 / 0.06)"/>
+            <rect x="260" y="160" width="120" height="6" rx="2" fill="oklch(1 0 0 / 0.2)"/>
+            <rect x="260" y="174" width="200" height="6" rx="2" fill="oklch(1 0 0 / 0.12)"/>
+            <rect x="260" y="220" width="80" height="24" rx="2" fill="oklch(0.60 0.18 249)"/>
+            <rect x="356" y="220" width="100" height="24" rx="2" fill="oklch(1 0 0 / 0.06)" stroke="oklch(1 0 0 / 0.15)" stroke-width="1"/>
+          </svg>
+          <!-- CMS: {figure.caption} -->
+          <figcaption>Design reference (left) and its code implementation (right) — the gap between them is where systems break.</figcaption>
+        </figure>
+
+        <p>The answer, in practice: every token needs to encode its intent, not just its value. <code>color-action-primary</code> tells you something. <code>blue-500</code> tells you nothing useful at the point of decision.</p>
+
+        <h2 id="s4">The token contract</h2>
+
+        <p>Tokens are a contract. They say: "when you use this, you're using this in the context we intended." A token named <code>color-feedback-error</code> makes a promise — that this value will only appear in error states, and that if you see it somewhere else, something has gone wrong in the system, not in the design.</p>
+
+        <p>Most token architectures don't hold this contract. They use semantic names on the surface but allow the underlying values to be referenced directly in component code. The moment an engineer reaches past the token to the raw value — for any reason, usually a good one — the contract breaks, and the system can no longer guarantee visual consistency without a manual audit.</p>
+
+        <pre><code>/* ❌ Breaks the contract */
+.btn-error {
+  background: #D32F2F;
+}
+
+/* ✅ Maintains the contract */
+.btn-error {
+  background: var(--color-feedback-error);
+}</code></pre>
+
+        <p>This sounds obvious. It is obvious. And it still gets broken constantly, because the tooling doesn't enforce it. Linters help. Code review helps. But the real fix is making it easier to use the token correctly than to skip it.</p>
+
+        <h2 id="s5">Making it stick</h2>
+
+        <p>Three things that have actually worked, in order of impact:</p>
+
+        <ol>
+          <li><strong>A written RFC process for component changes</strong> — anyone can propose, specific people decide, decisions are logged. Takes fifteen minutes to set up, saves hours of drift per month.</li>
+          <li><strong>A "break glass" protocol for emergencies</strong> — explicit permission to bypass process under defined conditions, with a mandatory retrospective. This sounds dangerous but it's safer than having an unofficial workaround culture.</li>
+          <li><strong>Quarterly system reviews with product teams</strong> — not design team reviews of the system, but product teams reviewing how the system serves them. The gap between those two conversations is where most systems die.</li>
+        </ol>
+
+        <p>The components are the easy part. Any competent team can build a button component. The hard part is building a system that product teams will still trust to make decisions six months after the design team has moved on to the next project.</p>
+
+        <hr>
+
+        <p>If your design system feels stable but adoption is stalling, the instinct is usually to improve the documentation. Resist it. Ask instead: who owns a token change? How long does it take? What does a product engineer do when the component doesn't quite fit their use case? If those answers are unclear, that's where to work next.</p>
+
+      </article>
+    </div>
+
+    </div>
+  </div>
+
+  <!-- CMS: {article.tags[]}, {article.shareUrls{}} -->
+  <div class="post-footer reveal">
+    <div class="w">
+      <div class="post-footer__inner">
+        <div class="post-tags">
+          <span class="post-tags__label">Tags</span>
+          <a href="articles.html" class="post-tag">Design Systems</a>
+          <a href="articles.html" class="post-tag">Brand Identity</a>
+          <a href="articles.html" class="post-tag">Engineering</a>
+          <a href="articles.html" class="post-tag">Process</a>
+        </div>
+        <div class="post-share">
+          <span class="post-share__label">Share</span>
+          <a href="#" class="post-share-link">Twitter</a>
+          <a href="#" class="post-share-link">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED ARTICLES -->
+  <!-- CMS: article.related[] — 3 related posts by category or tag -->
+  <section class="post-related">
+    <div class="w">
+      <div class="post-related__hdr reveal">
+        <div>
+          <p class="slabel">Related Articles</p>
+          <h2 class="sh">More on<br><em>this topic.</em></h2>
+        </div>
+        <a href="articles.html" class="post-related__all">All Articles →</a>
+      </div>
+      <div class="related-grid stagger">
+
+        <a href="article.html" class="bpost">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="80" height="6" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="24" y="40" width="200" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/><circle cx="500" cy="169" r="90" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="24" y="280" width="48" height="24" rx="2" fill="oklch(0.60 0.18 249)"/></svg>
+          </div>
+          <span class="bpost__cat">Brand Identity</span>
+          <h3 class="bpost__title">Construction grids aren't decoration</h3>
+          <p class="bpost__excerpt">The grid behind the mark is the argument for its proportions.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">24 Feb 2026 · 4 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.08 0.003 249)"/><rect x="24" y="50" width="80" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.6)"/><rect x="24" y="70" width="260" height="6" rx="2" fill="oklch(1 0 0 / 0.25)"/><rect x="44" y="140" width="3" height="120" fill="oklch(0.60 0.18 249 / 0.4)"/><rect x="60" y="140" width="500" height="6" rx="2" fill="oklch(1 0 0 / 0.08)"/><rect x="60" y="158" width="400" height="6" rx="2" fill="oklch(1 0 0 / 0.06)"/></svg>
+          </div>
+          <span class="bpost__cat">Engineering</span>
+          <h3 class="bpost__title">Token pipelines without the ceremony</h3>
+          <p class="bpost__excerpt">Style Dictionary is powerful. Most teams use 10% of it.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">24 Mar 2026 · 9 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+        <a href="article.html" class="bpost">
+          <div class="bpost__line"></div>
+          <div class="bpost__img">
+            <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.96 0.001 0)"/><rect x="24" y="24" width="552" height="290" rx="4" fill="oklch(0 0 0 / 0.04)"/><rect x="44" y="44" width="200" height="12" rx="2" fill="oklch(0 0 0 / 0.1)"/><rect x="44" y="100" width="512" height="180" rx="3" fill="oklch(0.60 0.18 249 / 0.07)"/><rect x="64" y="120" width="80" height="8" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/></svg>
+          </div>
+          <span class="bpost__cat">Process</span>
+          <h3 class="bpost__title">The brief is a hypothesis</h3>
+          <p class="bpost__excerpt">Treating every client brief as a starting point changes what you build.</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">17 Mar 2026 · 4 min</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WORLD CLOCKS -->
+  <div class="clocks">
+    <div class="w">
+      <div class="clocks__inner">
+        <span class="clocks__label">Global Presence</span>
+        <div class="clock"><span class="clock__city">Munich</span><span class="clock__time" id="clock-de">--:--:--</span></div>
+        <div class="clock__sep"></div>
+        <div class="clock"><span class="clock__city">Dubai</span><span class="clock__time" id="clock-ae">--:--:--</span></div>
+        <div class="clock__sep"></div>
+        <div class="clock"><span class="clock__city">Bengaluru</span><span class="clock__time" id="clock-in">--:--:--</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="w">
+      <div class="footer__in">
+        <span class="footer__logo">Parallax.</span>
+        <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
+        <ul class="footer__links">
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Dribbble</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ---- Nav ---- */
+    const nav = document.getElementById('main-nav');
+    const burger = document.getElementById('nav-burger');
+    const overlay = document.getElementById('nav-overlay');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    burger.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('menu-open');
+      burger.setAttribute('aria-expanded', isOpen);
+      overlay.setAttribute('aria-hidden', !isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      document.body.classList.remove('menu-open');
+      burger.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }));
+
+    /* ---- Scroll Reveal ---- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .stagger').forEach(el => io.observe(el));
+
+    /* ---- Read progress bar ---- */
+    const progressBar = document.getElementById('post-progress');
+    const body = document.getElementById('post-body');
+    let bodyHeight = body ? body.offsetHeight : 0;
+    window.addEventListener('resize', () => { if (body) bodyHeight = body.offsetHeight; }, { passive: true });
+    window.addEventListener('scroll', () => {
+      if (!body) return;
+      const scrolled = Math.max(0, -body.getBoundingClientRect().top);
+      const total = bodyHeight - window.innerHeight;
+      const pct = Math.min(100, (scrolled / total) * 100);
+      progressBar.style.width = pct + '%';
+      progressBar.setAttribute('aria-valuenow', Math.round(pct));
+    }, { passive: true });
+
+    /* ---- Table of contents active state ---- */
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const headings = document.querySelectorAll('.post-body h2[id]');
+    const tocObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector('.post-toc a[href="#' + entry.target.id + '"]');
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    headings.forEach(h => tocObserver.observe(h));
+
+    /* ---- Copy link ---- */
+    const copyBtn = document.getElementById('copy-link');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          const orig = copyBtn.textContent;
+          copyBtn.textContent = 'Copied ✓';
+          setTimeout(() => { copyBtn.textContent = orig; }, 2000);
+        });
+      });
+    }
+
+    /* ---- World Clocks ---- */
+    (function () {
+      const zones = [
+        { id: 'clock-de', tz: 'Europe/Berlin' },
+        { id: 'clock-ae', tz: 'Asia/Dubai' },
+        { id: 'clock-in', tz: 'Asia/Kolkata' },
+      ];
+      function fmt(tz) {
+        return new Date().toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+      }
+      function tick() {
+        zones.forEach(({ id, tz }) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const t = fmt(tz);
+          if (el.textContent !== t) { el.textContent = t; el.classList.add('tick'); setTimeout(() => el.classList.remove('tick'), 150); }
+        });
+      }
+      tick(); setInterval(tick, 1000);
+    })();
+  </script>
+
+</body>
+</html>

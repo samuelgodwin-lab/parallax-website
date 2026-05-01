@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice">
+  <rect width="900" height="600" fill="#F5F5F2"/>
+  <!-- Building facade -->
+  <rect x="0" y="0" width="900" height="500" fill="#EAEAE3"/>
+  <!-- Facade panels (concrete-grid look) -->
+  <g stroke="#0A1E3F" stroke-opacity="0.07" stroke-width="1" fill="none">
+    <path d="M150 0 V500 M300 0 V500 M450 0 V500 M600 0 V500 M750 0 V500"/>
+    <path d="M0 100 H900 M0 200 H900 M0 300 H900 M0 400 H900"/>
+  </g>
+  <!-- Window strips -->
+  <g fill="#0A1E3F" opacity="0.7">
+    <rect x="30"  y="120" width="100" height="60"/>
+    <rect x="180" y="120" width="100" height="60"/>
+    <rect x="620" y="120" width="100" height="60"/>
+    <rect x="770" y="120" width="100" height="60"/>
+    <rect x="30"  y="220" width="100" height="60"/>
+    <rect x="180" y="220" width="100" height="60"/>
+    <rect x="620" y="220" width="100" height="60"/>
+    <rect x="770" y="220" width="100" height="60"/>
+  </g>
+  <!-- Window reflections -->
+  <g fill="#1A73E8" opacity="0.18">
+    <rect x="30"  y="120" width="100" height="60"/>
+    <rect x="620" y="220" width="100" height="60"/>
+    <rect x="770" y="120" width="100" height="60"/>
+  </g>
+  <!-- Entry / dimensional signage -->
+  <g transform="translate(330 320)">
+    <rect x="0" y="0" width="240" height="120" fill="#0A1E3F"/>
+    <g transform="translate(36 36)">
+      <rect x="0" y="0" width="48" height="48" fill="none" stroke="#F5F5F2" stroke-width="3"/>
+      <path d="M12 41 L12 12 L24 30 L36 12 L36 41" fill="#F5F5F2"/>
+    </g>
+    <text x="100" y="68" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" font-weight="800" fill="#F5F5F2" letter-spacing="-1">MARK<tspan fill="#1A73E8">.</tspan></text>
+    <!-- Soft cast shadow -->
+    <rect x="-2" y="120" width="244" height="6" fill="#000" fill-opacity="0.15"/>
+  </g>
+  <!-- Ground / paving -->
+  <rect x="0" y="500" width="900" height="100" fill="#D5D5CE"/>
+  <g stroke="#0A1E3F" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 540 H900 M150 500 V600 M300 500 V600 M450 500 V600 M600 500 V600 M750 500 V600"/>
+  </g>
+  <text x="36" y="44" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#0A1E3F" opacity="0.45">08 — ENVIRONMENTAL</text>
+</svg>

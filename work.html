@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work — Parallax Digital Craft Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       PARALLAX — Work Page
+       Design system: identical to landing page
+    ============================================================ */
+
+    :root {
+      --bg:             oklch(1 0 0);
+      --surface:        oklch(0.98 0.001 0);
+      --surface-raised: oklch(0.96 0.001 0);
+      --text:           oklch(0 0 0);
+      --text-2:         oklch(0.40 0.005 0);
+      --text-3:         oklch(0.55 0.005 0);
+      --accent:         oklch(0.60 0.18 249);
+      --accent-hi:      oklch(0.70 0.14 249);
+      --accent-muted:   oklch(0.60 0.18 249 / 0.14);
+      --border:         oklch(0 0 0 / 0.15);
+      --border-strong:  oklch(0 0 0 / 0.30);
+      --success:        oklch(0.84  0.19  154);
+      --danger:         oklch(0.63  0.22   29);
+      --cta-tertiary:   oklch(0.50 0.005 0);
+
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+
+      --s1:4px; --s2:8px; --s3:12px; --s4:16px;
+      --s6:24px; --s8:32px; --s12:48px; --s16:64px; --s24:96px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-d);
+      font-synthesis: none;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    .w {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 80px);
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out);
+    }
+    .stagger.in > *:nth-child(1)   { opacity:1; transform:none; transition-delay:   0ms; }
+    .stagger.in > *:nth-child(2)   { opacity:1; transform:none; transition-delay:  55ms; }
+    .stagger.in > *:nth-child(3)   { opacity:1; transform:none; transition-delay: 110ms; }
+    .stagger.in > *:nth-child(4)   { opacity:1; transform:none; transition-delay: 165ms; }
+    .stagger.in > *:nth-child(5)   { opacity:1; transform:none; transition-delay: 220ms; }
+    .stagger.in > *:nth-child(6)   { opacity:1; transform:none; transition-delay: 275ms; }
+    .stagger.in > *:nth-child(n+7) { opacity:1; transform:none; transition-delay: 330ms; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 20px 0;
+      transition: background 300ms var(--ease-out), backdrop-filter 300ms var(--ease-out);
+    }
+    .nav.scrolled {
+      background: oklch(1 0 0 / 0.75);
+      backdrop-filter: blur(18px) saturate(1.4);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      z-index: 210;
+      transition: color 300ms var(--ease-out);
+    }
+    .nav__logo span { color: var(--accent); }
+    .menu-open .nav__logo { color: white; }
+
+    .nav__burger {
+      position: relative;
+      z-index: 210;
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 0;
+      transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .nav__burger:hover { border-color: var(--accent); }
+    }
+    .nav__burger:active { transform: scale(0.95); }
+    .nav__burger-line {
+      display: block;
+      width: 18px; height: 1.5px;
+      background: var(--text);
+      transform-origin: center;
+      transition: transform 360ms var(--ease-out), opacity 200ms var(--ease-out), width 300ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .menu-open .nav__burger-line { background: white; }
+    .menu-open .nav__burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .menu-open .nav__burger-line:nth-child(2) { opacity: 0; width: 0; }
+    .menu-open .nav__burger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav__overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      pointer-events: none;
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 600ms var(--ease-inout);
+    }
+    .menu-open .nav__overlay { pointer-events: auto; clip-path: inset(0 0 0% 0); }
+
+    .nav__overlay-left {
+      background: var(--accent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(48px, 8vw, 96px);
+      padding-top: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav__overlay-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(oklch(0 0 0 / 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, oklch(0 0 0 / 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .nav__overlay-right {
+      background: oklch(0.07 0.003 249);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(48px, 8vw, 96px);
+      padding-top: 100px;
+    }
+    .nav__menu-links { list-style: none; }
+    .nav__menu-links li { overflow: hidden; }
+    .nav__menu-links a {
+      display: block;
+      font-size: clamp(52px, 7vw, 100px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.0;
+      color: oklch(0.97 0.002 35);
+      text-decoration: none;
+      transform: translateY(110%);
+      transition: transform 560ms var(--ease-out), color 200ms var(--ease-out);
+    }
+    .nav__menu-links a.active { color: oklch(0.08 0.003 249); }
+    .nav__menu-links li:nth-child(1) a { transition-delay:  80ms, 0ms; }
+    .nav__menu-links li:nth-child(2) a { transition-delay: 140ms, 0ms; }
+    .nav__menu-links li:nth-child(3) a { transition-delay: 200ms, 0ms; }
+    .nav__menu-links li:nth-child(4) a { transition-delay: 260ms, 0ms; }
+    .menu-open .nav__menu-links a { transform: translateY(0); }
+    @media (hover:hover) and (pointer:fine) {
+      .nav__menu-links a:hover { color: oklch(0.08 0.003 249); }
+    }
+    .nav__menu-links a::before {
+      content: attr(data-index);
+      font-family: var(--font-m);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.10em;
+      vertical-align: super;
+      margin-right: 10px;
+      opacity: 0.5;
+    }
+    .nav__meta {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 400ms var(--ease-out) 300ms, transform 400ms var(--ease-out) 300ms;
+    }
+    .menu-open .nav__meta { opacity: 1; transform: none; }
+    .nav__meta-label {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: oklch(0.65 0.002 0);
+      margin-bottom: var(--s3);
+    }
+    .nav__meta-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-m);
+      font-size: 10.5px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: oklch(0.98 0.002 0);
+      text-decoration: none;
+      border: 1px solid oklch(0.98 0.002 0);
+      padding: 12px 20px;
+      transition:
+        border-color 200ms var(--ease-out),
+        box-shadow   200ms var(--ease-out),
+        transform    160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .nav__meta-cta:hover {
+        border-color: var(--accent);
+        box-shadow: 3px 3px 0 0 var(--accent);
+        transform: translate(-1.5px, -1.5px);
+      }
+    }
+    .nav__meta-tagline {
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: oklch(0.45 0.002 0);
+      line-height: 1.8;
+    }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 14px 26px;
+      transition: background 200ms var(--ease-out), color 200ms var(--ease-out), border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .btn:active { transform: scale(0.97) !important; box-shadow: none !important; }
+    .btn-p { color: var(--bg); background: var(--text); border: 1px solid var(--text); }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-p:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px, -1.5px); }
+    }
+    .btn-g { color: var(--text-2); background: transparent; border: 1px solid var(--border-strong); }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-g:hover { color: var(--text); border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px, -1.5px); }
+    }
+    .btn-white { color: oklch(0.07 0.003 249); background: white; border: 1px solid white; }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-white:hover { border-color: oklch(0.08 0.003 249); box-shadow: 3px 3px 0 0 oklch(0 0 0 / 0.25); transform: translate(-1.5px, -1.5px); }
+    }
+    .btn-outline-white { color: white; background: transparent; border: 1px solid oklch(1 0 0 / 0.5); }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-outline-white:hover { border-color: white; box-shadow: 3px 3px 0 0 oklch(0 0 0 / 0.2); transform: translate(-1.5px, -1.5px); }
+    }
+
+    /* ============================================================
+       SECTION LABEL
+    ============================================================ */
+    .slabel {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: var(--s6);
+    }
+    .slabel::before {
+      content: '';
+      width: 22px; height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .sh {
+      font-size: clamp(32px, 4vw, 58px);
+      font-weight: 700;
+      letter-spacing: -0.042em;
+      line-height: 1.0;
+      font-feature-settings: 'ss01' 1, 'kern' 1;
+      text-wrap: balance;
+    }
+    .sh em { font-style: normal; color: var(--accent); }
+
+    /* ============================================================
+       WORK HERO
+    ============================================================ */
+    .work-hero {
+      background: oklch(1 0 0);
+      padding-top: 160px;
+      padding-bottom: clamp(64px, 8vw, 120px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Full-bleed background video */
+    .work-hero__video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    /* Cursor FX */
+    .work-hero__cursor-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .work-hero__cursor-fx::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle 411px at var(--hx, 50%) var(--hy, 50%), black 5%, transparent 75%);
+      -webkit-mask-image: radial-gradient(circle 411px at var(--hx, 50%) var(--hy, 50%), black 5%, transparent 75%);
+    }
+    .work-hero__cursor-fx::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle 367px at var(--hx, 50%) var(--hy, 50%), oklch(0.60 0.18 249 / 0.18) 10%, transparent 69%);
+    }
+    .work-hero .w { position: relative; z-index: 1; }
+
+    .work-hero__h1 {
+      font-size: clamp(32px, 4.7vw, 70px);
+      font-weight: 800;
+      letter-spacing: -0.048em;
+      line-height: 0.92;
+      color: var(--text);
+      margin-top: var(--s6);
+      max-width: 700px;
+    }
+    .work-hero__h1 em { font-style: normal; color: var(--accent); }
+    .work-hero__slabel { color: var(--accent); }
+    .work-hero__slabel::before { background: var(--accent); }
+
+    .work-hero__desc {
+      font-size: clamp(16px, 1.7vw, 19px);
+      color: var(--text-2);
+      line-height: 1.72;
+      margin-top: var(--s6);
+      max-width: 560px;
+    }
+    .work-hero__count {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-top: var(--s8);
+      max-width: 560px;
+    }
+    .work-hero__count strong {
+      color: var(--text-2);
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       MARQUEE
+    ============================================================ */
+    .marquee {
+      background: var(--accent);
+      border: none;
+      padding: 16px 0;
+      overflow: hidden;
+    }
+    .marquee__t {
+      display: flex;
+      align-items: center;
+      gap: var(--s12);
+      white-space: nowrap;
+      animation: marquee 28s linear infinite;
+      width: max-content;
+    }
+    .marquee__i {
+      font-family: var(--font-m);
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: white;
+      flex-shrink: 0;
+    }
+    .marquee__sep { color: oklch(1 0 0 / 0.5); margin: 0 var(--s2); }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ============================================================
+       FILTER BAR
+    ============================================================ */
+    .filter-bar {
+      padding: var(--s8) 0;
+      position: sticky;
+      top: 64px;
+      z-index: 100;
+      background: var(--bg);
+      backdrop-filter: blur(12px);
+    }
+    .filter-bar__inner {
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+      flex-wrap: wrap;
+    }
+    .filter-bar__label {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-right: var(--s4);
+    }
+    .filter-pill {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 200ms var(--ease-out);
+    }
+    .filter-pill:hover,
+    .filter-pill.active {
+      color: var(--text);
+      border-color: var(--text);
+      background: transparent;
+    }
+    .filter-pill.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* ============================================================
+       WORK GRID — Bento
+    ============================================================ */
+    .work-grid-section {
+      padding: var(--s12) 0 var(--s24);
+      background: var(--bg);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    /* ── Layout 1: cards 1–4 ── */
+    /* [  Card 1 (tall, 2 rows)  ] [  Card 2  ] */
+    /* [                         ] [  Card 3  ] */
+    /* [       Card 4 (full)              ] */
+    .pc:nth-child(1) { grid-column: span 5; grid-row: span 2; }
+    .pc:nth-child(2) { grid-column: span 7; }
+    .pc:nth-child(3) { grid-column: span 7; }
+    .pc:nth-child(4) { grid-column: span 12; }
+
+    /* ── Layout 2: cards 5–9 ── */
+    /* [ Card 5 ] [    Card 6 (wide)    ] */
+    /* [       Card 7 (full)            ] */
+    /* [ Card 8 ] [    Card 9 (wide)    ] */
+    .pc:nth-child(5) { grid-column: span 4; }
+    .pc:nth-child(6) { grid-column: span 8; }
+    .pc:nth-child(7) { grid-column: span 12; }
+    .pc:nth-child(8) { grid-column: span 4; }
+    .pc:nth-child(9) { grid-column: span 8; }
+
+    /* ── Per-card gradient backgrounds ── */
+    .pc:nth-child(1) { --card-bg: linear-gradient(145deg, oklch(0.14 0.08 249) 0%, oklch(0.20 0.12 238) 50%, oklch(0.09 0.05 262) 100%); }
+    .pc:nth-child(2) { --card-bg: linear-gradient(145deg, oklch(0.13 0.04 28) 0%, oklch(0.22 0.07 20) 55%, oklch(0.09 0.01 5) 100%); }
+    .pc:nth-child(3) { --card-bg: linear-gradient(145deg, oklch(0.30 0.13 35) 0%, oklch(0.18 0.09 28) 50%, oklch(0.11 0.04 42) 100%); }
+    .pc:nth-child(4) { --card-bg: linear-gradient(145deg, oklch(0.16 0.07 155) 0%, oklch(0.24 0.10 148) 50%, oklch(0.12 0.05 168) 100%); }
+    .pc:nth-child(5) { --card-bg: linear-gradient(145deg, oklch(0.17 0.08 292) 0%, oklch(0.24 0.10 280) 50%, oklch(0.11 0.04 308) 100%); }
+    .pc:nth-child(6) { --card-bg: linear-gradient(145deg, oklch(0.10 0.005 0) 0%, oklch(0.20 0.010 0) 55%, oklch(0.07 0.002 0) 100%); }
+    .pc:nth-child(7) { --card-bg: linear-gradient(145deg, oklch(0.14 0.06 220) 0%, oklch(0.22 0.09 210) 50%, oklch(0.10 0.04 232) 100%); }
+    .pc:nth-child(8) { --card-bg: linear-gradient(145deg, oklch(0.18 0.08 328) 0%, oklch(0.26 0.10 318) 50%, oklch(0.13 0.05 340) 100%); }
+    .pc:nth-child(9) { --card-bg: linear-gradient(145deg, oklch(0.16 0.06 78) 0%, oklch(0.24 0.09 68) 50%, oklch(0.12 0.04 90) 100%); }
+
+    /* ── Card shell ── */
+    .pc {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .pc.hidden { display: none; }
+
+    /* ── Image area ── */
+    .pc__img {
+      position: relative;
+      overflow: hidden;
+      height: 300px;          /* Fixed height — all cards align at the bottom */
+      flex-shrink: 0;
+      background: var(--card-bg, oklch(0.10 0.05 249)); /* fallback if photo fails */
+    }
+    /* Card 1 (BMW) — stretches to fill full 2-row grid cell (minus info bar) */
+    .pc:nth-child(1) .pc__img { flex: 1; height: auto; min-height: 0; }
+    /* Full-width landscape cards (4 & 7) */
+    .pc:nth-child(4) .pc__img,
+    .pc:nth-child(7) .pc__img { height: 340px; }
+
+    /* Actual photo — fills the image area */
+    .pc__photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 700ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .pc:hover .pc__photo { transform: scale(1.05); }
+    }
+
+    /* Dark gradient overlay — top lighter, bottom darker for logo + tag */
+    .pc__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        oklch(0 0 0 / 0.18) 0%,
+        oklch(0 0 0 / 0.52) 100%
+      );
+      z-index: 1;
+    }
+
+    /* Inner container for logo + industry tag — sits above overlay */
+    .pc__img-inner {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px 24px;
+    }
+
+    /* Logo — top-left */
+    .pc__logo-img {
+      display: block;
+      height: 24px;
+      width: auto;
+      max-width: 110px;
+      object-fit: contain;
+      object-position: left center;
+      filter: brightness(0) invert(1);
+      opacity: 0.90;
+    }
+
+    /* Logo text fallback */
+    .pc__logo-text {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: white;
+      opacity: 0.90;
+    }
+
+    /* Industry tag — bottom-right */
+    .pc__industry {
+      display: inline-flex;
+      align-self: flex-end;
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: oklch(1 0 0 / 0.75);
+      border: 1px solid oklch(1 0 0 / 0.25);
+      padding: 4px 9px;
+      background: oklch(0 0 0 / 0.22);
+    }
+
+    /* ── Info area (below image, on white) ── */
+    .pc__info {
+      padding: 16px 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-top: 1px solid var(--border);
+      transition: border-color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .pc:hover .pc__info { border-color: var(--accent); }
+    }
+
+    .pc__discipline {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    .pc__name {
+      font-size: 18px;        /* Uniform across all cards */
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--text);
+      transition: color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .pc:hover .pc__name { color: var(--accent); }
+    }
+
+    .pc__meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .pc__client {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    .pc__yr {
+      font-family: var(--font-m);
+      font-size: 9px;
+      color: var(--text-3);
+    }
+    .pc__yr::before { content: '· '; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: repeat(6, 1fr); gap: 14px; }
+      /* Layout 1 */
+      .pc:nth-child(1) { grid-column: span 6; grid-row: span 1; }
+      .pc:nth-child(1) .pc__img { min-height: 380px; }
+      .pc:nth-child(2),
+      .pc:nth-child(3) { grid-column: span 3; }
+      .pc:nth-child(4) { grid-column: span 6; }
+      /* Layout 2 */
+      .pc:nth-child(5),
+      .pc:nth-child(8) { grid-column: span 2; }
+      .pc:nth-child(6),
+      .pc:nth-child(9) { grid-column: span 4; }
+      .pc:nth-child(7) { grid-column: span 6; }
+    }
+
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; gap: 10px; }
+      .pc:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+      .pc__img { min-height: 240px !important; }
+    }
+
+    /* No results state */
+    .no-results {
+      grid-column: 1 / -1;
+      padding: var(--s24) 0;
+      text-align: center;
+      display: none;
+    }
+    .no-results.visible { display: block; }
+    .no-results p {
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    /* ============================================================
+       CTA BAND
+    ============================================================ */
+    .cta-band {
+      background: var(--bg);
+      padding: clamp(80px, 10vw, 140px) 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    .cta-band__cursor-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 700ms var(--ease-out);
+    }
+    .cta-band:hover .cta-band__cursor-fx { opacity: 0.65; }
+    .cta-band__cursor-fx::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(circle 411px at var(--ctx, 50%) var(--cty, 50%), black 5%, transparent 75%);
+      mask-image: radial-gradient(circle 411px at var(--ctx, 50%) var(--cty, 50%), black 5%, transparent 75%);
+    }
+    .cta-band__cursor-fx::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle 367px at var(--ctx, 50%) var(--cty, 50%), oklch(0.60 0.20 249 / 0.18) 10%, transparent 69%);
+    }
+    .cta-band__inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s8);
+    }
+    .cta-band__text h2 {
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 800;
+      letter-spacing: -0.055em;
+      line-height: 0.95;
+      color: var(--text);
+    }
+    .cta-band__text h2 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .cta-band__text p {
+      font-size: clamp(14px, 1.3vw, 16px);
+      color: var(--text-2);
+      margin-top: var(--s4);
+    }
+    .cta-band__btns {
+      display: flex;
+      gap: var(--s4);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 768px) {
+      .cta-band__inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ============================================================
+       WORLD CLOCKS
+    ============================================================ */
+    .clocks {
+      border-top: 1px solid var(--border);
+      padding: var(--s8) 0;
+    }
+    .clocks__inner {
+      display: flex;
+      align-items: center;
+      gap: clamp(var(--s8), 6vw, var(--s24));
+    }
+    .clocks__label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      white-space: nowrap;
+      margin-right: auto;
+    }
+    .clock {
+      display: flex;
+      align-items: baseline;
+      gap: var(--s3);
+    }
+    .clock__city {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      min-width: 52px;
+    }
+    .clock__time {
+      font-family: var(--font-m);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-2);
+      font-variant-numeric: tabular-nums;
+      transition: color 800ms linear;
+    }
+    .clock__time.tick { color: var(--accent); }
+    .clock__sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      align-self: center;
+    }
+    @media (max-width: 600px) {
+      .clocks__inner { flex-wrap: wrap; gap: var(--s6); }
+      .clocks__label { width: 100%; margin-right: 0; }
+      .clock__sep { display: none; }
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      padding: var(--s8) 0;
+      background: var(--accent);
+    }
+    .footer__in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s6);
+      flex-wrap: wrap;
+    }
+    .footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
+    .footer__copy {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      color: white;
+      letter-spacing: 0.08em;
+    }
+    .footer__links { display: flex; gap: var(--s6); list-style: none; }
+    .footer__links a {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+      text-decoration: none;
+      transition: color 180ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .footer__links a:hover { color: oklch(0 0 0 / 0.5); }
+    }
+    @media (max-width: 600px) {
+      .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .work-grid { grid-template-columns: 1fr; }
+      .work-card--featured { grid-column: 1; }
+    }
+    @media (max-width: 600px) {
+      .footer__in { flex-direction: column; align-items: flex-start; }
+      .filter-bar__inner { gap: var(--s2); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .stagger > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .work-card__media-bg { transition: none !important; }
+    }
+
+    /* ============================================================
+       SERVICES — sticky left + expandable accordion right
+    ============================================================ */
+    .services {
+      padding: var(--s24) 0;
+      border-top: 1px solid var(--border);
+      background: #000000;
+      color: white;
+    }
+    .services .slabel { color: var(--accent); }
+    .services .sh { color: white; }
+    .services .sh em { color: var(--accent); }
+    .services .svcs__desc { color: oklch(0.90 0.002 0); }
+    .services .svc__n { color: oklch(0.70 0.003 0); }
+    .services .svc__name { color: white; }
+    .services .svc__body { color: oklch(0.90 0.002 0); }
+    .services .svc__toggle { color: oklch(0.70 0.003 0); }
+    .services .svc.open .svc__toggle { color: var(--accent); }
+    .services .svc { border-top: 1px solid oklch(0.25 0.002 0); }
+    .services .svc:last-child { border-bottom: 1px solid oklch(0.25 0.002 0); }
+
+    .svcs__wrap {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: var(--s16);
+      align-items: start;
+    }
+    .svcs__left {
+      position: sticky;
+      top: 96px;
+    }
+    .svcs__desc {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.72;
+      margin-top: var(--s6);
+      max-width: 34ch;
+    }
+
+    .svcs__list { display: flex; flex-direction: column; }
+
+    .svc {
+      display: grid;
+      grid-template-columns: 64px 1fr 28px;
+      align-items: start;
+      gap: var(--s4);
+      padding: var(--s6) 0;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .svc:last-child { border-bottom: 1px solid var(--border); }
+
+    .svc__n {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text-3);
+      padding-top: 5px;
+    }
+    .svc__name {
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      padding-top: 3px;
+      transition: color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .svc:hover .svc__name { color: var(--accent); }
+    }
+
+    .svc__shell {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 400ms var(--ease-out);
+    }
+    .svc.open .svc__shell { grid-template-rows: 1fr; }
+    .svc__inner { overflow: hidden; min-height: 0; }
+    .svc__body {
+      font-size: 13.5px;
+      color: var(--text-2);
+      line-height: 1.65;
+      padding: var(--s3) 0 var(--s2);
+      max-width: 58ch;
+    }
+
+    .svc__toggle {
+      font-size: 15px;
+      color: var(--text-3);
+      padding-top: 4px;
+      user-select: none;
+      transition:
+        transform 320ms var(--ease-out),
+        color     200ms var(--ease-out);
+    }
+    .svc.open .svc__toggle { transform: rotate(45deg); color: var(--accent); }
+
+    @media (max-width: 960px) {
+      .svcs__wrap { grid-template-columns: 1fr; gap: var(--s8); }
+      .svcs__left { position: relative; top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav class="nav" id="main-nav">
+    <div class="w">
+      <div class="nav__inner">
+        <a href="parallax-landing.html" class="nav__logo">Parallax<span>.</span></a>
+        <button class="nav__burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav__overlay" id="nav-overlay" aria-hidden="true">
+    <div class="nav__overlay-left">
+      <ul class="nav__menu-links">
+        <li><a href="work.html"     data-index="01" class="active">Work</a></li>
+        <li><a href="parallax-landing.html#services" data-index="02">Services</a></li>
+        <li><a href="about.html"    data-index="03">About</a></li>
+        <li><a href="articles.html" data-index="04">Articles</a></li>
+      </ul>
+    </div>
+    <div class="nav__overlay-right">
+      <div class="nav__meta">
+        <p class="nav__meta-label">Ready to build?</p>
+        <a href="parallax-landing.html#contact" class="nav__meta-cta">Start a Project ↗</a>
+      </div>
+      <p class="nav__meta-tagline">Precision over decoration.<br>Logic over assumption.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WORK HERO
+  ============================================================ -->
+  <section class="work-hero" id="work-hero">
+    <video class="work-hero__video" autoplay muted loop playsinline preload="auto">
+      <source src="Video/Work video 4.mp4" type="video/mp4">
+    </video>
+    <div class="work-hero__cursor-fx" aria-hidden="true"></div>
+    <div class="w">
+      <p class="slabel work-hero__slabel reveal">Selected Work</p>
+      <h1 class="work-hero__h1 reveal">
+        Projects that move<br>the <em>needle.</em>
+      </h1>
+      <p class="work-hero__desc reveal">
+        Every project here started with a question, not a brief. We dug into the problem, challenged assumptions, and built something that actually performed.
+      </p>
+      <p class="work-hero__count reveal">
+        <strong>9 case studies</strong> &nbsp;·&nbsp; 2020 – Present
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MARQUEE
+  ============================================================ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__t">
+      <span class="marquee__i">Brand Identity</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Interface Design</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Motion Engineering</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Frontend Architecture</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Design Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Creative Direction</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Brand Identity</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Interface Design</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Motion Engineering</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Frontend Architecture</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Design Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Creative Direction</span><span class="marquee__sep">&middot;</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FILTER BAR
+  ============================================================ -->
+  <div class="filter-bar">
+    <div class="w">
+      <div class="filter-bar__inner">
+        <span class="filter-bar__label">Filter</span>
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="brand">Brand Systems</button>
+        <button class="filter-pill" data-filter="interface">Interface Design</button>
+        <button class="filter-pill" data-filter="engineering">Engineering</button>
+        <button class="filter-pill" data-filter="strategy">Strategy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WORK GRID — BENTO LAYOUT
+  ============================================================ -->
+  <section class="work-grid-section">
+    <div class="w">
+      <div class="grid stagger">
+
+        <!-- 01 — BMW · 8 cols × 2 rows -->
+        <a class="pc" href="work/bmw.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="images/work/BMW.jpg" alt="BMW project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/BMW.svg" alt="BMW">
+              <span class="pc__industry">Automotive</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Interface Design · Frontend Engineering</p>
+            <h2 class="pc__name">Digital Platform Redesign</h2>
+            <div class="pc__meta">
+              <span class="pc__client">BMW Group</span>
+              <span class="pc__yr">2024</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 02 — Nissan · 4 cols -->
+        <a class="pc" href="work/nissan.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80" alt="Nissan project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Nissan.svg" alt="Nissan">
+              <span class="pc__industry">Automotive</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Brand Systems · Digital Strategy</p>
+            <h2 class="pc__name">Connected Car Brand Experience</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Nissan</span>
+              <span class="pc__yr">2023</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 03 — Sportradar · 4 cols -->
+        <a class="pc" href="work/sportradar.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=900&q=80" alt="Sportradar project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Sportradar.svg" alt="Sportradar">
+              <span class="pc__industry">Sports & Media</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Interface Design · Data Visualisation</p>
+            <h2 class="pc__name">Live Sports Data Dashboard</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Sportradar</span>
+              <span class="pc__yr">2023</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 04 — Vestas · 12 cols full width -->
+        <a class="pc" href="work/vestas.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=1400&q=80" alt="Vestas project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Vestas.svg" alt="Vestas">
+              <span class="pc__industry">Energy</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Digital Strategy · Motion & Interaction</p>
+            <h2 class="pc__name">Sustainability Annual Report</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Vestas</span>
+              <span class="pc__yr">2022</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 05 — Biblica · 4 cols -->
+        <a class="pc" href="work/biblica.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Biblica project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Biblica.svg" alt="Biblica">
+              <span class="pc__industry">Non-profit</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Interface Design · Brand Systems</p>
+            <h2 class="pc__name">Scripture Platform Redesign</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Biblica</span>
+              <span class="pc__yr">2022</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 06 — Accenture · 8 cols -->
+        <a class="pc" href="work/accenture.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80" alt="Accenture project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Accenture.svg" alt="Accenture">
+              <span class="pc__industry">Consulting</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Brand Systems · Frontend Engineering</p>
+            <h2 class="pc__name">Enterprise Design System</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Accenture</span>
+              <span class="pc__yr">2021</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 07 — Meridian · 12 cols full width -->
+        <a class="pc" href="work/project-7.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="images/work/Meridian.jpg" alt="Meridian project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <span class="pc__logo-text">Meridian</span>
+              <span class="pc__industry">Financial Services</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Digital Strategy · Interface Design</p>
+            <h2 class="pc__name">Digital Banking Platform</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Meridian Bank</span>
+              <span class="pc__yr">2021</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 08 — Elara · 4 cols -->
+        <a class="pc" href="work/project-8.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=900&q=80" alt="Elara project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <span class="pc__logo-text">Elara</span>
+              <span class="pc__industry">Healthcare</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Brand Systems · Motion</p>
+            <h2 class="pc__name">Patient Experience Redesign</h2>
+            <div class="pc__meta">
+              <span class="pc__client">Elara Health</span>
+              <span class="pc__yr">2020</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 09 — August · 8 cols -->
+        <a class="pc" href="work/project-9.html">
+          <div class="pc__img">
+            <img class="pc__photo" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80" alt="August project">
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <span class="pc__logo-text">August</span>
+              <span class="pc__industry">Consumer Goods</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            <p class="pc__discipline">Creative Direction · E-Commerce</p>
+            <h2 class="pc__name">Brand & Commerce Launch</h2>
+            <div class="pc__meta">
+              <span class="pc__client">August Co.</span>
+              <span class="pc__yr">2020</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section class="services" id="services">
+    <div class="w">
+      <div class="svcs__wrap">
+
+        <div class="svcs__left reveal">
+          <p class="slabel">What We Do</p>
+          <h2 class="sh">Six disciplines.<br>One <em>standard.</em></h2>
+          <p class="svcs__desc">We start by questioning the brief. Every discipline we practice runs on the same principle - clarity before form.</p>
+        </div>
+
+        <div class="svcs__list stagger">
+
+          <div class="svc" data-svc>
+            <span class="svc__n">01</span>
+            <div>
+              <div class="svc__name">Brand Systems</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">Logo, identity, voice, and design language built as a complete system. Not just how you look, but how you scale across every surface.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">02</span>
+            <div>
+              <div class="svc__name">Creative Direction</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">When you need a single coherent vision across all touchpoints — campaigns, brand books, launch moments — we direct it end to end.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">03</span>
+            <div>
+              <div class="svc__name">Digital Strategy</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">We map the gap between where your product is and where it needs to be — research, positioning, architecture. Then we build the roadmap to close it.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">04</span>
+            <div>
+              <div class="svc__name">Frontend Engineering</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">We write production code. React, Next.js, TypeScript. Built for performance, built for teams, built to last past the handoff.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">05</span>
+            <div>
+              <div class="svc__name">Interface Design</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">Screens that think. We design every state, every edge case, every micro-interaction before a single line of code is written.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+          <div class="svc" data-svc>
+            <span class="svc__n">06</span>
+            <div>
+              <div class="svc__name">Motion &amp; Interaction</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">The gap between software that works and software people love is how it moves. We choreograph interfaces with precision timing and physics-based motion.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WORK GRID — Original Layout (backup)
+  ============================================================ -->
+  <section class="work-grid-section" style="display: none;">
+    <div class="w">
+      <div class="work-meta-bar reveal">
+        <p class="work-meta-bar__count">Showing <strong id="project-count">6</strong> projects</p>
+        <p class="work-meta-bar__note">Click any project to view the case study</p>
+      </div>
+
+      <div class="work-grid stagger" id="work-grid">
+
+        <!-- ── PROJECT 1 — BMW (featured, full width) ── -->
+        <a class="work-card work-card--featured"
+           href="work/bmw.html"
+           data-categories="interface engineering"
+           data-index="0">
+          <div class="work-card__media">
+            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.14 0.06 249) 0%, oklch(0.22 0.10 240) 50%, oklch(0.10 0.04 260) 100%);"></div>
+            <span class="work-card__idx">01</span>
+            <span class="work-card__cat">Interface Design · Frontend Engineering</span>
+            <span class="work-card__arrow">↗</span>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__left">
+              <p class="work-card__client">BMW Group</p>
+              <h2 class="work-card__title">Digital Platform Redesign</h2>
+              <div class="work-card__tags">
+                <span class="work-card__tag">Interface Design</span>
+                <span class="work-card__tag">Frontend Engineering</span>
+                <span class="work-card__tag">Design Systems</span>
+              </div>
+            </div>
+            <div class="work-card__right">
+              <p class="work-card__year">2024</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── PROJECT 2 — Nissan ── -->
+        <a class="work-card"
+           href="work/nissan.html"
+           data-categories="brand strategy"
+           data-index="1">
+          <div class="work-card__media">
+            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.12 0.03 30) 0%, oklch(0.20 0.05 20) 55%, oklch(0.09 0.01 0) 100%);"></div>
+            <span class="work-card__idx">02</span>
+            <span class="work-card__cat">Brand Systems · Digital Strategy</span>
+            <span class="work-card__arrow">↗</span>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__left">
+              <p class="work-card__client">Nissan</p>
+              <h2 class="work-card__title">Connected Car Brand Experience</h2>
+              <div class="work-card__tags">
+                <span class="work-card__tag">Brand Systems</span>
+                <span class="work-card__tag">Digital Strategy</span>
+              </div>
+            </div>
+            <div class="work-card__right">
+              <p class="work-card__year">2023</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── PROJECT 3 — Sportradar ── -->
+        <a class="work-card"
+           href="work/sportradar.html"
+           data-categories="interface engineering"
+           data-index="2">
+          <div class="work-card__media">
+            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.45 0.22 35) 0%, oklch(0.30 0.18 28) 50%, oklch(0.18 0.10 35) 100%);"></div>
+            <span class="work-card__idx">03</span>
+            <span class="work-card__cat">Interface Design · Frontend Engineering</span>
+            <span class="work-card__arrow">↗</span>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__left">
+              <p class="work-card__client">Sportradar</p>
+              <h2 class="work-card__title">Live Sports Data Dashboard</h2>
+              <div class="work-card__tags">
+                <span class="work-card__tag">Interface Design</span>
+                <span class="work-card__tag">Data Visualisation</span>
+                <span class="work-card__tag">Engineering</span>
+              </div>
+            </div>
+            <div class="work-card__right">
+              <p class="work-card__year">2023</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── PROJECT 4 — Vestas (featured, full width) ── -->
+        <a class="work-card work-card--featured"
+           href="work/vestas.html"
+           data-categories="strategy brand"
+           data-index="3">
+          <div class="work-card__media">
+            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.20 0.08 160) 0%, oklch(0.28 0.10 150) 40%, oklch(0.14 0.05 170) 100%);"></div>
+            <span class="work-card__idx">04</span>
+            <span class="work-card__cat">Digital Strategy · Motion & Interaction</span>
+            <span class="work-card__arrow">↗</span>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__left">
+              <p class="work-card__client">Vestas</p>
+              <h2 class="work-card__title">Sustainability Digital Annual Report</h2>
+              <div class="work-card__tags">
+                <span class="work-card__tag">Digital Strategy</span>
+                <span class="work-card__tag">Motion & Interaction</span>
+                <span class="work-card__tag">Creative Direction</span>
+              </div>
+            </div>
+            <div class="work-card__right">
+              <p class="work-card__year">2022</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── PROJECT 5 — Biblica ── -->
+        <a class="work-card"
+           href="work/biblica.html"
+           data-categories="interface brand"
+           data-index="4">
+          <div class="work-card__media">
+            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.18 0.07 295) 0%, oklch(0.25 0.09 285) 50%, oklch(0.13 0.04 310) 100%);"></div>
+            <span class="work-card__idx">05</span>
+            <span class="work-card__cat">Interface Design · Brand Systems</span>
+            <span class="work-card__arrow">↗</span>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__left">
+              <p class="work-card__client">Biblica</p>
+              <h2 class="work-card__title">Scripture Platform Redesign</h2>
+              <div class="work-card__tags">
+                <span class="work-card__tag">Interface Design</span>
+                <span class="work-card__tag">Brand Systems</span>
+              </div>
+            </div>
+            <div class="work-card__right">
+              <p class="work-card__year">2022</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── PROJECT 6 — Accenture ── -->
+        <a class="work-card"
+           href="work/accenture.html"
+           data-categories="brand engineering"
+           data-index="5">
+          <div class="work-card__media">
+            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.10 0.005 0) 0%, oklch(0.18 0.008 0) 50%, oklch(0.07 0.002 0) 100%);"></div>
+            <span class="work-card__idx">06</span>
+            <span class="work-card__cat">Brand Systems · Frontend Engineering</span>
+            <span class="work-card__arrow">↗</span>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__left">
+              <p class="work-card__client">Accenture</p>
+              <h2 class="work-card__title">Enterprise Design System</h2>
+              <div class="work-card__tags">
+                <span class="work-card__tag">Brand Systems</span>
+                <span class="work-card__tag">Frontend Engineering</span>
+                <span class="work-card__tag">Design Ops</span>
+              </div>
+            </div>
+            <div class="work-card__right">
+              <p class="work-card__year">2021</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- No results message -->
+        <div class="no-results" id="no-results">
+          <p>No projects in this category yet.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BAND
+  ============================================================ -->
+  <section class="cta-band" id="cta-band">
+    <div class="cta-band__cursor-fx" aria-hidden="true"></div>
+    <div class="w">
+      <div class="cta-band__inner reveal">
+        <div class="cta-band__text">
+          <h2>See something<br>you <em>like?</em></h2>
+          <p>We take on a small number of new projects each year. Let's talk about yours.</p>
+        </div>
+        <div class="cta-band__btns">
+          <a href="parallax-landing.html#contact" class="btn btn-p">Start a Project &#8594;</a>
+          <a href="about.html" class="btn btn-g">Learn About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WORLD CLOCKS
+  ============================================================ -->
+  <div class="clocks">
+    <div class="w">
+      <div class="clocks__inner">
+        <span class="clocks__label">Global Presence</span>
+        <div class="clock">
+          <span class="clock__city">Munich</span>
+          <span class="clock__time" id="clock-de">--:--</span>
+        </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Dubai</span>
+          <span class="clock__time" id="clock-ae">--:--</span>
+        </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Bengaluru</span>
+          <span class="clock__time" id="clock-in">--:--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="w">
+      <div class="footer__in">
+        <span class="footer__logo">Parallax.</span>
+        <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
+        <ul class="footer__links">
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Dribbble</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================================
+       NAV — scroll + burger toggle
+    ============================================================ */
+    const nav     = document.getElementById('main-nav');
+    const burger  = document.getElementById('nav-burger');
+    const overlay = document.getElementById('nav-overlay');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+
+    burger.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('menu-open');
+      burger.setAttribute('aria-expanded', isOpen);
+      overlay.setAttribute('aria-hidden', !isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.body.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+        document.body.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+
+    /* ============================================================
+       FILTER — category pills
+       Data attr: data-categories="brand interface" (space-sep list)
+    ============================================================ */
+    const pills      = document.querySelectorAll('.filter-pill');
+    const cards      = document.querySelectorAll('.work-card');
+    const countEl    = document.getElementById('project-count');
+    const noResults  = document.getElementById('no-results');
+
+    function applyFilter(filter) {
+      let visible = 0;
+      cards.forEach(card => {
+        const cats = (card.dataset.categories || '').split(' ');
+        const show = filter === 'all' || cats.includes(filter);
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+
+      // Update count
+      countEl.textContent = visible;
+
+      // No-results state
+      noResults.classList.toggle('visible', visible === 0);
+
+      // Re-trigger stagger animation
+      const grid = document.getElementById('work-grid');
+      grid.classList.remove('in');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { grid.classList.add('in'); });
+      });
+    }
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        applyFilter(pill.dataset.filter);
+      });
+    });
+
+    /* ============================================================
+       SCROLL REVEAL — IntersectionObserver
+    ============================================================ */
+    /* Work Hero — Cursor FX */
+    const workHero = document.getElementById('work-hero');
+    if (workHero) {
+      workHero.addEventListener('mousemove', e => {
+        const r = workHero.getBoundingClientRect();
+        workHero.style.setProperty('--hx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+        workHero.style.setProperty('--hy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+      });
+    }
+
+    const revealEls = document.querySelectorAll('.reveal, .stagger');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => io.observe(el));
+
+    /* SERVICES ACCORDION
+       One item open at a time. */
+    document.querySelectorAll('[data-svc]').forEach(item => {
+      item.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('[data-svc]').forEach(s => s.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+
+    /* CTA BAND — cursor FX */
+    (function () {
+      const band = document.getElementById('cta-band');
+      if (!band || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+      band.addEventListener('mousemove', e => {
+        const r = band.getBoundingClientRect();
+        band.style.setProperty('--ctx', ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%');
+        band.style.setProperty('--cty', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
+      });
+      band.addEventListener('mouseleave', () => {
+        band.style.setProperty('--ctx', '50%');
+        band.style.setProperty('--cty', '50%');
+      });
+    })();
+
+    /* WORLD CLOCKS */
+    (function () {
+      const zones = [
+        { id: 'clock-de', tz: 'Europe/Berlin' },
+        { id: 'clock-ae', tz: 'Asia/Dubai'    },
+        { id: 'clock-in', tz: 'Asia/Kolkata'  },
+      ];
+      function fmt(tz) {
+        return new Date().toLocaleTimeString('en-GB', {
+          timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+        });
+      }
+      function tick() {
+        zones.forEach(({ id, tz }) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const t = fmt(tz);
+          if (el.textContent !== t) {
+            el.textContent = t;
+            el.classList.add('tick');
+            setTimeout(() => el.classList.remove('tick'), 700);
+          }
+        });
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+
+</body>
+</html>

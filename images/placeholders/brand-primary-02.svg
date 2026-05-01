@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" preserveAspectRatio="xMidYMid meet">
+  <rect width="640" height="320" fill="#F5F5F2"/>
+  <g fill="#0A1E3F">
+    <rect x="280" y="80" width="80" height="80" fill="none" stroke="#0A1E3F" stroke-width="6"/>
+    <path d="M304 120 L348 120 L336 108 M348 120 L336 132" stroke="#0A1E3F" stroke-width="6" fill="none" stroke-linecap="square"/>
+  </g>
+  <line x1="220" y1="200" x2="420" y2="200" stroke="#0A1E3F" stroke-width="2"/>
+  <text x="320" y="252" text-anchor="middle" font-family="ui-sans-serif, -apple-system, system-ui, sans-serif" font-size="56" font-weight="800" letter-spacing="-2" fill="#0A1E3F">MARK<tspan fill="#1A73E8">.</tspan></text>
+  <text x="320" y="280" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="13" letter-spacing="6" fill="#0A1E3F" opacity="0.6">STUDIO</text>
+  <text x="36" y="38" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#0A1E3F" opacity="0.5">02 — STACKED</text>
+</svg>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1080" preserveAspectRatio="xMidYMid slice">
+  <rect width="500" height="1080" fill="#1A1A1A"/>
+  <!-- Status bar -->
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" fill="#F5F5F2">
+    <text x="40" y="44" font-size="14" letter-spacing="1">9:41</text>
+    <text x="460" y="44" text-anchor="end" font-size="11" letter-spacing="1.5" opacity="0.85">·· · 5G  100%</text>
+  </g>
+  <!-- Top bar -->
+  <g transform="translate(40 92)" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#F5F5F2">
+    <text opacity="0.55">PROFILE</text>
+    <text x="420" text-anchor="end" fill="#C99A2E">EDIT</text>
+  </g>
+  <!-- Avatar block -->
+  <g transform="translate(40 160)">
+    <rect x="0" y="0" width="420" height="180" fill="#262626"/>
+    <circle cx="100" cy="90" r="44" fill="#C99A2E"/>
+    <text x="100" y="100" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="36" font-weight="800" fill="#1A1A1A">JC</text>
+    <text x="170" y="80" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="700" fill="#F5F5F2" letter-spacing="-0.5">Jane Cooper</text>
+    <text x="170" y="106" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" letter-spacing="1.5" fill="#F5F5F2" opacity="0.55">MEMBER · 2024</text>
+    <text x="170" y="138" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5" fill="#C99A2E">EDITION TIER</text>
+  </g>
+  <!-- Saved configurations -->
+  <text x="40" y="392" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" letter-spacing="2" fill="#F5F5F2" opacity="0.5">YOUR SAVED CONFIGS</text>
+  <g transform="translate(40 412)">
+    <rect x="0" y="0" width="420" height="100" fill="#262626"/>
+    <rect x="20" y="22" width="80" height="56" fill="#0A1E3F"/>
+    <text x="120" y="44" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#F5F5F2">Sedan / M Sport</text>
+    <text x="120" y="64" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.55">SAVED MAR 2026</text>
+    <text x="400" y="60" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#C99A2E">→</text>
+  </g>
+  <g transform="translate(40 528)">
+    <rect x="0" y="0" width="420" height="100" fill="#262626"/>
+    <rect x="20" y="22" width="80" height="56" fill="#15243D"/>
+    <text x="120" y="44" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#F5F5F2">SUV / Hybrid</text>
+    <text x="120" y="64" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.55">SAVED FEB 2026</text>
+    <text x="400" y="60" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#C99A2E">→</text>
+  </g>
+  <!-- Menu list -->
+  <g transform="translate(40 680)" font-family="ui-sans-serif, system-ui, sans-serif">
+    <line x1="0" y1="0" x2="420" y2="0" stroke="#F5F5F2" stroke-opacity="0.08"/>
+    <text x="0" y="42" font-size="14" fill="#F5F5F2">Test drives</text>
+    <text x="420" y="42" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#F5F5F2" opacity="0.4">02</text>
+    <line x1="0" y1="64" x2="420" y2="64" stroke="#F5F5F2" stroke-opacity="0.08"/>
+    <text x="0" y="106" font-size="14" fill="#F5F5F2">Service & support</text>
+    <text x="420" y="106" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#F5F5F2" opacity="0.4">→</text>
+    <line x1="0" y1="128" x2="420" y2="128" stroke="#F5F5F2" stroke-opacity="0.08"/>
+    <text x="0" y="170" font-size="14" fill="#F5F5F2">Settings</text>
+    <text x="420" y="170" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#F5F5F2" opacity="0.4">→</text>
+    <line x1="0" y1="192" x2="420" y2="192" stroke="#F5F5F2" stroke-opacity="0.08"/>
+  </g>
+  <!-- Tab bar -->
+  <g transform="translate(0 980)">
+    <rect width="500" height="100" fill="#0F0F0F"/>
+    <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5">
+      <text x="62"  y="56" text-anchor="middle" fill="#F5F5F2" opacity="0.5">HOME</text>
+      <text x="187" y="56" text-anchor="middle" fill="#F5F5F2" opacity="0.5">CONFIG</text>
+      <text x="312" y="56" text-anchor="middle" fill="#F5F5F2" opacity="0.5">SAVED</text>
+      <text x="438" y="56" text-anchor="middle" fill="#C99A2E">PROFILE</text>
+    </g>
+    <rect x="408" y="14" width="60" height="2" fill="#C99A2E"/>
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" preserveAspectRatio="xMidYMid meet">
+  <g>
+    <rect x="60" y="40" width="80" height="80" fill="none" stroke="#F5F5F2" stroke-width="5"/>
+    <path d="M80 110 L80 60 L100 90 L120 60 L120 110" fill="#F5F5F2"/>
+  </g>
+</svg>

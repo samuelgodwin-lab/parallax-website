@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="apr" cx="50%" cy="40%" r="70%">
+      <stop offset="0" stop-color="#1F1F1F"/>
+      <stop offset="1" stop-color="#0A0A0A"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="750" fill="url(#apr)"/>
+  <!-- T-shirt silhouette -->
+  <g fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1">
+    <path d="M180 200 L240 170 Q300 150 360 170 L420 200 L460 280 L400 320 L400 600 L200 600 L200 320 L140 280 Z"/>
+    <!-- Collar -->
+    <path d="M260 170 Q300 200 340 170" fill="#0A0A0A" stroke="none"/>
+  </g>
+  <!-- Subtle fabric shading -->
+  <g opacity="0.5">
+    <path d="M200 320 L200 600 L260 600 L260 340 Z" fill="#1F1F1F"/>
+    <path d="M340 340 L340 600 L400 600 L400 320 Z" fill="#0F0F0F"/>
+  </g>
+  <!-- Embroidered badge (brass) -->
+  <g transform="translate(264 280)">
+    <rect x="0" y="0" width="48" height="48" fill="none" stroke="#C99A2E" stroke-width="3"/>
+    <path d="M12 41 L12 12 L24 30 L36 12 L36 41" fill="#C99A2E"/>
+  </g>
+  <text x="36" y="44" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#F5F5F2" opacity="0.4">05 — APPAREL</text>
+  <text x="564" y="724" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="2" fill="#C99A2E" opacity="0.55">EMBROIDERED · BRASS</text>
+</svg>

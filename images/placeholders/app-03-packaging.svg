@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="bg3" cx="50%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#102A52"/>
+      <stop offset="1" stop-color="#050D1F"/>
+    </radialGradient>
+  </defs>
+  <rect width="700" height="700" fill="url(#bg3)"/>
+  <!-- 3D Box: front face, top face, side face -->
+  <!-- Top -->
+  <polygon points="200,180 500,180 580,140 280,140" fill="#1A2F55"/>
+  <!-- Side -->
+  <polygon points="500,180 580,140 580,500 500,540" fill="#0A1E3F"/>
+  <!-- Front -->
+  <rect x="200" y="180" width="300" height="360" fill="#16315E"/>
+  <!-- Front mark -->
+  <g transform="translate(310 320)">
+    <rect x="0" y="0" width="80" height="80" fill="none" stroke="#F5F5F2" stroke-width="4"/>
+    <path d="M20 68 L20 20 L40 50 L60 20 L60 68" fill="#F5F5F2"/>
+  </g>
+  <!-- Tape strip on top -->
+  <rect x="320" y="140" width="60" height="40" fill="#1A73E8" opacity="0.7"/>
+  <!-- Soft floor shadow -->
+  <ellipse cx="380" cy="580" rx="240" ry="22" fill="#000" opacity="0.4"/>
+  <text x="36" y="44" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#F5F5F2" opacity="0.4">03 — PACKAGING</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" preserveAspectRatio="xMidYMid slice">
+  <rect width="600" height="750" fill="#E6E6E1"/>
+  <!-- Paper sheet (slight rotation) -->
+  <g transform="translate(70 60) rotate(-2)">
+    <rect x="0" y="0" width="460" height="640" fill="#F8F8F4" stroke="#0A1E3F" stroke-width="0.5" stroke-opacity="0.12"/>
+    <rect x="-2" y="638" width="464" height="6" fill="#0A1E3F" fill-opacity="0.1"/>
+    <!-- Mark top-left -->
+    <g transform="translate(40 44)">
+      <rect x="0" y="0" width="36" height="36" fill="none" stroke="#0A1E3F" stroke-width="3"/>
+      <path d="M9 31 L9 9 L18 22 L27 9 L27 31" fill="#0A1E3F"/>
+    </g>
+    <text x="86" y="68" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="800" fill="#0A1E3F" letter-spacing="-0.5">MARK<tspan fill="#1A73E8">.</tspan></text>
+    <!-- Address top-right -->
+    <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="8" fill="#0A1E3F" opacity="0.55" text-anchor="end">
+      <text x="420" y="50" letter-spacing="1">MARK STUDIO</text>
+      <text x="420" y="62" letter-spacing="1">12 SIGNAL ROW</text>
+      <text x="420" y="74" letter-spacing="1">LONDON E2 9DZ</text>
+    </g>
+    <!-- Body text lines -->
+    <g fill="#0A1E3F" opacity="0.35">
+      <rect x="40" y="200" width="80" height="6"/>
+      <rect x="40" y="218" width="60" height="6"/>
+    </g>
+    <g fill="#0A1E3F" opacity="0.18">
+      <rect x="40" y="260" width="380" height="3"/>
+      <rect x="40" y="272" width="370" height="3"/>
+      <rect x="40" y="284" width="340" height="3"/>
+      <rect x="40" y="296" width="380" height="3"/>
+      <rect x="40" y="308" width="220" height="3"/>
+      <rect x="40" y="332" width="380" height="3"/>
+      <rect x="40" y="344" width="350" height="3"/>
+      <rect x="40" y="356" width="280" height="3"/>
+      <rect x="40" y="380" width="380" height="3"/>
+      <rect x="40" y="392" width="300" height="3"/>
+    </g>
+    <!-- Signature line -->
+    <g fill="#0A1E3F" opacity="0.4">
+      <rect x="40" y="500" width="120" height="3"/>
+      <rect x="40" y="514" width="80" height="2"/>
+    </g>
+    <!-- Footer -->
+    <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="7" fill="#1A73E8" opacity="0.7">
+      <text x="40" y="616" letter-spacing="1">MARK.STUDIO</text>
+    </g>
+  </g>
+  <text x="36" y="44" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="2" fill="#0A1E3F" opacity="0.45">04 — LETTERHEAD</text>
+</svg>

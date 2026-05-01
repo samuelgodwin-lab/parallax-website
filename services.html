@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Parallax Digital Craft Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       PARALLAX — Services Page
+    ============================================================ */
+
+    :root {
+      --bg:             oklch(1 0 0);
+      --surface:        oklch(0.98 0.001 0);
+      --surface-raised: oklch(0.96 0.001 0);
+      --text:           oklch(0 0 0);
+      --text-2:         oklch(0.40 0.005 0);
+      --text-3:         oklch(0.55 0.005 0);
+      --accent:         oklch(0.60 0.18 249);
+      --accent-hi:      oklch(0.70 0.14 249);
+      --accent-muted:   oklch(0.60 0.18 249 / 0.14);
+      --border:         oklch(0 0 0 / 0.15);
+      --border-strong:  oklch(0 0 0 / 0.30);
+
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+
+      --s1:4px; --s2:8px; --s3:12px; --s4:16px;
+      --s6:24px; --s8:32px; --s12:48px; --s16:64px; --s24:96px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-d);
+      font-synthesis: none;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    .w {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 80px);
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out);
+    }
+    .stagger.in > *:nth-child(1)   { opacity:1; transform:none; transition-delay:   0ms; }
+    .stagger.in > *:nth-child(2)   { opacity:1; transform:none; transition-delay:  55ms; }
+    .stagger.in > *:nth-child(3)   { opacity:1; transform:none; transition-delay: 110ms; }
+    .stagger.in > *:nth-child(4)   { opacity:1; transform:none; transition-delay: 165ms; }
+    .stagger.in > *:nth-child(5)   { opacity:1; transform:none; transition-delay: 220ms; }
+    .stagger.in > *:nth-child(6)   { opacity:1; transform:none; transition-delay: 275ms; }
+    .stagger.in > *:nth-child(n+7) { opacity:1; transform:none; transition-delay: 330ms; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 20px 0;
+      transition: background 300ms var(--ease-out), backdrop-filter 300ms var(--ease-out);
+    }
+    .nav.scrolled {
+      background: oklch(1 0 0 / 0.75);
+      backdrop-filter: blur(18px) saturate(1.4);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo {
+      font-size: 17px; font-weight: 800; letter-spacing: -0.045em;
+      color: var(--text); text-decoration: none;
+      position: relative; z-index: 210;
+      transition: color 300ms var(--ease-out);
+    }
+    .nav__logo span { color: var(--accent); }
+    .menu-open .nav__logo { color: white; }
+    .nav__burger {
+      position: relative; z-index: 210;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: 1px solid var(--border-strong);
+      cursor: pointer; flex-direction: column; gap: 5px; padding: 0;
+      transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) { .nav__burger:hover { border-color: var(--accent); } }
+    .nav__burger:active { transform: scale(0.95); }
+    .nav__burger-line {
+      display: block; width: 18px; height: 1.5px; background: var(--text);
+      transform-origin: center;
+      transition: transform 360ms var(--ease-out), opacity 200ms var(--ease-out), width 300ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .menu-open .nav__burger-line { background: white; }
+    .menu-open .nav__burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .menu-open .nav__burger-line:nth-child(2) { opacity: 0; width: 0; }
+    .menu-open .nav__burger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav__overlay {
+      position: fixed; inset: 0; z-index: 190;
+      display: grid; grid-template-columns: 1fr 1fr;
+      pointer-events: none; clip-path: inset(0 0 100% 0);
+      transition: clip-path 600ms var(--ease-inout);
+    }
+    .menu-open .nav__overlay { pointer-events: auto; clip-path: inset(0 0 0% 0); }
+    .nav__overlay-left {
+      background: var(--accent); display: flex; flex-direction: column;
+      justify-content: flex-end; padding: clamp(48px, 8vw, 96px); padding-top: 100px;
+      position: relative; overflow: hidden;
+    }
+    .nav__overlay-left::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(oklch(0 0 0 / 0.04) 1px, transparent 1px), linear-gradient(90deg, oklch(0 0 0 / 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .nav__overlay-right {
+      background: oklch(0.07 0.003 249); display: flex; flex-direction: column;
+      justify-content: space-between; padding: clamp(48px, 8vw, 96px); padding-top: 100px;
+    }
+    .nav__menu-links { list-style: none; }
+    .nav__menu-links li { overflow: hidden; }
+    .nav__menu-links a {
+      display: block; font-size: clamp(52px, 7vw, 100px);
+      font-weight: 800; letter-spacing: -0.05em; line-height: 1.0;
+      color: oklch(0.97 0.002 35); text-decoration: none;
+      transform: translateY(110%);
+      transition: transform 560ms var(--ease-out), color 200ms var(--ease-out);
+    }
+    .nav__menu-links a.active { color: oklch(0.08 0.003 249); }
+    .nav__menu-links li:nth-child(1) a { transition-delay:  80ms, 0ms; }
+    .nav__menu-links li:nth-child(2) a { transition-delay: 140ms, 0ms; }
+    .nav__menu-links li:nth-child(3) a { transition-delay: 200ms, 0ms; }
+    .nav__menu-links li:nth-child(4) a { transition-delay: 260ms, 0ms; }
+    .menu-open .nav__menu-links a { transform: translateY(0); }
+    @media (hover:hover) and (pointer:fine) { .nav__menu-links a:hover { color: oklch(0.08 0.003 249); } }
+    .nav__menu-links a::before {
+      content: attr(data-index); font-family: var(--font-m);
+      font-size: 11px; font-weight: 400; letter-spacing: 0.10em;
+      vertical-align: super; margin-right: 10px; opacity: 0.5;
+    }
+    .nav__meta {
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 400ms var(--ease-out) 300ms, transform 400ms var(--ease-out) 300ms;
+    }
+    .menu-open .nav__meta { opacity: 1; transform: none; }
+    .nav__meta-label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.65 0.002 0); margin-bottom: var(--s3); }
+    .nav__meta-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-m); font-size: 10.5px; letter-spacing: 0.11em; text-transform: uppercase;
+      color: oklch(0.98 0.002 0); text-decoration: none;
+      border: 1px solid oklch(0.98 0.002 0); padding: 12px 20px;
+      transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .nav__meta-cta:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px, -1.5px); }
+    }
+    .nav__meta-tagline { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.08em; color: oklch(0.45 0.002 0); line-height: 1.8; }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: var(--font-m); font-size: 11px; letter-spacing: 0.11em;
+      text-transform: uppercase; font-weight: 500; text-decoration: none;
+      cursor: pointer; padding: 14px 26px;
+      transition: background 200ms var(--ease-out), color 200ms var(--ease-out), border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .btn:active { transform: scale(0.97) !important; box-shadow: none !important; }
+    .btn-p { color: var(--bg); background: var(--text); border: 1px solid var(--text); }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-p:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px, -1.5px); }
+    }
+    .btn-g { color: var(--text-2); background: transparent; border: 1px solid var(--border-strong); }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-g:hover { color: var(--text); border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px, -1.5px); }
+    }
+    .btn-white { color: oklch(0.07 0.003 249); background: white; border: 1px solid white; }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-white:hover { border-color: oklch(0.08 0.003 249); box-shadow: 3px 3px 0 0 oklch(0 0 0 / 0.25); transform: translate(-1.5px, -1.5px); }
+    }
+    .btn-outline-white { color: white; background: transparent; border: 1px solid oklch(1 0 0 / 0.5); }
+    @media (hover:hover) and (pointer:fine) {
+      .btn-outline-white:hover { border-color: white; box-shadow: 3px 3px 0 0 oklch(0 0 0 / 0.2); transform: translate(-1.5px, -1.5px); }
+    }
+
+    /* ============================================================
+       SECTION LABEL + HEADING
+    ============================================================ */
+    .slabel {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6);
+    }
+    .slabel::before { content: ''; width: 22px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .sh { font-size: clamp(32px, 4vw, 58px); font-weight: 700; letter-spacing: -0.042em; line-height: 1.0; font-feature-settings: 'ss01' 1, 'kern' 1; text-wrap: balance; }
+    .sh em { font-style: normal; color: var(--accent); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .svc-hero {
+      padding-top: 160px;
+      padding-bottom: 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .svc-hero__video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    /* Subtle grid texture — dark lines matching home page */
+    /* Cursor FX — grid mask + accent glow (matches about page) */
+    .svc-hero__cursor-fx {
+      position: absolute; inset: 0; pointer-events: none;
+      z-index: 2; opacity: 0; transition: opacity 700ms var(--ease-out);
+    }
+    .svc-hero:hover .svc-hero__cursor-fx { opacity: 0.65; }
+    .svc-hero__cursor-fx::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(
+        circle 411px at var(--hx, 50%) var(--hy, 50%),
+        black 5%, transparent 75%
+      );
+      mask-image: radial-gradient(
+        circle 411px at var(--hx, 50%) var(--hy, 50%),
+        black 5%, transparent 75%
+      );
+    }
+    .svc-hero__cursor-fx::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(
+        circle 367px at var(--hx, 50%) var(--hy, 50%),
+        oklch(0.60 0.20 249 / 0.18) 10%,
+        transparent 69%
+      );
+    }
+
+    .svc-hero .w { position: relative; z-index: 3; padding-bottom: clamp(60px, 8vw, 100px); }
+
+    .svc-hero__slabel { color: var(--accent); }
+    .svc-hero__slabel::before { background: var(--accent); }
+
+    .svc-hero__h1 {
+      font-size: clamp(32px, 4.7vw, 70px);
+      font-weight: 800;
+      letter-spacing: -0.048em;
+      line-height: 0.92;
+      color: var(--text);
+      margin-top: var(--s4);
+      margin-bottom: var(--s8);
+      max-width: 900px;
+    }
+    .svc-hero__h1 em { font-style: normal; color: var(--accent); }
+
+    .svc-hero__p {
+      font-size: clamp(16px, 1.7vw, 19px);
+      color: var(--text-2);
+      max-width: 52ch;
+      line-height: 1.72;
+      margin-bottom: var(--s12);
+    }
+
+    .svc-hero__btns { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+
+
+    /* ============================================================
+       SERVICES OVERVIEW GRID
+    ============================================================ */
+    .svc-overview {
+      padding: var(--s24) 0;
+      background: #f8f8f8;
+    }
+    .svc-overview__hdr {
+      margin-bottom: var(--s12);
+    }
+    .svc-overview__sub {
+      font-size: clamp(15px, 1.4vw, 17px);
+      color: var(--text-2);
+      max-width: 52ch;
+      line-height: 1.65;
+      margin-top: var(--s4);
+    }
+    .svc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: oklch(0 0 0 / 0.10);
+    }
+    .svc-card {
+      background: var(--bg);
+      padding: var(--s8);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 260px;
+      text-decoration: none;
+      color: var(--text);
+      transition: background 280ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .svc-card:hover { background: var(--surface); }
+      .svc-card:hover .svc-card__name { color: var(--accent); }
+      .svc-card:hover .svc-card__arrow { opacity: 1; transform: translate(0,0); }
+      .svc-card:hover .svc-card__line { transform: scaleX(1); }
+    }
+    .svc-card__n {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--s8);
+    }
+    .svc-card__name {
+      font-size: clamp(20px, 2vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.038em;
+      line-height: 1.05;
+      transition: color 200ms var(--ease-out);
+      margin-bottom: var(--s4);
+    }
+    .svc-card__desc {
+      font-size: 13.5px;
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 36ch;
+    }
+    .svc-card__arrow {
+      position: absolute;
+      top: var(--s8); right: var(--s8);
+      font-size: 15px; color: var(--accent);
+      opacity: 0; transform: translate(-4px, 4px);
+      transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+    }
+    .svc-card__line {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 280ms var(--ease-out);
+    }
+    @media (max-width: 900px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .svc-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       SERVICE DEEP DIVES
+    ============================================================ */
+    .svc-detail {
+    }
+    .svc-detail__item {
+      padding: clamp(56px, 7vw, 100px) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .svc-detail__inner {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: var(--s16);
+      align-items: start;
+    }
+    .svc-detail__num {
+      font-family: var(--font-m);
+      font-size: clamp(80px, 10vw, 140px);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: var(--border);
+      margin-bottom: var(--s6);
+      display: block;
+    }
+    .svc-detail__name {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.048em;
+      line-height: 0.96;
+      margin-bottom: var(--s6);
+    }
+    .svc-detail__name em { font-style: normal; color: var(--accent); }
+    .svc-detail__desc {
+      font-size: clamp(15px, 1.5vw, 17px);
+      color: var(--text-2);
+      line-height: 1.75;
+      max-width: 58ch;
+      margin-bottom: var(--s8);
+    }
+    .svc-detail__tag {
+      display: inline-flex;
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid oklch(0.60 0.18 249 / 0.30);
+      padding: 4px 10px;
+      margin-bottom: var(--s8);
+    }
+
+    /* Artifacts panel */
+    .svc-detail__artifacts {
+      position: sticky;
+      top: 100px;
+    }
+    .svc-detail__artifacts-label {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: var(--s4);
+      padding-bottom: var(--s3);
+      border-bottom: 1px solid var(--border);
+    }
+    .svc-detail__artifact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+    }
+    .svc-detail__artifact-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      padding: var(--s3) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.4;
+      transition: color 180ms var(--ease-out);
+    }
+    .svc-detail__artifact-list li:last-child { border-bottom: none; }
+    .svc-detail__artifact-list li::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .svc-detail__artifact-list li:hover { color: var(--text); }
+    }
+    @media (max-width: 960px) {
+      .svc-detail__inner { grid-template-columns: 1fr; }
+      .svc-detail__artifacts { position: relative; top: 0; }
+    }
+
+    /* ============================================================
+       PROCESS
+    ============================================================ */
+    .process {
+      padding: var(--s24) 0;
+      background: oklch(0.06 0.003 249);
+    }
+    .process .slabel { color: var(--accent); }
+    .process .slabel::before { background: var(--accent); }
+    .process .sh { color: white; }
+    .process .sh em { color: var(--accent); }
+    .process__sub {
+      font-size: clamp(15px, 1.4vw, 17px);
+      color: oklch(1 0 0 / 0.55);
+      max-width: 44ch;
+      line-height: 1.7;
+      margin-top: var(--s4);
+    }
+    .process__hdr { margin-bottom: var(--s16); }
+    .process__steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid oklch(1 0 0 / 0.18);
+    }
+    .process__step {
+      padding: var(--s6) var(--s8) var(--s6) var(--s4);
+      border-right: 1px solid oklch(1 0 0 / 0.08);
+      position: relative;
+    }
+    .process__step:last-child { border-right: none; }
+    /* Timeline dot at top of each step */
+    .process__step::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .process__step-num {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-top: var(--s6);
+      margin-bottom: var(--s6);
+      display: block;
+    }
+    .process__step-name {
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: var(--s3);
+    }
+    .process__step-desc {
+      font-size: 15px;
+      color: oklch(1 0 0 / 0.50);
+      line-height: 1.72;
+    }
+    @media (max-width: 900px) {
+      .process__steps { grid-template-columns: repeat(2, 1fr); border-top: none; }
+      .process__step { border-right: none; border-top: 1px solid oklch(1 0 0 / 0.18); padding: var(--s8) 0; }
+      .process__step::before { top: -4px; }
+    }
+    @media (max-width: 560px) {
+      .process__steps { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+    .faq {
+      padding: var(--s24) 0;
+      background: #f8f8f8;
+    }
+    .faq__wrap {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: var(--s16);
+      align-items: start;
+    }
+    .faq__left {
+      position: sticky;
+      top: 96px;
+    }
+    .faq__sub {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.72;
+      margin-top: var(--s6);
+      max-width: 32ch;
+    }
+    .faq__list { display: flex; flex-direction: column; }
+    .faq__item {
+      display: grid;
+      grid-template-columns: 1fr 28px;
+      align-items: start;
+      gap: var(--s4);
+      padding: var(--s6) 0;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .faq__item:last-child { border-bottom: none; }
+    .faq__q {
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 600;
+      letter-spacing: -0.030em;
+      line-height: 1.15;
+      padding-top: 3px;
+      transition: color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .faq__item:hover .faq__q { color: var(--accent); }
+    }
+    .faq__toggle {
+      font-size: 15px; color: var(--text-3); padding-top: 4px;
+      user-select: none;
+      transition: transform 320ms var(--ease-out), color 200ms var(--ease-out);
+    }
+    .faq__item.open .faq__toggle { transform: rotate(45deg); color: var(--accent); }
+    .faq__shell {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 400ms var(--ease-out);
+    }
+    .faq__item.open .faq__shell { grid-template-rows: 1fr; }
+    .faq__inner { overflow: hidden; min-height: 0; }
+    .faq__a {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.70;
+      padding: var(--s3) 0 var(--s4);
+      max-width: 62ch;
+    }
+    @media (max-width: 900px) {
+      .faq__wrap { grid-template-columns: 1fr; }
+      .faq__left { position: relative; top: 0; }
+    }
+
+    /* ============================================================
+       CTA BAND
+    ============================================================ */
+    .cta-band {
+      background: var(--bg);
+      padding: clamp(80px, 10vw, 140px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-band__cursor-fx {
+      position: absolute; inset: 0; pointer-events: none;
+      z-index: 0; opacity: 0; transition: opacity 700ms var(--ease-out);
+    }
+    .cta-band:hover .cta-band__cursor-fx { opacity: 0.65; }
+    .cta-band__cursor-fx::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(circle 411px at var(--ctx, 50%) var(--cty, 50%), black 5%, transparent 75%);
+      mask-image: radial-gradient(circle 411px at var(--ctx, 50%) var(--cty, 50%), black 5%, transparent 75%);
+    }
+    .cta-band__cursor-fx::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle 367px at var(--ctx, 50%) var(--cty, 50%), oklch(0.60 0.20 249 / 0.18) 10%, transparent 69%);
+    }
+    .cta-band__inner {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: space-between; gap: var(--s8);
+    }
+    .cta-band__text h2 {
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 800; letter-spacing: -0.055em; line-height: 0.95; color: var(--text);
+    }
+    .cta-band__text h2 em { font-style: normal; color: var(--accent); }
+    .cta-band__text p { font-size: clamp(14px, 1.3vw, 16px); color: var(--text-2); margin-top: var(--s4); }
+    .cta-band__btns { display: flex; gap: var(--s4); flex-shrink: 0; flex-wrap: wrap; }
+    @media (max-width: 768px) { .cta-band__inner { flex-direction: column; align-items: flex-start; } }
+
+    /* ============================================================
+       WORLD CLOCKS
+    ============================================================ */
+    .clocks { border-top: 1px solid var(--border); padding: var(--s8) 0; }
+    .clocks__inner { display: flex; align-items: center; gap: clamp(var(--s8), 6vw, var(--s24)); }
+    .clocks__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; margin-right: auto; }
+    .clock { display: flex; align-items: baseline; gap: var(--s3); }
+    .clock__city { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); min-width: 52px; }
+    .clock__time { font-family: var(--font-m); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-2); font-variant-numeric: tabular-nums; transition: color 800ms linear; }
+    .clock__time.tick { color: var(--accent); }
+    .clock__sep { width: 1px; height: 20px; background: var(--border); align-self: center; }
+    @media (max-width: 600px) {
+      .clocks__inner { flex-wrap: wrap; gap: var(--s6); }
+      .clocks__label { width: 100%; margin-right: 0; }
+      .clock__sep { display: none; }
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer { padding: var(--s8) 0; background: var(--accent); }
+    .footer__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
+    .footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
+    .footer__copy { font-family: var(--font-m); font-size: 9.5px; color: white; letter-spacing: 0.08em; }
+    .footer__links { display: flex; gap: var(--s6); list-style: none; }
+    .footer__links a { font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: white; text-decoration: none; transition: color 180ms var(--ease-out); }
+    @media (hover:hover) and (pointer:fine) { .footer__links a:hover { color: oklch(0 0 0 / 0.5); } }
+    @media (max-width: 600px) { .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); } }
+
+    /* ============================================================
+       MARQUEE — kinetic, infinite
+    ============================================================ */
+    .marquee {
+      background: var(--accent);
+      padding: 16px 0;
+      overflow: hidden;
+      position: relative;
+      z-index: 4;
+    }
+    .marquee__t {
+      display: flex;
+      align-items: center;
+      gap: var(--s12);
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+      width: max-content;
+    }
+    .marquee__i {
+      font-family: var(--font-m);
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: white;
+      flex-shrink: 0;
+    }
+    .marquee__sep { color: oklch(1 0 0 / 0.5); margin: 0 var(--s2); }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .marquee__t { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav class="nav" id="main-nav">
+    <div class="w">
+      <div class="nav__inner">
+        <a href="parallax-landing.html" class="nav__logo">Parallax<span>.</span></a>
+        <button class="nav__burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav__overlay" id="nav-overlay" aria-hidden="true">
+    <div class="nav__overlay-left">
+      <ul class="nav__menu-links">
+        <li><a href="work.html"     data-index="01">Work</a></li>
+        <li><a href="services.html" data-index="02" class="active">Services</a></li>
+        <li><a href="about.html"    data-index="03">About</a></li>
+        <li><a href="articles.html" data-index="04">Articles</a></li>
+      </ul>
+    </div>
+    <div class="nav__overlay-right">
+      <div class="nav__meta">
+        <p class="nav__meta-label">Ready to build?</p>
+        <a href="parallax-landing.html#contact" class="nav__meta-cta">Start a Project ↗</a>
+      </div>
+      <p class="nav__meta-tagline">Precision over decoration.<br>Logic over assumption.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="svc-hero" id="svc-hero">
+    <video class="svc-hero__video" autoplay muted loop playsinline preload="auto">
+      <source src="Video/Services video.mp4" type="video/mp4">
+    </video>
+    <div class="svc-hero__cursor-fx" aria-hidden="true"></div>
+    <div class="w">
+      <p class="slabel svc-hero__slabel reveal">What We Do</p>
+      <h1 class="svc-hero__h1 reveal">
+        Six disciplines.<br>Built to <em>last.</em>
+      </h1>
+      <p class="svc-hero__p reveal">
+        Every service we offer is practiced at the same standard — no filler disciplines, no junior-led work. From the first brand mark to the last line of production code, we hold the same bar.
+      </p>
+      <div class="svc-hero__btns reveal">
+        <a href="parallax-landing.html#contact" class="btn btn-p">Start a Project &#8594;</a>
+        <a href="work.html" class="btn btn-g">See Our Work</a>
+      </div>
+    </div>
+    <!-- CLIENTS MARQUEE — full-bleed at base of hero -->
+    <div class="marquee" aria-hidden="true">
+    <div class="marquee__t">
+      <span class="marquee__i">Strato</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Suka</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Sopra</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Vestas</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">YVT</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Re&rsquo;flekt</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">BMW</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">BuildDeli</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Sinnerschrader</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Sportradar</span><span class="marquee__sep">&middot;</span>
+      <!-- duplicate set for seamless loop -->
+      <span class="marquee__i">Strato</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Suka</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Sopra</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Vestas</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">YVT</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Re&rsquo;flekt</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">BMW</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">BuildDeli</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Sinnerschrader</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Sportradar</span><span class="marquee__sep">&middot;</span>
+    </div>
+  </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES OVERVIEW GRID
+  ============================================================ -->
+  <section class="svc-overview">
+    <div class="w">
+      <div class="svc-overview__hdr reveal">
+        <p class="slabel">At a Glance</p>
+        <h2 class="sh">Where we<br><em>operate.</em></h2>
+        <p class="svc-overview__sub">Six practice areas. Each one built to stand alone or work together as a single integrated engagement.</p>
+      </div>
+      <div class="svc-grid stagger">
+
+        <a class="svc-card" href="#brand-systems">
+          <div>
+            <p class="svc-card__n">01</p>
+            <h3 class="svc-card__name">Brand Systems</h3>
+            <p class="svc-card__desc">Identity as infrastructure — logos, language, and design systems built to scale.</p>
+          </div>
+          <span class="svc-card__arrow">↗</span>
+          <span class="svc-card__line"></span>
+        </a>
+
+        <a class="svc-card" href="#creative-direction">
+          <div>
+            <p class="svc-card__n">02</p>
+            <h3 class="svc-card__name">Creative Direction</h3>
+            <p class="svc-card__desc">A single coherent vision across every campaign, channel, and moment.</p>
+          </div>
+          <span class="svc-card__arrow">↗</span>
+          <span class="svc-card__line"></span>
+        </a>
+
+        <a class="svc-card" href="#digital-strategy">
+          <div>
+            <p class="svc-card__n">03</p>
+            <h3 class="svc-card__name">Digital Strategy</h3>
+            <p class="svc-card__desc">Research, positioning, and architecture before a pixel is ever placed.</p>
+          </div>
+          <span class="svc-card__arrow">↗</span>
+          <span class="svc-card__line"></span>
+        </a>
+
+        <a class="svc-card" href="#frontend-engineering">
+          <div>
+            <p class="svc-card__n">04</p>
+            <h3 class="svc-card__name">Frontend Engineering</h3>
+            <p class="svc-card__desc">Production-grade code in React, Next.js, and TypeScript. Built to last past handoff.</p>
+          </div>
+          <span class="svc-card__arrow">↗</span>
+          <span class="svc-card__line"></span>
+        </a>
+
+        <a class="svc-card" href="#interface-design">
+          <div>
+            <p class="svc-card__n">05</p>
+            <h3 class="svc-card__name">Interface Design</h3>
+            <p class="svc-card__desc">Every state, every edge case, every interaction — designed before a line is written.</p>
+          </div>
+          <span class="svc-card__arrow">↗</span>
+          <span class="svc-card__line"></span>
+        </a>
+
+        <a class="svc-card" href="#motion-interaction">
+          <div>
+            <p class="svc-card__n">06</p>
+            <h3 class="svc-card__name">Motion &amp; Interaction</h3>
+            <p class="svc-card__desc">Physics-based motion and precision timing that turns software into something people feel.</p>
+          </div>
+          <span class="svc-card__arrow">↗</span>
+          <span class="svc-card__line"></span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICE DEEP DIVES
+  ============================================================ -->
+  <section class="svc-detail">
+
+    <!-- 01 — Brand Systems -->
+    <div class="svc-detail__item" id="brand-systems">
+      <div class="w">
+        <div class="svc-detail__inner reveal">
+          <div>
+            <span class="svc-detail__num" data-target="1">01</span>
+            <span class="svc-detail__tag">Brand Systems</span>
+            <h2 class="svc-detail__name">Identity as<br><em>infrastructure.</em></h2>
+            <p class="svc-detail__desc">
+              We build identity systems that scale — not just a mark, but a complete visual and verbal language that works from a business card to a billboard, from a product UI to a white-label partnership. Every element is intentional, every decision documented.
+            </p>
+            <p class="svc-detail__desc">
+              A brand system from Parallax is a living toolkit. Your team can use it on day one and extend it two years later without it breaking.
+            </p>
+            <a href="parallax-landing.html#contact" class="btn btn-p" style="margin-top: var(--s6);">Start a Brand Project &#8594;</a>
+          </div>
+          <div class="svc-detail__artifacts">
+            <p class="svc-detail__artifacts-label">Deliverables</p>
+            <ul class="svc-detail__artifact-list">
+              <li>Logo &amp; identity system</li>
+              <li>Brand guidelines document</li>
+              <li>Typography &amp; colour palette</li>
+              <li>Icon library</li>
+              <li>Brand voice &amp; tone guide</li>
+              <li>Asset library &amp; file kit</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 — Creative Direction -->
+    <div class="svc-detail__item" id="creative-direction">
+      <div class="w">
+        <div class="svc-detail__inner reveal">
+          <div>
+            <span class="svc-detail__num" data-target="2">02</span>
+            <span class="svc-detail__tag">Creative Direction</span>
+            <h2 class="svc-detail__name">One vision.<br>Every <em>touchpoint.</em></h2>
+            <p class="svc-detail__desc">
+              When a product needs a single, coherent point of view — one that runs through every campaign, communication, and channel — we provide it. Creative direction at Parallax means holding the vision from first concept to final execution, and never letting the standard slip in between.
+            </p>
+            <p class="svc-detail__desc">
+              We don't just hand over a mood board. We stay in the room until the work is right.
+            </p>
+            <a href="parallax-landing.html#contact" class="btn btn-p" style="margin-top: var(--s6);">Talk Creative Direction &#8594;</a>
+          </div>
+          <div class="svc-detail__artifacts">
+            <p class="svc-detail__artifacts-label">Deliverables</p>
+            <ul class="svc-detail__artifact-list">
+              <li>Visual art direction</li>
+              <li>Campaign concepts &amp; moodboards</li>
+              <li>Brand books</li>
+              <li>Photography &amp; video direction</li>
+              <li>Launch material suite</li>
+              <li>Creative guidelines</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 — Digital Strategy -->
+    <div class="svc-detail__item" id="digital-strategy">
+      <div class="w">
+        <div class="svc-detail__inner reveal">
+          <div>
+            <span class="svc-detail__num" data-target="3">03</span>
+            <span class="svc-detail__tag">Digital Strategy</span>
+            <h2 class="svc-detail__name">Before pixels,<br>there's <em>thinking.</em></h2>
+            <p class="svc-detail__desc">
+              We map the gap between where your product is and where it needs to be. That means research, positioning, architecture — and the hard questions your team has been avoiding. We define what success looks like before we build a single thing.
+            </p>
+            <p class="svc-detail__desc">
+              Strategy at Parallax isn't a slide deck you file away. It's a working document that drives every design and engineering decision that follows.
+            </p>
+            <a href="parallax-landing.html#contact" class="btn btn-p" style="margin-top: var(--s6);">Start With Strategy &#8594;</a>
+          </div>
+          <div class="svc-detail__artifacts">
+            <p class="svc-detail__artifacts-label">Deliverables</p>
+            <ul class="svc-detail__artifact-list">
+              <li>Competitive &amp; market analysis</li>
+              <li>User research synthesis</li>
+              <li>Information architecture</li>
+              <li>Product roadmap</li>
+              <li>KPI framework</li>
+              <li>Positioning document</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 — Frontend Engineering -->
+    <div class="svc-detail__item" id="frontend-engineering">
+      <div class="w">
+        <div class="svc-detail__inner reveal">
+          <div>
+            <span class="svc-detail__num" data-target="4">04</span>
+            <span class="svc-detail__tag">Frontend Engineering</span>
+            <h2 class="svc-detail__name">Code that ships.<br>Code that <em>scales.</em></h2>
+            <p class="svc-detail__desc">
+              We write production-grade code — React, Next.js, TypeScript. Not prototype code cleaned up for handoff. Not a theme someone else built. Original, performant, accessible engineering that the team inheriting it will actually want to work with.
+            </p>
+            <p class="svc-detail__desc">
+              Every component is built to be extended. Every pattern is documented. We don't leave you with a black box.
+            </p>
+            <a href="parallax-landing.html#contact" class="btn btn-p" style="margin-top: var(--s6);">Start an Engineering Project &#8594;</a>
+          </div>
+          <div class="svc-detail__artifacts">
+            <p class="svc-detail__artifacts-label">Deliverables</p>
+            <ul class="svc-detail__artifact-list">
+              <li>Production codebase</li>
+              <li>Component library</li>
+              <li>CI/CD pipeline setup</li>
+              <li>Performance audit &amp; optimisation</li>
+              <li>Accessibility compliance</li>
+              <li>Technical documentation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 — Interface Design -->
+    <div class="svc-detail__item" id="interface-design">
+      <div class="w">
+        <div class="svc-detail__inner reveal">
+          <div>
+            <span class="svc-detail__num" data-target="5">05</span>
+            <span class="svc-detail__tag">Interface Design</span>
+            <h2 class="svc-detail__name">Screens<br>that <em>think.</em></h2>
+            <p class="svc-detail__desc">
+              We design every state, every edge case, every micro-interaction before a single line of code is written. The result is a handoff that engineers actually want to build from — not a collection of hero screens with a dozen unanswered questions hiding underneath.
+            </p>
+            <p class="svc-detail__desc">
+              Interface design at Parallax starts with systems, not compositions. We build the parts before we assemble the whole.
+            </p>
+            <a href="parallax-landing.html#contact" class="btn btn-p" style="margin-top: var(--s6);">Design Your Interface &#8594;</a>
+          </div>
+          <div class="svc-detail__artifacts">
+            <p class="svc-detail__artifacts-label">Deliverables</p>
+            <ul class="svc-detail__artifact-list">
+              <li>UI design system</li>
+              <li>High-fidelity screens &amp; flows</li>
+              <li>Interactive prototypes</li>
+              <li>Edge case &amp; error state documentation</li>
+              <li>Responsive breakpoint specs</li>
+              <li>Developer handoff package</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 — Motion & Interaction -->
+    <div class="svc-detail__item" id="motion-interaction">
+      <div class="w">
+        <div class="svc-detail__inner reveal">
+          <div>
+            <span class="svc-detail__num" data-target="6">06</span>
+            <span class="svc-detail__tag">Motion &amp; Interaction</span>
+            <h2 class="svc-detail__name">The gap between<br>works and <em>loves.</em></h2>
+            <p class="svc-detail__desc">
+              The difference between software that works and software people love is how it moves. We choreograph interfaces with precision timing, physics-based easing, and intention behind every transition — so users feel the quality before they can articulate it.
+            </p>
+            <p class="svc-detail__desc">
+              Motion isn't decoration. It's communication — and we treat it with the same rigour as every other discipline we practice.
+            </p>
+            <a href="parallax-landing.html#contact" class="btn btn-p" style="margin-top: var(--s6);">Bring Your Interface to Life &#8594;</a>
+          </div>
+          <div class="svc-detail__artifacts">
+            <p class="svc-detail__artifacts-label">Deliverables</p>
+            <ul class="svc-detail__artifact-list">
+              <li>Micro-interaction library</li>
+              <li>Page transition system</li>
+              <li>Animation principles document</li>
+              <li>Lottie &amp; SVG animation files</li>
+              <li>Motion design guidelines</li>
+              <li>Prototype &amp; demo package</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       PROCESS
+  ============================================================ -->
+  <section class="process">
+    <div class="w">
+      <div class="process__hdr reveal">
+        <p class="slabel">How We Work</p>
+        <h2 class="sh">Five steps.<br>Zero <em>shortcuts.</em></h2>
+        <p class="process__sub">Every engagement follows the same rigorous sequence — whether it's a two-week sprint or a six-month partnership.</p>
+      </div>
+      <div class="process__steps stagger">
+
+        <div class="process__step">
+          <span class="process__step-num">01</span>
+          <h3 class="process__step-name">Discover</h3>
+          <p class="process__step-desc">We interrogate the brief, audit what exists, and research what matters. No assumptions carried into the work.</p>
+        </div>
+
+        <div class="process__step">
+          <span class="process__step-num">02</span>
+          <h3 class="process__step-name">Define</h3>
+          <p class="process__step-desc">Strategy, positioning, and architecture. We decide what we're building and why before we open any tool.</p>
+        </div>
+
+        <div class="process__step">
+          <span class="process__step-num">03</span>
+          <h3 class="process__step-name">Design</h3>
+          <p class="process__step-desc">Systems first, screens second. We build components before compositions, and document every decision.</p>
+        </div>
+
+        <div class="process__step">
+          <span class="process__step-num">04</span>
+          <h3 class="process__step-name">Build</h3>
+          <p class="process__step-desc">Production engineering — code that ships, performs, and doesn't fall apart six months after handoff.</p>
+        </div>
+
+        <div class="process__step">
+          <span class="process__step-num">05</span>
+          <h3 class="process__step-name">Launch</h3>
+          <p class="process__step-desc">Deployment, handoff, and measurement. We don't disappear. We stay accountable to the outcomes.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FAQ
+  ============================================================ -->
+  <section class="faq">
+    <div class="w">
+      <div class="faq__wrap">
+
+        <div class="faq__left reveal">
+          <p class="slabel">FAQ</p>
+          <h2 class="sh">Questions<br>we hear <em>often.</em></h2>
+          <p class="faq__sub">Straight answers to the things clients ask before they engage with us.</p>
+        </div>
+
+        <div class="faq__list stagger">
+
+          <div class="faq__item" data-faq>
+            <h3 class="faq__q">How long does a typical project take?</h3>
+            <span class="faq__toggle" aria-hidden="true">+</span>
+            <div class="faq__shell"><div class="faq__inner">
+              <p class="faq__a">It depends on scope, but most projects fall into one of three bands: a focused sprint (2–4 weeks), a mid-scope engagement (6–12 weeks), or a full partnership (3–6 months). We'll give you a clear timeline after our first conversation — no vague estimates.</p>
+            </div></div>
+          </div>
+
+          <div class="faq__item" data-faq>
+            <h3 class="faq__q">Do you work with early-stage startups?</h3>
+            <span class="faq__toggle" aria-hidden="true">+</span>
+            <div class="faq__shell"><div class="faq__inner">
+              <p class="faq__a">Yes — some of our best work has been with pre-seed and seed-stage founders. What matters isn't the size of the company but the clarity of the problem and the quality of the thinking. If you've got both, we want to talk.</p>
+            </div></div>
+          </div>
+
+          <div class="faq__item" data-faq>
+            <h3 class="faq__q">Can we engage you for just one discipline?</h3>
+            <span class="faq__toggle" aria-hidden="true">+</span>
+            <div class="faq__shell"><div class="faq__inner">
+              <p class="faq__a">Absolutely. You can come to us with just a brand brief, just an engineering problem, or just a motion design challenge. We don't require you to buy a full suite — though many clients end up expanding the engagement once the first piece of work lands.</p>
+            </div></div>
+          </div>
+
+          <div class="faq__item" data-faq>
+            <h3 class="faq__q">Do you offer ongoing retainers?</h3>
+            <span class="faq__toggle" aria-hidden="true">+</span>
+            <div class="faq__shell"><div class="faq__inner">
+              <p class="faq__a">Yes. For clients who want a consistent design and engineering partner rather than a one-off project, we offer monthly retainer arrangements. These give you a reserved slice of our capacity, a direct line to the team, and faster turnarounds. Ask us about availability.</p>
+            </div></div>
+          </div>
+
+          <div class="faq__item" data-faq>
+            <h3 class="faq__q">What does your first conversation look like?</h3>
+            <span class="faq__toggle" aria-hidden="true">+</span>
+            <div class="faq__shell"><div class="faq__inner">
+              <p class="faq__a">A 30-minute call, no pitch, no pressure. We want to understand the problem you're trying to solve — not sell you on a service before we know if it fits. If there's a genuine match, we'll follow up with a clear proposal within 48 hours.</p>
+            </div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BAND
+  ============================================================ -->
+  <section class="cta-band" id="cta-band">
+    <div class="cta-band__cursor-fx" aria-hidden="true"></div>
+    <div class="w">
+      <div class="cta-band__inner reveal">
+        <div class="cta-band__text">
+          <h2>Six disciplines.<br>One <em>standard.</em></h2>
+          <p>Pick one service or bring us across the full stack.<br>The bar doesn't move either way.</p>
+        </div>
+        <div class="cta-band__btns">
+          <a href="parallax-landing.html#contact" class="btn btn-p">Start a Project &#8594;</a>
+          <a href="work.html" class="btn btn-g">See Our Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WORLD CLOCKS
+  ============================================================ -->
+  <div class="clocks">
+    <div class="w">
+      <div class="clocks__inner">
+        <span class="clocks__label">Global Presence</span>
+        <div class="clock">
+          <span class="clock__city">Munich</span>
+          <span class="clock__time" id="clock-de">--:--</span>
+        </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Dubai</span>
+          <span class="clock__time" id="clock-ae">--:--</span>
+        </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Bengaluru</span>
+          <span class="clock__time" id="clock-in">--:--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="w">
+      <div class="footer__in">
+        <span class="footer__logo">Parallax.</span>
+        <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
+        <ul class="footer__links">
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Dribbble</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ---- NAV ---- */
+    const nav     = document.getElementById('main-nav');
+    const burger  = document.getElementById('nav-burger');
+    const overlay = document.getElementById('nav-overlay');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+
+    burger.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('menu-open');
+      burger.setAttribute('aria-expanded', isOpen);
+      overlay.setAttribute('aria-hidden', !isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.body.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+        document.body.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+
+    /* ---- HERO CURSOR FX ---- */
+    (function () {
+      const hero = document.getElementById('svc-hero');
+      if (!hero || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+      hero.addEventListener('mousemove', e => {
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty('--hx', ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%');
+        hero.style.setProperty('--hy', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
+      });
+    })();
+
+    /* ---- SCROLL REVEAL ---- */
+    const revealEls = document.querySelectorAll('.reveal, .stagger');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+
+    /* ---- SERVICE NUMBER COUNT-UP ---- */
+    (function () {
+      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+      function animateNum(el) {
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1200;
+        const startTs = performance.now();
+        function step(now) {
+          const progress = Math.min((now - startTs) / duration, 1);
+          const val = Math.round(easeOutCubic(progress) * target);
+          el.textContent = String(val).padStart(2, '0');
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = String(target).padStart(2, '0');
+        }
+        requestAnimationFrame(step);
+      }
+      const numObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const num = entry.target.querySelector('.svc-detail__num[data-target]');
+            if (num) animateNum(num);
+            numObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      document.querySelectorAll('.svc-detail__item').forEach(item => numObserver.observe(item));
+    })();
+
+    /* ---- FAQ ACCORDION ---- */
+    document.querySelectorAll('[data-faq]').forEach(item => {
+      item.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('[data-faq]').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+
+    /* ---- CTA BAND CURSOR FX ---- */
+    (function () {
+      const band = document.getElementById('cta-band');
+      if (!band || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+      band.addEventListener('mousemove', e => {
+        const r = band.getBoundingClientRect();
+        band.style.setProperty('--ctx', ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%');
+        band.style.setProperty('--cty', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
+      });
+      band.addEventListener('mouseleave', () => {
+        band.style.setProperty('--ctx', '50%');
+        band.style.setProperty('--cty', '50%');
+      });
+    })();
+
+    /* ---- WORLD CLOCKS ---- */
+    (function () {
+      const zones = [
+        { id: 'clock-de', tz: 'Europe/Berlin' },
+        { id: 'clock-ae', tz: 'Asia/Dubai'    },
+        { id: 'clock-in', tz: 'Asia/Kolkata'  },
+      ];
+      function fmt(tz) {
+        return new Date().toLocaleTimeString('en-GB', {
+          timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+        });
+      }
+      function tick() {
+        zones.forEach(({ id, tz }) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const t = fmt(tz);
+          if (el.textContent !== t) {
+            el.textContent = t;
+            el.classList.add('tick');
+            setTimeout(() => el.classList.remove('tick'), 700);
+          }
+        });
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+
+</body>
+</html>

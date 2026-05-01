@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1080" preserveAspectRatio="xMidYMid slice">
+  <rect width="500" height="1080" fill="#0A1E3F"/>
+  <!-- Status bar -->
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" fill="#F5F5F2">
+    <text x="40" y="44" font-size="14" letter-spacing="1">9:41</text>
+    <text x="460" y="44" text-anchor="end" font-size="11" letter-spacing="1.5" opacity="0.85">·· · 5G  100%</text>
+  </g>
+  <!-- Header / brand -->
+  <g transform="translate(40 100)">
+    <rect x="0" y="0" width="28" height="28" fill="none" stroke="#F5F5F2" stroke-width="3"/>
+    <path d="M7 24 L7 7 L14 17 L21 7 L21 24" fill="#F5F5F2"/>
+    <text x="40" y="22" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="800" fill="#F5F5F2" letter-spacing="-0.4">MARK<tspan fill="#1A73E8">.</tspan></text>
+    <circle cx="430" cy="14" r="14" fill="#1A73E8" opacity="0.18"/>
+    <circle cx="430" cy="14" r="6" fill="#F5F5F2"/>
+  </g>
+  <!-- Greeting -->
+  <text x="40" y="220" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="12" letter-spacing="2" fill="#1A73E8">— GOOD EVENING</text>
+  <text x="40" y="282" font-family="ui-sans-serif, system-ui, sans-serif" font-size="44" font-weight="800" fill="#F5F5F2" letter-spacing="-1.5">Configure</text>
+  <text x="40" y="332" font-family="ui-sans-serif, system-ui, sans-serif" font-size="44" font-weight="800" fill="#F5F5F2" letter-spacing="-1.5">your <tspan fill="#1A73E8">drive.</tspan></text>
+  <!-- Hero card -->
+  <g transform="translate(40 380)">
+    <rect x="0" y="0" width="420" height="260" fill="#15315E"/>
+    <rect x="0" y="0" width="420" height="160" fill="#16315E"/>
+    <!-- Vehicle silhouette -->
+    <g transform="translate(60 60)" opacity="0.95">
+      <path d="M0 80 L20 60 L60 50 L160 48 L240 50 L280 60 L300 80 L300 95 L0 95 Z" fill="#F5F5F2"/>
+      <path d="M40 60 L70 52 L160 50 L220 50 L260 60 Z" fill="#0A1E3F"/>
+      <circle cx="60" cy="98" r="14" fill="#0A0A0A"/>
+      <circle cx="240" cy="98" r="14" fill="#0A0A0A"/>
+    </g>
+    <text x="20" y="200" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="2" fill="#1A73E8">M SPORT — 2025</text>
+    <text x="20" y="232" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="700" fill="#F5F5F2" letter-spacing="-0.4">Sedan</text>
+    <text x="400" y="232" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.5" fill="#F5F5F2" opacity="0.6">→</text>
+  </g>
+  <!-- List rows -->
+  <g transform="translate(40 700)" font-family="ui-sans-serif, system-ui, sans-serif">
+    <g>
+      <rect x="0" y="0" width="420" height="80" fill="#15315E"/>
+      <rect x="20" y="22" width="36" height="36" fill="#1A73E8" opacity="0.3"/>
+      <text x="76" y="46" font-size="14" font-weight="600" fill="#F5F5F2">SUV / Hybrid</text>
+      <text x="76" y="64" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.55">FROM £64,800</text>
+      <text x="400" y="48" text-anchor="end" font-size="14" fill="#F5F5F2" opacity="0.6">→</text>
+    </g>
+    <g transform="translate(0 96)">
+      <rect x="0" y="0" width="420" height="80" fill="#15315E"/>
+      <rect x="20" y="22" width="36" height="36" fill="#C99A2E" opacity="0.3"/>
+      <text x="76" y="46" font-size="14" font-weight="600" fill="#F5F5F2">Coupé / Edition</text>
+      <text x="76" y="64" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5" fill="#F5F5F2" opacity="0.55">FROM £88,200</text>
+      <text x="400" y="48" text-anchor="end" font-size="14" fill="#F5F5F2" opacity="0.6">→</text>
+    </g>
+  </g>
+  <!-- Tab bar -->
+  <g transform="translate(0 980)">
+    <rect width="500" height="100" fill="#0E2348"/>
+    <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5">
+      <text x="62"  y="56" text-anchor="middle" fill="#1A73E8">HOME</text>
+      <text x="187" y="56" text-anchor="middle" fill="#F5F5F2" opacity="0.5">CONFIG</text>
+      <text x="312" y="56" text-anchor="middle" fill="#F5F5F2" opacity="0.5">SAVED</text>
+      <text x="438" y="56" text-anchor="middle" fill="#F5F5F2" opacity="0.5">PROFILE</text>
+    </g>
+    <rect x="32" y="14" width="60" height="2" fill="#1A73E8"/>
+  </g>
+</svg>
