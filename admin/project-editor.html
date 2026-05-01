@@ -5,6 +5,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Editor — Parallax Admin</title>
   <link rel="stylesheet" href="admin.css">
+  <style>
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 28px 0 0;
+    }
+    .section-divider__label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      white-space: nowrap;
+    }
+    .section-divider__line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .img-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .img-grid--2 { grid-template-columns: 1fr 1fr; }
+    .img-grid--3 { grid-template-columns: 1fr 1fr 1fr; }
+    .img-grid--4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+    .img-slot {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .img-slot__label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-2);
+    }
+    .img-slot__label span {
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #aaa;
+      margin-left: 4px;
+    }
+    .img-slot__box {
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      background: var(--bg);
+      cursor: pointer;
+      transition: border-color 150ms;
+    }
+    .img-slot__box:hover { border-color: #a1a1aa; }
+    .img-slot__box input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .img-slot__empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 12px;
+      gap: 6px;
+      color: var(--text-2);
+    }
+    .img-slot__empty svg { opacity: 0.3; }
+    .img-slot__empty span { font-size: 11px; }
+    .img-slot__preview {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+    .img-slot__preview--tall { aspect-ratio: 9/16; }
+    .img-slot__preview--wide { aspect-ratio: 16/9; }
+    .img-slot__preview--square { aspect-ratio: 1/1; }
+    .img-slot__remove {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      line-height: 1;
+      transition: background 120ms;
+    }
+    .img-slot__remove:hover { background: rgba(0,0,0,0.8); }
+    .img-slot__uploading {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-2);
+    }
+  </style>
 </head>
 <body>
 
@@ -43,162 +159,314 @@
     <header class="topbar">
       <span class="topbar__crumb"><a href="projects.html" style="color:var(--text-2);text-decoration:none;">Projects</a> / <strong id="topbar-title">New Project</strong></span>
       <div class="topbar__right">
-        <a href="projects.html" class="btn btn--ghost btn--sm">Cancel</a>
+        <button class="btn btn--primary" id="save-btn">Save Project</button>
+        <a href="projects.html" class="btn btn--ghost">Cancel</a>
       </div>
     </header>
 
     <div class="content">
       <div class="form-layout">
 
-        <!-- Left -->
+        <!-- ── LEFT COLUMN ── -->
         <div>
 
-          <!-- Overview -->
+          <!-- OVERVIEW -->
           <div class="form-card">
             <h2>Overview</h2>
             <div style="display:flex;flex-direction:column;gap:16px;">
               <div class="form-grid">
-                <div class="field">
-                  <label>Project Title</label>
-                  <input type="text" id="f-title" placeholder="e.g. BMW Brand Identity">
-                </div>
-                <div class="field">
-                  <label>Client</label>
-                  <input type="text" id="f-client" placeholder="e.g. BMW Group">
-                </div>
+                <div class="field"><label>Project Title</label><input type="text" id="f-title" placeholder="e.g. BMW Brand Identity"></div>
+                <div class="field"><label>Client</label><input type="text" id="f-client" placeholder="e.g. BMW Group"></div>
               </div>
               <div class="form-grid">
                 <div class="field">
                   <label>Slug</label>
                   <input type="text" id="f-slug" placeholder="bmw-brand-identity">
-                  <span class="field__hint">URL identifier — auto-fills from title</span>
+                  <span class="field__hint">Auto-fills from title</span>
                 </div>
-                <div class="field">
-                  <label>Year</label>
-                  <input type="text" id="f-year" placeholder="e.g. 2025">
+                <div class="field"><label>Year</label><input type="text" id="f-year" placeholder="2025"></div>
+              </div>
+              <div class="field"><label>Services (comma-separated)</label><input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital"></div>
+              <div class="field"><label>Overview</label><textarea id="f-overview" placeholder="Project overview shown in the case study…" style="min-height:120px;"></textarea></div>
+            </div>
+          </div>
+
+          <!-- ── HERO ── -->
+          <div class="form-card" style="margin-top:0;">
+            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
+              <span class="section-divider__label">Hero</span>
+              <span class="section-divider__line"></span>
+              <span style="font-size:11px;color:#aaa;">1 image</span>
+            </div>
+            <div class="img-grid img-grid--2">
+              <div class="img-slot" style="grid-column:span 2;">
+                <div class="img-slot__label">Hero Background <span>Full-width image at the top of the case study</span></div>
+                <div class="img-slot__box" style="aspect-ratio:21/8;" data-slot="img_hero" data-ratio="wide">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                 </div>
-              </div>
-              <div class="field">
-                <label>Services (comma-separated)</label>
-                <input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital">
-              </div>
-              <div class="field">
-                <label>Overview</label>
-                <textarea id="f-overview" placeholder="Project overview shown in the case study…" style="min-height:120px;"></textarea>
               </div>
             </div>
           </div>
 
-          <!-- Images -->
-          <div class="form-card">
-            <h2>Images</h2>
-            <div style="display:flex;flex-direction:column;gap:20px;">
+          <!-- ── IDENTITY ── -->
+          <div class="form-card" style="margin-top:0;">
+            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
+              <span class="section-divider__label">Identity</span>
+              <span class="section-divider__line"></span>
+              <span style="font-size:11px;color:#aaa;">7 images</span>
+            </div>
 
-              <div class="field">
-                <label>Hero Image</label>
-                <div class="img-upload" id="upload-hero">
-                  <div class="img-upload__preview" id="preview-hero"></div>
-                  <label class="img-upload__btn">
-                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                    Upload image
-                    <input type="file" accept="image/*" data-target="hero">
-                  </label>
-                  <span class="img-upload__status" id="status-hero"></span>
+            <p style="font-size:12px;color:var(--text-2);margin-bottom:14px;">Logo Marks <span style="color:#bbb;">— cycles through automatically on the page</span></p>
+            <div class="img-grid img-grid--3" style="margin-bottom:20px;">
+              <div class="img-slot">
+                <div class="img-slot__label">Mark 01 <span>Wordmark</span></div>
+                <div class="img-slot__box" data-slot="img_identity_mark_01" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                 </div>
               </div>
-
-              <div class="field">
-                <label>Cover Image <span style="font-weight:400;text-transform:none;letter-spacing:0;">(shown in work grid)</span></label>
-                <div class="img-upload" id="upload-cover">
-                  <div class="img-upload__preview" id="preview-cover"></div>
-                  <label class="img-upload__btn">
-                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                    Upload image
-                    <input type="file" accept="image/*" data-target="cover">
-                  </label>
-                  <span class="img-upload__status" id="status-cover"></span>
+              <div class="img-slot">
+                <div class="img-slot__label">Mark 02 <span>Stacked lockup</span></div>
+                <div class="img-slot__box" data-slot="img_identity_mark_02" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                 </div>
               </div>
-
-              <div class="field">
-                <label>Brand / Logo Images</label>
-                <div class="img-upload" id="upload-brand">
-                  <div class="img-upload__preview" id="preview-brand"></div>
-                  <label class="img-upload__btn">
-                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                    Upload images
-                    <input type="file" accept="image/*" multiple data-target="brand">
-                  </label>
-                  <span class="img-upload__status" id="status-brand"></span>
+              <div class="img-slot">
+                <div class="img-slot__label">Mark 03 <span>Monogram</span></div>
+                <div class="img-slot__box" data-slot="img_identity_mark_03" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                 </div>
               </div>
+            </div>
 
-              <div class="field">
-                <label>Digital — Phone Screens</label>
-                <div class="img-upload" id="upload-phones">
-                  <div class="img-upload__preview" id="preview-phones"></div>
-                  <label class="img-upload__btn">
-                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                    Upload images
-                    <input type="file" accept="image/*" multiple data-target="phones">
-                  </label>
-                  <span class="img-upload__status" id="status-phones"></span>
+            <p style="font-size:12px;color:var(--text-2);margin-bottom:14px;">Construction & Variants</p>
+            <div class="img-grid img-grid--4">
+              <div class="img-slot">
+                <div class="img-slot__label">Construction <span>Grid/guidelines</span></div>
+                <div class="img-slot__box" data-slot="img_identity_construction" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                 </div>
               </div>
-
+              <div class="img-slot">
+                <div class="img-slot__label">Light variant</div>
+                <div class="img-slot__box" data-slot="img_identity_variant_light" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Dark variant</div>
+                <div class="img-slot__box" data-slot="img_identity_variant_dark" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Accent variant</div>
+                <div class="img-slot__box" data-slot="img_identity_variant_accent" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Stats -->
+          <!-- ── APPLICATIONS ── -->
+          <div class="form-card" style="margin-top:0;">
+            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
+              <span class="section-divider__label">Applications</span>
+              <span class="section-divider__line"></span>
+              <span style="font-size:11px;color:#aaa;">8 images</span>
+            </div>
+            <div class="img-grid img-grid--4">
+              <div class="img-slot" style="grid-column:span 2;">
+                <div class="img-slot__label">Signage <span>Lead / largest tile</span></div>
+                <div class="img-slot__box" data-slot="img_app_signage" data-ratio="wide">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot" style="grid-column:span 2;">
+                <div class="img-slot__label">Stationery</div>
+                <div class="img-slot__box" data-slot="img_app_stationery" data-ratio="wide">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Packaging</div>
+                <div class="img-slot__box" data-slot="img_app_packaging" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Letterhead</div>
+                <div class="img-slot__box" data-slot="img_app_letterhead" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Apparel</div>
+                <div class="img-slot__box" data-slot="img_app_apparel" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Brochure</div>
+                <div class="img-slot__box" data-slot="img_app_brochure" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot" style="grid-column:span 2;">
+                <div class="img-slot__label">Livery <span>Vehicle wrap</span></div>
+                <div class="img-slot__box" data-slot="img_app_livery" data-ratio="wide">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot" style="grid-column:span 2;">
+                <div class="img-slot__label">Environmental <span>Wayfinding / spaces</span></div>
+                <div class="img-slot__box" data-slot="img_app_environmental" data-ratio="wide">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── DIGITAL ── -->
+          <div class="form-card" style="margin-top:0;">
+            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
+              <span class="section-divider__label">Digital</span>
+              <span class="section-divider__line"></span>
+              <span style="font-size:11px;color:#aaa;">5 images</span>
+            </div>
+            <div class="img-grid img-grid--4">
+              <div class="img-slot" style="grid-column:span 4;">
+                <div class="img-slot__label">Desktop Website <span>Full-width desktop mockup</span></div>
+                <div class="img-slot__box" data-slot="img_digital_desktop" data-ratio="wide">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Phone 01 <span>Home screen</span></div>
+                <div class="img-slot__box" data-slot="img_digital_phone_01" data-ratio="tall">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Phone 02</div>
+                <div class="img-slot__box" data-slot="img_digital_phone_02" data-ratio="tall">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Phone 03</div>
+                <div class="img-slot__box" data-slot="img_digital_phone_03" data-ratio="tall">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Laptop / Tablet</div>
+                <div class="img-slot__box" data-slot="img_digital_laptop" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── RELATED PROJECTS ── -->
+          <div class="form-card" style="margin-top:0;">
+            <div class="section-divider" style="margin-top:0;margin-bottom:16px;">
+              <span class="section-divider__label">Related Projects</span>
+              <span class="section-divider__line"></span>
+              <span style="font-size:11px;color:#aaa;">3 thumbnails</span>
+            </div>
+            <div class="img-grid img-grid--3">
+              <div class="img-slot">
+                <div class="img-slot__label">Related 01</div>
+                <div class="img-slot__box" data-slot="img_related_01" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Related 02</div>
+                <div class="img-slot__box" data-slot="img_related_02" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+              <div class="img-slot">
+                <div class="img-slot__label">Related 03</div>
+                <div class="img-slot__box" data-slot="img_related_03" data-ratio="square">
+                  <input type="file" accept="image/*">
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── NUMBERS ── -->
           <div class="form-card">
             <h2>Numbers</h2>
             <div class="form-grid">
-              <div class="field"><label>Stat 1 — Value</label><input type="text" id="f-stat1-val" placeholder="e.g. 240+"></div>
-              <div class="field"><label>Stat 1 — Label</label><input type="text" id="f-stat1-label" placeholder="e.g. Brand touchpoints"></div>
-              <div class="field"><label>Stat 2 — Value</label><input type="text" id="f-stat2-val" placeholder="e.g. 18"></div>
-              <div class="field"><label>Stat 2 — Label</label><input type="text" id="f-stat2-label" placeholder="e.g. Countries launched"></div>
-              <div class="field"><label>Stat 3 — Value</label><input type="text" id="f-stat3-val" placeholder="e.g. 4x"></div>
-              <div class="field"><label>Stat 3 — Label</label><input type="text" id="f-stat3-label" placeholder="e.g. Engagement increase"></div>
-              <div class="field"><label>Stat 4 — Value</label><input type="text" id="f-stat4-val" placeholder="e.g. 98"></div>
-              <div class="field"><label>Stat 4 — Label</label><input type="text" id="f-stat4-label" placeholder="e.g. NPS score"></div>
-              <div class="field"><label>Stat 5 — Value</label><input type="text" id="f-stat5-val" placeholder="e.g. 12"></div>
-              <div class="field"><label>Stat 5 — Label</label><input type="text" id="f-stat5-label" placeholder="e.g. Weeks to launch"></div>
+              <div class="field"><label>Stat 1 — Value</label><input type="text" id="f-stat1-val" placeholder="240+"></div>
+              <div class="field"><label>Stat 1 — Label</label><input type="text" id="f-stat1-label" placeholder="Brand touchpoints"></div>
+              <div class="field"><label>Stat 2 — Value</label><input type="text" id="f-stat2-val" placeholder="18"></div>
+              <div class="field"><label>Stat 2 — Label</label><input type="text" id="f-stat2-label" placeholder="Countries launched"></div>
+              <div class="field"><label>Stat 3 — Value</label><input type="text" id="f-stat3-val" placeholder="4x"></div>
+              <div class="field"><label>Stat 3 — Label</label><input type="text" id="f-stat3-label" placeholder="Engagement increase"></div>
+              <div class="field"><label>Stat 4 — Value</label><input type="text" id="f-stat4-val" placeholder="98"></div>
+              <div class="field"><label>Stat 4 — Label</label><input type="text" id="f-stat4-label" placeholder="NPS score"></div>
+              <div class="field"><label>Stat 5 — Value</label><input type="text" id="f-stat5-val" placeholder="12"></div>
+              <div class="field"><label>Stat 5 — Label</label><input type="text" id="f-stat5-label" placeholder="Weeks to launch"></div>
             </div>
           </div>
 
-          <!-- Outcomes -->
+          <!-- ── OUTCOMES ── -->
           <div class="form-card">
             <h2>Outcomes</h2>
             <div class="form-grid">
-              <div class="field"><label>Outcome 1 — Title</label><input type="text" id="f-out1-title" placeholder="e.g. Global Rollout"></div>
+              <div class="field"><label>Outcome 1 — Title</label><input type="text" id="f-out1-title" placeholder="Global Rollout"></div>
               <div class="field"><label>Outcome 1 — Description</label><input type="text" id="f-out1-sub" placeholder="Short description"></div>
-              <div class="field"><label>Outcome 2 — Title</label><input type="text" id="f-out2-title" placeholder="e.g. Award Recognition"></div>
+              <div class="field"><label>Outcome 2 — Title</label><input type="text" id="f-out2-title" placeholder="Award Recognition"></div>
               <div class="field"><label>Outcome 2 — Description</label><input type="text" id="f-out2-sub" placeholder="Short description"></div>
-              <div class="field"><label>Outcome 3 — Title</label><input type="text" id="f-out3-title" placeholder="e.g. Team Adoption"></div>
+              <div class="field"><label>Outcome 3 — Title</label><input type="text" id="f-out3-title" placeholder="Team Adoption"></div>
               <div class="field"><label>Outcome 3 — Description</label><input type="text" id="f-out3-sub" placeholder="Short description"></div>
-              <div class="field"><label>Outcome 4 — Title</label><input type="text" id="f-out4-title" placeholder="e.g. Client Retention"></div>
+              <div class="field"><label>Outcome 4 — Title</label><input type="text" id="f-out4-title" placeholder="Client Retention"></div>
               <div class="field"><label>Outcome 4 — Description</label><input type="text" id="f-out4-sub" placeholder="Short description"></div>
             </div>
           </div>
 
-          <!-- Quote -->
+          <!-- ── QUOTE ── -->
           <div class="form-card">
             <h2>Client Quote</h2>
             <div style="display:flex;flex-direction:column;gap:16px;">
-              <div class="field">
-                <label>Quote</label>
-                <textarea id="f-quote" placeholder="What the client said…" style="min-height:90px;"></textarea>
-              </div>
+              <div class="field"><label>Quote</label><textarea id="f-quote" placeholder="What the client said…" style="min-height:90px;"></textarea></div>
               <div class="form-grid">
-                <div class="field"><label>Name</label><input type="text" id="f-quote-name" placeholder="e.g. John Smith"></div>
-                <div class="field"><label>Role</label><input type="text" id="f-quote-role" placeholder="e.g. CMO, BMW Group"></div>
+                <div class="field"><label>Name</label><input type="text" id="f-quote-name" placeholder="John Smith"></div>
+                <div class="field"><label>Role</label><input type="text" id="f-quote-role" placeholder="CMO, BMW Group"></div>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- Right sidebar -->
+        <!-- ── RIGHT SIDEBAR ── -->
         <div class="form-sidebar">
           <div class="form-card">
             <h2>Publish</h2>
@@ -210,7 +478,7 @@
                   <option value="published">Published</option>
                 </select>
               </div>
-              <button class="btn btn--primary" style="width:100%;justify-content:center;" id="save-btn">Save Project</button>
+              <button class="btn btn--primary" style="width:100%;justify-content:center;" id="save-btn-sidebar">Save Project</button>
               <button class="btn btn--danger btn--sm" style="width:100%;justify-content:center;display:none;" id="delete-btn">Delete Project</button>
             </div>
           </div>
@@ -218,9 +486,21 @@
           <div class="form-card">
             <h2>Related Projects</h2>
             <div class="field">
-              <label>Pinned Related (slugs)</label>
+              <label>Pinned slugs</label>
               <textarea id="f-pinned" placeholder="one-slug-per-line" style="min-height:80px;font-family:monospace;font-size:12px;"></textarea>
               <span class="field__hint">Leave blank for auto-suggest</span>
+            </div>
+          </div>
+
+          <div class="form-card" style="background:#fafafa;">
+            <h2 style="color:var(--text-2);">Image slots</h2>
+            <div style="font-size:12px;color:var(--text-2);line-height:1.7;">
+              <div>🖼 Hero — 1</div>
+              <div>🔵 Identity — 7</div>
+              <div>📦 Applications — 8</div>
+              <div>💻 Digital — 5</div>
+              <div>🔗 Related — 3</div>
+              <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-weight:600;">Total — 24 slots</div>
             </div>
           </div>
         </div>
@@ -238,136 +518,134 @@
     const editId  = params.get('id');
     let workspaceId = null;
 
-    // Stores uploaded URLs per slot
-    const imageData = { hero: null, cover: null, brand: [], phones: [] };
+    // Tracks current URL value per slot
+    const slotValues = {};
 
     function slugify(str) {
       return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     }
-
     document.getElementById('f-title').addEventListener('input', e => {
       if (!editId) document.getElementById('f-slug').value = slugify(e.target.value);
     });
 
-    // ── Image upload ──
-    function addThumb(previewId, url, onRemove) {
-      const wrap = document.getElementById(previewId);
-      const div  = document.createElement('div');
-      div.className = 'img-upload__thumb';
-      div.innerHTML = `<img src="${url}"><button title="Remove">×</button>`;
-      div.querySelector('button').addEventListener('click', () => { div.remove(); onRemove(); });
-      wrap.appendChild(div);
+    // ── Slot rendering ──
+    function renderSlot(box, url) {
+      const slot  = box.dataset.slot;
+      const ratio = box.dataset.ratio;
+      slotValues[slot] = url;
+
+      const ratioClass = ratio === 'tall' ? 'img-slot__preview--tall'
+                       : ratio === 'wide' ? 'img-slot__preview--wide'
+                       : ratio === 'square' ? 'img-slot__preview--square'
+                       : 'img-slot__preview';
+
+      box.innerHTML = `
+        <img src="${url}" class="img-slot__preview ${ratioClass}">
+        <button class="img-slot__remove" data-slot="${slot}">×</button>
+        <input type="file" accept="image/*" style="display:none;">
+      `;
+
+      box.querySelector('.img-slot__remove').addEventListener('click', e => {
+        e.stopPropagation();
+        slotValues[slot] = null;
+        resetSlot(box);
+      });
     }
 
-    function setStatus(id, msg) {
-      document.getElementById('status-' + id).textContent = msg;
+    function resetSlot(box) {
+      box.innerHTML = `
+        <input type="file" accept="image/*">
+        <div class="img-slot__empty">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span>Click to upload</span>
+        </div>
+      `;
+      wireSlot(box);
     }
 
-    async function uploadFile(file, slot) {
+    function showUploading(box) {
+      const spinner = document.createElement('div');
+      spinner.className = 'img-slot__uploading';
+      spinner.textContent = 'Uploading…';
+      box.appendChild(spinner);
+      return () => spinner.remove();
+    }
+
+    async function uploadToSlot(file, box) {
+      const slot   = box.dataset.slot;
       const slug   = document.getElementById('f-slug').value.trim() || 'project';
       const ext    = file.name.split('.').pop();
-      const path   = `projects/${slug}/${slot}-${Date.now()}.${ext}`;
-      const bucket = 'parallax-assets';
+      const path   = `projects/${slug}/${slot}.${ext}`;
+      const done   = showUploading(box);
 
-      setStatus(slot.replace(/\d$/, ''), 'Uploading…');
-      const { error } = await db.storage.from(bucket).upload(path, file, { upsert: true });
-      if (error) { setStatus(slot, 'Error: ' + error.message); return null; }
+      const { error } = await db.storage.from('parallax-assets').upload(path, file, { upsert: true });
+      done();
+      if (error) { showToast('Upload error: ' + error.message); return; }
 
-      const { data } = db.storage.from(bucket).getPublicUrl(path);
-      setStatus(slot.replace(/\d$/, ''), '');
-      return data.publicUrl;
+      const { data } = db.storage.from('parallax-assets').getPublicUrl(path);
+      renderSlot(box, data.publicUrl);
     }
 
-    // Wire up all upload inputs
-    document.querySelectorAll('.img-upload__btn input[type=file]').forEach(input => {
+    function wireSlot(box) {
+      const input = box.querySelector('input[type=file]');
+      if (!input) return;
       input.addEventListener('change', async () => {
-        const target = input.dataset.target;
-        const files  = Array.from(input.files);
-
-        for (const file of files) {
-          const url = await uploadFile(file, target);
-          if (!url) continue;
-
-          if (target === 'hero') {
-            imageData.hero = url;
-            document.getElementById('preview-hero').innerHTML = '';
-            addThumb('preview-hero', url, () => { imageData.hero = null; });
-          } else if (target === 'cover') {
-            imageData.cover = url;
-            document.getElementById('preview-cover').innerHTML = '';
-            addThumb('preview-cover', url, () => { imageData.cover = null; });
-          } else if (target === 'brand') {
-            imageData.brand.push(url);
-            addThumb('preview-brand', url, () => {
-              imageData.brand = imageData.brand.filter(u => u !== url);
-            });
-          } else if (target === 'phones') {
-            imageData.phones.push(url);
-            addThumb('preview-phones', url, () => {
-              imageData.phones = imageData.phones.filter(u => u !== url);
-            });
-          }
-        }
-        input.value = '';
+        if (input.files[0]) await uploadToSlot(input.files[0], box);
       });
-    });
 
-    function loadExistingImage(previewId, url, slot) {
-      if (!url) return;
-      if (Array.isArray(url)) {
-        url.forEach(u => {
-          imageData[slot].push(u);
-          addThumb(previewId, u, () => { imageData[slot] = imageData[slot].filter(x => x !== u); });
-        });
-      } else {
-        imageData[slot] = url;
-        addThumb(previewId, url, () => { imageData[slot] = null; });
-      }
+      // Also make the whole box clickable
+      box.addEventListener('click', () => {
+        const inp = box.querySelector('input[type=file]');
+        if (inp && !box.querySelector('.img-slot__preview')) inp.click();
+      });
     }
 
+    // Wire all slots on load
+    document.querySelectorAll('.img-slot__box').forEach(wireSlot);
+
+    // ── Save ──
     function csv(str)   { return str ? str.split(',').map(s => s.trim()).filter(Boolean) : []; }
     function lines(str) { return str ? str.split('\n').map(s => s.trim()).filter(Boolean) : []; }
 
     async function save() {
-      const btn = document.getElementById('save-btn');
-      btn.textContent = 'Saving…';
-      btn.disabled = true;
+      const btn  = document.getElementById('save-btn');
+      const btn2 = document.getElementById('save-btn-sidebar');
+      btn.textContent = 'Saving…'; btn.disabled = true;
+      btn2.textContent = 'Saving…'; btn2.disabled = true;
 
       const payload = {
-        workspace_id:            workspaceId,
-        title:                   document.getElementById('f-title').value.trim(),
-        slug:                    document.getElementById('f-slug').value.trim(),
-        client:                  document.getElementById('f-client').value.trim(),
-        year:                    document.getElementById('f-year').value.trim(),
-        services:                csv(document.getElementById('f-services').value),
-        overview:                document.getElementById('f-overview').value.trim(),
-        hero_image_url:          imageData.hero,
-        cover_image_url:         imageData.cover,
-        branding_primary_images: imageData.brand,
-        digital_phones:          imageData.phones,
-        stat1_value:             document.getElementById('f-stat1-val').value.trim(),
-        stat1_label:             document.getElementById('f-stat1-label').value.trim(),
-        stat2_value:             document.getElementById('f-stat2-val').value.trim(),
-        stat2_label:             document.getElementById('f-stat2-label').value.trim(),
-        stat3_value:             document.getElementById('f-stat3-val').value.trim(),
-        stat3_label:             document.getElementById('f-stat3-label').value.trim(),
-        stat4_value:             document.getElementById('f-stat4-val').value.trim(),
-        stat4_label:             document.getElementById('f-stat4-label').value.trim(),
-        stat5_value:             document.getElementById('f-stat5-val').value.trim(),
-        stat5_label:             document.getElementById('f-stat5-label').value.trim(),
-        outcome1_title:          document.getElementById('f-out1-title').value.trim(),
-        outcome1_description:    document.getElementById('f-out1-sub').value.trim(),
-        outcome2_title:          document.getElementById('f-out2-title').value.trim(),
-        outcome2_description:    document.getElementById('f-out2-sub').value.trim(),
-        outcome3_title:          document.getElementById('f-out3-title').value.trim(),
-        outcome3_description:    document.getElementById('f-out3-sub').value.trim(),
-        outcome4_title:          document.getElementById('f-out4-title').value.trim(),
-        outcome4_description:    document.getElementById('f-out4-sub').value.trim(),
-        quote_text:              document.getElementById('f-quote').value.trim(),
-        quote_attribution_name:  document.getElementById('f-quote-name').value.trim(),
-        quote_attribution_role:  document.getElementById('f-quote-role').value.trim(),
-        status:                  document.getElementById('f-status').value,
-        pinned_related:          lines(document.getElementById('f-pinned').value),
+        workspace_id:           workspaceId,
+        title:                  document.getElementById('f-title').value.trim(),
+        slug:                   document.getElementById('f-slug').value.trim(),
+        client:                 document.getElementById('f-client').value.trim(),
+        year:                   document.getElementById('f-year').value.trim(),
+        services:               csv(document.getElementById('f-services').value),
+        overview:               document.getElementById('f-overview').value.trim(),
+        status:                 document.getElementById('f-status').value,
+        pinned_related:         lines(document.getElementById('f-pinned').value),
+        stat1_value:            document.getElementById('f-stat1-val').value.trim(),
+        stat1_label:            document.getElementById('f-stat1-label').value.trim(),
+        stat2_value:            document.getElementById('f-stat2-val').value.trim(),
+        stat2_label:            document.getElementById('f-stat2-label').value.trim(),
+        stat3_value:            document.getElementById('f-stat3-val').value.trim(),
+        stat3_label:            document.getElementById('f-stat3-label').value.trim(),
+        stat4_value:            document.getElementById('f-stat4-val').value.trim(),
+        stat4_label:            document.getElementById('f-stat4-label').value.trim(),
+        stat5_value:            document.getElementById('f-stat5-val').value.trim(),
+        stat5_label:            document.getElementById('f-stat5-label').value.trim(),
+        outcome1_title:         document.getElementById('f-out1-title').value.trim(),
+        outcome1_description:   document.getElementById('f-out1-sub').value.trim(),
+        outcome2_title:         document.getElementById('f-out2-title').value.trim(),
+        outcome2_description:   document.getElementById('f-out2-sub').value.trim(),
+        outcome3_title:         document.getElementById('f-out3-title').value.trim(),
+        outcome3_description:   document.getElementById('f-out3-sub').value.trim(),
+        outcome4_title:         document.getElementById('f-out4-title').value.trim(),
+        outcome4_description:   document.getElementById('f-out4-sub').value.trim(),
+        quote_text:             document.getElementById('f-quote').value.trim(),
+        quote_attribution_name: document.getElementById('f-quote-name').value.trim(),
+        quote_attribution_role: document.getElementById('f-quote-role').value.trim(),
+        // All 24 image slots
+        ...slotValues,
       };
 
       let error;
@@ -383,8 +661,8 @@
         }
       }
 
-      btn.textContent = 'Save Project';
-      btn.disabled = false;
+      btn.textContent = 'Save Project'; btn.disabled = false;
+      btn2.textContent = 'Save Project'; btn2.disabled = false;
       if (error) showToast('Error: ' + error.message);
       else       showToast('Saved successfully');
     }
@@ -392,10 +670,8 @@
     (async () => {
       const session = await requireAuth();
       document.getElementById('sb-email').textContent = session.user.email;
-
       document.getElementById('signout-btn').addEventListener('click', async () => {
-        await db.auth.signOut();
-        window.location.href = 'login.html';
+        await db.auth.signOut(); window.location.href = 'login.html';
       });
 
       const { data: ws } = await db.from('workspaces').select('id').limit(1).single();
@@ -437,14 +713,27 @@
           document.getElementById('f-status').value      = p.status || 'draft';
           document.getElementById('f-pinned').value      = (p.pinned_related || []).join('\n');
 
-          loadExistingImage('preview-hero',   p.hero_image_url,          'hero');
-          loadExistingImage('preview-cover',  p.cover_image_url,         'cover');
-          loadExistingImage('preview-brand',  p.branding_primary_images, 'brand');
-          loadExistingImage('preview-phones', p.digital_phones,          'phones');
+          // Load existing images into slots
+          const imageFields = [
+            'img_hero',
+            'img_identity_mark_01','img_identity_mark_02','img_identity_mark_03',
+            'img_identity_construction','img_identity_variant_light','img_identity_variant_dark','img_identity_variant_accent',
+            'img_app_signage','img_app_stationery','img_app_packaging','img_app_letterhead',
+            'img_app_apparel','img_app_brochure','img_app_livery','img_app_environmental',
+            'img_digital_desktop','img_digital_phone_01','img_digital_phone_02','img_digital_phone_03','img_digital_laptop',
+            'img_related_01','img_related_02','img_related_03',
+          ];
+          imageFields.forEach(field => {
+            if (p[field]) {
+              const box = document.querySelector(`[data-slot="${field}"]`);
+              if (box) renderSlot(box, p[field]);
+            }
+          });
         }
       }
 
       document.getElementById('save-btn').addEventListener('click', save);
+      document.getElementById('save-btn-sidebar').addEventListener('click', save);
 
       document.getElementById('delete-btn').addEventListener('click', async () => {
         if (!confirm('Delete this project? This cannot be undone.')) return;
