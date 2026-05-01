@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Editor — Parallax Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <a href="index.html" class="sidebar__logo">Parallax<span>.</span> <span class="sidebar__badge">Admin</span></a>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Content</div>
+      <a href="index.html">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="articles.html" class="active">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path d="M4 6h16M4 10h16M4 14h10"/></svg>
+        Articles
+      </a>
+      <a href="projects.html">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+        Projects
+      </a>
+      <div class="sidebar__section-label">Site</div>
+      <a href="../index.html" target="_blank">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        View Site
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <strong id="sb-email">—</strong>
+        Parallax Studio
+      </div>
+      <button class="sidebar__signout" id="signout-btn">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <span class="topbar__crumb"><a href="articles.html" style="color:var(--text-2);text-decoration:none;">Articles</a> / <strong id="topbar-title">New Article</strong></span>
+      <div class="topbar__right">
+        <a href="articles.html" class="btn btn--ghost btn--sm">Cancel</a>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="form-layout">
+
+        <!-- Left: main fields -->
+        <div>
+          <div class="form-card">
+            <h2>Content</h2>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div class="field">
+                <label>Title</label>
+                <input type="text" id="f-title" placeholder="Article title">
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Slug</label>
+                  <input type="text" id="f-slug" placeholder="auto-generated-from-title">
+                  <span class="field__hint">URL-friendly identifier</span>
+                </div>
+                <div class="field">
+                  <label>Category</label>
+                  <select id="f-category">
+                    <option value="">Select category</option>
+                    <option value="brand">Brand</option>
+                    <option value="interface">Interface</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="process">Process</option>
+                    <option value="opinion">Opinion</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Excerpt</label>
+                <textarea id="f-excerpt" placeholder="A short summary shown in listings…" style="min-height:80px;"></textarea>
+              </div>
+              <div class="field">
+                <label>Body</label>
+                <textarea id="f-body" placeholder="Write your article content here. Markdown supported." style="min-height:320px; font-family: 'SF Mono', monospace; font-size:13px;"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <h2>Meta</h2>
+            <div class="form-grid">
+              <div class="field">
+                <label>Author</label>
+                <input type="text" id="f-author" placeholder="e.g. Samuel Godwin">
+              </div>
+              <div class="field">
+                <label>Read time</label>
+                <input type="text" id="f-read-time" placeholder="e.g. 5 min read">
+              </div>
+              <div class="field form-grid--full">
+                <label>Tags</label>
+                <input type="text" id="f-tags" placeholder="brand, identity, systems (comma-separated)">
+              </div>
+              <div class="field form-grid--full">
+                <label>Hero Image URL</label>
+                <input type="text" id="f-hero-image" placeholder="https://…">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: publish sidebar -->
+        <div class="form-sidebar">
+          <div class="form-card">
+            <h2>Publish</h2>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div class="field">
+                <label>Status</label>
+                <select id="f-status">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
+              <button class="btn btn--primary" style="width:100%; justify-content:center;" id="save-btn">Save Article</button>
+              <button class="btn btn--danger btn--sm" style="width:100%; justify-content:center; display:none;" id="delete-btn">Delete Article</button>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <h2>Related Articles</h2>
+            <div class="field">
+              <label>Pinned Related (slugs)</label>
+              <textarea id="f-pinned" placeholder="one-slug-per-line" style="min-height:80px; font-family:monospace; font-size:12px;"></textarea>
+              <span class="field__hint">Leave blank for auto-suggest</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    const params  = new URLSearchParams(location.search);
+    const editId  = params.get('id');
+    let workspaceId = null;
+
+    function slugify(str) {
+      return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    document.getElementById('f-title').addEventListener('input', e => {
+      const slug = document.getElementById('f-slug');
+      if (!editId) slug.value = slugify(e.target.value);
+    });
+
+    async function save() {
+      const btn = document.getElementById('save-btn');
+      btn.textContent = 'Saving…';
+      btn.disabled = true;
+
+      const tagsRaw   = document.getElementById('f-tags').value;
+      const pinnedRaw = document.getElementById('f-pinned').value;
+
+      const payload = {
+        workspace_id:   workspaceId,
+        title:          document.getElementById('f-title').value.trim(),
+        slug:           document.getElementById('f-slug').value.trim(),
+        category:       document.getElementById('f-category').value,
+        excerpt:        document.getElementById('f-excerpt').value.trim(),
+        body:           document.getElementById('f-body').value.trim(),
+        author:         document.getElementById('f-author').value.trim(),
+        read_time:      document.getElementById('f-read-time').value.trim(),
+        hero_image_url: document.getElementById('f-hero-image').value.trim(),
+        status:         document.getElementById('f-status').value,
+        tags:           tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [],
+        pinned_related: pinnedRaw ? pinnedRaw.split('\n').map(s => s.trim()).filter(Boolean) : [],
+      };
+
+      let error;
+      if (editId) {
+        ({ error } = await db.from('articles').update(payload).eq('id', editId));
+      } else {
+        let data;
+        ({ data, error } = await db.from('articles').insert(payload).select().single());
+        if (!error && data) {
+          history.replaceState({}, '', `?id=${data.id}`);
+          document.getElementById('delete-btn').style.display = 'block';
+        }
+      }
+
+      btn.textContent = 'Save Article';
+      btn.disabled = false;
+
+      if (error) { showToast('Error: ' + error.message); }
+      else        { showToast('Saved successfully'); }
+    }
+
+    (async () => {
+      const session = await requireAuth();
+      document.getElementById('sb-email').textContent = session.user.email;
+
+      document.getElementById('signout-btn').addEventListener('click', async () => {
+        await db.auth.signOut();
+        window.location.href = 'login.html';
+      });
+
+      // Get workspace id
+      const { data: ws } = await db.from('workspaces').select('id').limit(1).single();
+      workspaceId = ws?.id;
+
+      // Load existing article
+      if (editId) {
+        document.getElementById('topbar-title').textContent = 'Edit Article';
+        document.getElementById('delete-btn').style.display = 'block';
+
+        const { data: a } = await db.from('articles').select('*').eq('id', editId).single();
+        if (a) {
+          document.getElementById('f-title').value      = a.title || '';
+          document.getElementById('f-slug').value       = a.slug || '';
+          document.getElementById('f-category').value  = a.category || '';
+          document.getElementById('f-excerpt').value   = a.excerpt || '';
+          document.getElementById('f-body').value      = a.body || '';
+          document.getElementById('f-author').value    = a.author || '';
+          document.getElementById('f-read-time').value = a.read_time || '';
+          document.getElementById('f-hero-image').value = a.hero_image_url || '';
+          document.getElementById('f-status').value    = a.status || 'draft';
+          document.getElementById('f-tags').value      = (a.tags || []).join(', ');
+          document.getElementById('f-pinned').value    = (a.pinned_related || []).join('\n');
+        }
+      }
+
+      document.getElementById('save-btn').addEventListener('click', save);
+
+      document.getElementById('delete-btn').addEventListener('click', async () => {
+        if (!confirm('Delete this article? This cannot be undone.')) return;
+        const { error } = await db.from('articles').delete().eq('id', editId);
+        if (error) { showToast('Error: ' + error.message); return; }
+        window.location.href = 'articles.html';
+      });
+    })();
+  </script>
+</body>
+</html>
