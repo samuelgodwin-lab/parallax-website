@@ -11,7 +11,14 @@
 
   <style>
     /* ============================================================
-       PARALLAX — Project Page Template
+       PARALLAX — Project Page Template (v3)
+       Motion-first refinement of v2.
+
+       Conditional rendering via <body data-project-type="...">
+         - "branding" → logos + system + applications (no digital)
+         - "website"  → digital only (web mockups)
+         - "app"      → digital only (phone mockups)
+         - "mix"      → all sections
     ============================================================ */
 
     :root {
@@ -24,6 +31,7 @@
       --accent:         oklch(0.60 0.18 249);
       --accent-hi:      oklch(0.70 0.14 249);
       --accent-muted:   oklch(0.60 0.18 249 / 0.14);
+      --accent-soft:    oklch(0.60 0.18 249 / 0.06);
       --border:         oklch(0 0 0 / 0.15);
       --border-strong:  oklch(0 0 0 / 0.30);
 
@@ -76,7 +84,30 @@
     .stagger.in > *:nth-child(2) { opacity:1; transform:none; transition-delay:  55ms; }
     .stagger.in > *:nth-child(3) { opacity:1; transform:none; transition-delay: 110ms; }
     .stagger.in > *:nth-child(4) { opacity:1; transform:none; transition-delay: 165ms; }
-    .stagger.in > *:nth-child(n+5) { opacity:1; transform:none; transition-delay: 220ms; }
+    .stagger.in > *:nth-child(5) { opacity:1; transform:none; transition-delay: 220ms; }
+    .stagger.in > *:nth-child(6) { opacity:1; transform:none; transition-delay: 275ms; }
+    .stagger.in > *:nth-child(n+7) { opacity:1; transform:none; transition-delay: 330ms; }
+
+    /* ============================================================
+       CONDITIONAL SECTIONS — driven by <body data-project-type>
+    ============================================================ */
+    body[data-project-type="website"] .sec--branding,
+    body[data-project-type="website"] .sec--system,
+    body[data-project-type="website"] .sec--applications,
+    body[data-project-type="app"]     .sec--branding,
+    body[data-project-type="app"]     .sec--system,
+    body[data-project-type="app"]     .sec--applications { display: none; }
+
+    body[data-project-type="branding"] .sec--digital { display: none; }
+
+    /* Within the Digital bento, trim what doesn't apply per project type */
+    body[data-project-type="website"] .dig--p4 { display: none; }
+    body[data-project-type="website"] .dig-system__col:nth-child(1) { display: none; }
+    body[data-project-type="website"] .dig-system__cols { grid-template-columns: 1fr; }
+
+    body[data-project-type="app"] .dig--lead { display: none; }
+    body[data-project-type="app"] .dig-system__col:nth-child(2) { display: none; }
+    body[data-project-type="app"] .dig-system__cols { grid-template-columns: 1fr; }
 
     /* ============================================================
        NAV
@@ -214,9 +245,10 @@
       font-feature-settings: 'ss01' 1, 'kern' 1; text-wrap: balance;
     }
     .sh em { font-style: normal; color: var(--accent); }
+    .sh--sm { font-size: clamp(26px, 2.8vw, 40px); }
 
     /* ============================================================
-       HERO — full-bleed image, title anchored at bottom
+       HERO
     ============================================================ */
     .proj-hero {
       position: relative;
@@ -228,122 +260,53 @@
       flex-direction: column;
       justify-content: flex-end;
     }
-    /* CMS: replace src with project.heroImage */
     .proj-hero__img {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center;
+      object-fit: cover; object-position: center;
       z-index: 0;
     }
     .proj-hero__scrim {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        oklch(0 0 0 / 0) 30%,
-        oklch(0 0 0 / 0.75) 100%
-      );
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, oklch(0 0 0 / 0) 30%, oklch(0 0 0 / 0.75) 100%);
       z-index: 1;
     }
-    .proj-hero__content {
-      position: relative;
-      z-index: 2;
-      padding-bottom: clamp(48px, 6vw, 80px);
-    }
+    .proj-hero__content { position: relative; z-index: 2; padding-bottom: clamp(48px, 6vw, 80px); }
     .proj-hero__tag {
-      font-family: var(--font-m);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: oklch(1 0 0 / 0.55);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: var(--s6);
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: oklch(1 0 0 / 0.55);
+      display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6);
     }
     .proj-hero__tag::before { content: ''; width: 22px; height: 1px; background: var(--accent); }
-    /* CMS: project.client */
-    .proj-hero__client {
-      font-family: var(--font-m);
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-    /* CMS: project.title */
+    .proj-hero__client { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
     .proj-hero__h1 {
-      font-size: clamp(40px, 6.5vw, 96px);
-      font-weight: 800;
-      letter-spacing: -0.052em;
-      line-height: 0.92;
-      color: white;
-      margin-top: var(--s3);
-      max-width: 900px;
+      font-size: clamp(40px, 6.5vw, 96px); font-weight: 800;
+      letter-spacing: -0.052em; line-height: 0.92;
+      color: white; margin-top: var(--s3); max-width: 900px;
     }
     .proj-hero__scroll {
-      position: absolute;
-      bottom: clamp(32px, 4vw, 56px);
-      right: clamp(24px, 5vw, 80px);
-      z-index: 2;
-      font-family: var(--font-m);
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: oklch(1 0 0 / 0.45);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      position: absolute; bottom: clamp(32px, 4vw, 56px); right: clamp(24px, 5vw, 80px);
+      z-index: 2; font-family: var(--font-m); font-size: 9px;
+      letter-spacing: 0.2em; text-transform: uppercase; color: oklch(1 0 0 / 0.45);
+      display: flex; align-items: center; gap: 10px;
     }
     .proj-hero__scroll::before {
-      content: '';
-      width: 1px;
-      height: 36px;
-      background: oklch(1 0 0 / 0.3);
-      animation: breathe 2.4s ease-in-out infinite;
+      content: ''; width: 1px; height: 36px;
+      background: oklch(1 0 0 / 0.3); animation: breathe 2.4s ease-in-out infinite;
     }
-    @keyframes breathe {
-      0%, 100% { height: 36px; }
-      50%       { height: 20px; }
-    }
+    @keyframes breathe { 0%, 100% { height: 36px; } 50% { height: 20px; } }
 
     /* ============================================================
-       META BAND — Client · Industry · Services · Year
+       META BAND
     ============================================================ */
-    .proj-meta {
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-    }
-    .proj-meta__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-    }
-    .proj-meta__item {
-      padding: var(--s8) 0;
-      border-right: 1px solid var(--border);
-      padding-right: var(--s8);
-    }
+    .proj-meta { border-bottom: 1px solid var(--border); background: var(--bg); }
+    .proj-meta__grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .proj-meta__item { padding: var(--s8) 0; border-right: 1px solid var(--border); padding-right: var(--s8); }
     .proj-meta__item:first-child { padding-left: 0; }
     .proj-meta__item:last-child { border-right: none; padding-right: 0; padding-left: var(--s8); }
     .proj-meta__item:not(:first-child):not(:last-child) { padding-left: var(--s8); }
-    .proj-meta__label {
-      font-family: var(--font-m);
-      font-size: 9px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      margin-bottom: var(--s2);
-      display: block;
-    }
-    /* CMS: project.client / project.industry / project.services[] / project.year */
-    .proj-meta__val {
-      font-size: clamp(14px, 1.3vw, 16px);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      line-height: 1.3;
-    }
+    .proj-meta__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); margin-bottom: var(--s2); display: block; }
+    .proj-meta__val { font-size: clamp(14px, 1.3vw, 16px); font-weight: 600; letter-spacing: -0.02em; color: var(--text); line-height: 1.3; }
     @media (max-width: 700px) {
       .proj-meta__grid { grid-template-columns: repeat(2, 1fr); }
       .proj-meta__item:nth-child(2) { border-right: none; }
@@ -353,452 +316,982 @@
     /* ============================================================
        OVERVIEW
     ============================================================ */
-    .proj-overview {
-      padding: var(--s24) 0;
-    }
+    .proj-overview { padding: var(--s24) 0; background: #f8f8f8; }
     .proj-overview__inner {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: clamp(var(--s16), 8vw, 160px);
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 1.2fr;
+      gap: clamp(var(--s16), 8vw, 160px); align-items: start;
     }
-    /* CMS: project.overviewHeading */
     .proj-overview__h {
-      font-size: clamp(28px, 3.2vw, 48px);
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      line-height: 1.05;
-      margin-top: var(--s6);
+      font-size: clamp(28px, 3.2vw, 48px); font-weight: 700;
+      letter-spacing: -0.042em; line-height: 1.0; margin-top: var(--s6);
     }
     .proj-overview__h em { font-style: normal; color: var(--accent); }
-    /* CMS: project.overviewBody */
     .proj-overview__body p {
-      font-size: clamp(16px, 1.5vw, 18px);
-      color: var(--text-2);
-      line-height: 1.8;
-      margin-bottom: var(--s6);
+      font-size: clamp(16px, 1.7vw, 19px); color: var(--text-2);
+      line-height: 1.72; margin-bottom: var(--s6);
     }
     .proj-overview__body p:last-child { margin-bottom: 0; }
-    @media (max-width: 860px) {
-      .proj-overview__inner { grid-template-columns: 1fr; gap: var(--s8); }
-    }
+    @media (max-width: 860px) { .proj-overview__inner { grid-template-columns: 1fr; gap: var(--s8); } }
 
     /* ============================================================
-       CHALLENGE — the problem before the solution
+       CHALLENGE
     ============================================================ */
-    .proj-challenge {
-      padding: var(--s24) 0;
-      background: #f8f8f8;
-    }
-    .proj-challenge__inner {
-      max-width: 860px;
-    }
-    /* CMS: project.challengeBody */
+    .proj-challenge { padding: var(--s24) 0; background: #f8f8f8; }
+    .proj-challenge__inner { max-width: 860px; }
     .proj-challenge__pull {
-      font-size: clamp(22px, 2.8vw, 38px);
-      font-weight: 700;
-      letter-spacing: -0.038em;
-      line-height: 1.2;
-      color: var(--text);
-      margin-top: var(--s6);
-      margin-bottom: var(--s8);
+      font-size: clamp(22px, 2.8vw, 38px); font-weight: 700;
+      letter-spacing: -0.038em; line-height: 1.2; color: var(--text);
+      margin-top: var(--s6); margin-bottom: var(--s8);
     }
     .proj-challenge__pull em { font-style: normal; color: var(--accent); }
     .proj-challenge__body {
-      font-size: clamp(15px, 1.4vw, 17px);
-      color: var(--text-2);
-      line-height: 1.8;
-      max-width: 68ch;
+      font-size: clamp(15px, 1.4vw, 17px); color: var(--text-2);
+      line-height: 1.8; max-width: 68ch;
     }
 
     /* ============================================================
-       FEATURE SHOWCASE — image + label + heading + description cards
+       SECTION HEADER (shared)
     ============================================================ */
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(-8px); }
+    .sec__hdr { margin-bottom: var(--s12); display: flex; flex-direction: column; gap: var(--s4); max-width: 760px; }
+    .sec__hdr .slabel { margin-bottom: 0; }
+    .sec__hdr p.sec__lead {
+      font-size: 15px; color: var(--text-2);
+      line-height: 1.72; margin-top: var(--s2); max-width: 62ch;
     }
 
-    .proj-showcase {
+    /* ============================================================
+       SECTION — BRANDING (Lean)
+       Hero auto-morphing mark + construction + variant trio.
+       CMS: project.branding { hero[], construction, variants[] }
+    ============================================================ */
+    .sec--branding { padding: var(--s24) 0; background: var(--bg); }
+
+    /* Stage 1 — primary mark, auto-morphing through variants */
+    .brand-primary {
+      position: relative;
+      aspect-ratio: 16/7;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 280ms var(--ease-out);
+    }
+    .brand-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(oklch(0 0 0 / 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, oklch(0 0 0 / 0.035) 1px, transparent 1px);
+      background-size: 48px 48px; pointer-events: none;
+    }
+    .brand-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, var(--accent-soft) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .brand-primary:hover { border-color: var(--accent); }
+      .brand-primary:hover .brand-primary__caption { background: var(--accent); }
+    }
+    .brand-primary__caption {
+      position: absolute; left: var(--s4); bottom: var(--s4); z-index: 3;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: white;
+      background: oklch(0 0 0 / 0.45); padding: 5px 9px; backdrop-filter: blur(6px);
+      transition: color 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .brand-primary__counter {
+      position: absolute; right: var(--s6); top: var(--s6); z-index: 3;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em;
+      color: var(--text-3);
+    }
+    .brand-primary__counter span { color: var(--accent); }
+
+    .morph-stack {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .morph-layer {
+      position: absolute;
+      inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 700ms var(--ease-out), transform 1200ms var(--ease-out);
+    }
+    .morph-layer.is-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .morph-layer img {
+      max-width: 44%; max-height: 60%;
+      object-fit: contain; display: block;
+    }
+
+    /* Stage 2 — construction + variant trio in one row */
+    .brand-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .brand-construction {
+      aspect-ratio: 5/4;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 280ms var(--ease-out);
+    }
+    .brand-construction img { max-width: 70%; max-height: 70%; object-fit: contain; }
+    .brand-construction__caption {
+      position: absolute; left: var(--s4); bottom: var(--s4);
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: white;
+      background: oklch(0 0 0 / 0.45); padding: 5px 9px; backdrop-filter: blur(6px);
+      transition: color 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .brand-construction:hover { border-color: var(--accent); }
+      .brand-construction:hover .brand-construction__caption { background: var(--accent); }
+    }
+    .brand-variant {
+      aspect-ratio: 5/4;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      padding: var(--s6); position: relative; overflow: hidden;
+      transition: border-color 280ms var(--ease-out), background 280ms var(--ease-out);
+    }
+    .brand-variant img { max-width: 72%; max-height: 72%; object-fit: contain; }
+    .brand-variant__label {
+      position: absolute; left: var(--s3); bottom: var(--s3);
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: white;
+      background: oklch(0 0 0 / 0.45); padding: 5px 9px; backdrop-filter: blur(6px);
+      transition: color 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .brand-variant:hover { border-color: var(--accent); }
+      .brand-variant:hover .brand-variant__label { color: white; background: var(--accent); }
+    }
+    .brand-variant--dark { background: oklch(0.08 0.003 249); border-color: oklch(0.08 0.003 249); }
+    .brand-variant--dark .brand-variant__label { color: oklch(1 0 0 / 0.55); }
+    .brand-variant--accent { background: var(--accent); border-color: var(--accent); }
+    .brand-variant--accent .brand-variant__label { color: oklch(1 0 0 / 0.75); }
+
+    @media (max-width: 900px) {
+      .brand-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ============================================================
+       SECTION — BRAND SYSTEM (dynamic)
+       Interactive palette + typography + scroll-driven tokens
+       + ticker marquee + auto token spotlight + live components.
+    ============================================================ */
+    .sec--system { padding: var(--s24) 0; background: #f8f8f8; }
+
+    .bsys-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 860px) { .bsys-grid { grid-template-columns: 1fr; } }
+
+    .bsys-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: var(--s8);
+      position: relative;
+      transition: border-color 280ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .bsys-card:hover { border-color: var(--accent); }
+    }
+    .bsys-card__head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: var(--s6);
+    }
+    .bsys-card__label {
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .bsys-card__meta {
+      font-family: var(--font-m); font-size: 10px;
+      letter-spacing: 0.08em; color: var(--text-3);
+    }
+
+    /* --- Palette --- */
+    .bsys-palette {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
+      margin-bottom: var(--s6);
+    }
+    .bsys-swatch {
+      aspect-ratio: 1; border: 0; padding: 0; cursor: pointer;
+      position: relative; outline: 2px solid transparent; outline-offset: 3px;
+      transition: outline-color 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+    .bsys-swatch:hover { transform: scale(1.04); }
+    .bsys-swatch.active { outline-color: var(--accent); }
+    .bsys-readout {
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: center; gap: var(--s4);
+      padding: var(--s4) var(--s3);
+      background: var(--surface); border: 1px solid var(--border);
+      font-family: var(--font-m); font-size: 11px;
+    }
+    .bsys-readout__chip {
+      width: 22px; height: 22px; display: block;
+      transition: background 240ms var(--ease-out);
+    }
+    .bsys-readout__name { color: var(--text); font-weight: 500; letter-spacing: -0.01em; }
+    .bsys-readout__hex { color: var(--text-3); letter-spacing: 0.08em; }
+
+    /* --- Typography --- */
+    .bsys-type-weights {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--s4);
+    }
+    .bsys-wbtn {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-2);
+      background: transparent; border: 1px solid var(--border-strong);
+      padding: 8px 12px; cursor: pointer;
+      transition: color 180ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+    .bsys-wbtn:hover { color: var(--text); border-color: var(--accent); }
+    .bsys-wbtn.active { color: var(--bg); background: var(--text); border-color: var(--text); }
+    .bsys-type-preview {
+      font-size: clamp(42px, 6vw, 80px);
+      line-height: 1.0; letter-spacing: -0.04em;
+      color: var(--text); margin-top: var(--s2);
+      transition: font-weight 240ms var(--ease-out);
+      min-height: 1.1em;
+    }
+    .bsys-type-scale {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: var(--s3); margin-top: var(--s6);
+      padding-top: var(--s6); border-top: 1px solid var(--border);
+    }
+    .bsys-type-scale__item { display: flex; flex-direction: column; gap: 2px; }
+    .bsys-type-scale__val { font-size: clamp(18px, 2vw, 26px); font-weight: 600; letter-spacing: -0.03em; }
+    .bsys-type-scale__name { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+
+    /* --- Marquee ticker --- */
+    .bsys-marquee {
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: var(--s4) 0;
+      margin-bottom: 16px;
+      mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+    }
+    .bsys-marquee__track {
+      display: inline-flex; gap: var(--s8);
+      white-space: nowrap;
+      animation: marquee 36s linear infinite;
+      font-family: var(--font-m); font-size: 11px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-3);
+      will-change: transform;
+    }
+    .bsys-marquee:hover .bsys-marquee__track { animation-play-state: paused; }
+    .bsys-marquee__item { display: inline-flex; align-items: center; gap: var(--s3); }
+    .bsys-marquee__item .accent { color: var(--accent); }
+    .bsys-marquee__item .dot {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .bsys-marquee__item .star {
+      color: var(--accent); font-family: var(--font-d); font-weight: 800;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* --- Tokens (scroll-driven + auto spotlight) --- */
+    .bsys-tokens {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-bottom: 16px;
+    }
+    .bsys-token {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: var(--s6); position: relative; min-height: 150px;
+      opacity: 0; transform: translateY(18px) scale(0.98);
+      transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out), border-color 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
+    }
+    .bsys-token.in { opacity: 1; transform: none; }
+    .bsys-tokens.stagger.in .bsys-token:nth-child(1) { transition-delay: 0ms, 0ms, 0ms, 0ms; }
+    .bsys-tokens.stagger.in .bsys-token:nth-child(2) { transition-delay: 90ms, 90ms, 0ms, 0ms; }
+    .bsys-tokens.stagger.in .bsys-token:nth-child(3) { transition-delay: 180ms, 180ms, 0ms, 0ms; }
+    .bsys-tokens.stagger.in .bsys-token:nth-child(4) { transition-delay: 270ms, 270ms, 0ms, 0ms; }
+    .bsys-token.spotlight {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-muted), 0 8px 32px oklch(0 0 0 / 0.06);
+    }
+    @media (hover:hover) and (pointer:fine) { .bsys-token:hover { border-color: var(--accent); } }
+    .bsys-token__name { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--s3); }
+    .bsys-token__val { font-family: var(--font-m); font-size: 12px; color: var(--text-2); margin-top: var(--s3); }
+    .bsys-token__demo { display: flex; align-items: flex-end; gap: 4px; height: 52px; }
+    .bsys-token__demo span {
+      background: var(--accent-muted); border: 1px solid var(--accent);
+      display: block; height: 100%; flex: 0 0 auto;
+    }
+    .bsys-token__shadow {
+      width: 48px; height: 48px; background: var(--bg);
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 32px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.06);
+    }
+    .bsys-token__radius {
+      width: 52px; height: 52px; background: var(--accent);
+      border-radius: 14px;
+    }
+
+    /* --- Live components --- */
+    .bsys-atoms-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: var(--s4); flex-wrap: wrap;
+      margin-bottom: var(--s3);
+      padding-bottom: var(--s3);
+      border-bottom: 1px dashed var(--border);
+    }
+    .bsys-atoms-head__title {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .bsys-atoms-head__meta {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.06em;
+      color: var(--text-3);
+    }
+    .bsys-components {
+      background: var(--bg); border: 1px solid var(--border); padding: var(--s8);
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s6);
+    }
+    @media (max-width: 780px) { .bsys-components { grid-template-columns: 1fr; } }
+    .bsys-comp { display: flex; flex-direction: column; gap: var(--s3); }
+    .bsys-comp__label {
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text-3);
+    }
+    .bsys-comp__demo {
+      padding: var(--s4); background: var(--surface); border: 1px dashed var(--border);
+      display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap;
+      min-height: 80px;
+    }
+    .bsys-demo-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 500;
+      padding: 10px 18px; cursor: pointer;
+      background: var(--text); color: var(--bg); border: 1px solid var(--text);
+      transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .bsys-demo-btn--g { background: transparent; color: var(--text-2); border-color: var(--border-strong); }
+    .bsys-demo-btn:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); }
+    .bsys-demo-input {
+      font-family: var(--font-m); font-size: 11px;
+      padding: 10px 12px; border: 1px solid var(--border-strong);
+      background: var(--bg); color: var(--text); width: 100%;
+      transition: border-color 180ms var(--ease-out);
+    }
+    .bsys-demo-input:focus { border-color: var(--accent); outline: none; }
+    .bsys-demo-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-muted); padding: 6px 10px;
+    }
+
+    /* ============================================================
+       SECTION — BRAND APPLICATIONS (Bento)
+       Asymmetric mixed-scale grid: hero → 7/5 → 4/4/4 → 6/6.
+    ============================================================ */
+    .sec--applications { padding: var(--s24) 0; background: var(--bg); }
+
+    .apps-bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+
+    .apps-tile {
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border);
+      background: oklch(0.09 0.003 249);
+      transition: border-color 280ms var(--ease-out);
+    }
+    .apps-tile img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 1000ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .apps-tile:hover { border-color: var(--accent); }
+      .apps-tile:hover img { transform: scale(1.04); }
+      .apps-tile:hover .apps-tile__cap { color: white; background: var(--accent); }
+    }
+    .apps-tile__cap {
+      position: absolute; left: var(--s4); bottom: var(--s4);
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: white;
+      background: oklch(0 0 0 / 0.45); padding: 5px 9px; backdrop-filter: blur(6px);
+      transition: color 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .apps-tile__cap small {
+      font-size: 8px; opacity: 0.7; margin-right: 6px; letter-spacing: 0.14em;
+    }
+
+    /* Bento spans */
+    .at--lead { grid-column: span 12; aspect-ratio: 16/7; }
+    .at--7    { grid-column: span 7;  aspect-ratio: 7/5; }
+    .at--5    { grid-column: span 5;  aspect-ratio: 1/1; }
+    .at--4    { grid-column: span 4;  aspect-ratio: 4/5; }
+    .at--6    { grid-column: span 6;  aspect-ratio: 3/2; }
+
+    @media (max-width: 900px) {
+      .apps-bento { grid-template-columns: repeat(6, 1fr); }
+      .at--lead, .at--7, .at--5, .at--4, .at--6 { grid-column: span 6; aspect-ratio: 16/10; }
+    }
+
+    /* ============================================================
+       SECTION — APPS & WEBSITES (cinematic)
+       CSS-drawn devices + parallax + magnetic hover + pattern pulse.
+    ============================================================ */
+    .sec--digital {
       padding: var(--s24) 0;
       background: #f8f8f8;
     }
-    .proj-showcase__hdr {
-      margin-bottom: var(--s12);
-    }
-    .proj-showcase__grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: auto auto;
-      gap: 16px;
-    }
 
-    /* Card spans */
-    .fc--1 { grid-column: span 7; }
-    .fc--2 { grid-column: span 5; }
-    .fc--3 { grid-column: span 5; }
-    .fc--4 { grid-column: span 7; }
-
-    /* Feature card */
-    .fc {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: border-color 280ms var(--ease-out), box-shadow 280ms var(--ease-out);
-    }
-    @media (hover:hover) and (pointer:fine) {
-      .fc:hover {
-        border-color: var(--accent);
-        box-shadow: 4px 4px 0 0 var(--accent-muted);
-      }
-      .fc:hover .fc__img img {
-        animation-play-state: running;
-      }
-    }
-
-    /* Image area */
-    .fc__img {
-      overflow: hidden;
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--s8);
-      min-height: 280px;
-    }
-    .fc--1 .fc__img, .fc--4 .fc__img { min-height: 340px; }
-
-    .fc__img img {
-      width: 100%;
-      max-height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-      border: 1px solid var(--border);
-      box-shadow: 0 12px 48px oklch(0 0 0 / 0.10), 0 2px 8px oklch(0 0 0 / 0.06);
-      animation: float 5s ease-in-out infinite;
-      animation-play-state: paused;
+    /* Magnet wrapper — outer transform layer for cursor follow */
+    .magnet {
+      transition: transform 280ms var(--ease-out);
       will-change: transform;
     }
-    /* Stagger float timing so cards feel independent */
-    .fc--2 .fc__img img { animation-delay: -1.5s; }
-    .fc--3 .fc__img img { animation-delay: -3s; }
-    .fc--4 .fc__img img { animation-delay: -0.8s; }
 
-    /* Play float on scroll in */
-    .fc.in .fc__img img { animation-play-state: running; }
-
-    /* Text body */
-    .fc__body {
-      padding: var(--s6) var(--s8) var(--s8);
-      border-top: 1px solid var(--border);
+    /* Bento grid + tiles */
+    .dig-bento {
+      display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
+      margin-bottom: var(--s6);
     }
-    .fc__label {
-      font-family: var(--font-m);
-      font-size: 9px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: var(--s3);
-      display: block;
+    .dig-tile {
+      position: relative; overflow: hidden;
+      border: 1px solid oklch(1 0 0 / 0.08);
+      background: oklch(0.10 0.003 249);
+      transition: border-color 280ms var(--ease-out), transform 280ms var(--ease-out);
+      display: flex; flex-direction: column;
     }
-    .fc__title {
-      font-size: clamp(16px, 1.6vw, 22px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      color: var(--text);
-      margin-bottom: var(--s3);
+    .dig-tile > img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 1000ms var(--ease-out);
     }
-    .fc__desc {
-      font-size: 13px;
-      color: var(--text-2);
-      line-height: 1.65;
-      max-width: 52ch;
+    @media (hover:hover) and (pointer:fine) {
+      .dig-tile:hover { border-color: var(--accent); }
+      .dig-tile:hover > img { transform: scale(1.04); }
+      .dig-tile:hover .dig-tile__cap { color: white; background: var(--accent); }
+    }
+    .dig-tile__cap {
+      position: absolute; left: var(--s4); bottom: var(--s4); z-index: 3;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: white;
+      background: oklch(0 0 0 / 0.45); padding: 5px 9px; backdrop-filter: blur(6px);
+      transition: color 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .dig-tile__cap small {
+      font-size: 8px; opacity: 0.7; margin-right: 6px; letter-spacing: 0.14em;
     }
 
+    .dig--lead { grid-column: span 12; aspect-ratio: 16/7; }
+    .dig--p4   { grid-column: span 4;  aspect-ratio: 4/5; }
+    .dig--w4   { grid-column: span 4;  aspect-ratio: 4/5; }
+    .dig--w8   { grid-column: span 8; }
     @media (max-width: 900px) {
-      .proj-showcase__grid { grid-template-columns: 1fr 1fr; }
-      .fc--1, .fc--2, .fc--3, .fc--4 { grid-column: span 1; }
+      .dig-bento { grid-template-columns: repeat(6, 1fr); }
+      .dig--lead { grid-column: span 6; aspect-ratio: 16/9; }
+      .dig--p4, .dig--w4 { grid-column: span 3; }
+      .dig--w8 { grid-column: span 6; aspect-ratio: 16/9; }
     }
     @media (max-width: 540px) {
-      .proj-showcase__grid { grid-template-columns: 1fr; }
+      .dig--p4, .dig--w4 { grid-column: span 6; aspect-ratio: 4/5; }
     }
+
+    /* Lead — browser chrome wrapper */
+    .browser-chrome {
+      flex-shrink: 0; height: 38px;
+      background: oklch(0.14 0.003 249);
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+      display: flex; align-items: center; gap: var(--s3);
+      padding: 0 var(--s4); position: relative; z-index: 2;
+    }
+    .browser-chrome__dots { display: flex; gap: 6px; flex-shrink: 0; }
+    .browser-chrome__dots span {
+      width: 10px; height: 10px; border-radius: 50%; display: block;
+    }
+    .browser-chrome__dots span:nth-child(1) { background: #FF5F57; }
+    .browser-chrome__dots span:nth-child(2) { background: #FEBC2E; }
+    .browser-chrome__dots span:nth-child(3) { background: #28C840; }
+    .browser-chrome__url {
+      flex: 1; max-width: 360px; margin: 0 auto;
+      background: oklch(0.18 0.003 249);
+      height: 22px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 var(--s3);
+      font-family: var(--font-m); font-size: 10px;
+      letter-spacing: 0.06em; color: oklch(1 0 0 / 0.6);
+    }
+    .browser-chrome__meta {
+      font-family: var(--font-m); font-size: 12px;
+      color: oklch(1 0 0 / 0.4); letter-spacing: 0.2em;
+      flex-shrink: 0;
+    }
+    .dig--lead .dig-tile__media {
+      flex: 1; overflow: hidden; position: relative;
+      will-change: transform;
+    }
+    .dig--lead .dig-tile__media img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      transition: transform 1000ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .dig--lead:hover .dig-tile__media img { transform: scale(1.02); }
+    }
+
+    /* Widgets */
+    .dig-widget {
+      padding: var(--s6);
+      background: oklch(0.10 0.003 249);
+      color: oklch(1 0 0 / 0.85);
+      display: flex; flex-direction: column; justify-content: space-between;
+      gap: var(--s3);
+    }
+    .dig-widget--light  { background: var(--surface); color: var(--text); }
+    .dig-widget--accent { background: var(--accent); color: white; }
+    .dig-widget__head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s2);
+    }
+    .dig-widget__lbl {
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: oklch(1 0 0 / 0.55);
+    }
+    .dig-widget--light  .dig-widget__lbl { color: var(--text-3); }
+    .dig-widget--accent .dig-widget__lbl { color: oklch(1 0 0 / 0.85); }
+    .dig-widget__pulse {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); position: relative; flex-shrink: 0;
+    }
+    .dig-widget--accent .dig-widget__pulse { background: white; }
+    .dig-widget__pulse::after {
+      content: ''; position: absolute; inset: -4px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent);
+      animation: pulseRing 2s ease-out infinite;
+    }
+    .dig-widget--accent .dig-widget__pulse::after { border-color: white; }
+    @keyframes pulseRing {
+      0%   { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+    .dig-widget__step,
+    .dig-widget__more {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+    .dig-widget--accent .dig-widget__step,
+    .dig-widget--accent .dig-widget__more { color: white; }
+    .dig-widget__body {
+      flex: 1;
+      display: flex; flex-direction: column; justify-content: center;
+      gap: var(--s2); min-height: 0;
+    }
+    .dig-widget__big {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1;
+      color: white;
+    }
+    .dig-widget--light .dig-widget__big { color: var(--text); }
+    .dig-widget__big span {
+      font-size: 0.34em; color: var(--accent); margin-left: 6px; font-weight: 600;
+    }
+    .dig-widget--light .dig-widget__big span { color: var(--accent); }
+    .dig-widget__big-time {
+      font-size: clamp(40px, 5.5vw, 60px);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1;
+      font-family: var(--font-m); color: white;
+    }
+    .dig-widget__title {
+      font-size: clamp(15px, 1.4vw, 18px);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: white; line-height: 1.2;
+    }
+    .dig-widget--light  .dig-widget__title { color: var(--text); }
+    .dig-widget--accent .dig-widget__title { color: white; }
+    .dig-widget__sub {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.1em;
+      color: oklch(1 0 0 / 0.5);
+    }
+    .dig-widget--light  .dig-widget__sub { color: var(--text-3); }
+    .dig-widget--accent .dig-widget__sub { color: oklch(1 0 0 / 0.8); }
+    .dig-widget__bar {
+      height: 4px; background: oklch(1 0 0 / 0.1); position: relative; margin-top: var(--s2);
+    }
+    .dig-widget__bar > span {
+      position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent);
+    }
+    .dig-widget__svg { width: 100%; height: auto; max-height: 90px; }
+    .dig-widget__steps { display: flex; gap: 4px; }
+    .dig-widget__steps > span {
+      flex: 1; height: 3px; background: oklch(0 0 0 / 0.1);
+    }
+    .dig-widget__steps > span.done   { background: var(--accent); }
+    .dig-widget__steps > span.active { background: var(--accent); position: relative; overflow: hidden; }
+    .dig-widget__steps > span.active::after {
+      content: ''; position: absolute; inset: 0;
+      background: white;
+      transform: scaleX(0); transform-origin: left;
+      animation: barFill 1.8s ease-out infinite;
+    }
+    @keyframes barFill {
+      0%   { transform: scaleX(0); opacity: 0.6; }
+      60%  { transform: scaleX(1); opacity: 0.8; }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+    .dig-widget__row {
+      display: flex; align-items: center; gap: var(--s3);
+      padding: var(--s2) 0;
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+    }
+    .dig-widget__row:last-child { border-bottom: 0; }
+    .dig-widget__row-thumb {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border: 1px solid oklch(1 0 0 / 0.1);
+    }
+    .dig-widget__row-meta { flex: 1; min-width: 0; }
+    .dig-widget__row-title {
+      font-size: 13px; font-weight: 600; letter-spacing: -0.02em;
+      color: white; line-height: 1.2;
+    }
+    .dig-widget__row-sub {
+      font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.08em;
+      color: oklch(1 0 0 / 0.5); margin-top: 2px;
+    }
+    .dig-widget__feed { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .dig-widget__feed li {
+      display: grid; grid-template-columns: 12px auto 1fr auto;
+      gap: var(--s3); align-items: center;
+      padding: var(--s3) 0;
+      border-bottom: 1px solid oklch(1 0 0 / 0.06);
+      font-size: 13px;
+    }
+    .dig-widget__feed li:last-child { border-bottom: 0; }
+    .dig-widget__feed .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dig-widget__feed .time {
+      font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.1em;
+      color: oklch(1 0 0 / 0.5); white-space: nowrap;
+    }
+    .dig-widget__feed .text {
+      color: white; font-weight: 500; letter-spacing: -0.01em;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .dig-widget__feed .tag {
+      font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.1em;
+      color: var(--accent); white-space: nowrap;
+    }
+
+    /* Design system band — Mobile + Web patterns */
+    .dig-system {
+      background: oklch(0.10 0.003 249);
+      border: 1px solid oklch(1 0 0 / 0.08);
+      padding: var(--s8);
+    }
+    .dig-system__head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: var(--s8);
+      padding-bottom: var(--s4);
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+    }
+    .dig-system__title {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .dig-system__meta {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.08em;
+      color: oklch(1 0 0 / 0.5);
+    }
+    .dig-system__cols {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--s8);
+    }
+    @media (max-width: 860px) {
+      .dig-system__cols { grid-template-columns: 1fr; gap: var(--s6); }
+    }
+    .dig-system__col-lbl {
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: oklch(1 0 0 / 0.45);
+      display: block; margin-bottom: var(--s4);
+      padding-bottom: var(--s3);
+      border-bottom: 1px dashed oklch(1 0 0 / 0.1);
+    }
+    .dig-system__items { display: flex; flex-direction: column; gap: var(--s4); }
+    .dsys-comp { display: flex; flex-direction: column; gap: var(--s2); }
+    .dsys-comp__lbl {
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: oklch(1 0 0 / 0.4);
+    }
+    .dsys-comp__demo {
+      display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3);
+      padding: var(--s4);
+      background: oklch(0 0 0 / 0.25);
+      border: 1px dashed oklch(1 0 0 / 0.1);
+      min-height: 64px;
+    }
+    .dsys-comp__demo--dark    { background: oklch(0 0 0 / 0.4); padding: var(--s3) var(--s4); }
+    .dsys-comp__demo--surface { background: var(--surface); border-color: var(--border); }
+
+    /* Mobile patterns */
+    .dsys-tabbar {
+      width: 100%;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      background: oklch(0.05 0.003 249);
+      padding: 8px 0 6px;
+    }
+    .dsys-tabbar__item {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: oklch(1 0 0 / 0.45);
+    }
+    .dsys-tabbar__item.active { color: var(--accent); }
+    .dsys-tabbar__icon {
+      width: 14px; height: 14px;
+      background: currentColor; opacity: 0.85;
+    }
+    .dsys-segmented {
+      display: inline-flex;
+      background: oklch(1 0 0 / 0.06);
+      padding: 3px;
+    }
+    .dsys-segmented button {
+      font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 6px 12px;
+      border: 0; background: transparent; color: oklch(1 0 0 / 0.5); cursor: pointer;
+      transition: background 180ms var(--ease-out), color 180ms var(--ease-out);
+    }
+    .dsys-segmented button.active { background: var(--accent); color: white; }
+    .dsys-segmented button:hover:not(.active) { color: white; }
+    .dsys-switch {
+      width: 44px; height: 24px;
+      background: oklch(1 0 0 / 0.1); border-radius: 12px;
+      position: relative; cursor: pointer; flex-shrink: 0;
+      transition: background 240ms var(--ease-out);
+      display: inline-block;
+    }
+    .dsys-switch span {
+      position: absolute; top: 2px; left: 2px;
+      width: 20px; height: 20px; background: white; border-radius: 50%;
+      transition: transform 240ms var(--ease-out);
+    }
+    .dsys-switch.active { background: var(--accent); }
+    .dsys-switch.active span { transform: translateX(20px); }
+    .dsys-slider {
+      width: 100%; height: 24px; position: relative;
+      display: flex; align-items: center;
+    }
+    .dsys-slider__track { width: 100%; height: 4px; background: oklch(1 0 0 / 0.1); }
+    .dsys-slider__fill {
+      position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      height: 4px; background: var(--accent);
+    }
+    .dsys-slider__handle {
+      position: absolute; top: 50%; transform: translate(-50%, -50%);
+      width: 16px; height: 16px; background: white; border-radius: 50%;
+      box-shadow: 0 2px 8px oklch(0 0 0 / 0.4); cursor: pointer;
+    }
+    .dsys-fab {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent); color: white; border: 0;
+      font-size: 22px; font-weight: 400; line-height: 1;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px oklch(0.60 0.18 249 / 0.4);
+      transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+      flex-shrink: 0;
+    }
+    .dsys-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 24px oklch(0.60 0.18 249 / 0.5); }
+    .dsys-fab--g { background: var(--text); box-shadow: 0 6px 20px oklch(0 0 0 / 0.3); }
+
+    /* Web patterns */
+    .dsys-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 500;
+      padding: 10px 18px; cursor: pointer;
+      background: white; color: var(--text); border: 1px solid white;
+      transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .dsys-btn:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); }
+    .dsys-btn--g {
+      background: transparent; color: oklch(1 0 0 / 0.7);
+      border-color: oklch(1 0 0 / 0.3);
+    }
+    .dsys-btn--g:hover { color: white; }
+    .dsys-check {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: oklch(1 0 0 / 0.7); cursor: pointer;
+    }
+    .dsys-check input { display: none; }
+    .dsys-check span {
+      width: 16px; height: 16px; border: 1.5px solid oklch(1 0 0 / 0.4);
+      position: relative; flex-shrink: 0;
+      transition: background 200ms var(--ease-out), border-color 200ms var(--ease-out);
+    }
+    .dsys-check input:checked + span { background: var(--accent); border-color: var(--accent); }
+    .dsys-check input:checked + span::after {
+      content: '✓'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 10px; font-weight: 700;
+    }
+    .dsys-input {
+      font-family: var(--font-m); font-size: 11px;
+      padding: 10px 12px; border: 1px solid oklch(1 0 0 / 0.2);
+      background: oklch(0 0 0 / 0.3); color: white; flex: 1; min-width: 160px;
+      transition: border-color 180ms var(--ease-out);
+    }
+    .dsys-input:focus { border-color: var(--accent); outline: none; }
+    .dsys-input::placeholder { color: oklch(1 0 0 / 0.35); }
+    .dsys-select {
+      font-family: var(--font-m); font-size: 11px;
+      padding: 10px 12px; border: 1px solid oklch(1 0 0 / 0.2);
+      background: oklch(0 0 0 / 0.3); color: white;
+      display: inline-flex; align-items: center; gap: var(--s4);
+      cursor: pointer;
+      transition: border-color 180ms var(--ease-out);
+    }
+    .dsys-select:hover { border-color: var(--accent); }
+    .dsys-select .caret { color: var(--accent); }
+    .dsys-card {
+      width: 100%;
+      background: white; padding: var(--s4);
+      display: flex; flex-direction: column; gap: 4px;
+      border: 1px solid var(--border);
+    }
+    .dsys-card__lbl {
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .dsys-card__title {
+      font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: var(--text);
+    }
+    .dsys-card__price {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em;
+      color: var(--text-3);
+    }
+    .dsys-crumb {
+      display: inline-flex; align-items: center; gap: var(--s2);
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .dsys-crumb span { color: oklch(1 0 0 / 0.5); }
+    .dsys-crumb span.active { color: var(--accent); }
+    .dsys-crumb .sep { color: oklch(1 0 0 / 0.25); }
 
     /* ============================================================
        STATISTICS
     ============================================================ */
-    .proj-stats {
-      padding: var(--s24) 0;
-      background: oklch(0.06 0.003 249);
-    }
-    .proj-stats__hdr {
-      margin-bottom: var(--s16);
-    }
+    .proj-stats { padding: var(--s24) 0; background: oklch(0.06 0.003 249); }
+    .proj-stats__hdr { margin-bottom: var(--s16); }
     .proj-stats .slabel { color: var(--accent); }
     .proj-stats .slabel::before { background: var(--accent); }
     .proj-stats .sh { color: white; }
     .proj-stats .sh em { color: var(--accent); }
-    /* CMS: project.stats[] */
     .proj-stats__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      border-top: 1px solid oklch(1 0 0 / 0.12);
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
     }
     .proj-stat {
-      padding: var(--s8) var(--s8) var(--s8) 0;
+      padding: var(--s8);
       border-right: 1px solid oklch(1 0 0 / 0.08);
-      position: relative;
     }
-    .proj-stat::before {
-      content: '';
-      position: absolute;
-      top: -4px; left: 0;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
-    .proj-stat:first-child { padding-left: 0; }
     .proj-stat:last-child { border-right: none; }
-    .proj-stat__n {
-      font-size: clamp(44px, 6vw, 80px);
-      font-weight: 800;
-      letter-spacing: -0.055em;
-      line-height: 1;
-      color: white;
-      margin-top: var(--s6);
-      margin-bottom: var(--s3);
-      display: flex;
-      align-items: baseline;
-      gap: 4px;
-    }
+    .proj-stat__n { font-size: clamp(44px, 6vw, 80px); font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: white; margin-top: var(--s6); margin-bottom: var(--s3); display: flex; align-items: baseline; gap: 0; }
     .proj-stat__n .stat-val { color: white; }
-    .proj-stat__n .stat-suffix { font-size: 0.45em; color: var(--accent); font-weight: 700; }
-    .proj-stat__label {
-      font-family: var(--font-m);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: oklch(1 0 0 / 0.45);
-      line-height: 1.5;
-    }
+    .proj-stat__n .stat-suffix { font-size: 1em; color: var(--accent); font-weight: 800; }
+    .proj-stat__unit { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: oklch(1 0 0 / 0.7); margin-top: var(--s3); margin-bottom: var(--s2); }
+    .proj-stat__label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: oklch(1 0 0 / 0.45); line-height: 1.5; }
     @media (max-width: 700px) {
       .proj-stats__grid { grid-template-columns: repeat(2, 1fr); }
       .proj-stat:nth-child(2) { border-right: none; }
-      .proj-stat:nth-child(3) { border-right: 1px solid oklch(1 0 0 / 0.08); padding-left: 0; border-top: 1px solid oklch(1 0 0 / 0.08); }
+      .proj-stat:nth-child(3) { border-right: 1px solid oklch(1 0 0 / 0.08); border-top: 1px solid oklch(1 0 0 / 0.08); }
       .proj-stat:nth-child(4) { border-top: 1px solid oklch(1 0 0 / 0.08); }
     }
 
     /* ============================================================
        TESTIMONIAL
     ============================================================ */
-    .proj-quote {
-      padding: var(--s24) 0;
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .proj-quote__inner {
-      max-width: 900px;
-    }
-    .proj-quote__mark {
-      font-size: 96px;
-      line-height: 0.6;
-      color: var(--accent);
-      font-family: Georgia, serif;
-      margin-bottom: var(--s8);
-      display: block;
-    }
-    /* CMS: project.testimonial.quote */
-    .proj-quote__text {
-      font-size: clamp(22px, 3vw, 40px);
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      line-height: 1.2;
-      color: var(--text);
-      margin-bottom: var(--s8);
-    }
+    .proj-quote { padding: var(--s24) 0; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .proj-quote__inner { max-width: 900px; }
+    .proj-quote__mark { font-size: 96px; line-height: 0.6; color: var(--accent); font-family: Georgia, serif; margin-bottom: var(--s8); display: block; }
+    .proj-quote__text { font-size: clamp(22px, 3vw, 40px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.2; color: var(--text); margin-bottom: var(--s8); }
     .proj-quote__text em { font-style: normal; color: var(--accent); }
-    .proj-quote__byline {
-      display: flex;
-      align-items: center;
-      gap: var(--s4);
-    }
-    .proj-quote__byline::before {
-      content: '';
-      width: 28px;
-      height: 1px;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-    /* CMS: project.testimonial.author / project.testimonial.role */
-    .proj-quote__author {
-      font-family: var(--font-m);
-      font-size: 10.5px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-2);
-    }
+    .proj-quote__byline { display: flex; align-items: center; gap: var(--s4); }
+    .proj-quote__byline::before { content: ''; width: 28px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .proj-quote__author { font-family: var(--font-m); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); }
     .proj-quote__author strong { color: var(--text); }
 
     /* ============================================================
-       OUTCOME / IMPACT
+       OUTCOME
     ============================================================ */
-    .proj-outcome {
-      padding: var(--s24) 0;
-    }
-    .proj-outcome__inner {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: clamp(var(--s16), 8vw, 160px);
-      align-items: start;
-    }
-    /* CMS: project.outcomeHeading */
-    .proj-outcome__h {
-      font-size: clamp(28px, 3.2vw, 48px);
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      line-height: 1.05;
-      margin-top: var(--s6);
-    }
+    .proj-outcome { padding: var(--s24) 0; }
+    .proj-outcome__inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(var(--s16), 8vw, 160px); align-items: start; }
+    .proj-outcome__h { font-size: clamp(28px, 3.2vw, 48px); font-weight: 700; letter-spacing: -0.042em; line-height: 1.0; margin-top: var(--s6); }
     .proj-outcome__h em { font-style: normal; color: var(--accent); }
-    /* CMS: project.outcomes[] */
-    .proj-outcome__list {
-      list-style: none;
-      counter-reset: outcome;
+    .proj-outcome__cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+    .proj-outcome__card {
+      padding: var(--s6); border: 1px solid var(--border); background: var(--surface);
+      transition: border-color 280ms var(--ease-out);
     }
-    .proj-outcome__list li {
-      counter-increment: outcome;
-      display: grid;
-      grid-template-columns: 32px 1fr;
-      gap: var(--s4);
-      align-items: start;
-      padding: var(--s6) 0;
-      border-bottom: 1px solid var(--border);
-      font-size: clamp(15px, 1.4vw, 17px);
-      color: var(--text-2);
-      line-height: 1.6;
+    @media (hover:hover) and (pointer:fine) { .proj-outcome__card:hover { border-color: var(--accent); } }
+    .proj-outcome__card-n {
+      font-size: clamp(32px, 3.2vw, 52px); font-weight: 800;
+      letter-spacing: -0.05em; line-height: 1; color: var(--accent);
+      margin-bottom: var(--s3);
     }
-    .proj-outcome__list li:first-child { border-top: 1px solid var(--border); }
-    .proj-outcome__list li::before {
-      content: counter(outcome, decimal-leading-zero);
-      font-family: var(--font-m);
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      padding-top: 4px;
+    .proj-outcome__card-title {
+      font-size: clamp(14px, 1.2vw, 16px); font-weight: 600;
+      letter-spacing: -0.02em; color: var(--text); margin-bottom: var(--s2);
     }
-    @media (max-width: 860px) {
-      .proj-outcome__inner { grid-template-columns: 1fr; gap: var(--s8); }
+    .proj-outcome__card-sub {
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-3);
     }
+    @media (max-width: 860px) { .proj-outcome__inner { grid-template-columns: 1fr; gap: var(--s8); } }
 
     /* ============================================================
        MORE PROJECTS
     ============================================================ */
-    .proj-more {
-      padding: var(--s24) 0;
-      background: #f8f8f8;
-    }
-    .proj-more__hdr {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: var(--s12);
-      gap: var(--s8);
-    }
-    .proj-more__link {
-      font-family: var(--font-m);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      text-decoration: none;
-      flex-shrink: 0;
-      transition: opacity 200ms var(--ease-out);
-    }
+    .proj-more { padding: var(--s24) 0; background: #f8f8f8; }
+    .proj-more__hdr { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: var(--s12); gap: var(--s8); }
+    .proj-more__link { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-decoration: none; flex-shrink: 0; transition: opacity 200ms var(--ease-out); }
     @media (hover:hover) and (pointer:fine) { .proj-more__link:hover { opacity: 0.7; } }
-    /* CMS: related projects from CMS query */
-    .proj-more__grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .proj-card {
-      display: block;
-      text-decoration: none;
-      color: var(--text);
-      background: var(--bg);
-      overflow: hidden;
-      transition: box-shadow 280ms var(--ease-out);
-    }
+    .proj-more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .proj-card { display: block; text-decoration: none; color: var(--text); background: var(--bg); overflow: hidden; transition: box-shadow 280ms var(--ease-out); }
     @media (hover:hover) and (pointer:fine) {
       .proj-card:hover { box-shadow: 0 8px 40px oklch(0 0 0 / 0.10); }
       .proj-card:hover .proj-card__img img { transform: scale(1.04); }
       .proj-card:hover .proj-card__name { color: var(--accent); }
     }
-    .proj-card__img {
-      overflow: hidden;
-      height: 240px;
-      background: var(--surface);
-    }
-    .proj-card__img img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      display: block;
-      transition: transform 600ms var(--ease-out);
-    }
-    .proj-card__body {
-      padding: var(--s6);
-      border-top: 1px solid var(--border);
-    }
-    .proj-card__client {
-      font-family: var(--font-m);
-      font-size: 9px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: var(--s2);
-    }
-    .proj-card__name {
-      font-size: clamp(16px, 1.5vw, 20px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      transition: color 200ms var(--ease-out);
-    }
-    .proj-card__tag {
-      font-family: var(--font-m);
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      margin-top: var(--s3);
-    }
+    .proj-card__img { overflow: hidden; height: 240px; background: var(--surface); }
+    .proj-card__img img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 600ms var(--ease-out); }
+    .proj-card__body { padding: var(--s6); border-top: 1px solid var(--border); }
+    .proj-card__client { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--s2); }
+    .proj-card__name { font-size: clamp(16px, 1.5vw, 20px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; transition: color 200ms var(--ease-out); }
+    .proj-card__tag { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-top: var(--s3); }
     @media (max-width: 760px) { .proj-more__grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 480px) { .proj-more__grid { grid-template-columns: 1fr; } }
 
     /* ============================================================
        CTA BAND
     ============================================================ */
-    .cta-band {
-      background: var(--bg);
-      padding: clamp(80px, 10vw, 140px) 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-band__cursor-fx {
-      position: absolute; inset: 0; pointer-events: none;
-      z-index: 0; opacity: 0; transition: opacity 700ms var(--ease-out);
-    }
+    .cta-band { background: var(--bg); padding: clamp(80px, 10vw, 140px) 0; position: relative; overflow: hidden; }
+    .cta-band__cursor-fx { position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 700ms var(--ease-out); }
     .cta-band:hover .cta-band__cursor-fx { opacity: 0.65; }
     .cta-band__cursor-fx::before {
       content: ''; position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
       background-size: 56px 56px;
       -webkit-mask-image: radial-gradient(circle 411px at var(--ctx, 50%) var(--cty, 50%), black 5%, transparent 75%);
       mask-image: radial-gradient(circle 411px at var(--ctx, 50%) var(--cty, 50%), black 5%, transparent 75%);
@@ -807,40 +1300,30 @@
       content: ''; position: absolute; inset: 0;
       background: radial-gradient(circle 367px at var(--ctx, 50%) var(--cty, 50%), oklch(0.60 0.20 249 / 0.18) 10%, transparent 69%);
     }
-    .cta-band__inner {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: var(--s12); flex-wrap: wrap;
-    }
-    .cta-band__text h2 {
-      font-size: clamp(32px, 4.5vw, 64px);
-      font-weight: 800; letter-spacing: -0.048em; line-height: 1.0;
-    }
+    .cta-band__inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: var(--s12); flex-wrap: wrap; }
+    .cta-band__text h2 { font-size: clamp(32px, 4.5vw, 64px); font-weight: 800; letter-spacing: -0.048em; line-height: 1.0; }
     .cta-band__text h2 em { font-style: normal; color: var(--accent); }
     .cta-band__text p { font-size: clamp(14px, 1.3vw, 16px); color: var(--text-2); margin-top: var(--s4); }
     .cta-band__btns { display: flex; gap: var(--s4); flex-shrink: 0; flex-wrap: wrap; }
     @media (max-width: 768px) { .cta-band__inner { flex-direction: column; align-items: flex-start; } }
 
     /* ============================================================
-       WORLD CLOCKS
+       WORLD CLOCKS + FOOTER
     ============================================================ */
     .clocks { border-top: 1px solid var(--border); padding: var(--s8) 0; }
-    .clocks__inner {
-      display: flex; align-items: center; gap: var(--s8); flex-wrap: wrap;
-    }
-    .clocks__label {
-      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--text-3); margin-right: var(--s4);
-    }
-    .clock { display: flex; align-items: center; gap: var(--s3); }
-    .clock__city { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
-    .clock__time { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.06em; color: var(--text-2); transition: color 80ms; }
+    .clocks__inner { display: flex; align-items: center; gap: clamp(var(--s8), 6vw, var(--s24)); }
+    .clocks__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; margin-right: auto; }
+    .clock { display: flex; align-items: baseline; gap: var(--s3); }
+    .clock__city { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); min-width: 52px; }
+    .clock__time { font-family: var(--font-m); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-2); font-variant-numeric: tabular-nums; transition: color 150ms var(--ease-out); }
     .clock__time.tick { color: var(--accent); }
-    .clock__sep { width: 1px; height: 14px; background: var(--border); }
+    .clock__sep { width: 1px; height: 20px; background: var(--border); align-self: center; }
+    @media (max-width: 600px) {
+      .clocks__inner { flex-wrap: wrap; gap: var(--s6); }
+      .clocks__label { width: 100%; margin-right: 0; }
+      .clock__sep { display: none; }
+    }
 
-    /* ============================================================
-       FOOTER
-    ============================================================ */
     .footer { padding: var(--s8) 0; background: var(--accent); }
     .footer__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
     .footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
@@ -850,12 +1333,39 @@
     @media (hover:hover) and (pointer:fine) { .footer__links a:hover { color: oklch(1 0 0 / 0.6); } }
     @media (max-width: 600px) { .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); } }
 
+    /* ============================================================
+       REDUCED MOTION
+    ============================================================ */
     @media (prefers-reduced-motion: reduce) {
-      .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .reveal, .stagger > *, .bsys-token, .morph-layer {
+        opacity: 1 !important; transform: none !important; transition: none !important;
+      }
+      .bsys-marquee__track,
+      .sec--digital::before,
+      .dig-widget__pulse::after,
+      .dig-widget__steps > span.active::after { animation: none !important; }
     }
+
+    /* ============================================================
+       DEV / DEMO TOGGLE — remove for production
+    ============================================================ */
+    .demo-toggle {
+      position: fixed; bottom: 16px; left: 16px; z-index: 300;
+      display: flex; gap: 4px; padding: 6px;
+      background: oklch(1 0 0 / 0.9); backdrop-filter: blur(12px);
+      border: 1px solid var(--border-strong);
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .demo-toggle button {
+      background: transparent; border: 0; padding: 8px 12px;
+      font: inherit; color: var(--text-2); cursor: pointer;
+      transition: color 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+    .demo-toggle button:hover { color: var(--text); }
+    .demo-toggle button.active { background: var(--text); color: var(--bg); }
   </style>
 </head>
-<body>
+<body data-project-type="mix">
 
   <!-- ============================================================
        NAV
@@ -873,7 +1383,6 @@
     </div>
   </nav>
 
-  <!-- Full-screen overlay -->
   <div class="nav__overlay" id="nav-overlay" aria-hidden="true">
     <div class="nav__overlay-left">
       <ul class="nav__menu-links">
@@ -886,7 +1395,7 @@
     <div class="nav__overlay-right">
       <div class="nav__meta">
         <p class="nav__meta-label">Ready to build?</p>
-        <a href="parallax-landing.html#contact" class="nav__meta-cta">Start a Project ↗</a>
+        <a href="parallax-landing.html#contact" class="nav__meta-cta">Start a Project &#8599;</a>
       </div>
       <p class="nav__meta-tagline">Precision over decoration.<br>Logic over assumption.</p>
     </div>
@@ -894,22 +1403,13 @@
 
   <!-- ============================================================
        HERO
-       CMS fields: project.heroImage, project.client, project.title
   ============================================================ -->
   <section class="proj-hero">
-    <!-- CMS: <img src="{project.heroImage}" … > -->
-    <img
-      class="proj-hero__img"
-      src="https://placehold.co/1920x1080/0a0f1e/0a0f1e"
-      alt="BMW project hero"
-    >
+    <img class="proj-hero__img" src="images/placeholders/hero.svg" alt="BMW project hero">
     <div class="proj-hero__scrim"></div>
     <div class="proj-hero__content">
       <div class="w">
-        <p class="proj-hero__tag">
-          <span class="proj-hero__client">BMW Group</span>
-        </p>
-        <!-- CMS: project.title -->
+        <p class="proj-hero__tag"><span class="proj-hero__client">BMW Group</span></p>
         <h1 class="proj-hero__h1">Redefining the<br>Digital Showroom.</h1>
       </div>
     </div>
@@ -918,34 +1418,20 @@
 
   <!-- ============================================================
        META BAND
-       CMS fields: project.client, project.industry, project.services[], project.year
   ============================================================ -->
   <div class="proj-meta">
     <div class="w">
       <div class="proj-meta__grid stagger">
-        <div class="proj-meta__item">
-          <span class="proj-meta__label">Client</span>
-          <span class="proj-meta__val">BMW Group</span>
-        </div>
-        <div class="proj-meta__item">
-          <span class="proj-meta__label">Industry</span>
-          <span class="proj-meta__val">Automotive</span>
-        </div>
-        <div class="proj-meta__item">
-          <span class="proj-meta__label">Services</span>
-          <span class="proj-meta__val">Brand Systems · Interface Design · Frontend Engineering</span>
-        </div>
-        <div class="proj-meta__item">
-          <span class="proj-meta__label">Year</span>
-          <span class="proj-meta__val">2025</span>
-        </div>
+        <div class="proj-meta__item"><span class="proj-meta__label">Client</span><span class="proj-meta__val">BMW Group</span></div>
+        <div class="proj-meta__item"><span class="proj-meta__label">Industry</span><span class="proj-meta__val">Automotive</span></div>
+        <div class="proj-meta__item"><span class="proj-meta__label">Services</span><span class="proj-meta__val">Branding · Interface Design · Frontend Engineering</span></div>
+        <div class="proj-meta__item"><span class="proj-meta__label">Year</span><span class="proj-meta__val">2025</span></div>
       </div>
     </div>
   </div>
 
   <!-- ============================================================
        OVERVIEW
-       CMS fields: project.overviewHeading, project.overviewBody
   ============================================================ -->
   <section class="proj-overview">
     <div class="w">
@@ -955,129 +1441,564 @@
           <h2 class="proj-overview__h">A digital experience<br>worthy of the <em>badge.</em></h2>
         </div>
         <div class="proj-overview__body">
-          <p>BMW's existing digital product suite had outpaced its design language. Dealer tools, configurators, and customer-facing portals were each built independently — no shared system, no coherent experience. The brief was to unify them.</p>
-          <p>We built a complete design system from the ground up: token-based, component-driven, documented at every level. Then engineered the flagship configurator using it — fully responsive, accessible to WCAG 2.1 AA, and performant at sub-100ms interaction latency.</p>
+          <p>BMW's digital suite had grown fragmented — dealer tools, configurators, and portals each built in isolation. We designed a unified system from the ground up and engineered the flagship configurator on top of it.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       CHALLENGE
-       CMS fields: project.challengeHeading, project.challengeBody
+       SECTION — BRANDING (lean)
+       CMS: project.branding { hero[], construction, variants[] }
   ============================================================ -->
-  <section class="proj-challenge">
+  <section class="sec sec--branding">
     <div class="w">
-      <div class="proj-challenge__inner reveal">
-        <p class="slabel">The Challenge</p>
-        <p class="proj-challenge__pull">Seven products. Zero shared foundations.<br>Everything built in <em>isolation.</em></p>
-        <p class="proj-challenge__body">Each product team had made independent decisions — different component libraries, different token systems, different interaction patterns. A user moving between the configurator and the dealer portal felt the seams. BMW wanted those seams invisible. That required more than visual consistency; it required a shared engineering foundation that every team could build on.</p>
+      <div class="sec__hdr reveal">
+        <p class="slabel">Identity</p>
+        <h2 class="sh">A mark built to<br><em>endure.</em></h2>
+      </div>
+
+      <!-- Stage 1 — auto-morphing primary mark -->
+      <!-- CMS: project.branding.hero[] — array of logo images that cycle -->
+      <div class="brand-primary reveal" id="brand-morph">
+        <div class="morph-stack">
+          <div class="morph-layer is-active"><img src="images/placeholders/brand-primary-01.svg" alt="Primary wordmark"></div>
+          <div class="morph-layer"><img src="images/placeholders/brand-primary-02.svg" alt="Stacked lockup"></div>
+          <div class="morph-layer"><img src="images/placeholders/brand-primary-03.svg" alt="Monogram"></div>
+        </div>
+        <span class="brand-primary__caption">Primary Mark</span>
+        <span class="brand-primary__counter"><span id="morph-i">01</span> &nbsp;/&nbsp; 03</span>
+      </div>
+
+      <!-- Stage 2 — construction + variant trio -->
+      <div class="brand-row stagger reveal">
+        <!-- CMS: project.branding.construction -->
+        <div class="brand-construction">
+          <img src="images/placeholders/brand-construction.svg" alt="Construction geometry">
+          <span class="brand-construction__caption">Construction</span>
+        </div>
+        <!-- CMS: project.branding.variants[] — { image, label, context: 'light' | 'dark' | 'accent' } -->
+        <div class="brand-variant">
+          <img src="images/placeholders/brand-variant-light.svg" alt="Light context">
+          <span class="brand-variant__label">Light</span>
+        </div>
+        <div class="brand-variant brand-variant--dark">
+          <img src="images/placeholders/brand-variant-dark.svg" alt="Dark context">
+          <span class="brand-variant__label">Reversed</span>
+        </div>
+        <div class="brand-variant brand-variant--accent">
+          <img src="images/placeholders/brand-variant-accent.svg" alt="On accent">
+          <span class="brand-variant__label">On Accent</span>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       FEATURE SHOWCASE
-       CMS fields: project.features[] — each: { label, title, desc, image, imageAlt }
+       SECTION — BRAND SYSTEM (dynamic)
+       CMS: project.system { palette[], type{family, weights[], scale[]}, tokens[] }
   ============================================================ -->
-  <section class="proj-showcase">
+  <section class="sec sec--system">
     <div class="w">
-      <div class="proj-showcase__hdr reveal">
-        <p class="slabel">The Craft</p>
-        <h2 class="sh">Built at every<br><em>detail.</em></h2>
+      <div class="sec__hdr reveal">
+        <p class="slabel">Brand System</p>
+        <h2 class="sh">The mechanics<br>behind the <em>mark.</em></h2>
       </div>
-      <div class="proj-showcase__grid">
 
-        <!-- CMS: project.features[0] -->
-        <div class="fc fc--1 reveal">
-          <div class="fc__img">
-            <img src="https://placehold.co/760x320/f0f2f8/6b7fff" alt="BMW design system token sheet">
+      <!-- Palette + Typography -->
+      <div class="bsys-grid">
+        <!-- Interactive palette -->
+        <div class="bsys-card reveal">
+          <div class="bsys-card__head">
+            <span class="bsys-card__label">Palette</span>
+            <span class="bsys-card__meta">6 tokens</span>
           </div>
-          <div class="fc__body">
-            <span class="fc__label">Design System</span>
-            <h3 class="fc__title">One visual language across 7 products</h3>
-            <p class="fc__desc">Token-based from day one. Every colour, spacing value, and type scale lives in a single source of truth — consumed by Figma and code simultaneously.</p>
+          <!-- CMS: project.system.palette[] — each { name, hex, usage } -->
+          <div class="bsys-palette" id="bsys-palette">
+            <button class="bsys-swatch active" style="background:#0A1E3F" data-hex="#0A1E3F" data-name="Navy"     data-usage="Primary"     aria-label="Navy"></button>
+            <button class="bsys-swatch"        style="background:#1A73E8" data-hex="#1A73E8" data-name="Signal"   data-usage="Interactive" aria-label="Signal"></button>
+            <button class="bsys-swatch"        style="background:#F5F5F2" data-hex="#F5F5F2" data-name="Canvas"   data-usage="Surface"     aria-label="Canvas"></button>
+            <button class="bsys-swatch"        style="background:#2A2A2A" data-hex="#2A2A2A" data-name="Graphite" data-usage="Body text"   aria-label="Graphite"></button>
+            <button class="bsys-swatch"        style="background:#C99A2E" data-hex="#C99A2E" data-name="Brass"    data-usage="Accent"      aria-label="Brass"></button>
+            <button class="bsys-swatch"        style="background:#CC3333" data-hex="#CC3333" data-name="Red"      data-usage="Alert"       aria-label="Red"></button>
+          </div>
+          <div class="bsys-readout" id="bsys-readout">
+            <span class="bsys-readout__chip" style="background:#0A1E3F"></span>
+            <span class="bsys-readout__name">Navy — Primary</span>
+            <span class="bsys-readout__hex">#0A1E3F</span>
           </div>
         </div>
 
-        <!-- CMS: project.features[1] -->
-        <div class="fc fc--2 reveal">
-          <div class="fc__img">
-            <img src="https://placehold.co/540x280/eef0f8/6b7fff" alt="BMW vehicle configurator UI">
+        <!-- Interactive typography -->
+        <div class="bsys-card reveal">
+          <div class="bsys-card__head">
+            <span class="bsys-card__label">Typography</span>
+            <span class="bsys-card__meta">Bricolage Grotesque</span>
           </div>
-          <div class="fc__body">
-            <span class="fc__label">Configurator</span>
-            <h3 class="fc__title">Configure any model in under 60 seconds</h3>
-            <p class="fc__desc">Rebuilt from the ground up — interaction latency down to 94ms, conversion up 38% in the first quarter.</p>
+          <div class="bsys-type-weights" id="bsys-weights">
+            <button class="bsys-wbtn" data-weight="300">Light</button>
+            <button class="bsys-wbtn" data-weight="500">Medium</button>
+            <button class="bsys-wbtn active" data-weight="700">Bold</button>
+            <button class="bsys-wbtn" data-weight="800">Black</button>
           </div>
-        </div>
-
-        <!-- CMS: project.features[2] -->
-        <div class="fc fc--3 reveal">
-          <div class="fc__img">
-            <img src="https://placehold.co/400x280/f0f4f8/6b7fff" alt="BMW mobile responsive UI">
-          </div>
-          <div class="fc__body">
-            <span class="fc__label">Mobile</span>
-            <h3 class="fc__title">Same experience, any screen</h3>
-            <p class="fc__desc">Every surface designed mobile-first. The configurator, product pages, and dealer tools work identically at 375px as they do at 1440px.</p>
+          <p class="bsys-type-preview" id="bsys-preview" style="font-weight:700;">Precision.</p>
+          <div class="bsys-type-scale">
+            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">12</span><span class="bsys-type-scale__name">Caption</span></div>
+            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">16</span><span class="bsys-type-scale__name">Body</span></div>
+            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">32</span><span class="bsys-type-scale__name">Display</span></div>
+            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">72</span><span class="bsys-type-scale__name">Hero</span></div>
           </div>
         </div>
-
-        <!-- CMS: project.features[3] -->
-        <div class="fc fc--4 reveal">
-          <div class="fc__img">
-            <img src="https://placehold.co/760x320/eef0fc/6b7fff" alt="BMW dealer portal dashboard">
-          </div>
-          <div class="fc__body">
-            <span class="fc__label">Dealer Portal</span>
-            <h3 class="fc__title">Tools built for the people selling the cars</h3>
-            <p class="fc__desc">The dealer-facing portal was the most neglected surface in the ecosystem. We rebuilt it as a first-class product — real-time inventory, customer pipeline, and order management in one place.</p>
-          </div>
-        </div>
-
       </div>
+
+      <!-- Marquee — color tokens flowing -->
+      <div class="bsys-marquee reveal" aria-hidden="true">
+        <div class="bsys-marquee__track">
+          <span class="bsys-marquee__item"><span class="dot" style="background:#0A1E3F"></span><span>#0A1E3F</span><span class="accent">Navy</span><span>Primary</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#1A73E8"></span><span>#1A73E8</span><span class="accent">Signal</span><span>Interactive</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#F5F5F2"></span><span>#F5F5F2</span><span class="accent">Canvas</span><span>Surface</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#2A2A2A"></span><span>#2A2A2A</span><span class="accent">Graphite</span><span>Body</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#C99A2E"></span><span>#C99A2E</span><span class="accent">Brass</span><span>Accent</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#CC3333"></span><span>#CC3333</span><span class="accent">Red</span><span>Alert</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <!-- duplicate set for seamless loop -->
+          <span class="bsys-marquee__item"><span class="dot" style="background:#0A1E3F"></span><span>#0A1E3F</span><span class="accent">Navy</span><span>Primary</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#1A73E8"></span><span>#1A73E8</span><span class="accent">Signal</span><span>Interactive</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#F5F5F2"></span><span>#F5F5F2</span><span class="accent">Canvas</span><span>Surface</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#2A2A2A"></span><span>#2A2A2A</span><span class="accent">Graphite</span><span>Body</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#C99A2E"></span><span>#C99A2E</span><span class="accent">Brass</span><span>Accent</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+          <span class="bsys-marquee__item"><span class="dot" style="background:#CC3333"></span><span>#CC3333</span><span class="accent">Red</span><span>Alert</span></span>
+          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
+        </div>
+      </div>
+
+      <!-- Tokens row — scroll-driven + auto spotlight -->
+      <div class="bsys-tokens stagger" id="bsys-tokens">
+        <div class="bsys-token">
+          <p class="bsys-token__name">Spacing</p>
+          <div class="bsys-token__demo">
+            <span style="width:4px;"></span>
+            <span style="width:8px;"></span>
+            <span style="width:16px;"></span>
+            <span style="width:32px;"></span>
+            <span style="width:64px;"></span>
+          </div>
+          <p class="bsys-token__val">4 · 8 · 16 · 32 · 64</p>
+        </div>
+        <div class="bsys-token">
+          <p class="bsys-token__name">Radius</p>
+          <div class="bsys-token__demo"><div class="bsys-token__radius"></div></div>
+          <p class="bsys-token__val">--r-md · 14px</p>
+        </div>
+        <div class="bsys-token">
+          <p class="bsys-token__name">Elevation</p>
+          <div class="bsys-token__demo"><div class="bsys-token__shadow"></div></div>
+          <p class="bsys-token__val">0 12px 32px · 12%</p>
+        </div>
+        <div class="bsys-token">
+          <p class="bsys-token__name">Grid</p>
+          <div class="bsys-token__demo" style="gap:2px;">
+            <span style="width:10%; height: 60%;"></span>
+            <span style="width:10%; height: 60%;"></span>
+            <span style="width:10%; height: 60%;"></span>
+            <span style="width:10%; height: 60%;"></span>
+            <span style="width:10%; height: 60%;"></span>
+            <span style="width:10%; height: 60%;"></span>
+          </div>
+          <p class="bsys-token__val">12-col · 80px gutter</p>
+        </div>
+      </div>
+
+      <!-- Atoms — foundational elements (patterns live in the Digital section) -->
+      <div class="bsys-atoms-head reveal">
+        <span class="bsys-atoms-head__title">Atoms / Foundations</span>
+        <span class="bsys-atoms-head__meta">The smallest units — composed into patterns elsewhere</span>
+      </div>
+      <div class="bsys-components reveal">
+        <div class="bsys-comp">
+          <span class="bsys-comp__label">Atom · Action</span>
+          <div class="bsys-comp__demo">
+            <button class="bsys-demo-btn">Configure &#8594;</button>
+            <button class="bsys-demo-btn bsys-demo-btn--g">Learn more</button>
+          </div>
+        </div>
+        <div class="bsys-comp">
+          <span class="bsys-comp__label">Atom · Field</span>
+          <div class="bsys-comp__demo">
+            <input class="bsys-demo-input" type="text" placeholder="Enter VIN">
+          </div>
+        </div>
+        <div class="bsys-comp">
+          <span class="bsys-comp__label">Atom · Tag</span>
+          <div class="bsys-comp__demo">
+            <span class="bsys-demo-chip">M Sport</span>
+            <span class="bsys-demo-chip">2025</span>
+            <span class="bsys-demo-chip">Hybrid</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION — BRAND APPLICATIONS (Bento)
+       Mixed-scale asymmetric grid, in-situ mockups.
+       CMS: project.applications.tiles[] — each { image, label, kind }
+  ============================================================ -->
+  <section class="sec sec--applications">
+    <div class="w">
+      <div class="sec__hdr reveal">
+        <p class="slabel">Applications</p>
+        <h2 class="sh">The brand<br>in the <em>wild.</em></h2>
+      </div>
+
+      <div class="apps-bento stagger">
+        <!-- Lead — full-bleed in-situ -->
+        <figure class="apps-tile at--lead">
+          <img src="images/placeholders/app-01-signage.svg" alt="Showroom signage system">
+          <figcaption class="apps-tile__cap"><small>01</small>Showroom Signage</figcaption>
+        </figure>
+
+        <!-- 7/5 split -->
+        <figure class="apps-tile at--7">
+          <img src="images/placeholders/app-02-stationery.svg" alt="Stationery on desk">
+          <figcaption class="apps-tile__cap"><small>02</small>Stationery</figcaption>
+        </figure>
+        <figure class="apps-tile at--5">
+          <img src="images/placeholders/app-03-packaging.svg" alt="Packaging in hand">
+          <figcaption class="apps-tile__cap"><small>03</small>Packaging</figcaption>
+        </figure>
+
+        <!-- Triple of 4s -->
+        <figure class="apps-tile at--4">
+          <img src="images/placeholders/app-04-letterhead.svg" alt="Letterhead">
+          <figcaption class="apps-tile__cap"><small>04</small>Letterhead</figcaption>
+        </figure>
+        <figure class="apps-tile at--4">
+          <img src="images/placeholders/app-05-apparel.svg" alt="Apparel">
+          <figcaption class="apps-tile__cap"><small>05</small>Apparel</figcaption>
+        </figure>
+        <figure class="apps-tile at--4">
+          <img src="images/placeholders/app-06-brochure.svg" alt="Brochure spread">
+          <figcaption class="apps-tile__cap"><small>06</small>Brochure</figcaption>
+        </figure>
+
+        <!-- 6/6 close -->
+        <figure class="apps-tile at--6">
+          <img src="images/placeholders/app-07-livery.svg" alt="Vehicle livery">
+          <figcaption class="apps-tile__cap"><small>07</small>Livery</figcaption>
+        </figure>
+        <figure class="apps-tile at--6">
+          <img src="images/placeholders/app-08-environmental.svg" alt="Environmental">
+          <figcaption class="apps-tile__cap"><small>08</small>Environmental</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION — APPS & WEBSITES (Bento)
+       CMS: project.digital { lead{url,image}, phones[], widgets[], system{mobile[],web[]} }
+  ============================================================ -->
+  <section class="sec sec--digital">
+    <div class="w">
+      <div class="sec__hdr reveal">
+        <p class="slabel">Digital</p>
+        <h2 class="sh">Shipped to<br>every <em>screen.</em></h2>
+      </div>
+
+      <div class="dig-bento stagger">
+        <!-- Lead — Website Desktop with browser chrome -->
+        <!-- CMS: project.digital.lead { url, image } -->
+        <figure class="dig-tile dig--lead magnet">
+          <div class="browser-chrome" aria-hidden="true">
+            <span class="browser-chrome__dots"><span></span><span></span><span></span></span>
+            <span class="browser-chrome__url">mark.studio / configure</span>
+            <span class="browser-chrome__meta">↻ ☆</span>
+          </div>
+          <div class="dig-tile__media" data-parallax="0.10">
+            <img src="images/placeholders/digital-website-lead.svg" alt="Website desktop layout">
+          </div>
+          <figcaption class="dig-tile__cap"><small>01</small>Website · Desktop</figcaption>
+        </figure>
+
+        <!-- Mobile — App Home -->
+        <!-- CMS: project.digital.phones[0] -->
+        <figure class="dig-tile dig--p4">
+          <img src="images/placeholders/digital-phone-01.svg" alt="App home">
+          <figcaption class="dig-tile__cap"><small>02</small>App · Home</figcaption>
+        </figure>
+
+        <!-- Widget — Range / Live -->
+        <!-- CMS: project.digital.widgets[0] — type: 'range' -->
+        <div class="dig-tile dig-widget dig--w4">
+          <div class="dig-widget__head">
+            <span class="dig-widget__lbl">Range · Live</span>
+            <span class="dig-widget__pulse" aria-hidden="true"></span>
+          </div>
+          <div class="dig-widget__body">
+            <p class="dig-widget__big">324<span>mi</span></p>
+            <div class="dig-widget__bar"><span style="width:82%"></span></div>
+          </div>
+          <p class="dig-widget__sub">Charge 82% · Last drive 14h</p>
+        </div>
+
+        <!-- Widget — Now Configuring -->
+        <!-- CMS: project.digital.widgets[1] — type: 'progress' -->
+        <div class="dig-tile dig-widget dig-widget--light dig--w4">
+          <div class="dig-widget__head">
+            <span class="dig-widget__lbl">Configuring</span>
+            <span class="dig-widget__step">02 / 06</span>
+          </div>
+          <div class="dig-widget__body">
+            <svg class="dig-widget__svg" viewBox="0 0 200 110" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <path d="M0 86 L20 60 L60 46 L120 42 L160 46 L180 60 L200 86 L200 100 L0 100 Z" fill="#0A1E3F"/>
+              <path d="M40 60 L70 48 L120 46 L150 56 Z" fill="#1A73E8" opacity="0.55"/>
+              <circle cx="48" cy="100" r="12" fill="#0A0A0A"/>
+              <circle cx="156" cy="100" r="12" fill="#0A0A0A"/>
+            </svg>
+            <p class="dig-widget__title">M Sport · Sedan</p>
+          </div>
+          <div class="dig-widget__steps">
+            <span class="done"></span>
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Widget — Test Drive -->
+        <!-- CMS: project.digital.widgets[2] — type: 'booking' -->
+        <div class="dig-tile dig-widget dig-widget--accent dig--w4">
+          <div class="dig-widget__head">
+            <span class="dig-widget__lbl">Test Drive · Booked</span>
+            <span class="dig-widget__pulse" aria-hidden="true"></span>
+          </div>
+          <div class="dig-widget__body">
+            <p class="dig-widget__title">Tomorrow</p>
+            <p class="dig-widget__big-time">10:30</p>
+          </div>
+          <p class="dig-widget__sub">Munich North · Confirmed</p>
+        </div>
+
+        <!-- Widget — Saved Configs -->
+        <!-- CMS: project.digital.widgets[3] — type: 'list' -->
+        <div class="dig-tile dig-widget dig--w4">
+          <div class="dig-widget__head">
+            <span class="dig-widget__lbl">Saved · 02</span>
+            <span class="dig-widget__more">→</span>
+          </div>
+          <div class="dig-widget__body">
+            <div class="dig-widget__row">
+              <span class="dig-widget__row-thumb" style="background:linear-gradient(135deg,#0A1E3F,#15315E);"></span>
+              <div class="dig-widget__row-meta">
+                <p class="dig-widget__row-title">Sedan / M Sport</p>
+                <p class="dig-widget__row-sub">£52,400 · Navy</p>
+              </div>
+            </div>
+            <div class="dig-widget__row">
+              <span class="dig-widget__row-thumb" style="background:linear-gradient(135deg,#1A1A1A,#2A2A2A);"></span>
+              <div class="dig-widget__row-meta">
+                <p class="dig-widget__row-title">SUV / Hybrid</p>
+                <p class="dig-widget__row-sub">£64,800 · Black</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile — App Configurator -->
+        <!-- CMS: project.digital.phones[1] -->
+        <figure class="dig-tile dig--p4">
+          <img src="images/placeholders/digital-phone-02.svg" alt="App configurator step">
+          <figcaption class="dig-tile__cap"><small>06</small>App · Configurator</figcaption>
+        </figure>
+
+        <!-- Mobile — App Profile -->
+        <!-- CMS: project.digital.phones[2] -->
+        <figure class="dig-tile dig--p4">
+          <img src="images/placeholders/digital-phone-03.svg" alt="App profile">
+          <figcaption class="dig-tile__cap"><small>07</small>App · Profile</figcaption>
+        </figure>
+
+        <!-- Widget — Live Activity (wide) -->
+        <!-- CMS: project.digital.widgets[4] — type: 'feed' -->
+        <div class="dig-tile dig-widget dig--w8">
+          <div class="dig-widget__head">
+            <span class="dig-widget__lbl">Live Activity · Today</span>
+            <span class="dig-widget__pulse" aria-hidden="true"></span>
+          </div>
+          <ul class="dig-widget__feed">
+            <li>
+              <span class="dot" style="background:#1A73E8"></span>
+              <span class="time">2m ago</span>
+              <span class="text">Order placed — M Sport Sedan, Navy</span>
+              <span class="tag">£52,400</span>
+            </li>
+            <li>
+              <span class="dot" style="background:#C99A2E"></span>
+              <span class="time">14m ago</span>
+              <span class="text">Test drive booked — SUV Hybrid</span>
+              <span class="tag">Munich</span>
+            </li>
+            <li>
+              <span class="dot" style="background:#1A73E8"></span>
+              <span class="time">38m ago</span>
+              <span class="text">Quote sent — Coupé Edition</span>
+              <span class="tag">£88,200</span>
+            </li>
+            <li>
+              <span class="dot" style="background:oklch(1 0 0 / 0.4)"></span>
+              <span class="time">1h ago</span>
+              <span class="text">Config saved — Sedan / M Sport</span>
+              <span class="tag">User #4821</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Live components — Mobile + Web patterns -->
+      <!-- CMS: project.digital.system { mobile[], web[] } -->
+      <div class="dig-system reveal">
+        <div class="dig-system__head">
+          <span class="dig-system__title">Design System / Patterns</span>
+          <span class="dig-system__meta">Mobile + Web · Live HTML</span>
+        </div>
+        <div class="dig-system__cols">
+
+          <!-- Mobile column -->
+          <div class="dig-system__col">
+            <span class="dig-system__col-lbl">Mobile / Native</span>
+            <div class="dig-system__items">
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">Tab Bar</span>
+                <div class="dsys-comp__demo dsys-comp__demo--dark">
+                  <div class="dsys-tabbar">
+                    <span class="dsys-tabbar__item active"><span class="dsys-tabbar__icon"></span><span>Home</span></span>
+                    <span class="dsys-tabbar__item"><span class="dsys-tabbar__icon"></span><span>Config</span></span>
+                    <span class="dsys-tabbar__item"><span class="dsys-tabbar__icon"></span><span>Saved</span></span>
+                    <span class="dsys-tabbar__item"><span class="dsys-tabbar__icon"></span><span>Profile</span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">Segmented · Switch</span>
+                <div class="dsys-comp__demo">
+                  <div class="dsys-segmented" id="dsys-seg">
+                    <button class="active">Day</button>
+                    <button>Week</button>
+                    <button>Month</button>
+                  </div>
+                  <span class="dsys-switch active" id="dsys-switch" role="switch" aria-checked="true"><span></span></span>
+                </div>
+              </div>
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">Slider · Range</span>
+                <div class="dsys-comp__demo">
+                  <div class="dsys-slider">
+                    <div class="dsys-slider__track"></div>
+                    <div class="dsys-slider__fill" style="width:40%"></div>
+                    <div class="dsys-slider__handle" style="left:40%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">FAB</span>
+                <div class="dsys-comp__demo dsys-comp__demo--surface">
+                  <button class="dsys-fab" aria-label="Create">+</button>
+                  <button class="dsys-fab dsys-fab--g" aria-label="Up">↑</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Web column -->
+          <div class="dig-system__col">
+            <span class="dig-system__col-lbl">Web / Browser</span>
+            <div class="dig-system__items">
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">Button · Toggle</span>
+                <div class="dsys-comp__demo">
+                  <button class="dsys-btn">Configure →</button>
+                  <button class="dsys-btn dsys-btn--g">Cancel</button>
+                  <label class="dsys-check">
+                    <input type="checkbox" checked> <span></span> Notify me
+                  </label>
+                </div>
+              </div>
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">Input · Select</span>
+                <div class="dsys-comp__demo">
+                  <input class="dsys-input" type="text" placeholder="Search models...">
+                  <div class="dsys-select"><span>Sedan</span><span class="caret">▾</span></div>
+                </div>
+              </div>
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">Card</span>
+                <div class="dsys-comp__demo dsys-comp__demo--surface">
+                  <div class="dsys-card">
+                    <span class="dsys-card__lbl">M SPORT</span>
+                    <p class="dsys-card__title">Sedan / 2025</p>
+                    <p class="dsys-card__price">FROM £52,400</p>
+                  </div>
+                </div>
+              </div>
+              <div class="dsys-comp">
+                <span class="dsys-comp__lbl">Breadcrumb</span>
+                <div class="dsys-comp__demo">
+                  <nav class="dsys-crumb">
+                    <span>Models</span><span class="sep">/</span>
+                    <span>Sedan</span><span class="sep">/</span>
+                    <span class="active">M Sport</span>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </section>
 
   <!-- ============================================================
        STATISTICS
-       CMS fields: project.stats[] — each: { value, suffix, label }
   ============================================================ -->
   <section class="proj-stats">
     <div class="w">
       <div class="proj-stats__hdr reveal">
         <p class="slabel">By the Numbers</p>
         <h2 class="sh">The work,<br><em>quantified.</em></h2>
+        <p style="font-size:15px;color:oklch(1 0 0/0.55);line-height:1.72;margin-top:var(--s6);max-width:48ch;">The numbers behind the work — every metric a direct result of decisions made in design and engineering.</p>
       </div>
       <div class="proj-stats__grid stagger">
         <div class="proj-stat">
-          <p class="proj-stat__n">
-            <span class="stat-val" data-count="7">0</span>
-            <span class="stat-suffix">products</span>
-          </p>
-          <p class="proj-stat__label">Unified under one design system</p>
+          <p class="proj-stat__n"><span class="stat-val" data-count="7">0</span><span class="stat-suffix">+</span></p>
+          <p class="proj-stat__unit">Products Unified</p>
         </div>
         <div class="proj-stat">
-          <p class="proj-stat__n">
-            <span class="stat-val" data-count="340">0</span>
-            <span class="stat-suffix">components</span>
-          </p>
-          <p class="proj-stat__label">Built and documented in Figma &amp; code</p>
+          <p class="proj-stat__n"><span class="stat-val" data-count="340">0</span><span class="stat-suffix">+</span></p>
+          <p class="proj-stat__unit">Components Built &amp; Documented</p>
         </div>
         <div class="proj-stat">
-          <p class="proj-stat__n">
-            <span class="stat-val" data-count="94">0</span>
-            <span class="stat-suffix">ms</span>
-          </p>
-          <p class="proj-stat__label">Average interaction latency</p>
+          <p class="proj-stat__n"><span class="stat-val" data-count="94">0</span><span class="stat-suffix">+</span></p>
+          <p class="proj-stat__unit">MS · Avg Latency</p>
         </div>
         <div class="proj-stat">
-          <p class="proj-stat__n">
-            <span class="stat-val" data-count="38">0</span>
-            <span class="stat-suffix">%</span>
-          </p>
-          <p class="proj-stat__label">Increase in configurator conversion</p>
+          <p class="proj-stat__n"><span class="stat-val" data-count="38">0</span><span class="stat-suffix">+</span></p>
+          <p class="proj-stat__unit">% Increase in Conversion</p>
         </div>
       </div>
     </div>
@@ -1085,7 +2006,6 @@
 
   <!-- ============================================================
        TESTIMONIAL
-       CMS fields: project.testimonial.quote, project.testimonial.author, project.testimonial.role
   ============================================================ -->
   <section class="proj-quote">
     <div class="w">
@@ -1093,17 +2013,14 @@
         <span class="proj-quote__mark" aria-hidden="true">&ldquo;</span>
         <p class="proj-quote__text">Parallax didn't just ship components — they gave us a <em>language.</em> Every team speaks it now.</p>
         <div class="proj-quote__byline">
-          <span class="proj-quote__author">
-            <strong>Markus Dietrich</strong> &mdash; Head of Digital Products, BMW Group
-          </span>
+          <span class="proj-quote__author"><strong>Markus Dietrich</strong> &mdash; Head of Digital Products, BMW Group</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       OUTCOME / IMPACT
-       CMS fields: project.outcomeHeading, project.outcomes[]
+       OUTCOME
   ============================================================ -->
   <section class="proj-outcome">
     <div class="w">
@@ -1112,20 +2029,34 @@
           <p class="slabel">Outcome</p>
           <h2 class="proj-outcome__h">What changed<br>after we <em>shipped.</em></h2>
         </div>
-        <ul class="proj-outcome__list">
-          <li>A single, versioned design system adopted across 7 BMW digital products within 6 months of handoff</li>
-          <li>Configurator conversion rate increased 38% in the first quarter post-launch</li>
-          <li>Engineering onboarding time for new product teams reduced from 3 weeks to 4 days</li>
-          <li>Full WCAG 2.1 AA accessibility compliance across all migrated surfaces</li>
-          <li>Design-to-code handoff time reduced by 60% using the shared token pipeline</li>
-        </ul>
+        <div class="proj-outcome__cards">
+          <div class="proj-outcome__card">
+            <p class="proj-outcome__card-n">38%</p>
+            <p class="proj-outcome__card-title">Conversion Rate</p>
+            <p class="proj-outcome__card-sub">First quarter post-launch</p>
+          </div>
+          <div class="proj-outcome__card">
+            <p class="proj-outcome__card-n">60%</p>
+            <p class="proj-outcome__card-title">Faster Handoff</p>
+            <p class="proj-outcome__card-sub">Shared token pipeline</p>
+          </div>
+          <div class="proj-outcome__card">
+            <p class="proj-outcome__card-n">4 days</p>
+            <p class="proj-outcome__card-title">Onboarding</p>
+            <p class="proj-outcome__card-sub">Down from 3 weeks</p>
+          </div>
+          <div class="proj-outcome__card">
+            <p class="proj-outcome__card-n">100%</p>
+            <p class="proj-outcome__card-title">WCAG 2.1 AA</p>
+            <p class="proj-outcome__card-sub">All surfaces compliant</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
        MORE PROJECTS
-       CMS: query 3 related projects by industry or service tag
   ============================================================ -->
   <section class="proj-more">
     <div class="w">
@@ -1134,36 +2065,27 @@
           <p class="slabel">More Work</p>
           <h2 class="sh">You might also<br><em>like these.</em></h2>
         </div>
-        <a href="work.html" class="proj-more__link">Full Archive ↗</a>
+        <a href="work.html" class="proj-more__link">Full Archive &#8599;</a>
       </div>
       <div class="proj-more__grid stagger">
-        <!-- CMS: related project 1 -->
         <a href="project.html" class="proj-card">
-          <div class="proj-card__img">
-            <img src="https://placehold.co/600x240/e0e4f0/999" alt="Vestas project">
-          </div>
+          <div class="proj-card__img"><img src="images/placeholders/related-01.svg" alt="Vestas project"></div>
           <div class="proj-card__body">
             <p class="proj-card__client">Vestas</p>
             <p class="proj-card__name">Wind Energy Digital Platform</p>
             <p class="proj-card__tag">Brand Systems · Digital Strategy</p>
           </div>
         </a>
-        <!-- CMS: related project 2 -->
         <a href="project.html" class="proj-card">
-          <div class="proj-card__img">
-            <img src="https://placehold.co/600x240/e8e0f0/999" alt="Sportradar project">
-          </div>
+          <div class="proj-card__img"><img src="images/placeholders/related-02.svg" alt="Sportradar project"></div>
           <div class="proj-card__body">
             <p class="proj-card__client">Sportradar</p>
             <p class="proj-card__name">Live Data Visualisation Suite</p>
             <p class="proj-card__tag">Interface Design · Frontend Engineering</p>
           </div>
         </a>
-        <!-- CMS: related project 3 -->
         <a href="project.html" class="proj-card">
-          <div class="proj-card__img">
-            <img src="https://placehold.co/600x240/e0f0e8/999" alt="Sopra project">
-          </div>
+          <div class="proj-card__img"><img src="images/placeholders/related-03.svg" alt="Sopra project"></div>
           <div class="proj-card__body">
             <p class="proj-card__client">Sopra Steria</p>
             <p class="proj-card__name">Enterprise Design Transformation</p>
@@ -1202,17 +2124,17 @@
         <span class="clocks__label">Global Presence</span>
         <div class="clock">
           <span class="clock__city">Munich</span>
-          <span class="clock__time" id="clock-de">--:--</span>
+          <span class="clock__time" id="clock-de">--:--:--</span>
         </div>
         <div class="clock__sep"></div>
         <div class="clock">
           <span class="clock__city">Dubai</span>
-          <span class="clock__time" id="clock-ae">--:--</span>
+          <span class="clock__time" id="clock-ae">--:--:--</span>
         </div>
         <div class="clock__sep"></div>
         <div class="clock">
           <span class="clock__city">Bengaluru</span>
-          <span class="clock__time" id="clock-in">--:--</span>
+          <span class="clock__time" id="clock-in">--:--:--</span>
         </div>
       </div>
     </div>
@@ -1235,6 +2157,16 @@
       </div>
     </div>
   </footer>
+
+  <!-- ============================================================
+       DEV / DEMO TOGGLE — remove before shipping
+  ============================================================ -->
+  <div class="demo-toggle" role="group" aria-label="Project type preview">
+    <button data-type="mix" class="active">Mix</button>
+    <button data-type="branding">Branding</button>
+    <button data-type="website">Website</button>
+    <button data-type="app">App</button>
+  </div>
 
   <script>
     /* ---- NAV ---- */
@@ -1271,7 +2203,7 @@
     });
 
     /* ---- SCROLL REVEAL ---- */
-    const revealEls = document.querySelectorAll('.reveal, .stagger');
+    const revealEls = document.querySelectorAll('.reveal, .stagger, .bsys-token');
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1353,6 +2285,153 @@
       }
       tick();
       setInterval(tick, 1000);
+    })();
+
+    /* ---- BRAND SYSTEM — interactive palette ---- */
+    (function () {
+      const palette = document.getElementById('bsys-palette');
+      const readout = document.getElementById('bsys-readout');
+      if (!palette || !readout) return;
+      const chip  = readout.querySelector('.bsys-readout__chip');
+      const name  = readout.querySelector('.bsys-readout__name');
+      const hex   = readout.querySelector('.bsys-readout__hex');
+      palette.addEventListener('click', e => {
+        const btn = e.target.closest('.bsys-swatch');
+        if (!btn) return;
+        palette.querySelectorAll('.bsys-swatch').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        chip.style.background = btn.dataset.hex;
+        name.textContent = btn.dataset.name + ' — ' + btn.dataset.usage;
+        hex.textContent  = btn.dataset.hex;
+      });
+    })();
+
+    /* ---- BRAND SYSTEM — interactive typography ---- */
+    (function () {
+      const group   = document.getElementById('bsys-weights');
+      const preview = document.getElementById('bsys-preview');
+      if (!group || !preview) return;
+      group.addEventListener('click', e => {
+        const btn = e.target.closest('.bsys-wbtn');
+        if (!btn) return;
+        group.querySelectorAll('.bsys-wbtn').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        preview.style.fontWeight = btn.dataset.weight;
+      });
+    })();
+
+    /* ---- LOGO MORPH (auto-cycle) ---- */
+    (function () {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+      const layers = document.querySelectorAll('#brand-morph .morph-layer');
+      const counter = document.getElementById('morph-i');
+      if (layers.length < 2) return;
+      let i = 0;
+      setInterval(() => {
+        layers[i].classList.remove('is-active');
+        i = (i + 1) % layers.length;
+        layers[i].classList.add('is-active');
+        if (counter) counter.textContent = String(i + 1).padStart(2, '0');
+      }, 2800);
+    })();
+
+    /* ---- TOKEN SPOTLIGHT (auto-cycle, paused on hover) ---- */
+    (function () {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+      const container = document.getElementById('bsys-tokens');
+      if (!container) return;
+      const tokens = container.querySelectorAll('.bsys-token');
+      if (tokens.length < 2) return;
+      let i = 0, paused = false;
+      container.addEventListener('mouseenter', () => paused = true);
+      container.addEventListener('mouseleave', () => paused = false);
+      setInterval(() => {
+        if (paused) return;
+        tokens.forEach(t => t.classList.remove('spotlight'));
+        tokens[i].classList.add('spotlight');
+        i = (i + 1) % tokens.length;
+      }, 3400);
+    })();
+
+    /* ---- PARALLAX (translateY, sub-pixel, rAF-throttled) ---- */
+    (function () {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+      const targets = Array.from(document.querySelectorAll('[data-parallax]'));
+      if (!targets.length) return;
+      let ticking = false;
+      function update() {
+        const vh = window.innerHeight;
+        targets.forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -100 || r.top > vh + 100) return;
+          const center = r.top + r.height / 2;
+          const dist = (center - vh / 2) / vh;
+          const speed = parseFloat(el.dataset.parallax) || 0.15;
+          el.style.transform = `translateY(${(-dist * speed * 80).toFixed(2)}px)`;
+        });
+        ticking = false;
+      }
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
+
+    /* ---- MAGNETIC HOVER on .magnet wrappers ---- */
+    (function () {
+      if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+      document.querySelectorAll('.magnet').forEach(el => {
+        el.addEventListener('mousemove', e => {
+          const r = el.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width  - 0.5) * 14;
+          const y = ((e.clientY - r.top)  / r.height - 0.5) * 14;
+          el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+        });
+        el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+      });
+    })();
+
+    /* ---- DSYS — segmented + switch interactivity ---- */
+    (function () {
+      const seg = document.getElementById('dsys-seg');
+      if (seg) {
+        seg.addEventListener('click', e => {
+          const btn = e.target.closest('button');
+          if (!btn) return;
+          seg.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      }
+      const sw = document.getElementById('dsys-switch');
+      if (sw) {
+        sw.addEventListener('click', () => {
+          const on = sw.classList.toggle('active');
+          sw.setAttribute('aria-checked', on);
+        });
+      }
+    })();
+
+    /* ---- DEV / DEMO TOGGLE ---- */
+    (function () {
+      const toggle = document.querySelector('.demo-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', e => {
+        const btn = e.target.closest('button[data-type]');
+        if (!btn) return;
+        toggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.body.dataset.projectType = btn.dataset.type;
+      });
     })();
   </script>
 </body>
