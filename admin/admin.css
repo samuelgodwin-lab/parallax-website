@@ -87,16 +87,31 @@ body { font-family: var(--font); font-size: 14px; color: var(--text); background
 .sidebar__user { font-size: 12px; color: rgba(255,255,255,0.4); }
 .sidebar__user strong { display: block; color: rgba(255,255,255,0.7); font-weight: 500; margin-bottom: 1px; }
 .sidebar__signout {
-  font-size: 12px;
-  color: rgba(255,255,255,0.3);
-  background: none;
-  border: none;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
   cursor: pointer;
-  padding: 0;
-  text-align: left;
-  transition: color 130ms;
+  padding: 6px 12px;
+  width: 100%;
+  text-align: center;
+  transition: color 200ms, border-color 200ms, box-shadow 200ms, transform 200ms;
 }
-.sidebar__signout:hover { color: rgba(255,255,255,0.7); }
+.sidebar__signout:hover {
+  color: rgba(255,255,255,0.9);
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 3px 3px 0 0 rgba(255,255,255,0.15);
+  transform: translate(-1px, -1px);
+}
+.sidebar__signout:active {
+  box-shadow: none;
+  transform: translate(1px, 1px);
+  transition-duration: 0.1s;
+}
 
 /* ── Main ── */
 .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
