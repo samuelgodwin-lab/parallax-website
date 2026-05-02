@@ -46,6 +46,7 @@
         <strong id="topbar-title">New Project</strong>
       </span>
       <div class="topbar__right">
+        <a href="#" id="preview-btn" class="btn btn--ghost btn--sm" target="_blank" style="display:none;">Preview</a>
         <button class="btn btn--primary" id="save-btn">Save Project</button>
         <a href="projects.html" class="btn btn--ghost">Cancel</a>
       </div>
@@ -917,6 +918,9 @@
       if (editId) {
         document.getElementById('topbar-title').textContent = 'Edit Project';
         document.getElementById('delete-btn').style.display = 'block';
+        const previewBtn = document.getElementById('preview-btn');
+        previewBtn.href = `preview-project.html?id=${editId}`;
+        previewBtn.style.display = 'inline-flex';
 
         const { data: p } = await db.from('case_studies').select('*').eq('id', editId).single();
         if (p) {

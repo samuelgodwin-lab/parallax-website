@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Preview — Parallax Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Preview Bar ── */
+    .preview-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      height: 48px;
+      background: oklch(0.10 0.003 249);
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .preview-bar__badge {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: oklch(0.60 0.18 249);
+      border: 1px solid oklch(0.60 0.18 249 / 0.4);
+      padding: 3px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .preview-bar__title {
+      font-size: 12px;
+      color: oklch(1 0 0 / 0.5);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: 0;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 500;
+    }
+    .preview-bar__actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .preview-bar__btn {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border: 1px solid oklch(1 0 0 / 0.2);
+      color: oklch(1 0 0 / 0.6);
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 160ms, border-color 160ms;
+    }
+    .preview-bar__btn:hover { color: oklch(1 0 0 / 0.9); border-color: oklch(1 0 0 / 0.4); }
+    .preview-bar__btn--publish {
+      background: oklch(0.60 0.18 249);
+      border-color: oklch(0.60 0.18 249);
+      color: white;
+    }
+    .preview-bar__btn--publish:hover { background: oklch(0.65 0.18 249); border-color: oklch(0.65 0.18 249); color: white; }
+
+    /* ── Article styles (mirrored from public template) ── */
+    :root {
+      --bg:             oklch(1 0 0);
+      --surface:        oklch(0.98 0.001 0);
+      --text:           oklch(0 0 0);
+      --text-2:         oklch(0.40 0.005 0);
+      --text-3:         oklch(0.55 0.005 0);
+      --accent:         oklch(0.60 0.18 249);
+      --border:         oklch(0 0 0 / 0.15);
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s12:48px; --s16:64px; --s24:96px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-d);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      padding-top: 48px;
+    }
+    .w { max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px); }
+
+    /* Loading */
+    .loading-screen {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      color: var(--text-3);
+      font-family: var(--font-m);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+    }
+    .loading-spinner {
+      width: 24px; height: 24px;
+      border: 2px solid oklch(0 0 0 / 0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Read progress */
+    .post-progress { position: fixed; top: 48px; left: 0; height: 2px; background: var(--accent); z-index: 300; width: 0%; transition: width 80ms linear; }
+
+    /* Minimal nav for preview */
+    .preview-nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .preview-nav__logo { font-size: 17px; font-weight: 800; letter-spacing: -0.045em; color: var(--text); text-decoration: none; }
+    .preview-nav__logo span { color: var(--accent); }
+    .preview-nav__note { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+
+    /* Article header */
+    .post-header { padding-top: 60px; padding-bottom: var(--s12); border-bottom: 1px solid var(--border); }
+    .post-crumb { display: flex; align-items: center; gap: var(--s2); margin-bottom: var(--s8); font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); }
+    .post-crumb a { color: var(--text-3); text-decoration: none; }
+    .post-crumb__sep { opacity: 0.4; }
+    .post-cat { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: inline-flex; align-items: center; gap: 10px; margin-bottom: var(--s6); }
+    .post-cat::before { content: ''; width: 18px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .post-title { font-size: clamp(32px, 4.7vw, 70px); font-weight: 800; letter-spacing: -0.048em; line-height: 0.92; max-width: 900px; margin-bottom: var(--s8); }
+    .post-meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s6); padding-top: var(--s6); border-top: 1px solid var(--border); }
+    .post-meta__avatar { width: 32px; height: 32px; border-radius: 50%; background: oklch(0.60 0.18 249 / 0.15); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .post-meta__avatar svg { width: 100%; height: 100%; }
+    .post-meta__author { display: flex; align-items: center; gap: var(--s3); }
+    .post-meta__name { font-size: 13.5px; font-weight: 600; letter-spacing: -0.02em; }
+    .post-meta__role { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
+    .post-meta__divider { width: 1px; height: 28px; background: var(--border); }
+    .post-meta__item { font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
+    .post-meta__item strong { color: var(--text-2); font-weight: 500; }
+
+    /* Hero image */
+    .post-hero-img { width: 100%; aspect-ratio: 21/8; background: oklch(0.08 0.003 249); overflow: hidden; }
+    .post-hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .post-hero-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: oklch(1 0 0 / 0.2); }
+
+    /* Layout */
+    .post-layout { display: grid; grid-template-columns: 200px 1fr; gap: clamp(var(--s12), 6vw, var(--s24)); padding: var(--s16) 0 var(--s24); align-items: start; }
+    .post-sidebar { position: sticky; top: 80px; display: flex; flex-direction: column; gap: var(--s8); }
+    .post-sidebar__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); margin-bottom: var(--s3); }
+    .post-toc { list-style: none; display: flex; flex-direction: column; gap: var(--s2); }
+    .post-toc a { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.06em; color: var(--text-3); text-decoration: none; line-height: 1.5; display: block; padding-left: var(--s3); border-left: 1.5px solid var(--border); }
+    .post-toc a:hover, .post-toc a.active { color: var(--accent); border-left-color: var(--accent); }
+
+    /* Article body */
+    .post-body { max-width: 72ch; }
+    .post-body p { font-size: 17px; color: var(--text-2); line-height: 1.8; margin-bottom: var(--s6); }
+    .post-body h2 { font-size: clamp(22px, 2.4vw, 30px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; color: var(--text); margin-top: var(--s16); margin-bottom: var(--s6); padding-top: var(--s8); border-top: 1px solid var(--border); }
+    .post-body h3 { font-size: clamp(17px, 1.8vw, 22px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.2; color: var(--text); margin-top: var(--s12); margin-bottom: var(--s4); }
+    .post-body blockquote { margin: var(--s12) 0; padding: var(--s6) var(--s8); border-left: 3px solid var(--accent); background: oklch(0.60 0.18 249 / 0.04); }
+    .post-body blockquote p { font-size: clamp(17px, 1.8vw, 22px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.45; color: var(--text); margin-bottom: 0; }
+    .post-body code { font-family: var(--font-m); font-size: 0.88em; background: var(--surface); border: 1px solid var(--border); padding: 2px 6px; color: var(--accent); }
+    .post-body pre { background: oklch(0.07 0.003 249); border: 1px solid oklch(1 0 0 / 0.08); padding: var(--s6) var(--s8); overflow-x: auto; margin: var(--s8) 0; }
+    .post-body pre code { font-size: 13px; background: transparent; border: none; padding: 0; color: oklch(0.85 0.002 0); line-height: 1.7; }
+    .post-body ul, .post-body ol { padding-left: var(--s6); margin-bottom: var(--s6); }
+    .post-body li { font-size: 17px; color: var(--text-2); line-height: 1.8; margin-bottom: var(--s2); }
+    .post-body ul li::marker { color: var(--accent); }
+    .post-body ol li::marker { font-family: var(--font-m); font-size: 13px; color: var(--accent); }
+    .post-body hr { border: none; border-top: 1px solid var(--border); margin: var(--s16) 0; }
+    .post-body strong { color: var(--text); font-weight: 600; }
+
+    /* Tags footer */
+    .post-footer { padding: var(--s6) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: var(--s8); }
+    .post-footer__inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s6); }
+    .post-tags { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+    .post-tags__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin-right: var(--s2); }
+    .post-tag { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); border: 1px solid var(--border); padding: 5px 12px; text-decoration: none; }
+
+    /* Footer */
+    .site-footer { padding: var(--s8) 0; background: var(--accent); margin-top: var(--s16); }
+    .site-footer__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
+    .site-footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
+    .site-footer__copy { font-family: var(--font-m); font-size: 9.5px; color: white; letter-spacing: 0.08em; }
+
+    @media (max-width: 900px) { .post-layout { grid-template-columns: 1fr; } .post-sidebar { position: relative; top: 0; } .post-toc { display: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- Preview bar -->
+  <div class="preview-bar">
+    <span class="preview-bar__badge">Draft Preview</span>
+    <span class="preview-bar__title" id="preview-title">Loading…</span>
+    <div class="preview-bar__actions">
+      <a href="#" id="back-btn" class="preview-bar__btn">← Editor</a>
+      <button id="publish-btn" class="preview-bar__btn preview-bar__btn--publish">Publish</button>
+    </div>
+  </div>
+
+  <!-- Read progress -->
+  <div class="post-progress" id="post-progress"></div>
+
+  <!-- Content injected here -->
+  <div id="app">
+    <div class="loading-screen">
+      <div class="loading-spinner"></div>
+      Loading preview…
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+  <script src="supabase.js"></script>
+  <script>
+    const params  = new URLSearchParams(location.search);
+    const id      = params.get('id');
+    const editorURL = id ? `article-editor.html?id=${id}` : 'articles.html';
+
+    document.getElementById('back-btn').href = editorURL;
+
+    if (!id) {
+      document.getElementById('app').innerHTML = `<div class="loading-screen">No article ID provided.</div>`;
+    } else {
+      (async () => {
+        const { data: a, error } = await db.from('articles').select('*').eq('id', id).single();
+        if (error || !a) {
+          document.getElementById('app').innerHTML = `<div class="loading-screen">Article not found.</div>`;
+          return;
+        }
+
+        document.title = `${a.title} — Preview`;
+        document.getElementById('preview-title').textContent = a.title;
+
+        const fmt = d => new Date(d).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+        const tags = Array.isArray(a.tags) ? a.tags : (a.tags ? a.tags.split(',').map(t => t.trim()) : []);
+        const bodyHTML = marked.parse(a.body || '');
+
+        // Build TOC from h2 tags
+        const tocItems = [...(bodyHTML.matchAll(/<h2[^>]*id="([^"]*)"[^>]*>(.*?)<\/h2>/g))].map(m => {
+          const slug = m[1] || m[2].toLowerCase().replace(/[^a-z0-9]+/g,'-');
+          return `<li><a href="#${slug}">${m[2].replace(/<[^>]+>/g,'')}</a></li>`;
+        }).join('');
+
+        // Add IDs to h2s in body
+        let bodyWithIDs = bodyHTML.replace(/<h2>(.*?)<\/h2>/g, (_, txt) => {
+          const slug = txt.replace(/<[^>]+>/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-');
+          return `<h2 id="${slug}">${txt}</h2>`;
+        });
+
+        document.getElementById('app').innerHTML = `
+          <nav class="preview-nav">
+            <div class="w">
+              <div class="preview-nav__inner">
+                <a href="../index.html" class="preview-nav__logo">Parallax<span>.</span></a>
+                <span class="preview-nav__note">Preview mode — not live</span>
+              </div>
+            </div>
+          </nav>
+
+          <header class="post-header">
+            <div class="w">
+              <nav class="post-crumb">
+                <a href="#">Home</a>
+                <span class="post-crumb__sep">/</span>
+                <a href="#">Articles</a>
+                <span class="post-crumb__sep">/</span>
+                <span>${a.category || ''}</span>
+              </nav>
+              <p class="post-cat">${a.category || ''}</p>
+              <h1 class="post-title">${a.title || 'Untitled'}</h1>
+              <div class="post-meta">
+                <div class="post-meta__author">
+                  <div class="post-meta__avatar">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="oklch(0.60 0.18 249 / 0.15)"/><circle cx="16" cy="13" r="5" fill="oklch(0.60 0.18 249 / 0.5)"/><ellipse cx="16" cy="26" rx="9" ry="6" fill="oklch(0.60 0.18 249 / 0.3)"/></svg>
+                  </div>
+                  <div>
+                    <p class="post-meta__name">${a.author || 'Parallax Studio'}</p>
+                    <p class="post-meta__role">Parallax Studio</p>
+                  </div>
+                </div>
+                <div class="post-meta__divider"></div>
+                <div class="post-meta__item"><strong>${fmt(a.created_at)}</strong></div>
+                <div class="post-meta__divider"></div>
+                <div class="post-meta__item"><strong>${a.read_time || '—'}</strong> min read</div>
+                ${a.category ? `<div class="post-meta__divider"></div><div class="post-meta__item">${a.category}</div>` : ''}
+              </div>
+            </div>
+          </header>
+
+          <figure class="post-hero-img">
+            ${a.hero_image_url
+              ? `<img src="${a.hero_image_url}" alt="${a.title}">`
+              : `<div class="post-hero-placeholder">No hero image set</div>`}
+          </figure>
+
+          <div class="w">
+            <div class="post-layout">
+              <aside class="post-sidebar">
+                <div>
+                  <p class="post-sidebar__label">Contents</p>
+                  <ol class="post-toc" id="post-toc">${tocItems || '<li style="color:var(--text-3);font-family:var(--font-m);font-size:10px;">No sections yet</li>'}</ol>
+                </div>
+              </aside>
+              <article class="post-body" id="post-body">${bodyWithIDs}</article>
+            </div>
+          </div>
+
+          <div class="post-footer">
+            <div class="w">
+              <div class="post-footer__inner">
+                <div class="post-tags">
+                  <span class="post-tags__label">Tags</span>
+                  ${tags.map(t => `<span class="post-tag">${t}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <footer class="site-footer">
+            <div class="w">
+              <div class="site-footer__in">
+                <span class="site-footer__logo">Parallax.</span>
+                <span class="site-footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
+              </div>
+            </div>
+          </footer>
+        `;
+
+        // Read progress
+        const progressBar = document.getElementById('post-progress');
+        const body = document.getElementById('post-body');
+        window.addEventListener('scroll', () => {
+          if (!body) return;
+          const scrolled = Math.max(0, -body.getBoundingClientRect().top);
+          const total = body.offsetHeight - window.innerHeight;
+          progressBar.style.width = Math.min(100, (scrolled / Math.max(total,1)) * 100) + '%';
+        }, { passive: true });
+
+        // TOC active
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        const headings = document.querySelectorAll('.post-body h2[id]');
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              tocLinks.forEach(l => l.classList.remove('active'));
+              const a = document.querySelector(`.post-toc a[href="#${e.target.id}"]`);
+              if (a) a.classList.add('active');
+            }
+          });
+        }, { rootMargin: '-10% 0px -80% 0px' });
+        headings.forEach(h => io.observe(h));
+
+      })();
+    }
+
+    // Publish button
+    document.getElementById('publish-btn').addEventListener('click', async () => {
+      if (!id) return;
+      const btn = document.getElementById('publish-btn');
+      btn.textContent = 'Publishing…';
+      btn.disabled = true;
+      const { error } = await db.from('articles').update({ status: 'published' }).eq('id', id);
+      if (error) {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Publish'; btn.disabled = false; }, 2000);
+      } else {
+        btn.textContent = 'Published ✓';
+        btn.style.background = 'oklch(0.5 0.15 145)';
+        btn.style.borderColor = 'oklch(0.5 0.15 145)';
+      }
+    });
+  </script>
+</body>
+</html>

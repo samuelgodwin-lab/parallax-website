@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Preview — Parallax Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Preview Bar ── */
+    .preview-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      height: 48px;
+      background: oklch(0.10 0.003 249);
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .preview-bar__badge {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: oklch(0.60 0.18 249);
+      border: 1px solid oklch(0.60 0.18 249 / 0.4);
+      padding: 3px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .preview-bar__title {
+      font-size: 12px;
+      color: oklch(1 0 0 / 0.5);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: 0;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 500;
+    }
+    .preview-bar__actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .preview-bar__btn {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border: 1px solid oklch(1 0 0 / 0.2);
+      color: oklch(1 0 0 / 0.6);
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 160ms, border-color 160ms;
+    }
+    .preview-bar__btn:hover { color: oklch(1 0 0 / 0.9); border-color: oklch(1 0 0 / 0.4); }
+    .preview-bar__btn--publish {
+      background: oklch(0.60 0.18 249);
+      border-color: oklch(0.60 0.18 249);
+      color: white;
+    }
+    .preview-bar__btn--publish:hover { background: oklch(0.65 0.18 249); color: white; border-color: oklch(0.65 0.18 249); }
+
+    /* ── Project styles (mirrored from public template) ── */
+    :root {
+      --bg:             oklch(1 0 0);
+      --surface:        oklch(0.98 0.001 0);
+      --text:           oklch(0 0 0);
+      --text-2:         oklch(0.40 0.005 0);
+      --text-3:         oklch(0.55 0.005 0);
+      --accent:         oklch(0.60 0.18 249);
+      --accent-muted:   oklch(0.60 0.18 249 / 0.14);
+      --border:         oklch(0 0 0 / 0.15);
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s12:48px; --s16:64px; --s24:96px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-d);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      padding-top: 48px;
+    }
+    .w { max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px); }
+
+    .loading-screen {
+      min-height: calc(100vh - 48px);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+      color: var(--text-3); font-family: var(--font-m); font-size: 12px; letter-spacing: 0.1em;
+    }
+    .loading-spinner { width: 24px; height: 24px; border: 2px solid oklch(0 0 0 / 0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Minimal nav */
+    .preview-nav { padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .preview-nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .preview-nav__logo { font-size: 17px; font-weight: 800; letter-spacing: -0.045em; color: var(--text); text-decoration: none; }
+    .preview-nav__logo span { color: var(--accent); }
+    .preview-nav__note { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+
+    /* Project hero */
+    .proj-hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--s24) 0 var(--s16);
+      background: oklch(0.06 0.003 249);
+      position: relative;
+      overflow: hidden;
+    }
+    .proj-hero__img {
+      position: absolute; inset: 0;
+      object-fit: cover; width: 100%; height: 100%;
+      opacity: 0.35;
+    }
+    .proj-hero__inner { position: relative; z-index: 1; }
+    .proj-hero__client { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.60 0.18 249); display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6); }
+    .proj-hero__client::before { content: ''; width: 22px; height: 1px; background: oklch(0.60 0.18 249); }
+    .proj-hero__title { font-size: clamp(36px, 5vw, 80px); font-weight: 800; letter-spacing: -0.048em; line-height: 0.92; color: white; max-width: 900px; margin-bottom: var(--s8); }
+    .proj-hero__meta { display: flex; align-items: center; gap: var(--s6); flex-wrap: wrap; }
+    .proj-hero__tag { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: oklch(1 0 0 / 0.5); border: 1px solid oklch(1 0 0 / 0.15); padding: 5px 12px; }
+
+    /* Overview */
+    .proj-overview { padding: var(--s16) 0; border-bottom: 1px solid var(--border); }
+    .proj-overview__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(var(--s12), 6vw, var(--s24)); align-items: start; }
+    .slabel { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6); }
+    .slabel::before { content: ''; width: 22px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .sh { font-size: clamp(32px, 4vw, 58px); font-weight: 700; letter-spacing: -0.042em; line-height: 1.0; }
+    .sh em { font-style: normal; color: var(--accent); }
+    .proj-overview__body { font-size: 17px; color: var(--text-2); line-height: 1.75; }
+
+    /* Stats */
+    .proj-stats { padding: var(--s16) 0; border-bottom: 1px solid var(--border); }
+    .proj-stats__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: oklch(0 0 0 / 0.08); }
+    .proj-stat { background: var(--bg); padding: var(--s8); }
+    .proj-stat__value { font-size: clamp(36px, 4vw, 60px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; color: var(--text); margin-bottom: var(--s2); }
+    .proj-stat__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); }
+
+    /* Outcomes */
+    .proj-outcomes { padding: var(--s16) 0; border-bottom: 1px solid var(--border); }
+    .proj-outcomes__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--s8); margin-top: var(--s12); }
+    .proj-outcome { border: 1px solid var(--border); padding: var(--s8); }
+    .proj-outcome__title { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: var(--s3); }
+    .proj-outcome__desc { font-size: 14px; color: var(--text-2); line-height: 1.65; }
+
+    /* Quote */
+    .proj-quote { padding: var(--s16) 0; border-bottom: 1px solid var(--border); }
+    .proj-quote__inner { max-width: 800px; }
+    .proj-quote__mark { font-size: 80px; line-height: 0.8; color: var(--accent); font-weight: 800; margin-bottom: var(--s6); }
+    .proj-quote__text { font-size: clamp(22px, 2.8vw, 36px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.25; color: var(--text); margin-bottom: var(--s8); }
+    .proj-quote__attr { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+    .proj-quote__attr strong { color: var(--text-2); }
+
+    /* Brand system */
+    .proj-brand { padding: var(--s16) 0; border-bottom: 1px solid var(--border); }
+    .proj-brand__section { margin-top: var(--s12); }
+    .proj-brand__subtitle { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); margin-bottom: var(--s6); padding-bottom: var(--s3); border-bottom: 1px solid var(--border); }
+    .colour-grid { display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .colour-swatch { display: flex; flex-direction: column; gap: var(--s2); }
+    .colour-swatch__chip { width: 80px; height: 56px; border: 1px solid var(--border); }
+    .colour-swatch__hex { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.08em; color: var(--text-3); }
+    .colour-swatch__name { font-size: 11px; font-weight: 500; color: var(--text-2); }
+    .font-row { display: flex; align-items: baseline; gap: var(--s6); padding: var(--s4) 0; border-bottom: 1px solid var(--border); }
+    .font-row__name { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); min-width: 120px; }
+    .font-row__sample { font-size: clamp(24px, 3vw, 42px); font-weight: 700; letter-spacing: -0.03em; color: var(--text); }
+
+    /* Images section */
+    .proj-images { padding: var(--s16) 0; border-bottom: 1px solid var(--border); }
+    .proj-images__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s4); margin-top: var(--s12); }
+    .proj-img-slot { background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+    .proj-img-slot img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .proj-img-slot__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); padding: var(--s3) var(--s4); }
+    .proj-img-empty { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-family: var(--font-m); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0 0 0 / 0.15); background: var(--surface); }
+
+    /* Footer */
+    .site-footer { padding: var(--s8) 0; background: var(--accent); margin-top: var(--s16); }
+    .site-footer__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
+    .site-footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
+    .site-footer__copy { font-family: var(--font-m); font-size: 9.5px; color: white; letter-spacing: 0.08em; }
+
+    @media (max-width: 768px) {
+      .proj-overview__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview bar -->
+  <div class="preview-bar">
+    <span class="preview-bar__badge">Draft Preview</span>
+    <span class="preview-bar__title" id="preview-title">Loading…</span>
+    <div class="preview-bar__actions">
+      <a href="#" id="back-btn" class="preview-bar__btn">← Editor</a>
+      <button id="publish-btn" class="preview-bar__btn preview-bar__btn--publish">Publish</button>
+    </div>
+  </div>
+
+  <div id="app">
+    <div class="loading-screen">
+      <div class="loading-spinner"></div>
+      Loading preview…
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const id     = params.get('id');
+    const editorURL = id ? `project-editor.html?id=${id}` : 'projects.html';
+
+    document.getElementById('back-btn').href = editorURL;
+
+    const IMAGE_SLOTS = [
+      { key: 'hero_image',           label: 'Hero Image' },
+      { key: 'hero_image_2',         label: 'Hero Image 2' },
+      { key: 'overview_image',       label: 'Overview Image' },
+      { key: 'process_image_1',      label: 'Process 1' },
+      { key: 'process_image_2',      label: 'Process 2' },
+      { key: 'process_image_3',      label: 'Process 3' },
+      { key: 'brand_logo_light',     label: 'Logo (Light)' },
+      { key: 'brand_logo_dark',      label: 'Logo (Dark)' },
+      { key: 'brand_full_spread',    label: 'Brand Full Spread' },
+      { key: 'brand_guidelines',     label: 'Brand Guidelines' },
+      { key: 'application_1',        label: 'Application 1' },
+      { key: 'application_2',        label: 'Application 2' },
+      { key: 'application_3',        label: 'Application 3' },
+      { key: 'application_4',        label: 'Application 4' },
+      { key: 'application_mockup_1', label: 'Mockup 1' },
+      { key: 'application_mockup_2', label: 'Mockup 2' },
+      { key: 'digital_desktop_1',    label: 'Desktop 1' },
+      { key: 'digital_desktop_2',    label: 'Desktop 2' },
+      { key: 'digital_mobile_1',     label: 'Mobile 1' },
+      { key: 'digital_mobile_2',     label: 'Mobile 2' },
+      { key: 'digital_mobile_3',     label: 'Mobile 3' },
+      { key: 'result_image_1',       label: 'Result 1' },
+      { key: 'result_image_2',       label: 'Result 2' },
+      { key: 'result_image_3',       label: 'Result 3' },
+    ];
+
+    if (!id) {
+      document.getElementById('app').innerHTML = `<div class="loading-screen">No project ID provided.</div>`;
+    } else {
+      (async () => {
+        const { data: p, error } = await db.from('case_studies').select('*').eq('id', id).single();
+        if (error || !p) {
+          document.getElementById('app').innerHTML = `<div class="loading-screen">Project not found.</div>`;
+          return;
+        }
+
+        document.title = `${p.client || p.title} — Preview`;
+        document.getElementById('preview-title').textContent = `${p.client || ''} — ${p.title || 'Untitled'}`;
+
+        const services = Array.isArray(p.services) ? p.services : [];
+        const colours  = Array.isArray(p.brand_colours) ? p.brand_colours : [];
+        const fonts    = Array.isArray(p.brand_fonts)   ? p.brand_fonts   : [];
+
+        // Stats
+        const stats = [1,2,3,4,5].map(i => ({ value: p[`stat${i}_value`], label: p[`stat${i}_label`] })).filter(s => s.value);
+        // Outcomes
+        const outcomes = [1,2,3,4].map(i => ({ title: p[`outcome${i}_title`], desc: p[`outcome${i}_description`] })).filter(o => o.title);
+        // Images that have a URL
+        const filledSlots = IMAGE_SLOTS.filter(s => p[s.key]);
+
+        // Colour swatches per palette group
+        function renderColours() {
+          if (!colours.length) return '<p style="color:var(--text-3);font-size:13px;">No colours defined yet.</p>';
+          return colours.map(group => `
+            <div style="margin-bottom: 24px;">
+              <p style="font-family:var(--font-m);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">${group.label || 'Palette'} · ${group.role || ''}</p>
+              <div class="colour-grid">
+                ${(group.swatches || []).map(s => `
+                  <div class="colour-swatch">
+                    <div class="colour-swatch__chip" style="background:${s.hex};"></div>
+                    <span class="colour-swatch__name">${s.name || ''}</span>
+                    <span class="colour-swatch__hex">${s.hex}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `).join('');
+        }
+
+        function renderFonts() {
+          if (!fonts.length) return '<p style="color:var(--text-3);font-size:13px;">No fonts defined yet.</p>';
+          return fonts.map(f => `
+            <div class="font-row">
+              <span class="font-row__name">${f.role || f.name || 'Font'}</span>
+              <span class="font-row__sample" style="${f.name ? `font-family:'${f.name}',${f.stack||'sans-serif'}` : ''}">${f.name || 'Font Name'}</span>
+            </div>
+          `).join('');
+        }
+
+        function renderImages() {
+          if (!filledSlots.length) return '<p style="color:var(--text-3);font-size:13px;font-family:var(--font-m);">No images uploaded yet.</p>';
+          return `<div class="proj-images__grid">${filledSlots.map(s => `
+            <div class="proj-img-slot">
+              <img src="${p[s.key]}" alt="${s.label}" loading="lazy">
+              <p class="proj-img-slot__label">${s.label}</p>
+            </div>
+          `).join('')}</div>`;
+        }
+
+        document.getElementById('app').innerHTML = `
+          <nav class="preview-nav">
+            <div class="w">
+              <div class="preview-nav__inner">
+                <a href="../index.html" class="preview-nav__logo">Parallax<span>.</span></a>
+                <span class="preview-nav__note">Preview mode — not live</span>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero -->
+          <section class="proj-hero">
+            ${p.hero_image ? `<img class="proj-hero__img" src="${p.hero_image}" alt="${p.title}">` : ''}
+            <div class="w proj-hero__inner">
+              <p class="proj-hero__client">${p.client || 'Client'}</p>
+              <h1 class="proj-hero__title">${p.title || 'Project Title'}</h1>
+              <div class="proj-hero__meta">
+                ${services.map(s => `<span class="proj-hero__tag">${s}</span>`).join('')}
+                ${p.year ? `<span class="proj-hero__tag">${p.year}</span>` : ''}
+                <span class="proj-hero__tag proj-hero__tag--status" style="color:oklch(0.60 0.18 249);border-color:oklch(0.60 0.18 249/0.4);">${p.status || 'draft'}</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Overview -->
+          ${p.overview ? `
+          <section class="proj-overview">
+            <div class="w">
+              <div class="proj-overview__grid">
+                <div>
+                  <p class="slabel">Overview</p>
+                  <h2 class="sh">The <em>project.</em></h2>
+                </div>
+                <p class="proj-overview__body">${p.overview}</p>
+              </div>
+            </div>
+          </section>` : ''}
+
+          <!-- Stats -->
+          ${stats.length ? `
+          <section class="proj-stats">
+            <div class="w">
+              <p class="slabel">By the numbers</p>
+              <div class="proj-stats__grid">
+                ${stats.map(s => `
+                  <div class="proj-stat">
+                    <div class="proj-stat__value">${s.value}</div>
+                    <div class="proj-stat__label">${s.label}</div>
+                  </div>`).join('')}
+              </div>
+            </div>
+          </section>` : ''}
+
+          <!-- Outcomes -->
+          ${outcomes.length ? `
+          <section class="proj-outcomes">
+            <div class="w">
+              <p class="slabel">Outcomes</p>
+              <h2 class="sh">What we <em>delivered.</em></h2>
+              <div class="proj-outcomes__grid">
+                ${outcomes.map(o => `
+                  <div class="proj-outcome">
+                    <h3 class="proj-outcome__title">${o.title}</h3>
+                    <p class="proj-outcome__desc">${o.desc}</p>
+                  </div>`).join('')}
+              </div>
+            </div>
+          </section>` : ''}
+
+          <!-- Quote -->
+          ${p.quote_text ? `
+          <section class="proj-quote">
+            <div class="w">
+              <div class="proj-quote__inner">
+                <div class="proj-quote__mark">"</div>
+                <p class="proj-quote__text">${p.quote_text}</p>
+                <p class="proj-quote__attr"><strong>${p.quote_attribution_name || ''}</strong>${p.quote_attribution_role ? ' · ' + p.quote_attribution_role : ''}</p>
+              </div>
+            </div>
+          </section>` : ''}
+
+          <!-- Brand System -->
+          ${(p.show_brand_system && (colours.length || fonts.length)) ? `
+          <section class="proj-brand">
+            <div class="w">
+              <p class="slabel">Brand System</p>
+              <h2 class="sh">The <em>identity.</em></h2>
+              ${colours.length ? `
+              <div class="proj-brand__section">
+                <p class="proj-brand__subtitle">Colour Palette</p>
+                ${renderColours()}
+              </div>` : ''}
+              ${fonts.length ? `
+              <div class="proj-brand__section">
+                <p class="proj-brand__subtitle">Typography</p>
+                ${renderFonts()}
+              </div>` : ''}
+            </div>
+          </section>` : ''}
+
+          <!-- Images -->
+          ${filledSlots.length ? `
+          <section class="proj-images">
+            <div class="w">
+              <p class="slabel">Project Images</p>
+              <h2 class="sh">The <em>work.</em></h2>
+              ${renderImages()}
+            </div>
+          </section>` : ''}
+
+          <footer class="site-footer">
+            <div class="w">
+              <div class="site-footer__in">
+                <span class="site-footer__logo">Parallax.</span>
+                <span class="site-footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
+              </div>
+            </div>
+          </footer>
+        `;
+      })();
+    }
+
+    // Publish button
+    document.getElementById('publish-btn').addEventListener('click', async () => {
+      if (!id) return;
+      const btn = document.getElementById('publish-btn');
+      btn.textContent = 'Publishing…';
+      btn.disabled = true;
+      const { error } = await db.from('case_studies').update({ status: 'published' }).eq('id', id);
+      if (error) {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Publish'; btn.disabled = false; }, 2000);
+      } else {
+        btn.textContent = 'Published ✓';
+        btn.style.background = 'oklch(0.5 0.15 145)';
+        btn.style.borderColor = 'oklch(0.5 0.15 145)';
+      }
+    });
+  </script>
+</body>
+</html>

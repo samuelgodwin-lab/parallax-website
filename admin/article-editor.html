@@ -43,6 +43,7 @@
     <header class="topbar">
       <span class="topbar__crumb"><a href="articles.html" style="color:var(--text-2);text-decoration:none;">Articles</a> / <strong id="topbar-title">New Article</strong></span>
       <div class="topbar__right">
+        <a href="#" id="preview-btn" class="btn btn--ghost btn--sm" target="_blank" style="display:none;">Preview</a>
         <a href="articles.html" class="btn btn--ghost btn--sm">Cancel</a>
       </div>
     </header>
@@ -219,6 +220,9 @@
       if (editId) {
         document.getElementById('topbar-title').textContent = 'Edit Article';
         document.getElementById('delete-btn').style.display = 'block';
+        const previewBtn = document.getElementById('preview-btn');
+        previewBtn.href = `preview-article.html?id=${editId}`;
+        previewBtn.style.display = 'inline-flex';
 
         const { data: a } = await db.from('articles').select('*').eq('id', editId).single();
         if (a) {
