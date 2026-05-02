@@ -14,14 +14,18 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 9999;
-      height: 48px;
       background: oklch(0.10 0.003 249);
       border-bottom: 1px solid oklch(1 0 0 / 0.08);
+      padding: 20px 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .preview-bar__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 80px);
       display: flex;
       align-items: center;
-      padding: 0 24px;
       gap: 16px;
-      font-family: 'JetBrains Mono', monospace;
     }
     .preview-bar__badge {
       font-size: 9px;
@@ -92,7 +96,7 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      padding-top: 48px;
+      padding-top: 88px;
     }
     .w { max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px); }
 
@@ -202,11 +206,13 @@
 
   <!-- Preview bar -->
   <div class="preview-bar">
-    <span class="preview-bar__badge">Draft Preview</span>
-    <span class="preview-bar__title" id="preview-title">Loading…</span>
-    <div class="preview-bar__actions">
-      <a href="#" id="back-btn" class="preview-bar__btn">← Editor</a>
-      <button id="publish-btn" class="preview-bar__btn preview-bar__btn--publish">Publish</button>
+    <div class="preview-bar__inner">
+      <span class="preview-bar__badge">Draft Preview</span>
+      <span class="preview-bar__title" id="preview-title">Loading…</span>
+      <div class="preview-bar__actions">
+        <a href="#" id="back-btn" class="preview-bar__btn">← Editor</a>
+        <button id="publish-btn" class="preview-bar__btn preview-bar__btn--publish">Publish</button>
+      </div>
     </div>
   </div>
 
