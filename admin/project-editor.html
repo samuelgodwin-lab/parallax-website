@@ -57,7 +57,7 @@
         <!-- ── LEFT COLUMN ── -->
         <div>
 
-          <!-- 00 — OVERVIEW -->
+          <!-- 00 OVERVIEW -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
@@ -92,7 +92,7 @@
             </div>
           </div>
 
-          <!-- 01 — HERO -->
+          <!-- 01 HERO -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
@@ -109,16 +109,13 @@
                 <div class="img-slot__label">Hero Background</div>
                 <div class="img-slot__box" data-slot="img_hero" data-ratio="hero" style="aspect-ratio:21/8;">
                   <input type="file" accept="image/*">
-                  <div class="img-slot__empty">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                    <span>Click to upload</span>
-                  </div>
+                  <div class="img-slot__empty"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 02 — IDENTITY -->
+          <!-- 02 IDENTITY -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
@@ -131,7 +128,6 @@
               <span class="pe-section__count">7 images</span>
             </div>
             <div class="pe-section__body">
-
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Logo Marks — cycles automatically on the page</div>
                 <div class="img-grid img-grid--3">
@@ -158,7 +154,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Construction & Colour Variants</div>
                 <div class="img-grid img-grid--4">
@@ -192,95 +187,151 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
 
-          <!-- 03 — APPLICATIONS -->
+          <!-- 03 BRAND SYSTEM -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
                 <span class="pe-section__num">03</span>
                 <div>
-                  <div class="pe-section__title">Applications</div>
-                  <div class="pe-section__desc">Brand in use — print, packaging, environmental, and more</div>
+                  <div class="pe-section__title">Brand System</div>
+                  <div class="pe-section__desc">Colour palette, typography, and brand elements</div>
                 </div>
               </div>
-              <span class="pe-section__count">8 images</span>
+              <label class="toggle">
+                <input type="checkbox" id="show-brand-system" checked>
+                <span class="toggle__track"></span>
+                <span class="toggle__label">Show on page</span>
+              </label>
+            </div>
+            <div class="pe-section__body">
+
+              <!-- Colours -->
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Colour Palette</div>
+                <div id="palette-list"></div>
+                <button class="btn btn--ghost btn--sm" id="add-palette-btn" style="margin-top:8px;">+ Add palette group</button>
+              </div>
+
+              <!-- Typography -->
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Typography — Font Sources</div>
+                <div id="font-source-list"></div>
+                <button class="btn btn--ghost btn--sm" id="add-font-btn" style="margin-top:8px;">+ Add font</button>
+              </div>
+
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Typography — Type Styles</div>
+                <div id="type-style-list"></div>
+                <button class="btn btn--ghost btn--sm" id="add-style-btn" style="margin-top:8px;">+ Add type style</button>
+              </div>
+
+              <!-- Brand Elements -->
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Brand Elements — Patterns, Textures, Icons</div>
+                <div class="element-list" id="element-list"></div>
+                <label class="btn btn--ghost btn--sm" style="margin-top:8px; cursor:pointer;">
+                  + Upload element
+                  <input type="file" accept="image/*,image/svg+xml" multiple id="element-upload" style="display:none;">
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 04 APPLICATIONS -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">04</span>
+                <div>
+                  <div class="pe-section__title">Applications</div>
+                  <div class="pe-section__desc">Brand in use — print, packaging, environmental</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <label class="toggle">
+                  <input type="checkbox" id="show-applications" checked>
+                  <span class="toggle__track"></span>
+                  <span class="toggle__label">Show on page</span>
+                </label>
+                <span class="pe-section__count">8 images</span>
+              </div>
             </div>
             <div class="pe-section__body">
               <div class="img-grid img-grid--4">
                 <div class="img-slot" style="grid-column:span 2;">
                   <div class="img-slot__label">Signage <span>Lead tile</span></div>
                   <div class="img-slot__box" data-slot="img_app_signage" data-ratio="wide" style="aspect-ratio:16/9;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot" style="grid-column:span 2;">
                   <div class="img-slot__label">Stationery</div>
                   <div class="img-slot__box" data-slot="img_app_stationery" data-ratio="wide" style="aspect-ratio:16/9;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot">
                   <div class="img-slot__label">Packaging</div>
                   <div class="img-slot__box" data-slot="img_app_packaging" data-ratio="square" style="aspect-ratio:1;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot">
                   <div class="img-slot__label">Letterhead</div>
                   <div class="img-slot__box" data-slot="img_app_letterhead" data-ratio="square" style="aspect-ratio:1;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot">
                   <div class="img-slot__label">Apparel</div>
                   <div class="img-slot__box" data-slot="img_app_apparel" data-ratio="square" style="aspect-ratio:1;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot">
                   <div class="img-slot__label">Brochure</div>
                   <div class="img-slot__box" data-slot="img_app_brochure" data-ratio="square" style="aspect-ratio:1;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot" style="grid-column:span 2;">
                   <div class="img-slot__label">Livery <span>Vehicle wrap</span></div>
                   <div class="img-slot__box" data-slot="img_app_livery" data-ratio="wide" style="aspect-ratio:16/9;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot" style="grid-column:span 2;">
                   <div class="img-slot__label">Environmental <span>Wayfinding / spaces</span></div>
                   <div class="img-slot__box" data-slot="img_app_environmental" data-ratio="wide" style="aspect-ratio:16/9;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 04 — DIGITAL -->
+          <!-- 05 DIGITAL -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
-                <span class="pe-section__num">04</span>
+                <span class="pe-section__num">05</span>
                 <div>
                   <div class="pe-section__title">Digital</div>
                   <div class="pe-section__desc">Website, mobile screens, and device mockups</div>
                 </div>
               </div>
-              <span class="pe-section__count">5 images</span>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <label class="toggle">
+                  <input type="checkbox" id="show-digital" checked>
+                  <span class="toggle__track"></span>
+                  <span class="toggle__label">Show on page</span>
+                </label>
+                <span class="pe-section__count">5 images</span>
+              </div>
             </div>
             <div class="pe-section__body">
               <div class="pe-subsection">
@@ -288,8 +339,7 @@
                 <div class="img-slot">
                   <div class="img-slot__label">Website Desktop <span>Full-width browser mockup</span></div>
                   <div class="img-slot__box" data-slot="img_digital_desktop" data-ratio="wide" style="aspect-ratio:16/9;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                   </div>
                 </div>
               </div>
@@ -299,22 +349,19 @@
                   <div class="img-slot">
                     <div class="img-slot__label">Phone 01 <span>Home</span></div>
                     <div class="img-slot__box" data-slot="img_digital_phone_01" data-ratio="tall" style="aspect-ratio:9/16;">
-                      <input type="file" accept="image/*">
-                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                      <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
                   </div>
                   <div class="img-slot">
                     <div class="img-slot__label">Phone 02</div>
                     <div class="img-slot__box" data-slot="img_digital_phone_02" data-ratio="tall" style="aspect-ratio:9/16;">
-                      <input type="file" accept="image/*">
-                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                      <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
                   </div>
                   <div class="img-slot">
                     <div class="img-slot__label">Phone 03</div>
                     <div class="img-slot__box" data-slot="img_digital_phone_03" data-ratio="tall" style="aspect-ratio:9/16;">
-                      <input type="file" accept="image/*">
-                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                      <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
                   </div>
                 </div>
@@ -325,8 +372,7 @@
                   <div class="img-slot">
                     <div class="img-slot__label">Laptop / Tablet</div>
                     <div class="img-slot__box" data-slot="img_digital_laptop" data-ratio="wide" style="aspect-ratio:16/9;">
-                      <input type="file" accept="image/*">
-                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                      <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
                   </div>
                 </div>
@@ -334,14 +380,14 @@
             </div>
           </div>
 
-          <!-- 05 — NUMBERS -->
+          <!-- 06 NUMBERS -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
-                <span class="pe-section__num">05</span>
+                <span class="pe-section__num">06</span>
                 <div>
                   <div class="pe-section__title">Numbers</div>
-                  <div class="pe-section__desc">Key project statistics shown below the overview</div>
+                  <div class="pe-section__desc">Key project statistics</div>
                 </div>
               </div>
               <span class="pe-section__count">5 stats</span>
@@ -362,14 +408,14 @@
             </div>
           </div>
 
-          <!-- 06 — OUTCOMES -->
+          <!-- 07 OUTCOMES -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
-                <span class="pe-section__num">06</span>
+                <span class="pe-section__num">07</span>
                 <div>
                   <div class="pe-section__title">Outcomes</div>
-                  <div class="pe-section__desc">Four key results shown as cards at the bottom</div>
+                  <div class="pe-section__desc">Four key results shown as cards</div>
                 </div>
               </div>
               <span class="pe-section__count">4 cards</span>
@@ -388,11 +434,11 @@
             </div>
           </div>
 
-          <!-- 07 — QUOTE -->
+          <!-- 08 QUOTE -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
-                <span class="pe-section__num">07</span>
+                <span class="pe-section__num">08</span>
                 <div>
                   <div class="pe-section__title">Client Quote</div>
                   <div class="pe-section__desc">Testimonial shown in the project footer</div>
@@ -411,11 +457,11 @@
             </div>
           </div>
 
-          <!-- 08 — RELATED -->
+          <!-- 09 RELATED -->
           <div class="pe-section">
             <div class="pe-section__header">
               <div class="pe-section__header-left">
-                <span class="pe-section__num">08</span>
+                <span class="pe-section__num">09</span>
                 <div>
                   <div class="pe-section__title">Related Projects</div>
                   <div class="pe-section__desc">Thumbnails shown in the "More Work" section</div>
@@ -428,22 +474,19 @@
                 <div class="img-slot">
                   <div class="img-slot__label">Related 01</div>
                   <div class="img-slot__box" data-slot="img_related_01" data-ratio="square" style="aspect-ratio:1;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot">
                   <div class="img-slot__label">Related 02</div>
                   <div class="img-slot__box" data-slot="img_related_02" data-ratio="square" style="aspect-ratio:1;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                   </div>
                 </div>
                 <div class="img-slot">
                   <div class="img-slot__label">Related 03</div>
                   <div class="img-slot__box" data-slot="img_related_03" data-ratio="square" style="aspect-ratio:1;">
-                    <input type="file" accept="image/*">
-                    <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                   </div>
                 </div>
               </div>
@@ -484,12 +527,13 @@
               <div style="display:flex;justify-content:space-between;"><span>00 Overview</span><span>—</span></div>
               <div style="display:flex;justify-content:space-between;"><span>01 Hero</span><span style="color:var(--text);font-weight:500;">1 img</span></div>
               <div style="display:flex;justify-content:space-between;"><span>02 Identity</span><span style="color:var(--text);font-weight:500;">7 img</span></div>
-              <div style="display:flex;justify-content:space-between;"><span>03 Applications</span><span style="color:var(--text);font-weight:500;">8 img</span></div>
-              <div style="display:flex;justify-content:space-between;"><span>04 Digital</span><span style="color:var(--text);font-weight:500;">5 img</span></div>
-              <div style="display:flex;justify-content:space-between;"><span>05 Numbers</span><span>5 stats</span></div>
-              <div style="display:flex;justify-content:space-between;"><span>06 Outcomes</span><span>4 cards</span></div>
-              <div style="display:flex;justify-content:space-between;"><span>07 Quote</span><span>—</span></div>
-              <div style="display:flex;justify-content:space-between;"><span>08 Related</span><span style="color:var(--text);font-weight:500;">3 img</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>03 Brand System</span><span>toggle</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>04 Applications</span><span style="color:var(--text);font-weight:500;">8 img</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>05 Digital</span><span style="color:var(--text);font-weight:500;">5 img</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>06 Numbers</span><span>5 stats</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>07 Outcomes</span><span>4 cards</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>08 Quote</span><span>—</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>09 Related</span><span style="color:var(--text);font-weight:500;">3 img</span></div>
               <div style="border-top:1px solid var(--border);padding-top:8px;margin-top:4px;display:flex;justify-content:space-between;font-weight:600;color:var(--text);">
                 <span>Total images</span><span>24</span>
               </div>
@@ -511,23 +555,253 @@
     let workspaceId = null;
     const slotValues = {};
 
-    function slugify(str) {
-      return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    }
+    // ── Brand system state ──
+    let brandElements = []; // {id, label, type, url, usage}
+
+    // ── Helpers ──
+    function uid() { return Math.random().toString(36).slice(2, 8); }
+    function slugify(str) { return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+    function csv(str)   { return str ? str.split(',').map(s => s.trim()).filter(Boolean) : []; }
+    function lines(str) { return str ? str.split('\n').map(s => s.trim()).filter(Boolean) : []; }
+
     document.getElementById('f-title').addEventListener('input', e => {
       if (!editId) document.getElementById('f-slug').value = slugify(e.target.value);
     });
 
+    // ── Colour palette builder ──
+    function makeSwatch(data = {}) {
+      const id  = data.id  || uid();
+      const hex = data.hex || '#000000';
+      const div = document.createElement('div');
+      div.className = 'swatch-item';
+      div.dataset.id = id;
+      div.innerHTML = `
+        <input type="color" class="swatch-picker" value="${hex}">
+        <span class="swatch-hex">${hex}</span>
+        <input type="text" class="swatch-name builder-input builder-input--flex" placeholder="Colour name" value="${data.name || ''}">
+        <select class="swatch-role builder-select">
+          ${['action','background','surface','text','border','accent'].map(r =>
+            `<option value="${r}" ${data.role===r?'selected':''}>${r}</option>`
+          ).join('')}
+        </select>
+        <button class="builder-remove swatch-remove">×</button>
+      `;
+      div.querySelector('.swatch-picker').addEventListener('input', e => {
+        div.querySelector('.swatch-hex').textContent = e.target.value;
+      });
+      div.querySelector('.swatch-remove').addEventListener('click', () => div.remove());
+      return div;
+    }
+
+    function makePaletteGroup(data = {}) {
+      const id  = data.id || uid();
+      const div = document.createElement('div');
+      div.className = 'palette-group';
+      div.dataset.id = id;
+      div.innerHTML = `
+        <div class="palette-group__header">
+          <input type="text" class="palette-group__name" placeholder="Palette name" value="${data.label || ''}">
+          <select class="palette-group__role builder-select">
+            ${['primary','secondary','neutral','semantic','extended'].map(r =>
+              `<option value="${r}" ${data.role===r?'selected':''}>${r.charAt(0).toUpperCase()+r.slice(1)}</option>`
+            ).join('')}
+          </select>
+          <button class="builder-remove remove-palette">×</button>
+        </div>
+        <div class="swatch-list"></div>
+        <div style="padding:0 13px 12px;">
+          <button class="btn btn--ghost btn--sm add-swatch-btn">+ Add colour</button>
+        </div>
+      `;
+      const swatchList = div.querySelector('.swatch-list');
+      (data.swatches || []).forEach(s => swatchList.appendChild(makeSwatch(s)));
+      div.querySelector('.add-swatch-btn').addEventListener('click', () => swatchList.appendChild(makeSwatch()));
+      div.querySelector('.remove-palette').addEventListener('click', () => div.remove());
+      return div;
+    }
+
+    document.getElementById('add-palette-btn').addEventListener('click', () => {
+      document.getElementById('palette-list').appendChild(makePaletteGroup());
+    });
+
+    function getBrandColours() {
+      return Array.from(document.querySelectorAll('.palette-group')).map(g => ({
+        id: g.dataset.id,
+        label: g.querySelector('.palette-group__name').value,
+        role: g.querySelector('.palette-group__role').value,
+        swatches: Array.from(g.querySelectorAll('.swatch-item')).map(s => ({
+          id: s.dataset.id,
+          name: s.querySelector('.swatch-name').value,
+          hex: s.querySelector('.swatch-picker').value,
+          role: s.querySelector('.swatch-role').value,
+        }))
+      }));
+    }
+
+    function loadBrandColours(data) {
+      const list = document.getElementById('palette-list');
+      list.innerHTML = '';
+      (data || []).forEach(p => list.appendChild(makePaletteGroup(p)));
+    }
+
+    // ── Typography builder ──
+    function getFamilies() {
+      return Array.from(document.querySelectorAll('.fs-family')).map(i => i.value).filter(Boolean);
+    }
+
+    function refreshFamilySelects() {
+      const families = getFamilies();
+      document.querySelectorAll('.ts-family').forEach(sel => {
+        const current = sel.value;
+        sel.innerHTML = families.map(f => `<option value="${f}" ${current===f?'selected':''}>${f}</option>`).join('') || '<option value="">— add font source —</option>';
+      });
+    }
+
+    function makeFontSource(data = {}) {
+      const div = document.createElement('div');
+      div.className = 'font-row';
+      div.innerHTML = `
+        <input type="text" class="fs-family builder-input builder-input--md" placeholder="Family name" value="${data.family || ''}">
+        <select class="fs-source builder-select">
+          ${['google','system','upload','adobe'].map(s =>
+            `<option value="${s}" ${data.source===s?'selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)} Fonts</option>`
+          ).join('')}
+        </select>
+        <button class="builder-remove remove-font">×</button>
+      `;
+      div.querySelector('.fs-family').addEventListener('input', refreshFamilySelects);
+      div.querySelector('.remove-font').addEventListener('click', () => { div.remove(); refreshFamilySelects(); });
+      return div;
+    }
+
+    function makeTypeStyle(data = {}) {
+      const families = getFamilies();
+      const familyOpts = families.map(f => `<option value="${f}" ${data.family===f?'selected':''}>${f}</option>`).join('') || '<option value="">—</option>';
+      const roles = ['heading','subheading','body','caption','mono','display','label'];
+      const div = document.createElement('div');
+      div.className = 'style-row';
+      div.innerHTML = `
+        <div class="style-row__main">
+          <input type="text" class="ts-label builder-input builder-input--md" placeholder="Style name" value="${data.label || ''}">
+          <select class="ts-role builder-select">
+            ${roles.map(r => `<option value="${r}" ${data.role===r?'selected':''}>${r.charAt(0).toUpperCase()+r.slice(1)}</option>`).join('')}
+          </select>
+          <select class="ts-family builder-select">${familyOpts}</select>
+          <button class="builder-remove remove-style" style="margin-left:auto;">×</button>
+        </div>
+        <div class="style-row__metrics">
+          <div class="metric-group"><span class="builder-sublabel">Weight</span><input type="number" class="ts-weight builder-input builder-input--sm" value="${data.weight||400}" min="100" max="900" step="100"></div>
+          <div class="metric-group"><span class="builder-sublabel">Size (px)</span><input type="number" class="ts-size builder-input builder-input--sm" value="${data.size||16}" min="8"></div>
+          <div class="metric-group"><span class="builder-sublabel">Line height</span><input type="number" class="ts-lh builder-input builder-input--sm" value="${data.line_height||1.5}" min="0.8" max="3" step="0.05"></div>
+          <div class="metric-group"><span class="builder-sublabel">Tracking (em)</span><input type="number" class="ts-ls builder-input builder-input--sm" value="${data.letter_spacing||0}" min="-0.1" max="0.3" step="0.005"></div>
+          <input type="text" class="ts-usage builder-input builder-input--flex" placeholder="Usage notes" value="${data.usage||''}">
+        </div>
+      `;
+      div.querySelector('.remove-style').addEventListener('click', () => div.remove());
+      return div;
+    }
+
+    document.getElementById('add-font-btn').addEventListener('click', () => {
+      document.getElementById('font-source-list').appendChild(makeFontSource());
+    });
+
+    document.getElementById('add-style-btn').addEventListener('click', () => {
+      document.getElementById('type-style-list').appendChild(makeTypeStyle());
+    });
+
+    function getBrandFonts() {
+      const sources = Array.from(document.querySelectorAll('.font-row')).map(r => ({
+        family: r.querySelector('.fs-family').value,
+        source: r.querySelector('.fs-source').value,
+      }));
+      const styles = Array.from(document.querySelectorAll('.style-row')).map(r => ({
+        label:          r.querySelector('.ts-label').value,
+        role:           r.querySelector('.ts-role').value,
+        family:         r.querySelector('.ts-family').value,
+        weight:         parseInt(r.querySelector('.ts-weight').value) || 400,
+        size:           parseInt(r.querySelector('.ts-size').value) || 16,
+        line_height:    parseFloat(r.querySelector('.ts-lh').value) || 1.5,
+        letter_spacing: parseFloat(r.querySelector('.ts-ls').value) || 0,
+        usage:          r.querySelector('.ts-usage').value,
+      }));
+      return { sources, styles };
+    }
+
+    function loadBrandFonts(data) {
+      const sl = document.getElementById('font-source-list');
+      const tl = document.getElementById('type-style-list');
+      sl.innerHTML = ''; tl.innerHTML = '';
+      (data?.sources || []).forEach(s => sl.appendChild(makeFontSource(s)));
+      refreshFamilySelects();
+      (data?.styles || []).forEach(s => tl.appendChild(makeTypeStyle(s)));
+    }
+
+    // ── Brand elements ──
+    function renderElementItem(el) {
+      const div = document.createElement('div');
+      div.className = 'element-item';
+      div.dataset.id = el.id;
+      const types = ['texture','pattern','icon','illustration','graphic','divider','watermark'];
+      div.innerHTML = `
+        <div class="element-thumb"><img src="${el.url}" alt="${el.label}"></div>
+        <input type="text" class="el-label builder-input builder-input--flex" placeholder="Element name" value="${el.label||''}">
+        <select class="el-type builder-select">
+          ${types.map(t => `<option value="${t}" ${el.type===t?'selected':''}>${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('')}
+        </select>
+        <input type="text" class="el-usage builder-input builder-input--md" placeholder="Usage notes" value="${el.usage||''}">
+        <button class="builder-remove remove-element">×</button>
+      `;
+      div.querySelector('.remove-element').addEventListener('click', () => {
+        brandElements = brandElements.filter(e => e.id !== el.id);
+        div.remove();
+      });
+      return div;
+    }
+
+    document.getElementById('element-upload').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files);
+      const slug  = document.getElementById('f-slug').value.trim() || 'project';
+      for (const file of files) {
+        const id   = uid();
+        const ext  = file.name.split('.').pop();
+        const path = `projects/${slug}/elements/${id}.${ext}`;
+        const { error } = await db.storage.from('parallax-assets').upload(path, file, { upsert: true });
+        if (error) { showToast('Upload error: ' + error.message); continue; }
+        const { data } = db.storage.from('parallax-assets').getPublicUrl(path);
+        const el = { id, label: file.name.replace(/\.[^.]+$/, ''), type: 'texture', url: data.publicUrl, usage: '' };
+        brandElements.push(el);
+        document.getElementById('element-list').appendChild(renderElementItem(el));
+      }
+      e.target.value = '';
+    });
+
+    function getBrandElements() {
+      return Array.from(document.querySelectorAll('.element-item')).map(div => ({
+        id:    div.dataset.id,
+        label: div.querySelector('.el-label').value,
+        type:  div.querySelector('.el-type').value,
+        url:   brandElements.find(e => e.id === div.dataset.id)?.url || '',
+        usage: div.querySelector('.el-usage').value,
+      }));
+    }
+
+    function loadBrandElements(data) {
+      brandElements = data || [];
+      const list = document.getElementById('element-list');
+      list.innerHTML = '';
+      brandElements.forEach(el => list.appendChild(renderElementItem(el)));
+    }
+
+    // ── Image slots ──
     const uploadIcon = `<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>`;
 
     function renderSlot(box, url) {
-      const slot  = box.dataset.slot;
+      const slot = box.dataset.slot;
       const ratio = box.dataset.ratio;
       slotValues[slot] = url;
-      const ratioClass = `img-slot__preview--${ratio}`;
       box.innerHTML = `
-        <img src="${url}" class="img-slot__preview ${ratioClass}">
-        <button class="img-slot__remove" data-slot="${slot}">×</button>
+        <img src="${url}" class="img-slot__preview img-slot__preview--${ratio}">
+        <button class="img-slot__remove">×</button>
       `;
       box.querySelector('.img-slot__remove').addEventListener('click', e => {
         e.stopPropagation();
@@ -537,10 +811,7 @@
     }
 
     function resetSlot(box) {
-      box.innerHTML = `
-        <input type="file" accept="image/*">
-        <div class="img-slot__empty">${uploadIcon}<span>Click to upload</span></div>
-      `;
+      box.innerHTML = `<input type="file" accept="image/*"><div class="img-slot__empty">${uploadIcon}<span>Click to upload</span></div>`;
       wireSlot(box);
     }
 
@@ -548,37 +819,27 @@
       const slot = box.dataset.slot;
       const slug = document.getElementById('f-slug').value.trim() || 'project';
       const ext  = file.name.split('.').pop();
-      const path = `projects/${slug}/${slot}.${ext}`;
-
       const spinner = document.createElement('div');
       spinner.className = 'img-slot__uploading';
       spinner.textContent = 'Uploading…';
       box.appendChild(spinner);
-
-      const { error } = await db.storage.from('parallax-assets').upload(path, file, { upsert: true });
+      const { error } = await db.storage.from('parallax-assets').upload(`projects/${slug}/${slot}.${ext}`, file, { upsert: true });
       spinner.remove();
       if (error) { showToast('Upload error: ' + error.message); return; }
-
-      const { data } = db.storage.from('parallax-assets').getPublicUrl(path);
+      const { data } = db.storage.from('parallax-assets').getPublicUrl(`projects/${slug}/${slot}.${ext}`);
       renderSlot(box, data.publicUrl);
     }
 
     function wireSlot(box) {
       const input = box.querySelector('input[type=file]');
       if (!input) return;
-      input.addEventListener('change', async () => {
-        if (input.files[0]) await uploadToSlot(input.files[0], box);
-      });
-      box.addEventListener('click', () => {
-        if (!box.querySelector('.img-slot__preview')) box.querySelector('input[type=file]')?.click();
-      });
+      input.addEventListener('change', async () => { if (input.files[0]) await uploadToSlot(input.files[0], box); });
+      box.addEventListener('click', () => { if (!box.querySelector('.img-slot__preview')) box.querySelector('input[type=file]')?.click(); });
     }
 
     document.querySelectorAll('.img-slot__box').forEach(wireSlot);
 
-    function csv(str)   { return str ? str.split(',').map(s => s.trim()).filter(Boolean) : []; }
-    function lines(str) { return str ? str.split('\n').map(s => s.trim()).filter(Boolean) : []; }
-
+    // ── Save ──
     async function save() {
       const btn  = document.getElementById('save-btn');
       const btn2 = document.getElementById('save-btn-sidebar');
@@ -594,24 +855,30 @@
         overview:               document.getElementById('f-overview').value.trim(),
         status:                 document.getElementById('f-status').value,
         pinned_related:         lines(document.getElementById('f-pinned').value),
-        stat1_value:            document.getElementById('f-stat1-val').value.trim(),
+        show_brand_system:      document.getElementById('show-brand-system').checked,
+        show_applications:      document.getElementById('show-applications').checked,
+        show_digital:           document.getElementById('show-digital').checked,
+        brand_colours:          getBrandColours(),
+        brand_fonts:            getBrandFonts(),
+        brand_elements:         getBrandElements(),
         stat1_label:            document.getElementById('f-stat1-label').value.trim(),
-        stat2_value:            document.getElementById('f-stat2-val').value.trim(),
+        stat1_value:            document.getElementById('f-stat1-val').value.trim(),
         stat2_label:            document.getElementById('f-stat2-label').value.trim(),
-        stat3_value:            document.getElementById('f-stat3-val').value.trim(),
+        stat2_value:            document.getElementById('f-stat2-val').value.trim(),
         stat3_label:            document.getElementById('f-stat3-label').value.trim(),
-        stat4_value:            document.getElementById('f-stat4-val').value.trim(),
+        stat3_value:            document.getElementById('f-stat3-val').value.trim(),
         stat4_label:            document.getElementById('f-stat4-label').value.trim(),
-        stat5_value:            document.getElementById('f-stat5-val').value.trim(),
+        stat4_value:            document.getElementById('f-stat4-val').value.trim(),
         stat5_label:            document.getElementById('f-stat5-label').value.trim(),
-        outcome1_title:         document.getElementById('f-out1-title').value.trim(),
+        stat5_value:            document.getElementById('f-stat5-val').value.trim(),
         outcome1_description:   document.getElementById('f-out1-sub').value.trim(),
-        outcome2_title:         document.getElementById('f-out2-title').value.trim(),
+        outcome1_title:         document.getElementById('f-out1-title').value.trim(),
         outcome2_description:   document.getElementById('f-out2-sub').value.trim(),
-        outcome3_title:         document.getElementById('f-out3-title').value.trim(),
+        outcome2_title:         document.getElementById('f-out2-title').value.trim(),
         outcome3_description:   document.getElementById('f-out3-sub').value.trim(),
-        outcome4_title:         document.getElementById('f-out4-title').value.trim(),
+        outcome3_title:         document.getElementById('f-out3-title').value.trim(),
         outcome4_description:   document.getElementById('f-out4-sub').value.trim(),
+        outcome4_title:         document.getElementById('f-out4-title').value.trim(),
         quote_text:             document.getElementById('f-quote').value.trim(),
         quote_attribution_name: document.getElementById('f-quote-name').value.trim(),
         quote_attribution_role: document.getElementById('f-quote-role').value.trim(),
@@ -636,6 +903,7 @@
       else       showToast('Saved successfully');
     }
 
+    // ── Init ──
     (async () => {
       const session = await requireAuth();
       document.getElementById('sb-email').textContent = session.user.email;
@@ -652,35 +920,42 @@
 
         const { data: p } = await db.from('case_studies').select('*').eq('id', editId).single();
         if (p) {
-          document.getElementById('f-title').value       = p.title || '';
-          document.getElementById('f-slug').value        = p.slug || '';
-          document.getElementById('f-client').value      = p.client || '';
-          document.getElementById('f-year').value        = p.year || '';
-          document.getElementById('f-services').value    = (p.services || []).join(', ');
-          document.getElementById('f-overview').value    = p.overview || '';
-          document.getElementById('f-stat1-val').value   = p.stat1_value || '';
-          document.getElementById('f-stat1-label').value = p.stat1_label || '';
-          document.getElementById('f-stat2-val').value   = p.stat2_value || '';
-          document.getElementById('f-stat2-label').value = p.stat2_label || '';
-          document.getElementById('f-stat3-val').value   = p.stat3_value || '';
-          document.getElementById('f-stat3-label').value = p.stat3_label || '';
-          document.getElementById('f-stat4-val').value   = p.stat4_value || '';
-          document.getElementById('f-stat4-label').value = p.stat4_label || '';
-          document.getElementById('f-stat5-val').value   = p.stat5_value || '';
-          document.getElementById('f-stat5-label').value = p.stat5_label || '';
-          document.getElementById('f-out1-title').value  = p.outcome1_title || '';
-          document.getElementById('f-out1-sub').value    = p.outcome1_description || '';
-          document.getElementById('f-out2-title').value  = p.outcome2_title || '';
-          document.getElementById('f-out2-sub').value    = p.outcome2_description || '';
-          document.getElementById('f-out3-title').value  = p.outcome3_title || '';
-          document.getElementById('f-out3-sub').value    = p.outcome3_description || '';
-          document.getElementById('f-out4-title').value  = p.outcome4_title || '';
-          document.getElementById('f-out4-sub').value    = p.outcome4_description || '';
-          document.getElementById('f-quote').value       = p.quote_text || '';
-          document.getElementById('f-quote-name').value  = p.quote_attribution_name || '';
-          document.getElementById('f-quote-role').value  = p.quote_attribution_role || '';
-          document.getElementById('f-status').value      = p.status || 'draft';
-          document.getElementById('f-pinned').value      = (p.pinned_related || []).join('\n');
+          document.getElementById('f-title').value        = p.title || '';
+          document.getElementById('f-slug').value         = p.slug || '';
+          document.getElementById('f-client').value       = p.client || '';
+          document.getElementById('f-year').value         = p.year || '';
+          document.getElementById('f-services').value     = (p.services || []).join(', ');
+          document.getElementById('f-overview').value     = p.overview || '';
+          document.getElementById('f-status').value       = p.status || 'draft';
+          document.getElementById('f-pinned').value       = (p.pinned_related || []).join('\n');
+          document.getElementById('show-brand-system').checked  = p.show_brand_system !== false;
+          document.getElementById('show-applications').checked  = p.show_applications !== false;
+          document.getElementById('show-digital').checked       = p.show_digital !== false;
+          document.getElementById('f-stat1-label').value  = p.stat1_label || '';
+          document.getElementById('f-stat1-val').value    = p.stat1_value || '';
+          document.getElementById('f-stat2-label').value  = p.stat2_label || '';
+          document.getElementById('f-stat2-val').value    = p.stat2_value || '';
+          document.getElementById('f-stat3-label').value  = p.stat3_label || '';
+          document.getElementById('f-stat3-val').value    = p.stat3_value || '';
+          document.getElementById('f-stat4-label').value  = p.stat4_label || '';
+          document.getElementById('f-stat4-val').value    = p.stat4_value || '';
+          document.getElementById('f-stat5-label').value  = p.stat5_label || '';
+          document.getElementById('f-stat5-val').value    = p.stat5_value || '';
+          document.getElementById('f-out1-sub').value     = p.outcome1_description || '';
+          document.getElementById('f-out1-title').value   = p.outcome1_title || '';
+          document.getElementById('f-out2-sub').value     = p.outcome2_description || '';
+          document.getElementById('f-out2-title').value   = p.outcome2_title || '';
+          document.getElementById('f-out3-sub').value     = p.outcome3_description || '';
+          document.getElementById('f-out3-title').value   = p.outcome3_title || '';
+          document.getElementById('f-out4-sub').value     = p.outcome4_description || '';
+          document.getElementById('f-out4-title').value   = p.outcome4_title || '';
+          document.getElementById('f-quote').value        = p.quote_text || '';
+          document.getElementById('f-quote-name').value   = p.quote_attribution_name || '';
+          document.getElementById('f-quote-role').value   = p.quote_attribution_role || '';
+
+          loadBrandColours(p.brand_colours);
+          loadBrandFonts(p.brand_fonts);
+          loadBrandElements(p.brand_elements);
 
           const imageFields = [
             'img_hero',
