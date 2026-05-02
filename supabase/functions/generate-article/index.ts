@@ -127,7 +127,7 @@ serve(async (req) => {
       excerpt:        article.excerpt,
       category:       article.category,
       tags:           article.tags,
-      read_time:      article.read_time,
+      read_time:      String(article.read_time),
       body:           article.body,
       author:         'Parallax Studio',
       hero_image_url: image?.url ?? null,
