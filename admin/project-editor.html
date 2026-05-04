@@ -161,6 +161,11 @@
               <span class="pe-section__count">7 images</span>
             </div>
             <div class="pe-section__body">
+              <div class="field" style="margin-bottom:16px;">
+                <label>Section Heading</label>
+                <input type="text" id="f-heading-identity" placeholder="e.g. A mark built to endure.">
+                <span class="field__hint">Large heading shown above the identity bento</span>
+              </div>
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Logo Marks — cycles automatically on the page</div>
                 <div class="img-grid img-grid--3">
@@ -240,6 +245,11 @@
               </label>
             </div>
             <div class="pe-section__body">
+              <div class="field" style="margin-bottom:16px;">
+                <label>Section Heading</label>
+                <input type="text" id="f-heading-brand-system" placeholder="e.g. The mechanics behind the mark.">
+                <span class="field__hint">Large heading shown above the brand system section</span>
+              </div>
 
               <!-- Colours -->
               <div class="pe-subsection">
@@ -294,6 +304,11 @@
               </div>
             </div>
             <div class="pe-section__body">
+              <div class="field" style="margin-bottom:16px;">
+                <label>Section Heading</label>
+                <input type="text" id="f-heading-applications" placeholder="e.g. The brand in the wild.">
+                <span class="field__hint">Large heading shown above the applications section</span>
+              </div>
               <div class="img-grid img-grid--4">
                 <div class="img-slot" style="grid-column:span 2;">
                   <div class="img-slot__label">Signage <span>Lead tile</span></div>
@@ -367,6 +382,11 @@
               </div>
             </div>
             <div class="pe-section__body">
+              <div class="field" style="margin-bottom:16px;">
+                <label>Section Heading</label>
+                <input type="text" id="f-heading-digital" placeholder="e.g. Shipped to every screen.">
+                <span class="field__hint">Large heading shown above the digital section</span>
+              </div>
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Desktop</div>
                 <div class="img-slot">
@@ -426,6 +446,11 @@
               <span class="pe-section__count">5 stats</span>
             </div>
             <div class="pe-section__body">
+              <div class="field" style="margin-bottom:16px;">
+                <label>Section Heading</label>
+                <input type="text" id="f-heading-stats" placeholder="e.g. The work, quantified.">
+                <span class="field__hint">Large heading shown above the stats section</span>
+              </div>
               <div class="form-grid">
                 <div class="field"><label>Stat 1 — Label</label><input type="text" id="f-stat1-label" placeholder="Brand touchpoints"></div>
                 <div class="field"><label>Stat 1 — Value</label><input type="text" id="f-stat1-val" placeholder="240+"></div>
@@ -454,6 +479,11 @@
               <span class="pe-section__count">4 cards</span>
             </div>
             <div class="pe-section__body">
+              <div class="field" style="margin-bottom:16px;">
+                <label>Section Heading</label>
+                <input type="text" id="f-heading-outcomes" placeholder="e.g. What we delivered.">
+                <span class="field__hint">Large heading shown above the outcomes section</span>
+              </div>
               <div class="form-grid">
                 <div class="field"><label>Outcome 1 — Description</label><input type="text" id="f-out1-sub" placeholder="Launched across 18 markets"></div>
                 <div class="field"><label>Outcome 1 — Title</label><input type="text" id="f-out1-title" placeholder="Global Rollout"></div>
@@ -890,6 +920,12 @@
         overview:               document.getElementById('f-overview').value.trim(),
         challenge_heading:      document.getElementById('f-challenge-heading').value.trim(),
         challenge_body:         document.getElementById('f-challenge-body').value.trim(),
+        heading_identity:       document.getElementById('f-heading-identity').value.trim(),
+        heading_brand_system:   document.getElementById('f-heading-brand-system').value.trim(),
+        heading_applications:   document.getElementById('f-heading-applications').value.trim(),
+        heading_digital:        document.getElementById('f-heading-digital').value.trim(),
+        heading_stats:          document.getElementById('f-heading-stats').value.trim(),
+        heading_outcomes:       document.getElementById('f-heading-outcomes').value.trim(),
         status:                 document.getElementById('f-status').value,
         pinned_related:         lines(document.getElementById('f-pinned').value),
         show_brand_system:      document.getElementById('show-brand-system').checked,
@@ -968,8 +1004,14 @@
           document.getElementById('f-services').value         = (p.services || []).join(', ');
           document.getElementById('f-overview-heading').value = p.overview_heading || '';
           document.getElementById('f-overview').value         = p.overview || '';
-          document.getElementById('f-challenge-heading').value = p.challenge_heading || '';
-          document.getElementById('f-challenge-body').value   = p.challenge_body || '';
+          document.getElementById('f-challenge-heading').value  = p.challenge_heading || '';
+          document.getElementById('f-challenge-body').value    = p.challenge_body || '';
+          document.getElementById('f-heading-identity').value  = p.heading_identity || '';
+          document.getElementById('f-heading-brand-system').value = p.heading_brand_system || '';
+          document.getElementById('f-heading-applications').value = p.heading_applications || '';
+          document.getElementById('f-heading-digital').value   = p.heading_digital || '';
+          document.getElementById('f-heading-stats').value     = p.heading_stats || '';
+          document.getElementById('f-heading-outcomes').value  = p.heading_outcomes || '';
           document.getElementById('f-status').value       = p.status || 'draft';
           document.getElementById('f-pinned').value       = (p.pinned_related || []).join('\n');
           document.getElementById('show-brand-system').checked  = p.show_brand_system !== false;
