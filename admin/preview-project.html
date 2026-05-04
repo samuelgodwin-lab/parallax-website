@@ -309,6 +309,13 @@
     const editorURL = id ? `project-editor.html?id=${id}` : 'projects.html';
     document.getElementById('back-btn').href = editorURL;
 
+    function vimeoEmbed(url) {
+      if (!url) return null;
+      const match = url.match(/vimeo\.com\/(\d+)/);
+      if (!match) return null;
+      return `https://player.vimeo.com/video/${match[1]}?autoplay=0&loop=1&title=0&byline=0&portrait=0&dnt=1`;
+    }
+
     function imgTile(url, cls, cap) {
       if (url) return `<div class="${cls}"><img src="${url}" alt="${cap}" loading="lazy"><span class="apps-tile__cap">${cap}</span></div>`;
       return `<div class="${cls}" style="border:1px dashed oklch(0 0 0/0.12);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:oklch(0 0 0/0.18);">${cap}</div>`;
@@ -339,6 +346,13 @@
         document.title = `${p.client || p.title} — Preview`;
         document.getElementById('preview-title').textContent = `${p.client || ''} — ${p.title || 'Untitled'}`;
 
+        // Apply project accent colour
+        if (p.accent_color) {
+          document.documentElement.style.setProperty('--accent', p.accent_color);
+          document.documentElement.style.setProperty('--accent-muted', p.accent_color + '25');
+          document.documentElement.style.setProperty('--accent-soft',  p.accent_color + '10');
+        }
+
         const services  = Array.isArray(p.services) ? p.services.join(' · ') : (p.services || '—');
         const colours   = Array.isArray(p.brand_colours) ? p.brand_colours : [];
         const fonts     = Array.isArray(p.brand_fonts)   ? p.brand_fonts   : [];
@@ -368,8 +382,15 @@
 
         // Applications bento
         function renderApplications() {
+          const embedApp = vimeoEmbed(p.video_applications);
+          const leadTile = embedApp
+            ? `<div class="apps-tile at--lead" style="background:#000;padding:0;overflow:hidden;">
+                <iframe src="${embedApp}" style="width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe>
+                <span class="apps-tile__cap">Video Reel</span>
+               </div>`
+            : imgTile(p.img_app_signage, 'apps-tile at--lead', 'Signage');
+
           const slots = [
-            { key: 'img_app_signage',       cls: 'apps-tile at--lead', cap: 'Signage' },
             { key: 'img_app_stationery',     cls: 'apps-tile at--7',   cap: 'Stationery' },
             { key: 'img_app_packaging',      cls: 'apps-tile at--5',   cap: 'Packaging' },
             { key: 'img_app_letterhead',     cls: 'apps-tile at--4',   cap: 'Letterhead' },
@@ -378,20 +399,32 @@
             { key: 'img_app_livery',         cls: 'apps-tile at--6',   cap: 'Livery' },
             { key: 'img_app_environmental',  cls: 'apps-tile at--6',   cap: 'Environmental' },
           ];
-          const filled = slots.filter(s => p[s.key]);
-          if (!filled.length) return '<p style="font-family:var(--font-m);font-size:10px;color:var(--text-3);margin-top:16px;">No application images uploaded yet.</p>';
-          return `<div class="apps-bento">${filled.map(s => imgTile(p[s.key], s.cls, s.cap)).join('')}</div>`;
+          const rest = slots.filter(s => p[s.key]).map(s => imgTile(p[s.key], s.cls, s.cap)).join('');
+          if (!embedApp && !p.img_app_signage && !rest) return '<p style="font-family:var(--font-m);font-size:10px;color:var(--text-3);margin-top:16px;">No application images or video uploaded yet.</p>';
+          return `<div class="apps-bento">${leadTile}${rest}</div>`;
         }
 
         // Digital bento
         function renderDigital() {
+          const embedDig = vimeoEmbed(p.video_digital);
           const items = [];
-          if (p.img_digital_desktop) items.push(digTile(p.img_digital_desktop, 'dig-tile dig--lead', 'Desktop'));
+
+          if (embedDig) {
+            items.push(`<div class="dig-tile dig--lead" style="background:#000;padding:0;overflow:hidden;">
+              <div class="browser-chrome"><div class="browser-chrome__dots"><span></span><span></span><span></span></div><div class="browser-chrome__url">parallax.studio</div></div>
+              <div class="dig-tile__media" style="position:relative;flex:1;">
+                <iframe src="${embedDig}" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe>
+              </div>
+            </div>`);
+          } else if (p.img_digital_desktop) {
+            items.push(digTile(p.img_digital_desktop, 'dig-tile dig--lead', 'Desktop'));
+          }
+
           ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03'].forEach((k,i) => {
             if (p[k]) items.push(digTile(p[k], 'dig-tile dig--p4', `Phone 0${i+1}`));
           });
           if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop, 'dig-tile dig--lead', 'Laptop'));
-          if (!items.length) return '<p style="font-family:var(--font-m);font-size:10px;color:var(--text-3);margin-top:16px;">No digital images uploaded yet.</p>';
+          if (!items.length) return '<p style="font-family:var(--font-m);font-size:10px;color:var(--text-3);margin-top:16px;">No digital images or video uploaded yet.</p>';
           return `<div class="dig-bento">${items.join('')}</div>`;
         }
 

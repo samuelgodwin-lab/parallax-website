@@ -76,6 +76,16 @@
               </div>
               <div class="form-grid" style="margin-bottom:14px;">
                 <div class="field">
+                  <label>Accent Colour</label>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <input type="color" id="f-accent-color" value="#4f6ef7" style="width:44px;height:36px;padding:2px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;background:var(--surface);">
+                    <input type="text" id="f-accent-hex" placeholder="#4f6ef7" style="flex:1;" oninput="document.getElementById('f-accent-color').value=this.value">
+                  </div>
+                  <span class="field__hint">Project brand colour — used for highlights, tags, and accents in the preview</span>
+                </div>
+              </div>
+              <div class="form-grid" style="margin-bottom:14px;">
+                <div class="field">
                   <label>Slug</label>
                   <input type="text" id="f-slug" placeholder="bmw-brand-identity">
                   <span class="field__hint">Auto-fills from title</span>
@@ -309,6 +319,11 @@
                 <input type="text" id="f-heading-applications" placeholder="e.g. The brand in the wild.">
                 <span class="field__hint">Large heading shown above the applications section</span>
               </div>
+              <div class="field" style="margin-bottom:16px;">
+                <label>Vimeo Video URL <span style="font-weight:400;color:var(--text-2);">optional</span></label>
+                <input type="url" id="f-video-applications" placeholder="https://vimeo.com/123456789">
+                <span class="field__hint">If set, replaces the lead tile with a video reel. Paste the Vimeo page URL.</span>
+              </div>
               <div class="img-grid img-grid--4">
                 <div class="img-slot" style="grid-column:span 2;">
                   <div class="img-slot__label">Signage <span>Lead tile</span></div>
@@ -387,10 +402,15 @@
                 <input type="text" id="f-heading-digital" placeholder="e.g. Shipped to every screen.">
                 <span class="field__hint">Large heading shown above the digital section</span>
               </div>
+              <div class="field" style="margin-bottom:16px;">
+                <label>Vimeo Video URL <span style="font-weight:400;color:var(--text-2);">optional</span></label>
+                <input type="url" id="f-video-digital" placeholder="https://vimeo.com/123456789">
+                <span class="field__hint">If set, replaces the desktop tile with a Vimeo video. Paste the Vimeo page URL.</span>
+              </div>
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Desktop</div>
                 <div class="img-slot">
-                  <div class="img-slot__label">Website Desktop <span>Full-width browser mockup</span></div>
+                  <div class="img-slot__label">Website Desktop <span>Full-width browser mockup — or use Vimeo below</span></div>
                   <div class="img-slot__box" data-slot="img_digital_desktop" data-ratio="wide" style="aspect-ratio:16/9;">
                     <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                   </div>
@@ -629,6 +649,10 @@
 
     document.getElementById('f-title').addEventListener('input', e => {
       if (!editId) document.getElementById('f-slug').value = slugify(e.target.value);
+    });
+
+    document.getElementById('f-accent-color').addEventListener('input', e => {
+      document.getElementById('f-accent-hex').value = e.target.value;
     });
 
     // ── Colour palette builder ──
@@ -920,6 +944,9 @@
         overview:               document.getElementById('f-overview').value.trim(),
         challenge_heading:      document.getElementById('f-challenge-heading').value.trim(),
         challenge_body:         document.getElementById('f-challenge-body').value.trim(),
+        accent_color:           document.getElementById('f-accent-hex').value.trim() || document.getElementById('f-accent-color').value,
+        video_applications:     document.getElementById('f-video-applications').value.trim(),
+        video_digital:          document.getElementById('f-video-digital').value.trim(),
         heading_identity:       document.getElementById('f-heading-identity').value.trim(),
         heading_brand_system:   document.getElementById('f-heading-brand-system').value.trim(),
         heading_applications:   document.getElementById('f-heading-applications').value.trim(),
@@ -1006,6 +1033,12 @@
           document.getElementById('f-overview').value         = p.overview || '';
           document.getElementById('f-challenge-heading').value  = p.challenge_heading || '';
           document.getElementById('f-challenge-body').value    = p.challenge_body || '';
+          if (p.accent_color) {
+            document.getElementById('f-accent-color').value = p.accent_color;
+            document.getElementById('f-accent-hex').value   = p.accent_color;
+          }
+          document.getElementById('f-video-applications').value = p.video_applications || '';
+          document.getElementById('f-video-digital').value      = p.video_digital || '';
           document.getElementById('f-heading-identity').value  = p.heading_identity || '';
           document.getElementById('f-heading-brand-system').value = p.heading_brand_system || '';
           document.getElementById('f-heading-applications').value = p.heading_applications || '';
