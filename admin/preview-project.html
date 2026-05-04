@@ -233,30 +233,30 @@
     document.getElementById('back-btn').href = editorURL;
 
     const IMAGE_SLOTS = [
-      { key: 'hero_image',           label: 'Hero Image' },
-      { key: 'hero_image_2',         label: 'Hero Image 2' },
-      { key: 'overview_image',       label: 'Overview Image' },
-      { key: 'process_image_1',      label: 'Process 1' },
-      { key: 'process_image_2',      label: 'Process 2' },
-      { key: 'process_image_3',      label: 'Process 3' },
-      { key: 'brand_logo_light',     label: 'Logo (Light)' },
-      { key: 'brand_logo_dark',      label: 'Logo (Dark)' },
-      { key: 'brand_full_spread',    label: 'Brand Full Spread' },
-      { key: 'brand_guidelines',     label: 'Brand Guidelines' },
-      { key: 'application_1',        label: 'Application 1' },
-      { key: 'application_2',        label: 'Application 2' },
-      { key: 'application_3',        label: 'Application 3' },
-      { key: 'application_4',        label: 'Application 4' },
-      { key: 'application_mockup_1', label: 'Mockup 1' },
-      { key: 'application_mockup_2', label: 'Mockup 2' },
-      { key: 'digital_desktop_1',    label: 'Desktop 1' },
-      { key: 'digital_desktop_2',    label: 'Desktop 2' },
-      { key: 'digital_mobile_1',     label: 'Mobile 1' },
-      { key: 'digital_mobile_2',     label: 'Mobile 2' },
-      { key: 'digital_mobile_3',     label: 'Mobile 3' },
-      { key: 'result_image_1',       label: 'Result 1' },
-      { key: 'result_image_2',       label: 'Result 2' },
-      { key: 'result_image_3',       label: 'Result 3' },
+      { key: 'img_hero',                   label: 'Hero Image' },
+      { key: 'img_identity_mark_01',       label: 'Logo Mark 01' },
+      { key: 'img_identity_mark_02',       label: 'Logo Mark 02' },
+      { key: 'img_identity_mark_03',       label: 'Logo Mark 03' },
+      { key: 'img_identity_construction',  label: 'Identity Construction' },
+      { key: 'img_identity_variant_light', label: 'Logo Variant — Light' },
+      { key: 'img_identity_variant_dark',  label: 'Logo Variant — Dark' },
+      { key: 'img_identity_variant_accent',label: 'Logo Variant — Accent' },
+      { key: 'img_app_signage',            label: 'Application — Signage' },
+      { key: 'img_app_stationery',         label: 'Application — Stationery' },
+      { key: 'img_app_packaging',          label: 'Application — Packaging' },
+      { key: 'img_app_letterhead',         label: 'Application — Letterhead' },
+      { key: 'img_app_apparel',            label: 'Application — Apparel' },
+      { key: 'img_app_brochure',           label: 'Application — Brochure' },
+      { key: 'img_app_livery',             label: 'Application — Livery' },
+      { key: 'img_app_environmental',      label: 'Application — Environmental' },
+      { key: 'img_digital_desktop',        label: 'Digital — Desktop' },
+      { key: 'img_digital_phone_01',       label: 'Digital — Phone 01' },
+      { key: 'img_digital_phone_02',       label: 'Digital — Phone 02' },
+      { key: 'img_digital_phone_03',       label: 'Digital — Phone 03' },
+      { key: 'img_digital_laptop',         label: 'Digital — Laptop' },
+      { key: 'img_related_01',             label: 'Related 01' },
+      { key: 'img_related_02',             label: 'Related 02' },
+      { key: 'img_related_03',             label: 'Related 03' },
     ];
 
     if (!id) {
@@ -334,7 +334,7 @@
 
           <!-- Hero -->
           <section class="proj-hero">
-            ${p.hero_image ? `<img class="proj-hero__img" src="${p.hero_image}" alt="${p.title}">` : ''}
+            ${p.img_hero ? `<img class="proj-hero__img" src="${p.img_hero}" alt="${p.title}">` : ''}
             <div class="w proj-hero__inner">
               <p class="proj-hero__client">${p.client || 'Client'}</p>
               <h1 class="proj-hero__title">${p.title || 'Project Title'}</h1>
