@@ -80,15 +80,47 @@
                   <input type="text" id="f-slug" placeholder="bmw-brand-identity">
                   <span class="field__hint">Auto-fills from title</span>
                 </div>
+                <div class="field"><label>Industry</label><input type="text" id="f-industry" placeholder="e.g. Automotive"></div>
+              </div>
+              <div class="form-grid" style="margin-bottom:14px;">
                 <div class="field"><label>Year</label><input type="text" id="f-year" placeholder="2025"></div>
+                <div class="field">
+                  <label>Services</label>
+                  <input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital (comma-separated)">
+                </div>
               </div>
               <div class="field" style="margin-bottom:14px;">
-                <label>Services</label>
-                <input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital (comma-separated)">
+                <label>Overview Heading</label>
+                <input type="text" id="f-overview-heading" placeholder="e.g. A digital experience worthy of the badge.">
+                <span class="field__hint">Large heading shown left of the overview body text</span>
               </div>
               <div class="field">
-                <label>Overview</label>
+                <label>Overview Body</label>
                 <textarea id="f-overview" placeholder="Project overview shown in the case study…" style="min-height:110px;"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 00b CHALLENGE -->
+          <div class="pe-section">
+            <div class="pe-section__header">
+              <div class="pe-section__header-left">
+                <span class="pe-section__num">00b</span>
+                <div>
+                  <div class="pe-section__title">Challenge</div>
+                  <div class="pe-section__desc">The brief — what problem were you solving?</div>
+                </div>
+              </div>
+            </div>
+            <div class="pe-section__body">
+              <div class="field" style="margin-bottom:14px;">
+                <label>Challenge Heading</label>
+                <input type="text" id="f-challenge-heading" placeholder="e.g. Three agencies. No system. No rules.">
+                <span class="field__hint">Bold pull quote at the top of the challenge section</span>
+              </div>
+              <div class="field">
+                <label>Challenge Body</label>
+                <textarea id="f-challenge-body" placeholder="Describe the brief, constraints, and starting conditions…" style="min-height:110px;"></textarea>
               </div>
             </div>
           </div>
@@ -851,9 +883,13 @@
         title:                  document.getElementById('f-title').value.trim(),
         slug:                   document.getElementById('f-slug').value.trim(),
         client:                 document.getElementById('f-client').value.trim(),
+        industry:               document.getElementById('f-industry').value.trim(),
         year:                   document.getElementById('f-year').value.trim(),
         services:               csv(document.getElementById('f-services').value),
+        overview_heading:       document.getElementById('f-overview-heading').value.trim(),
         overview:               document.getElementById('f-overview').value.trim(),
+        challenge_heading:      document.getElementById('f-challenge-heading').value.trim(),
+        challenge_body:         document.getElementById('f-challenge-body').value.trim(),
         status:                 document.getElementById('f-status').value,
         pinned_related:         lines(document.getElementById('f-pinned').value),
         show_brand_system:      document.getElementById('show-brand-system').checked,
@@ -924,12 +960,16 @@
 
         const { data: p } = await db.from('case_studies').select('*').eq('id', editId).single();
         if (p) {
-          document.getElementById('f-title').value        = p.title || '';
-          document.getElementById('f-slug').value         = p.slug || '';
-          document.getElementById('f-client').value       = p.client || '';
-          document.getElementById('f-year').value         = p.year || '';
-          document.getElementById('f-services').value     = (p.services || []).join(', ');
-          document.getElementById('f-overview').value     = p.overview || '';
+          document.getElementById('f-title').value            = p.title || '';
+          document.getElementById('f-slug').value             = p.slug || '';
+          document.getElementById('f-client').value           = p.client || '';
+          document.getElementById('f-industry').value         = p.industry || '';
+          document.getElementById('f-year').value             = p.year || '';
+          document.getElementById('f-services').value         = (p.services || []).join(', ');
+          document.getElementById('f-overview-heading').value = p.overview_heading || '';
+          document.getElementById('f-overview').value         = p.overview || '';
+          document.getElementById('f-challenge-heading').value = p.challenge_heading || '';
+          document.getElementById('f-challenge-body').value   = p.challenge_body || '';
           document.getElementById('f-status').value       = p.status || 'draft';
           document.getElementById('f-pinned').value       = (p.pinned_related || []).join('\n');
           document.getElementById('show-brand-system').checked  = p.show_brand_system !== false;
