@@ -274,8 +274,8 @@
     .proj-outcome__card-sub { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); }
     @media (max-width: 860px) { .proj-outcome__inner { grid-template-columns: 1fr; gap: var(--s8); } }
 
-    /* Footer */
-    .site-footer { padding: var(--s8) 0; background: var(--accent); margin-top: var(--s16); }
+    /* Footer — always Parallax blue, never the project accent */
+    .site-footer { padding: var(--s8) 0; background: oklch(0.60 0.18 249); margin-top: var(--s16); }
     .site-footer__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
     .site-footer__logo { font-weight: 800; font-size: 15px; letter-spacing: -0.04em; color: white; }
     .site-footer__copy { font-family: var(--font-m); font-size: 9.5px; color: white; letter-spacing: 0.08em; }
@@ -308,6 +308,12 @@
     const id       = params.get('id');
     const editorURL = id ? `project-editor.html?id=${id}` : 'projects.html';
     document.getElementById('back-btn').href = editorURL;
+
+    // *word* → <em>word</em> for accent-coloured highlights in headings
+    function hl(text) {
+      if (!text) return '';
+      return text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    }
 
     function vimeoEmbed(url) {
       if (!url) return null;
@@ -446,7 +452,7 @@
             <div class="proj-hero__content">
               <div class="w">
                 <p class="proj-hero__tag"><span class="proj-hero__client">${p.client || 'Client'}</span></p>
-                <h1 class="proj-hero__h1">${p.title || 'Project Title'}</h1>
+                <h1 class="proj-hero__h1">${hl(p.title) || 'Project Title'}</h1>
               </div>
             </div>
           </section>
@@ -470,7 +476,7 @@
               <div class="proj-overview__inner">
                 <div>
                   <p class="slabel">Project Overview</p>
-                  <h2 class="proj-overview__h">${p.overview_heading || 'Project Overview'}</h2>
+                  <h2 class="proj-overview__h">${hl(p.overview_heading) || 'Project Overview'}</h2>
                 </div>
                 <div class="proj-overview__body"><p>${p.overview}</p></div>
               </div>
@@ -483,7 +489,7 @@
             <div class="w">
               <div class="proj-challenge__inner">
                 <p class="slabel">The Challenge</p>
-                ${p.challenge_heading ? `<p class="proj-challenge__pull">${p.challenge_heading}</p>` : ''}
+                ${p.challenge_heading ? `<p class="proj-challenge__pull">${hl(p.challenge_heading)}</p>` : ''}
                 ${p.challenge_body ? `<p class="proj-challenge__body">${p.challenge_body}</p>` : ''}
               </div>
             </div>
@@ -495,7 +501,7 @@
             <div class="w">
               <div class="sec__hdr">
                 <p class="slabel">Identity</p>
-                <h2 class="sh">${p.heading_identity || 'A mark built to endure.'}</h2>
+                <h2 class="sh">${hl(p.heading_identity || 'A mark built to *endure.*')}</h2>
               </div>
               <div class="brand-primary">
                 ${p.img_identity_mark_01
@@ -525,7 +531,7 @@
             <div class="w">
               <div class="sec__hdr">
                 <p class="slabel">Brand System</p>
-                <h2 class="sh">${p.heading_brand_system || 'The mechanics behind the mark.'}</h2>
+                <h2 class="sh">${hl(p.heading_brand_system || 'The mechanics behind the *mark.*')}</h2>
               </div>
               <div class="bsys-grid-2">
                 ${colours.length ? `
@@ -548,7 +554,7 @@
             <div class="w">
               <div class="sec__hdr">
                 <p class="slabel">Applications</p>
-                <h2 class="sh">${p.heading_applications || 'The brand in the wild.'}</h2>
+                <h2 class="sh">${hl(p.heading_applications || 'The brand in the *wild.*')}</h2>
               </div>
               ${renderApplications()}
             </div>
@@ -560,7 +566,7 @@
             <div class="w">
               <div class="sec__hdr">
                 <p class="slabel">Digital</p>
-                <h2 class="sh">${p.heading_digital || 'Shipped to every screen.'}</h2>
+                <h2 class="sh">${hl(p.heading_digital || 'Shipped to every *screen.*')}</h2>
               </div>
               ${renderDigital()}
             </div>
@@ -572,7 +578,7 @@
             <div class="w">
               <div class="proj-stats__hdr">
                 <p class="slabel">By the Numbers</p>
-                <h2 class="sh">${p.heading_stats || 'The work, quantified.'}</h2>
+                <h2 class="sh">${hl(p.heading_stats || 'The work, *quantified.*')}</h2>
               </div>
               <div class="proj-stats__grid">
                 ${stats.map(s => `
@@ -605,7 +611,7 @@
               <div class="proj-outcome__inner">
                 <div>
                   <p class="slabel">Outcome</p>
-                  <h2 class="proj-outcome__h">${p.heading_outcomes || 'What we delivered.'}</h2>
+                  <h2 class="proj-outcome__h">${hl(p.heading_outcomes || 'What we *delivered.*')}</h2>
                 </div>
                 <div class="proj-outcome__cards">
                   ${outcomes.map(o => `
