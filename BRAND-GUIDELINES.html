@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallax | Brand Guidelines v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       PARALLAX — Brand Guidelines v2.0
+       Updated to reflect live website design system (2026)
+    ============================================================ */
+
+    :root {
+      /* Document palette — dark presentation */
+      --doc-bg:       #05050a;
+      --doc-surface:  #0d0d14;
+      --doc-raised:   #13131e;
+      --doc-border:   rgba(255,255,255,0.09);
+      --doc-border-s: rgba(255,255,255,0.20);
+      --doc-text:     #ffffff;
+      --doc-text-2:   rgba(255,255,255,0.60);
+      --doc-text-3:   rgba(255,255,255,0.35);
+
+      /* Parallax Brand Accent — the blue */
+      --accent:       oklch(0.60 0.18 249);
+      --accent-hi:    oklch(0.70 0.14 249);
+      --accent-dim:   oklch(0.60 0.18 249 / 0.14);
+      --accent-soft:  oklch(0.60 0.18 249 / 0.06);
+
+      /* Website light palette (for documentation) */
+      --site-bg:      oklch(1 0 0);
+      --site-surface: oklch(0.98 0.001 0);
+      --site-text:    oklch(0 0 0);
+      --site-text-2:  oklch(0.40 0.005 0);
+      --site-text-3:  oklch(0.55 0.005 0);
+      --site-border:  oklch(0 0 0 / 0.15);
+
+      /* Semantic */
+      --success: #22c55e;
+      --danger:  #dc2626;
+      --warning: #f59e0b;
+
+      --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--doc-bg);
+      color: var(--doc-text);
+      font-family: var(--font-d);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page { max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px); }
+
+    /* ── Cover ── */
+    .cover {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--doc-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--doc-border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, oklch(0.60 0.18 249 / 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cover__label {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      position: relative; z-index: 1;
+    }
+    .cover__label::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+    .cover__title {
+      font-size: clamp(56px, 9vw, 140px);
+      font-weight: 800;
+      letter-spacing: -0.052em;
+      line-height: 0.92;
+      margin-bottom: 40px;
+      position: relative; z-index: 1;
+    }
+    .cover__title em { font-style: normal; color: var(--accent); }
+    .cover__desc {
+      font-size: clamp(16px, 1.8vw, 20px);
+      color: var(--doc-text-2);
+      max-width: 560px;
+      line-height: 1.72;
+      position: relative; z-index: 1;
+    }
+    .cover__meta {
+      font-family: var(--font-m);
+      font-size: 10px;
+      color: var(--doc-text-3);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-top: 80px;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Section ── */
+    .section { padding: 120px 0; border-top: 1px solid var(--doc-border); }
+    .section__header {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 80px;
+      margin-bottom: 72px;
+      align-items: start;
+    }
+    .section__num {
+      font-family: var(--font-m);
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding-top: 10px;
+    }
+    .section__title {
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.042em;
+      line-height: 1.0;
+      margin-bottom: 16px;
+    }
+    .section__title em { font-style: normal; color: var(--accent); }
+    .section__desc {
+      font-size: 17px;
+      color: var(--doc-text-2);
+      max-width: 600px;
+      line-height: 1.75;
+    }
+
+    /* ── Subsection label ── */
+    .sub-label {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--doc-text-3);
+      margin-bottom: 24px;
+      margin-top: 56px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--doc-border);
+    }
+    .sub-label:first-of-type { margin-top: 0; }
+
+    /* ── Usage grid ── */
+    .usage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--doc-border); }
+    .usage-card { padding: 36px; background: var(--doc-surface); }
+    .usage-card--do { border-top: 2px solid var(--success); }
+    .usage-card--dont { border-top: 2px solid var(--danger); }
+    .usage-card__label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+    .usage-card--do .usage-card__label { color: var(--success); }
+    .usage-card--dont .usage-card__label { color: var(--danger); }
+    .usage-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .usage-card li { font-size: 14px; color: var(--doc-text-2); padding-left: 22px; position: relative; line-height: 1.6; }
+    .usage-card--do li::before { content: '+'; position: absolute; left: 0; color: var(--success); font-family: var(--font-m); }
+    .usage-card--dont li::before { content: '×'; position: absolute; left: 0; color: var(--danger); font-family: var(--font-m); }
+
+    /* ── Color swatches ── */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--doc-border); }
+    .swatch { background: var(--doc-surface); overflow: hidden; }
+    .swatch__chip { height: 140px; position: relative; }
+    .swatch__info { padding: 20px 24px; }
+    .swatch__name { font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+    .swatch__values { font-family: var(--font-m); font-size: 11px; color: var(--doc-text-2); display: flex; flex-direction: column; gap: 4px; }
+    .swatch__tag {
+      display: inline-block; font-family: var(--font-m);
+      font-size: 9px; letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent-dim);
+      padding: 3px 8px; margin-top: 10px;
+    }
+
+    /* ── Type specimens ── */
+    .type-specimen { border: 1px solid var(--doc-border); padding: 48px; margin-bottom: 1px; background: var(--doc-surface); }
+    .type-specimen__label { font-family: var(--font-m); font-size: 10px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 28px; }
+    .type-specimen__meta { font-family: var(--font-m); font-size: 11px; color: var(--doc-text-3); display: flex; gap: 32px; flex-wrap: wrap; border-top: 1px solid var(--doc-border); padding-top: 20px; margin-top: 28px; }
+    .type-specimen__meta span { color: var(--doc-text-2); }
+
+    .type-scale { border: 1px solid var(--doc-border); overflow: hidden; background: var(--doc-surface); }
+    .scale-row { display: grid; grid-template-columns: 120px 1fr; align-items: baseline; padding: 20px 32px; border-bottom: 1px solid var(--doc-border); gap: 32px; }
+    .scale-row:last-child { border-bottom: none; }
+    .scale-row__label { font-family: var(--font-m); font-size: 10px; color: var(--doc-text-3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ── Spacing ── */
+    .spacing-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--doc-border); background: var(--doc-surface); overflow: hidden; }
+    .spacing-row { display: grid; grid-template-columns: 100px 1fr 80px; align-items: center; gap: 32px; padding: 16px 32px; border-bottom: 1px solid var(--doc-border); }
+    .spacing-row:last-child { border-bottom: none; }
+    .spacing-row__name { font-family: var(--font-m); font-size: 12px; color: var(--accent); }
+    .spacing-row__bar { height: 20px; background: var(--accent-dim); border-left: 2px solid var(--accent); }
+    .spacing-row__val { font-family: var(--font-m); font-size: 11px; color: var(--doc-text-3); text-align: right; }
+
+    /* ── Motion table ── */
+    .motion-table { width: 100%; border-collapse: collapse; border: 1px solid var(--doc-border); background: var(--doc-surface); }
+    .motion-table th, .motion-table td { text-align: left; padding: 16px 24px; border-bottom: 1px solid var(--doc-border); font-size: 14px; }
+    .motion-table tr:last-child td { border-bottom: none; }
+    .motion-table th { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--doc-text-3); font-weight: 500; background: var(--doc-raised); }
+    .motion-table td:first-child { font-weight: 600; }
+    .motion-table code { font-family: var(--font-m); font-size: 11px; color: var(--accent); background: var(--accent-dim); padding: 2px 8px; }
+
+    /* ── Voice cards ── */
+    .voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--doc-border); }
+    .voice-card { padding: 40px; background: var(--doc-surface); }
+    .voice-card__trait { font-size: 20px; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; }
+    .voice-card__desc { font-size: 14px; color: var(--doc-text-2); line-height: 1.75; margin-bottom: 24px; }
+    .voice-card__example { font-family: var(--font-m); font-size: 11px; color: var(--accent); padding: 12px 16px; background: var(--accent-dim); border-left: 2px solid var(--accent); line-height: 1.7; }
+
+    /* ── Logo cards ── */
+    .logo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--doc-border); }
+    .logo-card { height: 240px; display: flex; align-items: center; justify-content: center; position: relative; }
+    .logo-card--dark { background: #000; }
+    .logo-card--light { background: #fff; }
+    .logo-card--accent { background: var(--accent); }
+    .logo-card__label { position: absolute; bottom: 16px; left: 20px; font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .logo-card--light .logo-card__label { color: rgba(0,0,0,0.35); }
+    .logo-mark { font-size: 32px; font-weight: 800; letter-spacing: -0.045em; }
+    .logo-mark span { color: var(--accent); }
+    .logo-mark--on-light { color: #000; }
+    .logo-mark--on-light span { color: var(--accent); }
+    .logo-mark--on-accent { color: white; }
+    .logo-mark--on-accent span { color: rgba(255,255,255,0.7); }
+
+    /* ── Component demos ── */
+    .component-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1px; background: var(--doc-border); }
+    .component-card { padding: 40px; background: var(--doc-surface); display: flex; flex-direction: column; gap: 20px; }
+    .component-card__label { font-family: var(--font-m); font-size: 10px; color: var(--doc-text-3); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    /* Website buttons */
+    .btn-site {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-m); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.11em; text-transform: uppercase; cursor: pointer;
+      padding: 14px 26px; text-decoration: none;
+      transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out), background 200ms var(--ease-out), color 200ms var(--ease-out);
+    }
+    .btn-site--primary {
+      color: #fff; background: oklch(0 0 0); border: 1px solid oklch(0 0 0);
+    }
+    .btn-site--primary:hover {
+      border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px);
+    }
+    .btn-site--ghost {
+      color: oklch(0.40 0.005 0); background: transparent; border: 1px solid oklch(0 0 0 / 0.30);
+    }
+    .btn-site--ghost:hover {
+      color: oklch(0 0 0); border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px);
+    }
+    .btn-site:active { transform: scale(0.97) !important; box-shadow: none !important; }
+
+    /* Section label (slabel) */
+    .slabel-demo {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.20em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .slabel-demo::before { content: ''; width: 22px; height: 1px; background: var(--accent); flex-shrink: 0; }
+
+    /* Imagery */
+    .imagery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--doc-border); }
+    .imagery-card { padding: 40px; background: var(--doc-surface); }
+    .imagery-card__num { font-family: var(--font-m); font-size: 40px; font-weight: 700; color: var(--accent-dim); margin-bottom: 16px; line-height: 1; }
+    .imagery-card__title { font-size: 20px; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 10px; }
+    .imagery-card__desc { font-size: 14px; color: var(--doc-text-2); line-height: 1.75; }
+
+    /* Token block */
+    .token-block { background: var(--doc-raised); border: 1px solid var(--doc-border); padding: 40px; font-family: var(--font-m); font-size: 12.5px; line-height: 2.1; }
+    .token-block__section { color: var(--doc-text-3); margin-top: 24px; }
+    .token-block__section:first-child { margin-top: 0; }
+    .token-name { color: var(--accent); }
+    .token-val { color: var(--doc-text-2); }
+
+    /* Layout pattern demos */
+    .pattern-demo { border: 1px solid var(--doc-border); overflow: hidden; margin-bottom: 1px; background: var(--doc-surface); }
+    .pattern-demo__label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--doc-text-3); padding: 16px 24px; border-bottom: 1px solid var(--doc-border); background: var(--doc-raised); }
+    .pattern-demo__body { padding: 40px; }
+
+    /* Mini hero demo */
+    .demo-hero {
+      background: oklch(0.06 0.003 249);
+      aspect-ratio: 16/5;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(16px, 4%, 40px);
+      overflow: hidden;
+    }
+    .demo-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, oklch(0 0 0 / 0) 30%, oklch(0 0 0 / 0.75) 100%);
+    }
+    .demo-hero__client { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.20em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 10px; margin-bottom: 8px; position: relative; z-index: 1; }
+    .demo-hero__client::before { content: ''; width: 16px; height: 1px; background: var(--accent); }
+    .demo-hero__title { font-size: clamp(22px, 4vw, 48px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.92; color: white; position: relative; z-index: 1; }
+
+    /* Mini meta band */
+    .demo-meta { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; }
+    .demo-meta__item { padding: 16px 20px; border-right: 1px solid oklch(0 0 0 / 0.12); }
+    .demo-meta__item:last-child { border-right: none; }
+    .demo-meta__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.55 0.005 0); margin-bottom: 4px; }
+    .demo-meta__val { font-size: 13px; font-weight: 600; letter-spacing: -0.02em; color: oklch(0 0 0); }
+
+    /* Mini overview */
+    .demo-overview { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; padding: 32px; background: #f8f8f8; }
+    .demo-overview__h { font-size: clamp(18px, 2.5vw, 28px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; color: oklch(0 0 0); }
+    .demo-overview__h em { font-style: normal; color: var(--accent); }
+    .demo-overview__body { font-size: 14px; color: oklch(0.40 0.005 0); line-height: 1.72; }
+
+    /* Bento demo */
+    .demo-bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; background: #fff; padding: 20px; }
+    .demo-tile { background: oklch(0.09 0.003 249); border: 1px solid oklch(0 0 0 / 0.12); position: relative; }
+    .demo-tile__cap { position: absolute; bottom: 6px; left: 8px; font-family: var(--font-m); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+    .dt--12 { grid-column: span 12; aspect-ratio: 16/5; }
+    .dt--7  { grid-column: span 7;  aspect-ratio: 7/4; }
+    .dt--5  { grid-column: span 5;  aspect-ratio: 1/1; }
+    .dt--4  { grid-column: span 4;  aspect-ratio: 4/5; }
+    .dt--6  { grid-column: span 6;  aspect-ratio: 3/2; }
+
+    /* Brand identity demo */
+    .demo-brand-primary { aspect-ratio: 16/5; background: var(--doc-raised); border: 1px solid var(--doc-border); display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 8px; }
+    .demo-brand-primary__label { position: absolute; bottom: 10px; left: 12px; font-family: var(--font-m); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .demo-brand-mark { font-size: 48px; font-weight: 800; letter-spacing: -0.045em; color: white; }
+    .demo-brand-mark span { color: var(--accent); }
+    .demo-brand-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .demo-brand-cell { aspect-ratio: 5/4; border: 1px solid var(--doc-border); display: flex; align-items: center; justify-content: center; position: relative; }
+    .demo-brand-cell--light { background: var(--doc-raised); }
+    .demo-brand-cell--dark { background: oklch(0.08 0.003 249); }
+    .demo-brand-cell--accent { background: var(--accent); }
+    .demo-brand-cell__label { position: absolute; bottom: 8px; left: 10px; font-family: var(--font-m); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+    .demo-brand-cell__inner { font-size: 20px; font-weight: 800; letter-spacing: -0.04em; color: white; }
+    .demo-brand-cell__inner span { color: var(--accent); }
+    .demo-brand-cell--dark .demo-brand-cell__inner span { color: var(--accent-hi); }
+    .demo-brand-cell--accent .demo-brand-cell__inner { color: rgba(255,255,255,0.9); }
+    .demo-brand-cell--accent .demo-brand-cell__inner span { color: rgba(255,255,255,0.6); }
+
+    /* Stats demo */
+    .demo-stats { background: oklch(0.06 0.003 249); padding: 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .demo-stat { padding: 16px; border-right: 1px solid oklch(1 0 0 / 0.08); }
+    .demo-stat:last-child { border-right: none; }
+    .demo-stat__n { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -0.05em; color: white; line-height: 1; }
+    .demo-stat__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(1 0 0 / 0.5); margin-top: 8px; }
+
+    /* Footer */
+    .guidelines-footer { padding: 80px 0; border-top: 1px solid var(--doc-border); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
+    .guidelines-footer__brand { font-weight: 800; font-size: 28px; letter-spacing: -0.045em; }
+    .guidelines-footer__brand span { color: var(--accent); }
+    .guidelines-footer__meta { font-family: var(--font-m); font-size: 10px; color: var(--doc-text-3); text-align: right; line-height: 2.2; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    @media (max-width: 900px) {
+      .page { padding: 0 24px; }
+      .section { padding: 72px 0; }
+      .section__header { grid-template-columns: 1fr; gap: 24px; }
+      .voice-grid, .logo-grid { grid-template-columns: 1fr; }
+      .usage-grid { grid-template-columns: 1fr; }
+      .imagery-grid { grid-template-columns: 1fr; }
+      .color-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+      .demo-bento { display: none; }
+      .demo-meta { grid-template-columns: repeat(2, 1fr); }
+      .demo-overview { grid-template-columns: 1fr; gap: 20px; }
+      .demo-stats { grid-template-columns: repeat(2, 1fr); }
+      .demo-brand-row { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ==================== COVER ==================== -->
+  <section class="cover">
+    <div class="cover__label">Brand Guidelines — v2.0</div>
+    <h1 class="cover__title">Parallax<br><em>Studio.</em></h1>
+    <p class="cover__desc">
+      The definitive guide to the Parallax visual identity, voice, and design system.
+      Built on precision. Documented for scale.
+    </p>
+    <div class="cover__meta">
+      <span>Version 2.0</span>
+      <span>May 2026</span>
+      <span>Confidential</span>
+      <span>parallax.studio</span>
+    </div>
+  </section>
+
+  <!-- ==================== 01. BRAND OVERVIEW ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">01 // Overview</div>
+      <div>
+        <h2 class="section__title">Who We <em>Are</em></h2>
+        <p class="section__desc">
+          Parallax is a premium brand and digital design agency. We build brand systems and
+          digital environments for enterprises, founders, and market leaders. Design is
+          never neutral — it either clarifies intent or obscures it.
+        </p>
+      </div>
+    </div>
+
+    <div class="voice-grid">
+      <div class="voice-card">
+        <div class="voice-card__trait">Mission</div>
+        <div class="voice-card__desc">
+          To engineer structural brand systems that perform under pressure. We treat design
+          as architecture, not decoration. Every decision is deliberate.
+        </div>
+        <div class="voice-card__example">"Precision over decoration. Logic over assumption."</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-card__trait">Clients</div>
+        <div class="voice-card__desc">
+          Design directors, brand managers, founders, and product leads at mid-to-large
+          organisations. Sophisticated, time-poor, allergic to fluff.
+        </div>
+        <div class="voice-card__example">BMW · Biblica · Sportradar · Vestas · Nissan · Accenture</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-card__trait">Position</div>
+        <div class="voice-card__desc">
+          The agency you hire when "good enough" design is costing you customers,
+          credibility, or clarity. We don't redesign — we rearchitect.
+        </div>
+        <div class="voice-card__example">"Design from many perspectives, not one."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 02. LOGO ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">02 // Logo</div>
+      <div>
+        <h2 class="section__title">Wordmark & <em>Usage</em></h2>
+        <p class="section__desc">
+          The Parallax wordmark is set in Bricolage Grotesque 800 at
+          <code style="font-family:var(--font-m);font-size:13px;color:var(--accent);">letter-spacing: -0.045em</code>.
+          The full stop after "Parallax" is set in the brand accent. It is a required part of the mark.
+        </p>
+      </div>
+    </div>
+
+    <div class="logo-grid" style="margin-bottom:1px;">
+      <div class="logo-card logo-card--dark">
+        <div class="logo-mark" style="color:white;">Parallax<span>.</span></div>
+        <div class="logo-card__label">Primary — Dark background</div>
+      </div>
+      <div class="logo-card logo-card--light">
+        <div class="logo-mark logo-mark--on-light">Parallax<span>.</span></div>
+        <div class="logo-card__label">Reversed — Light background</div>
+      </div>
+      <div class="logo-card logo-card--accent">
+        <div class="logo-mark logo-mark--on-accent">Parallax<span>.</span></div>
+        <div class="logo-card__label">On Accent</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="usage-grid">
+        <div class="usage-card usage-card--do">
+          <div class="usage-card__label">Do</div>
+          <ul>
+            <li>Always include the full stop — it is part of the mark</li>
+            <li>Use white on dark backgrounds, black on light backgrounds</li>
+            <li>Maintain clear space equal to the cap-height on all sides</li>
+            <li>Scale proportionally — minimum 80px wide in digital</li>
+            <li>Use the accent colour only for the full stop character</li>
+          </ul>
+        </div>
+        <div class="usage-card usage-card--dont">
+          <div class="usage-card__label">Don't</div>
+          <ul>
+            <li>Remove the full stop or change its colour</li>
+            <li>Stretch, rotate, or distort the wordmark</li>
+            <li>Place on busy, low-contrast, or photographic backgrounds</li>
+            <li>Add shadows, outlines, gradients, or effects</li>
+            <li>Alter letter-spacing or font weight</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 03. COLOUR ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">03 // Colour</div>
+      <div>
+        <h2 class="section__title">Colour <em>System</em></h2>
+        <p class="section__desc">
+          A light-first palette for the website. Pure white backgrounds, high-contrast black text,
+          and a single blue accent in OKLCH. The accent is the signal — use it for labels,
+          highlights, hover states, and CTAs. Not as fill.
+        </p>
+      </div>
+    </div>
+
+    <div class="sub-label" style="margin-top:0;">Website Core Palette</div>
+    <div class="color-grid" style="margin-bottom:1px;">
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(1 0 0);border-bottom:1px solid rgba(0,0,0,0.1);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Background</div>
+          <div class="swatch__values"><span>oklch(1 0 0)</span><span>#ffffff</span></div>
+          <span class="swatch__tag">--bg</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.98 0.001 0);border-bottom:1px solid rgba(0,0,0,0.08);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Surface</div>
+          <div class="swatch__values"><span>oklch(0.98 0.001 0)</span><span>~#f9f9f9</span></div>
+          <span class="swatch__tag">--surface</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.96 0.001 0);border-bottom:1px solid rgba(0,0,0,0.08);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Surface Raised</div>
+          <div class="swatch__values"><span>oklch(0.96 0.001 0)</span><span>~#f4f4f4</span></div>
+          <span class="swatch__tag">--surface-raised</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0 0 0);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Text</div>
+          <div class="swatch__values"><span>oklch(0 0 0)</span><span>#000000</span></div>
+          <span class="swatch__tag">--text</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.40 0.005 0);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Text Secondary</div>
+          <div class="swatch__values"><span>oklch(0.40 0.005 0)</span><span>~#666</span></div>
+          <span class="swatch__tag">--text-2</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.55 0.005 0);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Text Tertiary</div>
+          <div class="swatch__values"><span>oklch(0.55 0.005 0)</span><span>~#888</span></div>
+          <span class="swatch__tag">--text-3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Brand Accent</div>
+    <div class="color-grid" style="margin-bottom:1px;">
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.60 0.18 249);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Parallax Blue</div>
+          <div class="swatch__values"><span>oklch(0.60 0.18 249)</span><span>~#4f6ef7</span></div>
+          <span class="swatch__tag">--accent — Primary</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.70 0.14 249);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Accent Hi</div>
+          <div class="swatch__values"><span>oklch(0.70 0.14 249)</span><span>~#7f9af9</span></div>
+          <span class="swatch__tag">--accent-hi — Hover</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.60 0.18 249 / 0.14);border-bottom:1px solid rgba(0,0,0,0.08);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Accent Muted</div>
+          <div class="swatch__values"><span>oklch(0.60 0.18 249 / 0.14)</span></div>
+          <span class="swatch__tag">--accent-muted — Backgrounds</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.60 0.18 249 / 0.06);border-bottom:1px solid rgba(0,0,0,0.08);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Accent Soft</div>
+          <div class="swatch__values"><span>oklch(0.60 0.18 249 / 0.06)</span></div>
+          <span class="swatch__tag">--accent-soft — Subtle fills</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Borders & Semantic</div>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.92 0 0);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Border</div>
+          <div class="swatch__values"><span>oklch(0 0 0 / 0.15)</span></div>
+          <span class="swatch__tag">--border</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.80 0 0);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Border Strong</div>
+          <div class="swatch__values"><span>oklch(0 0 0 / 0.30)</span></div>
+          <span class="swatch__tag">--border-strong</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:#22c55e;"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Success</div>
+          <div class="swatch__values"><span>#22c55e</span></div>
+          <span class="swatch__tag">Confirmations</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:#dc2626;"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Danger</div>
+          <div class="swatch__values"><span>#dc2626</span></div>
+          <span class="swatch__tag">Destructive</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="usage-grid">
+      <div class="usage-card usage-card--do">
+        <div class="usage-card__label">Colour Usage</div>
+        <ul>
+          <li>Use Parallax Blue for labels, section markers, links, and CTAs</li>
+          <li>Keep large surfaces white or near-white — the accent earns attention through contrast</li>
+          <li>Use oklch() values in code — they're perceptually uniform and future-safe</li>
+          <li>Apply --accent-muted as background tints behind accent text</li>
+          <li>Always maintain WCAG AA contrast (4.5:1) for body text</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--dont">
+        <div class="usage-card__label">Avoid</div>
+        <ul>
+          <li>Large blocks of accent blue as background fills</li>
+          <li>Introducing additional hues not in this system</li>
+          <li>Using opacity-based text colours not defined as tokens</li>
+          <li>Placing accent text on coloured backgrounds (contrast risk)</li>
+          <li>Hex values directly in code — always use the token names</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 04. TYPOGRAPHY ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">04 // Typography</div>
+      <div>
+        <h2 class="section__title">Type <em>System</em></h2>
+        <p class="section__desc">
+          Two typefaces only. Bricolage Grotesque for all display, headings, and UI copy.
+          JetBrains Mono for labels, tags, CTAs, buttons, metadata, and code.
+          Tight tracking on large type. Never mix with a third typeface.
+        </p>
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-specimen__label">Display Typeface — Bricolage Grotesque</div>
+      <div style="font-size:clamp(52px,7vw,96px);font-weight:800;letter-spacing:-0.052em;line-height:0.92;margin-bottom:24px;">
+        The Brand<br>System.
+      </div>
+      <div style="font-size:20px;font-weight:400;color:var(--doc-text-2);letter-spacing:-0.01em;margin-bottom:20px;line-height:1.5;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz 0123456789
+      </div>
+      <div class="type-specimen__meta">
+        <span>Weights: 200–800 (variable)</span>
+        <span>Use: Display, headlines, body copy, UI</span>
+        <span>Tracking: -0.052em display / -0.03em body</span>
+        <span>License: Open Font License</span>
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-specimen__label">Monospace Typeface — JetBrains Mono</div>
+      <div style="font-family:var(--font-m);font-size:clamp(32px,5vw,64px);font-weight:600;letter-spacing:-0.02em;line-height:1.05;margin-bottom:24px;">
+        JetBrains Mono
+      </div>
+      <div style="font-family:var(--font-m);font-size:16px;font-weight:400;color:var(--doc-text-2);margin-bottom:20px;line-height:1.8;letter-spacing:0.04em;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz — &lt;/&gt; :: =&gt; {} []
+      </div>
+      <div class="type-specimen__meta">
+        <span>Weights: 400, 500, 600</span>
+        <span>Use: Buttons, labels, tags, CTAs, code, data</span>
+        <span>Tracking: 0.08–0.20em (uppercase)</span>
+        <span>License: Open Font License</span>
+      </div>
+    </div>
+
+    <div class="sub-label">Type Scale</div>
+    <div class="type-scale">
+      <div class="scale-row">
+        <div class="scale-row__label">Hero</div>
+        <div style="font-size:clamp(40px,6.5vw,80px);font-weight:800;letter-spacing:-0.052em;line-height:0.92;">The Perspective <em style="font-style:normal;color:var(--accent);">Shifts.</em></div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">Display</div>
+        <div style="font-size:clamp(32px,4vw,58px);font-weight:700;letter-spacing:-0.042em;line-height:1.0;">Built to <em style="font-style:normal;color:var(--accent);">Endure.</em></div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">H2</div>
+        <div style="font-size:clamp(26px,2.8vw,40px);font-weight:700;letter-spacing:-0.038em;line-height:1.1;">A mark built to last</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">H3</div>
+        <div style="font-size:clamp(20px,2vw,28px);font-weight:700;letter-spacing:-0.025em;line-height:1.2;">Structural Design Thinking</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">Body L</div>
+        <div style="font-size:clamp(16px,1.7vw,19px);font-weight:400;color:var(--doc-text-2);line-height:1.75;">We engineer structural brand systems and digital environments for market leaders.</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">Body</div>
+        <div style="font-size:16px;font-weight:400;color:var(--doc-text-2);line-height:1.7;">Standing out requires more than good taste. It requires reframing the problem.</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">Slabel</div>
+        <div class="slabel-demo">Section Label</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">Button CTA</div>
+        <div style="font-family:var(--font-m);font-size:11px;letter-spacing:0.11em;text-transform:uppercase;font-weight:500;">Start a project</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-row__label">Meta</div>
+        <div style="font-family:var(--font-m);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--doc-text-3);">Client // BMW Group // 2025</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 05. SPACING ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">05 // Spacing</div>
+      <div>
+        <h2 class="section__title">Spacing <em>Scale</em></h2>
+        <p class="section__desc">
+          A named scale based on 4px increments, referenced as
+          <code style="font-family:var(--font-m);font-size:13px;color:var(--accent);">--s{n}</code>
+          where n is the pixel value divided by 4. Used for padding, gap, margin, and component sizing.
+        </p>
+      </div>
+    </div>
+
+    <div class="spacing-list">
+      <div class="spacing-row"><div class="spacing-row__name">--s1</div><div class="spacing-row__bar" style="width:4px;"></div><div class="spacing-row__val">4px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s2</div><div class="spacing-row__bar" style="width:8px;"></div><div class="spacing-row__val">8px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s3</div><div class="spacing-row__bar" style="width:12px;"></div><div class="spacing-row__val">12px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s4</div><div class="spacing-row__bar" style="width:16px;"></div><div class="spacing-row__val">16px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s6</div><div class="spacing-row__bar" style="width:24px;"></div><div class="spacing-row__val">24px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s8</div><div class="spacing-row__bar" style="width:32px;"></div><div class="spacing-row__val">32px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s12</div><div class="spacing-row__bar" style="width:48px;"></div><div class="spacing-row__val">48px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s16</div><div class="spacing-row__bar" style="width:64px;"></div><div class="spacing-row__val">64px</div></div>
+      <div class="spacing-row"><div class="spacing-row__name">--s24</div><div class="spacing-row__bar" style="width:96px;"></div><div class="spacing-row__val">96px — Section padding</div></div>
+    </div>
+  </section>
+
+  <!-- ==================== 06. MOTION ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">06 // Motion</div>
+      <div>
+        <h2 class="section__title">Motion & <em>Animation</em></h2>
+        <p class="section__desc">
+          Motion is intentional and architectural — never decorative. Ease-out for all entrances
+          and hover responses. Ease-in-out for layout shifts and state changes. Scroll-reveal
+          for content sections. No bouncing.
+        </p>
+      </div>
+    </div>
+
+    <table class="motion-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Use Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ease Out</td>
+          <td><code>--ease-out</code></td>
+          <td><code>cubic-bezier(0.23, 1, 0.32, 1)</code></td>
+          <td>Element entrances, hover responses, scroll reveals</td>
+        </tr>
+        <tr>
+          <td>Ease In-Out</td>
+          <td><code>--ease-inout</code></td>
+          <td><code>cubic-bezier(0.77, 0, 0.175, 1)</code></td>
+          <td>State transitions, layout shifts, nav overlays</td>
+        </tr>
+        <tr>
+          <td>Micro</td>
+          <td>—</td>
+          <td><code>130–160ms</code></td>
+          <td>Hover states, focus rings, button press feedback</td>
+        </tr>
+        <tr>
+          <td>Standard</td>
+          <td>—</td>
+          <td><code>280–420ms</code></td>
+          <td>Section reveals, card transitions, image loads</td>
+        </tr>
+        <tr>
+          <td>Cinematic</td>
+          <td>—</td>
+          <td><code>560–700ms</code></td>
+          <td>Page-level transitions, hero entrances, nav open/close</td>
+        </tr>
+        <tr>
+          <td>Scroll Reveal</td>
+          <td><code>.reveal / .stagger</code></td>
+          <td><code>opacity 0→1 + translateY(12px→0)</code></td>
+          <td>All section content, staggered at 55ms per child</td>
+        </tr>
+        <tr>
+          <td>Morph Cycle</td>
+          <td>—</td>
+          <td><code>3s interval, 700ms transition</code></td>
+          <td>Brand mark cycling in Identity section</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ==================== 07. VOICE & TONE ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">07 // Voice</div>
+      <div>
+        <h2 class="section__title">Voice & <em>Tone</em></h2>
+        <p class="section__desc">
+          How Parallax speaks. Direct, authoritative, specific. We write like someone who has
+          done this at scale. Think Stripe blog, Figma blog — not generic Medium posts.
+          No throat-clearing. Lead with the point.
+        </p>
+      </div>
+    </div>
+
+    <div class="voice-grid" style="margin-bottom:1px;">
+      <div class="voice-card">
+        <div class="voice-card__trait">Direct</div>
+        <div class="voice-card__desc">
+          No hedging, no preamble, no buzzwords. The first sentence should carry weight.
+          If you cut it and the paragraph still makes sense, cut it.
+        </div>
+        <div class="voice-card__example">"Brand that doesn't perform is decoration."</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-card__trait">Authoritative</div>
+        <div class="voice-card__desc">
+          We speak from experience with BMW, Biblica, Sportradar. Reference specific
+          outcomes and real numbers. Vague confidence is not confidence.
+        </div>
+        <div class="voice-card__example">"We reduced time-to-conversion by 40%."</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-card__trait">Specific</div>
+        <div class="voice-card__desc">
+          No generic advice. Genuine expertise, not content marketing.
+          Give the reader something they can act on in the next hour.
+        </div>
+        <div class="voice-card__example">"Fix the commissioning process and 70% of the drift disappears within two quarters."</div>
+      </div>
+    </div>
+
+    <div class="usage-grid">
+      <div class="usage-card usage-card--do">
+        <div class="usage-card__label">Write Like This</div>
+        <ul>
+          <li>"We engineer brand systems that perform under pressure."</li>
+          <li>"Your brand should work as hard as your product."</li>
+          <li>"Fix the governance and the drift disappears."</li>
+          <li>"We don't redesign. We rearchitect."</li>
+          <li>"Parallax has built brand systems for BMW, Biblica, and Accenture."</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--dont">
+        <div class="usage-card__label">Never Write This</div>
+        <ul>
+          <li>"We're passionate about creating beautiful experiences."</li>
+          <li>"Our innovative solutions leverage cutting-edge methodologies."</li>
+          <li>"We'll make your brand pop!"</li>
+          <li>"As a leading agency, we believe design matters."</li>
+          <li>"Let's circle back on the deliverables going forward."</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 08. LAYOUT PATTERNS ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">08 // Layout</div>
+      <div>
+        <h2 class="section__title">Layout <em>Patterns</em></h2>
+        <p class="section__desc">
+          Architectural layout patterns used across the website. All sections share a 1400px
+          max-width container with fluid side padding via <code style="font-family:var(--font-m);font-size:13px;color:var(--accent);">clamp(24px, 5vw, 80px)</code>.
+          No centred hero text. Titles are always left-aligned.
+        </p>
+      </div>
+    </div>
+
+    <div class="pattern-demo">
+      <div class="pattern-demo__label">Hero Section — Full viewport, left-aligned title at bottom</div>
+      <div class="demo-hero">
+        <div class="demo-hero__client">BMW Group</div>
+        <div class="demo-hero__title">Redefining the<br>Digital Showroom.</div>
+      </div>
+    </div>
+
+    <div class="pattern-demo">
+      <div class="pattern-demo__label">Meta Band — 4-column project metadata strip</div>
+      <div class="demo-meta">
+        <div class="demo-meta__item"><div class="demo-meta__label">Client</div><div class="demo-meta__val">BMW Group</div></div>
+        <div class="demo-meta__item"><div class="demo-meta__label">Industry</div><div class="demo-meta__val">Automotive</div></div>
+        <div class="demo-meta__item"><div class="demo-meta__label">Services</div><div class="demo-meta__val">Branding · Interface · Engineering</div></div>
+        <div class="demo-meta__item"><div class="demo-meta__label">Year</div><div class="demo-meta__val">2025</div></div>
+      </div>
+    </div>
+
+    <div class="pattern-demo">
+      <div class="pattern-demo__label">Overview — 2-column: section heading left, body text right</div>
+      <div class="demo-overview">
+        <div>
+          <div class="slabel-demo" style="margin-bottom:12px;">Project Overview</div>
+          <div class="demo-overview__h">A digital experience<br>worthy of the <em>badge.</em></div>
+        </div>
+        <div class="demo-overview__body">BMW's digital suite had grown fragmented — dealer tools, configurators, and portals each built in isolation. We designed a unified system from the ground up and engineered the flagship configurator on top of it.</div>
+      </div>
+    </div>
+
+    <div class="pattern-demo">
+      <div class="pattern-demo__label">Applications Bento — 12-column asymmetric image grid</div>
+      <div class="demo-bento">
+        <div class="demo-tile dt--12"><div class="demo-tile__cap">Signage — Lead tile</div></div>
+        <div class="demo-tile dt--7"><div class="demo-tile__cap">Stationery</div></div>
+        <div class="demo-tile dt--5"><div class="demo-tile__cap">Packaging</div></div>
+        <div class="demo-tile dt--4"><div class="demo-tile__cap">Letterhead</div></div>
+        <div class="demo-tile dt--4"><div class="demo-tile__cap">Apparel</div></div>
+        <div class="demo-tile dt--4"><div class="demo-tile__cap">Brochure</div></div>
+        <div class="demo-tile dt--6"><div class="demo-tile__cap">Livery</div></div>
+        <div class="demo-tile dt--6"><div class="demo-tile__cap">Environmental</div></div>
+      </div>
+    </div>
+
+    <div class="pattern-demo">
+      <div class="pattern-demo__label">Statistics Section — Dark band with large numbers</div>
+      <div class="demo-stats">
+        <div class="demo-stat"><div class="demo-stat__n">240+</div><div class="demo-stat__label">Brand touchpoints</div></div>
+        <div class="demo-stat"><div class="demo-stat__n">18</div><div class="demo-stat__label">Countries launched</div></div>
+        <div class="demo-stat"><div class="demo-stat__n">4×</div><div class="demo-stat__label">Engagement increase</div></div>
+        <div class="demo-stat"><div class="demo-stat__n">98</div><div class="demo-stat__label">NPS score</div></div>
+      </div>
+    </div>
+
+    <div class="pattern-demo">
+      <div class="pattern-demo__label">Identity Bento — Primary mark (large) + 4-column variant row</div>
+      <div style="padding:24px;background:var(--doc-raised);">
+        <div class="demo-brand-primary">
+          <div class="demo-brand-mark">Parallax<span>.</span></div>
+          <div class="demo-brand-primary__label">Primary Mark — cycles through variants</div>
+        </div>
+        <div class="demo-brand-row">
+          <div class="demo-brand-cell demo-brand-cell--light">
+            <div class="demo-brand-cell__inner">P<span>.</span></div>
+            <div class="demo-brand-cell__label">Construction</div>
+          </div>
+          <div class="demo-brand-cell demo-brand-cell--light">
+            <div class="demo-brand-cell__inner">Px<span>.</span></div>
+            <div class="demo-brand-cell__label">Light variant</div>
+          </div>
+          <div class="demo-brand-cell demo-brand-cell--dark">
+            <div class="demo-brand-cell__inner">Px<span>.</span></div>
+            <div class="demo-brand-cell__label">Reversed</div>
+          </div>
+          <div class="demo-brand-cell demo-brand-cell--accent">
+            <div class="demo-brand-cell__inner">Px<span>.</span></div>
+            <div class="demo-brand-cell__label">On Accent</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 09. COMPONENTS ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">09 // Components</div>
+      <div>
+        <h2 class="section__title">UI <em>Components</em></h2>
+        <p class="section__desc">
+          All interactive components use JetBrains Mono for labels. Buttons use uppercase
+          letter-spaced text. Sharp corners throughout — no border-radius on buttons or tiles.
+          Hover states use a 3px offset box-shadow in the accent colour.
+        </p>
+      </div>
+    </div>
+
+    <div class="component-grid">
+
+      <div class="component-card">
+        <div class="component-card__label">Buttons — Website</div>
+        <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
+          <button class="btn-site btn-site--primary">Start a Project</button>
+          <button class="btn-site btn-site--ghost">View Our Work</button>
+          <div style="font-family:var(--font-m);font-size:11px;color:var(--doc-text-3);line-height:1.8;margin-top:4px;">
+            Primary: dark fill, white text<br>
+            Ghost: outlined, accent offset shadow on hover<br>
+            Both: uppercase mono, 0.11em tracking
+          </div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card__label">Section Label (Slabel)</div>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="slabel-demo">Brand Identity</div>
+          <div class="slabel-demo">Project Overview</div>
+          <div class="slabel-demo">By the Numbers</div>
+          <div style="font-family:var(--font-m);font-size:11px;color:var(--doc-text-3);line-height:1.8;margin-top:4px;">
+            Mono, 10px, 0.20em tracking, uppercase<br>
+            22px accent line before the text<br>
+            Always precedes a section heading
+          </div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card__label">Heading with Accent Word</div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="font-size:clamp(24px,3vw,36px);font-weight:700;letter-spacing:-0.04em;line-height:1.05;color:var(--doc-text);">A mark built to <em style="font-style:normal;color:var(--accent);">endure.</em></div>
+          <div style="font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-0.035em;line-height:1.1;color:var(--doc-text);">The brand in the <em style="font-style:normal;color:var(--accent);">wild.</em></div>
+          <div style="font-family:var(--font-m);font-size:11px;color:var(--doc-text-3);line-height:1.8;margin-top:4px;">
+            One word per heading is italicised (em tag)<br>
+            In CMS: wrap the word in *asterisks*<br>
+            Always the last or most important word
+          </div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card__label">Borders & Tiles</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="border:1px solid rgba(255,255,255,0.12);padding:14px 16px;font-size:13px;color:var(--doc-text-3);">Subtle border — rgba(0,0,0,0.15) on light</div>
+          <div style="border:1px solid rgba(255,255,255,0.25);padding:14px 16px;font-size:13px;color:var(--doc-text-3);">Strong border — rgba(0,0,0,0.30) on light</div>
+          <div style="border:1px dashed rgba(255,255,255,0.18);padding:14px 16px;font-size:13px;color:var(--doc-text-3);">Dashed — upload zones, placeholders</div>
+          <div style="font-family:var(--font-m);font-size:11px;color:var(--doc-text-3);margin-top:4px;">No border-radius on structural elements</div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card__label">Status Badges</div>
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+          <div style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:99px;background:#dcfce7;color:#16a34a;font-family:var(--font-m);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;">Published</div>
+          <div style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:99px;background:#f4f4f5;color:#71717a;font-family:var(--font-m);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;">Draft</div>
+          <div style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:99px;background:oklch(0.60 0.18 249 / 0.14);color:oklch(0.60 0.18 249);font-family:var(--font-m);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;">Featured</div>
+          <div style="font-family:var(--font-m);font-size:11px;color:var(--doc-text-3);margin-top:4px;">Pill shape only for status — not navigation</div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card__label">Grid Background Texture</div>
+        <div style="height:120px;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:48px 48px;border:1px solid var(--doc-border);position:relative;">
+          <div style="position:absolute;bottom:8px;right:12px;font-family:var(--font-m);font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:0.12em;text-transform:uppercase;">48px grid</div>
+        </div>
+        <div style="font-family:var(--font-m);font-size:11px;color:var(--doc-text-3);line-height:1.8;">
+          Used on cover sections, dark hero backgrounds<br>
+          3–5% white — present but not dominant
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 10. IMAGERY ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">10 // Imagery</div>
+      <div>
+        <h2 class="section__title">Photography & <em>Imagery</em></h2>
+        <p class="section__desc">
+          When photography is used it should feel architectural — not decorative.
+          Case study images are the primary imagery format. All bento tile images
+          use object-fit: cover with defined aspect ratios.
+        </p>
+      </div>
+    </div>
+
+    <div class="imagery-grid">
+      <div class="imagery-card">
+        <div class="imagery-card__num">01</div>
+        <div class="imagery-card__title">Architecture Over Lifestyle</div>
+        <div class="imagery-card__desc">
+          Product photography, signage in context, environmental brand shots.
+          Not people smiling at laptops. Not stock handshakes.
+          Show the system operating in the real world.
+        </div>
+      </div>
+      <div class="imagery-card">
+        <div class="imagery-card__num">02</div>
+        <div class="imagery-card__title">Bento Aspect Ratios</div>
+        <div class="imagery-card__desc">
+          Every image has a defined ratio: 16/7 (lead), 7/5, 1/1, 4/5, 3/2.
+          Never crop arbitrarily. Images must look intentional inside their tile.
+          Use object-position to control the focal point.
+        </div>
+      </div>
+      <div class="imagery-card">
+        <div class="imagery-card__num">03</div>
+        <div class="imagery-card__title">Dark Overlay on Hero</div>
+        <div class="imagery-card__desc">
+          Hero images always use a gradient scrim:
+          <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)</code>.
+          Ensures title legibility regardless of image content.
+        </div>
+      </div>
+      <div class="imagery-card">
+        <div class="imagery-card__num">04</div>
+        <div class="imagery-card__title">Video via Vimeo</div>
+        <div class="imagery-card__desc">
+          Case study videos are hosted on Vimeo (unlisted) and embedded via iframe.
+          Stored as URL in the CMS — not as file uploads.
+          Video replaces the lead tile in applications and digital sections.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 11. CSS TOKENS ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">11 // Tokens</div>
+      <div>
+        <h2 class="section__title">Design <em>Tokens</em></h2>
+        <p class="section__desc">
+          Copy-paste ready CSS custom properties. Single source of truth for all
+          Parallax implementations — website, apps, CMS, and partner builds.
+          All colour values use OKLCH for perceptual consistency.
+        </p>
+      </div>
+    </div>
+
+    <div class="token-block">
+      <div class="type-specimen__label" style="font-family:var(--font-m);font-size:10px;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:24px;">CSS Custom Properties — Copy-Paste Ready</div>
+<pre style="white-space:pre-wrap;margin:0;font-family:var(--font-m);font-size:12.5px;line-height:2.1;">
+<span style="color:var(--doc-text-3);">/* ── Colour ── */</span>
+<span class="token-name">--bg:</span>             <span class="token-val">oklch(1 0 0);</span>
+<span class="token-name">--surface:</span>        <span class="token-val">oklch(0.98 0.001 0);</span>
+<span class="token-name">--surface-raised:</span> <span class="token-val">oklch(0.96 0.001 0);</span>
+<span class="token-name">--text:</span>           <span class="token-val">oklch(0 0 0);</span>
+<span class="token-name">--text-2:</span>         <span class="token-val">oklch(0.40 0.005 0);</span>
+<span class="token-name">--text-3:</span>         <span class="token-val">oklch(0.55 0.005 0);</span>
+<span class="token-name">--accent:</span>         <span class="token-val">oklch(0.60 0.18 249);</span>
+<span class="token-name">--accent-hi:</span>      <span class="token-val">oklch(0.70 0.14 249);</span>
+<span class="token-name">--accent-muted:</span>   <span class="token-val">oklch(0.60 0.18 249 / 0.14);</span>
+<span class="token-name">--accent-soft:</span>    <span class="token-val">oklch(0.60 0.18 249 / 0.06);</span>
+<span class="token-name">--border:</span>         <span class="token-val">oklch(0 0 0 / 0.15);</span>
+<span class="token-name">--border-strong:</span>  <span class="token-val">oklch(0 0 0 / 0.30);</span>
+
+<span style="color:var(--doc-text-3);">/* ── Typography ── */</span>
+<span class="token-name">--font-d:</span>  <span class="token-val">'Bricolage Grotesque', system-ui, sans-serif;</span>
+<span class="token-name">--font-m:</span>  <span class="token-val">'JetBrains Mono', 'SF Mono', Consolas, monospace;</span>
+
+<span style="color:var(--doc-text-3);">/* ── Spacing ── */</span>
+<span class="token-name">--s1:</span>   <span class="token-val">4px;</span>
+<span class="token-name">--s2:</span>   <span class="token-val">8px;</span>
+<span class="token-name">--s3:</span>   <span class="token-val">12px;</span>
+<span class="token-name">--s4:</span>   <span class="token-val">16px;</span>
+<span class="token-name">--s6:</span>   <span class="token-val">24px;</span>
+<span class="token-name">--s8:</span>   <span class="token-val">32px;</span>
+<span class="token-name">--s12:</span>  <span class="token-val">48px;</span>
+<span class="token-name">--s16:</span>  <span class="token-val">64px;</span>
+<span class="token-name">--s24:</span>  <span class="token-val">96px;</span>
+
+<span style="color:var(--doc-text-3);">/* ── Motion ── */</span>
+<span class="token-name">--ease-out:</span>    <span class="token-val">cubic-bezier(0.23, 1, 0.32, 1);</span>
+<span class="token-name">--ease-inout:</span>  <span class="token-val">cubic-bezier(0.77, 0, 0.175, 1);</span>
+
+<span style="color:var(--doc-text-3);">/* ── Layout ── */</span>
+<span class="token-name">--w-max:</span>        <span class="token-val">1400px;</span>
+<span class="token-name">--w-padding:</span>    <span class="token-val">clamp(24px, 5vw, 80px);</span>
+<span class="token-name">--section-pad:</span>  <span class="token-val">var(--s24);</span>  <span style="color:var(--doc-text-3);">/* 96px top + bottom */</span>
+</pre>
+    </div>
+  </section>
+
+  <!-- ==================== 12. IMPLEMENTATION NOTES ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">12 // Implementation</div>
+      <div>
+        <h2 class="section__title">Build <em>Notes</em></h2>
+        <p class="section__desc">
+          Rules and patterns for engineers and developers building on top of the Parallax system.
+          These are the conventions that keep the system coherent as it scales.
+        </p>
+      </div>
+    </div>
+
+    <div class="usage-grid" style="margin-bottom:1px;">
+      <div class="usage-card usage-card--do">
+        <div class="usage-card__label">Always</div>
+        <ul>
+          <li>Use CSS custom property tokens — never hardcode colour or spacing values</li>
+          <li>Use oklch() for all colour in CSS — it's the authoritative format</li>
+          <li>Apply <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">font-synthesis: none</code> to prevent faux bold/italic</li>
+          <li>Use <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">clamp()</code> for fluid type and spacing — no fixed breakpoints for copy</li>
+          <li>Left-align all headings — centred headings only for pull quotes</li>
+          <li>Add <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">-webkit-font-smoothing: antialiased</code> to body</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--dont">
+        <div class="usage-card__label">Never</div>
+        <ul>
+          <li>Introduce border-radius on structural tiles, buttons, or bento cells</li>
+          <li>Add a third typeface — Bricolage + JetBrains only</li>
+          <li>Use animations with bounce or spring easings</li>
+          <li>Centre-align hero or section headings</li>
+          <li>Use hardcoded hex values — always go through the token system</li>
+          <li>Use the accent colour as a large background fill</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="usage-grid">
+      <div class="usage-card usage-card--do">
+        <div class="usage-card__label">Heading Highlight Syntax (CMS)</div>
+        <ul>
+          <li>Wrap the accent word in *asterisks* in any heading field</li>
+          <li>Example: <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">A mark built to *endure.*</code></li>
+          <li>One highlighted word per heading maximum</li>
+          <li>Prefer the last word or most impactful noun</li>
+          <li>Renders as <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">&lt;em&gt;</code> tag in accent colour</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--do" style="border-top-color:var(--accent);">
+        <div class="usage-card__label" style="color:var(--accent);">Image Slot Keys (CMS)</div>
+        <ul>
+          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_hero</code> — Full-viewport hero background</li>
+          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_identity_mark_01/02/03</code> — Cycling logo marks</li>
+          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_identity_construction</code> — Logo construction</li>
+          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_identity_variant_light/dark/accent</code></li>
+          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_app_*</code> — Applications bento slots</li>
+          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_digital_*</code> — Digital section slots</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="guidelines-footer">
+    <div class="guidelines-footer__brand">Parallax<span>.</span></div>
+    <div class="guidelines-footer__meta">
+      Brand Guidelines v2.0<br>
+      May 2026 — Confidential<br>
+      parallax.studio
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
