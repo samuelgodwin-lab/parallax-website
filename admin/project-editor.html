@@ -1101,7 +1101,7 @@
         slug:                   document.getElementById('f-slug').value.trim(),
         client:                 document.getElementById('f-client').value.trim(),
         industry:               document.getElementById('f-industry').value.trim(),
-        year:                   document.getElementById('f-year').value.trim(),
+        year:                   parseInt(document.getElementById('f-year').value) || null,
         services:               csv(document.getElementById('f-services').value),
         sort_order:             parseInt(document.getElementById('f-sort-order').value) || null,
         categories:             getCategories(),
