@@ -1347,25 +1347,126 @@
     }
 
     /* ============================================================
-       DEV / DEMO TOGGLE — remove for production
+       LOADING
     ============================================================ */
-    .demo-toggle {
-      position: fixed; bottom: 16px; left: 16px; z-index: 300;
-      display: flex; gap: 4px; padding: 6px;
-      background: oklch(1 0 0 / 0.9); backdrop-filter: blur(12px);
-      border: 1px solid var(--border-strong);
-      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    .loading-screen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+      color: var(--text-3); font-family: var(--font-m); font-size: 12px; letter-spacing: 0.1em;
     }
-    .demo-toggle button {
-      background: transparent; border: 0; padding: 8px 12px;
-      font: inherit; color: var(--text-2); cursor: pointer;
-      transition: color 180ms var(--ease-out), background 180ms var(--ease-out);
+    .loading-spinner {
+      width: 24px; height: 24px;
+      border: 2px solid oklch(0 0 0 / 0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
     }
-    .demo-toggle button:hover { color: var(--text); }
-    .demo-toggle button.active { background: var(--text); color: var(--bg); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============================================================
+       BRAND MARKS ROW
+    ============================================================ */
+    .brand-marks-row {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 16px; margin-bottom: 16px;
+    }
+    .brand-mark {
+      position: relative; aspect-ratio: 1;
+      background: var(--surface); border: 1px solid transparent;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center; padding: var(--s6);
+      transition: border-color 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) { .brand-mark:hover { border-color: var(--accent); } }
+    .brand-mark::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(oklch(0 0 0 / 0.035) 1px, transparent 1px), linear-gradient(90deg, oklch(0 0 0 / 0.035) 1px, transparent 1px);
+      background-size: 48px 48px; pointer-events: none;
+    }
+    .brand-mark img { max-width: 60%; max-height: 60%; object-fit: contain; position: relative; z-index: 1; }
+    .brand-mark:nth-child(2) img { max-width: 120%; max-height: 120%; }
+    .brand-mark__caption {
+      position: absolute; left: var(--s3); bottom: var(--s3); z-index: 3;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: white; background: oklch(0 0 0 / 0.45); padding: 5px 9px;
+      transition: background 200ms var(--ease-out);
+    }
+    @media (hover:hover) and (pointer:fine) { .brand-mark:hover .brand-mark__caption { background: var(--accent); } }
+    .brand-mark__empty {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: oklch(0 0 0 / 0.2);
+    }
+    @media (max-width: 700px) { .brand-marks-row { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       UI COMPONENTS
+    ============================================================ */
+    .bsys-ui-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: var(--s4); flex-wrap: wrap;
+      margin-top: var(--s8); margin-bottom: var(--s3);
+      padding-bottom: var(--s3); border-bottom: 1px dashed var(--border);
+    }
+    .bsys-ui-head__title { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+    .bsys-ui-head__meta { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.06em; color: var(--text-3); }
+    .uid-btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; padding: 10px 18px; cursor: pointer; background: var(--text); color: var(--bg); border: 1px solid var(--text); transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 160ms var(--ease-out); }
+    .uid-btn--g { background: transparent; color: var(--text-2); border-color: var(--border-strong); }
+    .uid-btn:hover { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px,-1.5px); }
+    .uid-input, .uid-select { font-family: var(--font-m); font-size: 11px; padding: 10px 12px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); width: 100%; transition: border-color 180ms; outline: none; }
+    .uid-input:focus, .uid-select:focus { border-color: var(--accent); }
+    .uid-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+    .uid-chip { display: inline-flex; cursor: pointer; }
+    .uid-chip input[type=checkbox] { display: none; }
+    .uid-chip span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 12px; border: 1px solid var(--border); color: var(--text-2); transition: color 200ms var(--ease-out), background 200ms var(--ease-out), border-color 200ms var(--ease-out); }
+    .uid-chip input:checked + span { color: var(--accent); background: var(--accent-muted); border-color: var(--accent); }
+    .uid-tab-bar { display: flex; border-bottom: 1px solid var(--border); }
+    .uid-tab { display: inline-flex; }
+    .uid-tab input[type=radio] { display: none; }
+    .uid-tab span { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); padding: 8px 16px; border-bottom: 2px solid transparent; cursor: pointer; transition: color 160ms, border-color 160ms; display: block; position: relative; top: 1px; }
+    .uid-tab input:checked + span { color: var(--accent); border-bottom-color: var(--accent); }
+    .uid-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-family: var(--font-m); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); }
+    .uid-toggle input[type=checkbox] { display: none; }
+    .uid-toggle__track { width: 40px; height: 22px; background: var(--border); border-radius: 999px; position: relative; transition: background 220ms; flex-shrink: 0; }
+    .uid-toggle input:checked + .uid-toggle__track { background: var(--accent); }
+    .uid-toggle__thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: left 220ms; }
+    .uid-toggle input:checked + .uid-toggle__track .uid-toggle__thumb { left: 21px; }
+    .uid-prog { background: var(--surface); border: 1px solid var(--border); height: 6px; width: 100%; overflow: hidden; }
+    .uid-prog + .uid-prog { margin-top: 8px; }
+    .uid-prog__bar { height: 100%; background: var(--accent); }
+    .uid-skel { background: linear-gradient(90deg, var(--surface) 25%, oklch(0.93 0 0) 50%, var(--surface) 75%); background-size: 200% 100%; animation: uid-shimmer 1.6s ease-in-out infinite; border-radius: 2px; }
+    @keyframes uid-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .uid-skel-row { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .uid-toast { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid oklch(0.5 0.15 145 / 0.3); background: oklch(0.5 0.15 145 / 0.08); font-family: var(--font-m); font-size: 10px; letter-spacing: 0.08em; color: var(--text); width: 100%; }
+    .uid-toast__icon { font-weight: 700; color: oklch(0.5 0.15 145); flex-shrink: 0; }
+    .uid-toast--warn { border-color: oklch(0.65 0.18 60 / 0.35); background: oklch(0.65 0.18 60 / 0.08); }
+    .uid-toast--warn .uid-toast__icon { color: oklch(0.65 0.18 60); }
+    .uid-table { width: 100%; border-collapse: collapse; font-family: var(--font-m); font-size: 10px; letter-spacing: 0.04em; }
+    .uid-table th { text-align: left; padding: 6px 10px; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--border); }
+    .uid-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+    .uid-table tr:last-child td { border-bottom: none; }
+    .uid-table tr:hover td { background: var(--surface); }
+    .uid-badge { font-family: var(--font-m); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); background: var(--accent-muted); padding: 3px 8px; }
+
+    /* ============================================================
+       SLOT EMPTY / DIG BROWSER
+    ============================================================ */
+    .slot-empty {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: oklch(0 0 0 / 0.18);
+    }
+    .dig-browser {
+      grid-column: span 12;
+      background: oklch(0.10 0.003 249);
+      border: 1px solid oklch(1 0 0 / 0.08);
+      display: flex; flex-direction: column;
+    }
+    .dig-browser__viewport img { width: 100%; display: block; }
+    @media (max-width: 900px) { .dig-browser { grid-column: span 6; } }
   </style>
 </head>
-<body data-project-type="mix">
+<body>
 
   <!-- ============================================================
        NAV
@@ -1401,798 +1502,34 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       HERO
-  ============================================================ -->
-  <section class="proj-hero">
-    <img class="proj-hero__img" src="images/placeholders/hero.svg" alt="BMW project hero">
-    <div class="proj-hero__scrim"></div>
-    <div class="proj-hero__content">
-      <div class="w">
-        <p class="proj-hero__tag"><span class="proj-hero__client">BMW Group</span></p>
-        <h1 class="proj-hero__h1">Redefining the<br>Digital Showroom.</h1>
-      </div>
-    </div>
-    <div class="proj-hero__scroll" aria-hidden="true">Scroll</div>
-  </section>
-
-  <!-- ============================================================
-       META BAND
-  ============================================================ -->
-  <div class="proj-meta">
-    <div class="w">
-      <div class="proj-meta__grid stagger">
-        <div class="proj-meta__item"><span class="proj-meta__label">Client</span><span class="proj-meta__val">BMW Group</span></div>
-        <div class="proj-meta__item"><span class="proj-meta__label">Industry</span><span class="proj-meta__val">Automotive</span></div>
-        <div class="proj-meta__item"><span class="proj-meta__label">Services</span><span class="proj-meta__val">Branding · Interface Design · Frontend Engineering</span></div>
-        <div class="proj-meta__item"><span class="proj-meta__label">Year</span><span class="proj-meta__val">2025</span></div>
-      </div>
+  <div id="app">
+    <div class="loading-screen">
+      <div class="loading-spinner"></div>
+      Loading project…
     </div>
   </div>
 
-  <!-- ============================================================
-       OVERVIEW
-  ============================================================ -->
-  <section class="proj-overview">
-    <div class="w">
-      <div class="proj-overview__inner reveal">
-        <div>
-          <p class="slabel">Project Overview</p>
-          <h2 class="proj-overview__h">A digital experience<br>worthy of the <em>badge.</em></h2>
-        </div>
-        <div class="proj-overview__body">
-          <p>BMW's digital suite had grown fragmented — dealer tools, configurators, and portals each built in isolation. We designed a unified system from the ground up and engineered the flagship configurator on top of it.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECTION — BRANDING (lean)
-       CMS: project.branding { hero[], construction, variants[] }
-  ============================================================ -->
-  <section class="sec sec--branding">
-    <div class="w">
-      <div class="sec__hdr reveal">
-        <p class="slabel">Identity</p>
-        <h2 class="sh">A mark built to<br><em>endure.</em></h2>
-      </div>
-
-      <!-- Stage 1 — auto-morphing primary mark -->
-      <!-- CMS: project.branding.hero[] — array of logo images that cycle -->
-      <div class="brand-primary reveal" id="brand-morph">
-        <div class="morph-stack">
-          <div class="morph-layer is-active"><img src="images/placeholders/brand-primary-01.svg" alt="Primary wordmark"></div>
-          <div class="morph-layer"><img src="images/placeholders/brand-primary-02.svg" alt="Stacked lockup"></div>
-          <div class="morph-layer"><img src="images/placeholders/brand-primary-03.svg" alt="Monogram"></div>
-        </div>
-        <span class="brand-primary__caption">Primary Mark</span>
-        <span class="brand-primary__counter"><span id="morph-i">01</span> &nbsp;/&nbsp; 03</span>
-      </div>
-
-      <!-- Stage 2 — construction + variant trio -->
-      <div class="brand-row stagger reveal">
-        <!-- CMS: project.branding.construction -->
-        <div class="brand-construction">
-          <img src="images/placeholders/brand-construction.svg" alt="Construction geometry">
-          <span class="brand-construction__caption">Construction</span>
-        </div>
-        <!-- CMS: project.branding.variants[] — { image, label, context: 'light' | 'dark' | 'accent' } -->
-        <div class="brand-variant">
-          <img src="images/placeholders/brand-variant-light.svg" alt="Light context">
-          <span class="brand-variant__label">Light</span>
-        </div>
-        <div class="brand-variant brand-variant--dark">
-          <img src="images/placeholders/brand-variant-dark.svg" alt="Dark context">
-          <span class="brand-variant__label">Reversed</span>
-        </div>
-        <div class="brand-variant brand-variant--accent">
-          <img src="images/placeholders/brand-variant-accent.svg" alt="On accent">
-          <span class="brand-variant__label">On Accent</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECTION — BRAND SYSTEM (dynamic)
-       CMS: project.system { palette[], type{family, weights[], scale[]}, tokens[] }
-  ============================================================ -->
-  <section class="sec sec--system">
-    <div class="w">
-      <div class="sec__hdr reveal">
-        <p class="slabel">Brand System</p>
-        <h2 class="sh">The mechanics<br>behind the <em>mark.</em></h2>
-      </div>
-
-      <!-- Palette + Typography -->
-      <div class="bsys-grid">
-        <!-- Interactive palette -->
-        <div class="bsys-card reveal">
-          <div class="bsys-card__head">
-            <span class="bsys-card__label">Palette</span>
-            <span class="bsys-card__meta">6 tokens</span>
-          </div>
-          <!-- CMS: project.system.palette[] — each { name, hex, usage } -->
-          <div class="bsys-palette" id="bsys-palette">
-            <button class="bsys-swatch active" style="background:#0A1E3F" data-hex="#0A1E3F" data-name="Navy"     data-usage="Primary"     aria-label="Navy"></button>
-            <button class="bsys-swatch"        style="background:#1A73E8" data-hex="#1A73E8" data-name="Signal"   data-usage="Interactive" aria-label="Signal"></button>
-            <button class="bsys-swatch"        style="background:#F5F5F2" data-hex="#F5F5F2" data-name="Canvas"   data-usage="Surface"     aria-label="Canvas"></button>
-            <button class="bsys-swatch"        style="background:#2A2A2A" data-hex="#2A2A2A" data-name="Graphite" data-usage="Body text"   aria-label="Graphite"></button>
-            <button class="bsys-swatch"        style="background:#C99A2E" data-hex="#C99A2E" data-name="Brass"    data-usage="Accent"      aria-label="Brass"></button>
-            <button class="bsys-swatch"        style="background:#CC3333" data-hex="#CC3333" data-name="Red"      data-usage="Alert"       aria-label="Red"></button>
-          </div>
-          <div class="bsys-readout" id="bsys-readout">
-            <span class="bsys-readout__chip" style="background:#0A1E3F"></span>
-            <span class="bsys-readout__name">Navy — Primary</span>
-            <span class="bsys-readout__hex">#0A1E3F</span>
-          </div>
-        </div>
-
-        <!-- Interactive typography -->
-        <div class="bsys-card reveal">
-          <div class="bsys-card__head">
-            <span class="bsys-card__label">Typography</span>
-            <span class="bsys-card__meta">Bricolage Grotesque</span>
-          </div>
-          <div class="bsys-type-weights" id="bsys-weights">
-            <button class="bsys-wbtn" data-weight="300">Light</button>
-            <button class="bsys-wbtn" data-weight="500">Medium</button>
-            <button class="bsys-wbtn active" data-weight="700">Bold</button>
-            <button class="bsys-wbtn" data-weight="800">Black</button>
-          </div>
-          <p class="bsys-type-preview" id="bsys-preview" style="font-weight:700;">Precision.</p>
-          <div class="bsys-type-scale">
-            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">12</span><span class="bsys-type-scale__name">Caption</span></div>
-            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">16</span><span class="bsys-type-scale__name">Body</span></div>
-            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">32</span><span class="bsys-type-scale__name">Display</span></div>
-            <div class="bsys-type-scale__item"><span class="bsys-type-scale__val">72</span><span class="bsys-type-scale__name">Hero</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Marquee — color tokens flowing -->
-      <div class="bsys-marquee reveal" aria-hidden="true">
-        <div class="bsys-marquee__track">
-          <span class="bsys-marquee__item"><span class="dot" style="background:#0A1E3F"></span><span>#0A1E3F</span><span class="accent">Navy</span><span>Primary</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#1A73E8"></span><span>#1A73E8</span><span class="accent">Signal</span><span>Interactive</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#F5F5F2"></span><span>#F5F5F2</span><span class="accent">Canvas</span><span>Surface</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#2A2A2A"></span><span>#2A2A2A</span><span class="accent">Graphite</span><span>Body</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#C99A2E"></span><span>#C99A2E</span><span class="accent">Brass</span><span>Accent</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#CC3333"></span><span>#CC3333</span><span class="accent">Red</span><span>Alert</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <!-- duplicate set for seamless loop -->
-          <span class="bsys-marquee__item"><span class="dot" style="background:#0A1E3F"></span><span>#0A1E3F</span><span class="accent">Navy</span><span>Primary</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#1A73E8"></span><span>#1A73E8</span><span class="accent">Signal</span><span>Interactive</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#F5F5F2"></span><span>#F5F5F2</span><span class="accent">Canvas</span><span>Surface</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#2A2A2A"></span><span>#2A2A2A</span><span class="accent">Graphite</span><span>Body</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#C99A2E"></span><span>#C99A2E</span><span class="accent">Brass</span><span>Accent</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-          <span class="bsys-marquee__item"><span class="dot" style="background:#CC3333"></span><span>#CC3333</span><span class="accent">Red</span><span>Alert</span></span>
-          <span class="bsys-marquee__item"><span class="star">&#10022;</span></span>
-        </div>
-      </div>
-
-      <!-- Tokens row — scroll-driven + auto spotlight -->
-      <div class="bsys-tokens stagger" id="bsys-tokens">
-        <div class="bsys-token">
-          <p class="bsys-token__name">Spacing</p>
-          <div class="bsys-token__demo">
-            <span style="width:4px;"></span>
-            <span style="width:8px;"></span>
-            <span style="width:16px;"></span>
-            <span style="width:32px;"></span>
-            <span style="width:64px;"></span>
-          </div>
-          <p class="bsys-token__val">4 · 8 · 16 · 32 · 64</p>
-        </div>
-        <div class="bsys-token">
-          <p class="bsys-token__name">Radius</p>
-          <div class="bsys-token__demo"><div class="bsys-token__radius"></div></div>
-          <p class="bsys-token__val">--r-md · 14px</p>
-        </div>
-        <div class="bsys-token">
-          <p class="bsys-token__name">Elevation</p>
-          <div class="bsys-token__demo"><div class="bsys-token__shadow"></div></div>
-          <p class="bsys-token__val">0 12px 32px · 12%</p>
-        </div>
-        <div class="bsys-token">
-          <p class="bsys-token__name">Grid</p>
-          <div class="bsys-token__demo" style="gap:2px;">
-            <span style="width:10%; height: 60%;"></span>
-            <span style="width:10%; height: 60%;"></span>
-            <span style="width:10%; height: 60%;"></span>
-            <span style="width:10%; height: 60%;"></span>
-            <span style="width:10%; height: 60%;"></span>
-            <span style="width:10%; height: 60%;"></span>
-          </div>
-          <p class="bsys-token__val">12-col · 80px gutter</p>
-        </div>
-      </div>
-
-      <!-- Atoms — foundational elements (patterns live in the Digital section) -->
-      <div class="bsys-atoms-head reveal">
-        <span class="bsys-atoms-head__title">Atoms / Foundations</span>
-        <span class="bsys-atoms-head__meta">The smallest units — composed into patterns elsewhere</span>
-      </div>
-      <div class="bsys-components reveal">
-        <div class="bsys-comp">
-          <span class="bsys-comp__label">Atom · Action</span>
-          <div class="bsys-comp__demo">
-            <button class="bsys-demo-btn">Configure &#8594;</button>
-            <button class="bsys-demo-btn bsys-demo-btn--g">Learn more</button>
-          </div>
-        </div>
-        <div class="bsys-comp">
-          <span class="bsys-comp__label">Atom · Field</span>
-          <div class="bsys-comp__demo">
-            <input class="bsys-demo-input" type="text" placeholder="Enter VIN">
-          </div>
-        </div>
-        <div class="bsys-comp">
-          <span class="bsys-comp__label">Atom · Tag</span>
-          <div class="bsys-comp__demo">
-            <span class="bsys-demo-chip">M Sport</span>
-            <span class="bsys-demo-chip">2025</span>
-            <span class="bsys-demo-chip">Hybrid</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECTION — BRAND APPLICATIONS (Bento)
-       Mixed-scale asymmetric grid, in-situ mockups.
-       CMS: project.applications.tiles[] — each { image, label, kind }
-  ============================================================ -->
-  <section class="sec sec--applications">
-    <div class="w">
-      <div class="sec__hdr reveal">
-        <p class="slabel">Applications</p>
-        <h2 class="sh">The brand<br>in the <em>wild.</em></h2>
-      </div>
-
-      <div class="apps-bento stagger">
-        <!-- Lead — full-bleed in-situ -->
-        <figure class="apps-tile at--lead">
-          <img src="images/placeholders/app-01-signage.svg" alt="Showroom signage system">
-          <figcaption class="apps-tile__cap"><small>01</small>Showroom Signage</figcaption>
-        </figure>
-
-        <!-- 7/5 split -->
-        <figure class="apps-tile at--7">
-          <img src="images/placeholders/app-02-stationery.svg" alt="Stationery on desk">
-          <figcaption class="apps-tile__cap"><small>02</small>Stationery</figcaption>
-        </figure>
-        <figure class="apps-tile at--5">
-          <img src="images/placeholders/app-03-packaging.svg" alt="Packaging in hand">
-          <figcaption class="apps-tile__cap"><small>03</small>Packaging</figcaption>
-        </figure>
-
-        <!-- Triple of 4s -->
-        <figure class="apps-tile at--4">
-          <img src="images/placeholders/app-04-letterhead.svg" alt="Letterhead">
-          <figcaption class="apps-tile__cap"><small>04</small>Letterhead</figcaption>
-        </figure>
-        <figure class="apps-tile at--4">
-          <img src="images/placeholders/app-05-apparel.svg" alt="Apparel">
-          <figcaption class="apps-tile__cap"><small>05</small>Apparel</figcaption>
-        </figure>
-        <figure class="apps-tile at--4">
-          <img src="images/placeholders/app-06-brochure.svg" alt="Brochure spread">
-          <figcaption class="apps-tile__cap"><small>06</small>Brochure</figcaption>
-        </figure>
-
-        <!-- 6/6 close -->
-        <figure class="apps-tile at--6">
-          <img src="images/placeholders/app-07-livery.svg" alt="Vehicle livery">
-          <figcaption class="apps-tile__cap"><small>07</small>Livery</figcaption>
-        </figure>
-        <figure class="apps-tile at--6">
-          <img src="images/placeholders/app-08-environmental.svg" alt="Environmental">
-          <figcaption class="apps-tile__cap"><small>08</small>Environmental</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECTION — APPS & WEBSITES (Bento)
-       CMS: project.digital { lead{url,image}, phones[], widgets[], system{mobile[],web[]} }
-  ============================================================ -->
-  <section class="sec sec--digital">
-    <div class="w">
-      <div class="sec__hdr reveal">
-        <p class="slabel">Digital</p>
-        <h2 class="sh">Shipped to<br>every <em>screen.</em></h2>
-      </div>
-
-      <div class="dig-bento stagger">
-        <!-- Lead — Website Desktop with browser chrome -->
-        <!-- CMS: project.digital.lead { url, image } -->
-        <figure class="dig-tile dig--lead magnet">
-          <div class="browser-chrome" aria-hidden="true">
-            <span class="browser-chrome__dots"><span></span><span></span><span></span></span>
-            <span class="browser-chrome__url">mark.studio / configure</span>
-            <span class="browser-chrome__meta">↻ ☆</span>
-          </div>
-          <div class="dig-tile__media" data-parallax="0.10">
-            <img src="images/placeholders/digital-website-lead.svg" alt="Website desktop layout">
-          </div>
-          <figcaption class="dig-tile__cap"><small>01</small>Website · Desktop</figcaption>
-        </figure>
-
-        <!-- Mobile — App Home -->
-        <!-- CMS: project.digital.phones[0] -->
-        <figure class="dig-tile dig--p4">
-          <img src="images/placeholders/digital-phone-01.svg" alt="App home">
-          <figcaption class="dig-tile__cap"><small>02</small>App · Home</figcaption>
-        </figure>
-
-        <!-- Widget — Range / Live -->
-        <!-- CMS: project.digital.widgets[0] — type: 'range' -->
-        <div class="dig-tile dig-widget dig--w4">
-          <div class="dig-widget__head">
-            <span class="dig-widget__lbl">Range · Live</span>
-            <span class="dig-widget__pulse" aria-hidden="true"></span>
-          </div>
-          <div class="dig-widget__body">
-            <p class="dig-widget__big">324<span>mi</span></p>
-            <div class="dig-widget__bar"><span style="width:82%"></span></div>
-          </div>
-          <p class="dig-widget__sub">Charge 82% · Last drive 14h</p>
-        </div>
-
-        <!-- Widget — Now Configuring -->
-        <!-- CMS: project.digital.widgets[1] — type: 'progress' -->
-        <div class="dig-tile dig-widget dig-widget--light dig--w4">
-          <div class="dig-widget__head">
-            <span class="dig-widget__lbl">Configuring</span>
-            <span class="dig-widget__step">02 / 06</span>
-          </div>
-          <div class="dig-widget__body">
-            <svg class="dig-widget__svg" viewBox="0 0 200 110" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <path d="M0 86 L20 60 L60 46 L120 42 L160 46 L180 60 L200 86 L200 100 L0 100 Z" fill="#0A1E3F"/>
-              <path d="M40 60 L70 48 L120 46 L150 56 Z" fill="#1A73E8" opacity="0.55"/>
-              <circle cx="48" cy="100" r="12" fill="#0A0A0A"/>
-              <circle cx="156" cy="100" r="12" fill="#0A0A0A"/>
-            </svg>
-            <p class="dig-widget__title">M Sport · Sedan</p>
-          </div>
-          <div class="dig-widget__steps">
-            <span class="done"></span>
-            <span class="active"></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
-        <!-- Widget — Test Drive -->
-        <!-- CMS: project.digital.widgets[2] — type: 'booking' -->
-        <div class="dig-tile dig-widget dig-widget--accent dig--w4">
-          <div class="dig-widget__head">
-            <span class="dig-widget__lbl">Test Drive · Booked</span>
-            <span class="dig-widget__pulse" aria-hidden="true"></span>
-          </div>
-          <div class="dig-widget__body">
-            <p class="dig-widget__title">Tomorrow</p>
-            <p class="dig-widget__big-time">10:30</p>
-          </div>
-          <p class="dig-widget__sub">Munich North · Confirmed</p>
-        </div>
-
-        <!-- Widget — Saved Configs -->
-        <!-- CMS: project.digital.widgets[3] — type: 'list' -->
-        <div class="dig-tile dig-widget dig--w4">
-          <div class="dig-widget__head">
-            <span class="dig-widget__lbl">Saved · 02</span>
-            <span class="dig-widget__more">→</span>
-          </div>
-          <div class="dig-widget__body">
-            <div class="dig-widget__row">
-              <span class="dig-widget__row-thumb" style="background:linear-gradient(135deg,#0A1E3F,#15315E);"></span>
-              <div class="dig-widget__row-meta">
-                <p class="dig-widget__row-title">Sedan / M Sport</p>
-                <p class="dig-widget__row-sub">£52,400 · Navy</p>
-              </div>
-            </div>
-            <div class="dig-widget__row">
-              <span class="dig-widget__row-thumb" style="background:linear-gradient(135deg,#1A1A1A,#2A2A2A);"></span>
-              <div class="dig-widget__row-meta">
-                <p class="dig-widget__row-title">SUV / Hybrid</p>
-                <p class="dig-widget__row-sub">£64,800 · Black</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile — App Configurator -->
-        <!-- CMS: project.digital.phones[1] -->
-        <figure class="dig-tile dig--p4">
-          <img src="images/placeholders/digital-phone-02.svg" alt="App configurator step">
-          <figcaption class="dig-tile__cap"><small>06</small>App · Configurator</figcaption>
-        </figure>
-
-        <!-- Mobile — App Profile -->
-        <!-- CMS: project.digital.phones[2] -->
-        <figure class="dig-tile dig--p4">
-          <img src="images/placeholders/digital-phone-03.svg" alt="App profile">
-          <figcaption class="dig-tile__cap"><small>07</small>App · Profile</figcaption>
-        </figure>
-
-        <!-- Widget — Live Activity (wide) -->
-        <!-- CMS: project.digital.widgets[4] — type: 'feed' -->
-        <div class="dig-tile dig-widget dig--w8">
-          <div class="dig-widget__head">
-            <span class="dig-widget__lbl">Live Activity · Today</span>
-            <span class="dig-widget__pulse" aria-hidden="true"></span>
-          </div>
-          <ul class="dig-widget__feed">
-            <li>
-              <span class="dot" style="background:#1A73E8"></span>
-              <span class="time">2m ago</span>
-              <span class="text">Order placed — M Sport Sedan, Navy</span>
-              <span class="tag">£52,400</span>
-            </li>
-            <li>
-              <span class="dot" style="background:#C99A2E"></span>
-              <span class="time">14m ago</span>
-              <span class="text">Test drive booked — SUV Hybrid</span>
-              <span class="tag">Munich</span>
-            </li>
-            <li>
-              <span class="dot" style="background:#1A73E8"></span>
-              <span class="time">38m ago</span>
-              <span class="text">Quote sent — Coupé Edition</span>
-              <span class="tag">£88,200</span>
-            </li>
-            <li>
-              <span class="dot" style="background:oklch(1 0 0 / 0.4)"></span>
-              <span class="time">1h ago</span>
-              <span class="text">Config saved — Sedan / M Sport</span>
-              <span class="tag">User #4821</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Live components — Mobile + Web patterns -->
-      <!-- CMS: project.digital.system { mobile[], web[] } -->
-      <div class="dig-system reveal">
-        <div class="dig-system__head">
-          <span class="dig-system__title">Design System / Patterns</span>
-          <span class="dig-system__meta">Mobile + Web · Live HTML</span>
-        </div>
-        <div class="dig-system__cols">
-
-          <!-- Mobile column -->
-          <div class="dig-system__col">
-            <span class="dig-system__col-lbl">Mobile / Native</span>
-            <div class="dig-system__items">
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">Tab Bar</span>
-                <div class="dsys-comp__demo dsys-comp__demo--dark">
-                  <div class="dsys-tabbar">
-                    <span class="dsys-tabbar__item active"><span class="dsys-tabbar__icon"></span><span>Home</span></span>
-                    <span class="dsys-tabbar__item"><span class="dsys-tabbar__icon"></span><span>Config</span></span>
-                    <span class="dsys-tabbar__item"><span class="dsys-tabbar__icon"></span><span>Saved</span></span>
-                    <span class="dsys-tabbar__item"><span class="dsys-tabbar__icon"></span><span>Profile</span></span>
-                  </div>
-                </div>
-              </div>
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">Segmented · Switch</span>
-                <div class="dsys-comp__demo">
-                  <div class="dsys-segmented" id="dsys-seg">
-                    <button class="active">Day</button>
-                    <button>Week</button>
-                    <button>Month</button>
-                  </div>
-                  <span class="dsys-switch active" id="dsys-switch" role="switch" aria-checked="true"><span></span></span>
-                </div>
-              </div>
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">Slider · Range</span>
-                <div class="dsys-comp__demo">
-                  <div class="dsys-slider">
-                    <div class="dsys-slider__track"></div>
-                    <div class="dsys-slider__fill" style="width:40%"></div>
-                    <div class="dsys-slider__handle" style="left:40%"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">FAB</span>
-                <div class="dsys-comp__demo dsys-comp__demo--surface">
-                  <button class="dsys-fab" aria-label="Create">+</button>
-                  <button class="dsys-fab dsys-fab--g" aria-label="Up">↑</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Web column -->
-          <div class="dig-system__col">
-            <span class="dig-system__col-lbl">Web / Browser</span>
-            <div class="dig-system__items">
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">Button · Toggle</span>
-                <div class="dsys-comp__demo">
-                  <button class="dsys-btn">Configure →</button>
-                  <button class="dsys-btn dsys-btn--g">Cancel</button>
-                  <label class="dsys-check">
-                    <input type="checkbox" checked> <span></span> Notify me
-                  </label>
-                </div>
-              </div>
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">Input · Select</span>
-                <div class="dsys-comp__demo">
-                  <input class="dsys-input" type="text" placeholder="Search models...">
-                  <div class="dsys-select"><span>Sedan</span><span class="caret">▾</span></div>
-                </div>
-              </div>
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">Card</span>
-                <div class="dsys-comp__demo dsys-comp__demo--surface">
-                  <div class="dsys-card">
-                    <span class="dsys-card__lbl">M SPORT</span>
-                    <p class="dsys-card__title">Sedan / 2025</p>
-                    <p class="dsys-card__price">FROM £52,400</p>
-                  </div>
-                </div>
-              </div>
-              <div class="dsys-comp">
-                <span class="dsys-comp__lbl">Breadcrumb</span>
-                <div class="dsys-comp__demo">
-                  <nav class="dsys-crumb">
-                    <span>Models</span><span class="sep">/</span>
-                    <span>Sedan</span><span class="sep">/</span>
-                    <span class="active">M Sport</span>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
-       STATISTICS
-  ============================================================ -->
-  <section class="proj-stats">
-    <div class="w">
-      <div class="proj-stats__hdr reveal">
-        <p class="slabel">By the Numbers</p>
-        <h2 class="sh">The work,<br><em>quantified.</em></h2>
-        <p style="font-size:15px;color:oklch(1 0 0/0.55);line-height:1.72;margin-top:var(--s6);max-width:48ch;">The numbers behind the work — every metric a direct result of decisions made in design and engineering.</p>
-      </div>
-      <div class="proj-stats__grid stagger">
-        <div class="proj-stat">
-          <p class="proj-stat__n"><span class="stat-val" data-count="7">0</span><span class="stat-suffix">+</span></p>
-          <p class="proj-stat__unit">Products Unified</p>
-        </div>
-        <div class="proj-stat">
-          <p class="proj-stat__n"><span class="stat-val" data-count="340">0</span><span class="stat-suffix">+</span></p>
-          <p class="proj-stat__unit">Components Built &amp; Documented</p>
-        </div>
-        <div class="proj-stat">
-          <p class="proj-stat__n"><span class="stat-val" data-count="94">0</span><span class="stat-suffix">+</span></p>
-          <p class="proj-stat__unit">MS · Avg Latency</p>
-        </div>
-        <div class="proj-stat">
-          <p class="proj-stat__n"><span class="stat-val" data-count="38">0</span><span class="stat-suffix">+</span></p>
-          <p class="proj-stat__unit">% Increase in Conversion</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       TESTIMONIAL
-  ============================================================ -->
-  <section class="proj-quote">
-    <div class="w">
-      <div class="proj-quote__inner reveal">
-        <span class="proj-quote__mark" aria-hidden="true">&ldquo;</span>
-        <p class="proj-quote__text">Parallax didn't just ship components — they gave us a <em>language.</em> Every team speaks it now.</p>
-        <div class="proj-quote__byline">
-          <span class="proj-quote__author"><strong>Markus Dietrich</strong> &mdash; Head of Digital Products, BMW Group</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       OUTCOME
-  ============================================================ -->
-  <section class="proj-outcome">
-    <div class="w">
-      <div class="proj-outcome__inner reveal">
-        <div>
-          <p class="slabel">Outcome</p>
-          <h2 class="proj-outcome__h">What changed<br>after we <em>shipped.</em></h2>
-        </div>
-        <div class="proj-outcome__cards">
-          <div class="proj-outcome__card">
-            <p class="proj-outcome__card-n">38%</p>
-            <p class="proj-outcome__card-title">Conversion Rate</p>
-            <p class="proj-outcome__card-sub">First quarter post-launch</p>
-          </div>
-          <div class="proj-outcome__card">
-            <p class="proj-outcome__card-n">60%</p>
-            <p class="proj-outcome__card-title">Faster Handoff</p>
-            <p class="proj-outcome__card-sub">Shared token pipeline</p>
-          </div>
-          <div class="proj-outcome__card">
-            <p class="proj-outcome__card-n">4 days</p>
-            <p class="proj-outcome__card-title">Onboarding</p>
-            <p class="proj-outcome__card-sub">Down from 3 weeks</p>
-          </div>
-          <div class="proj-outcome__card">
-            <p class="proj-outcome__card-n">100%</p>
-            <p class="proj-outcome__card-title">WCAG 2.1 AA</p>
-            <p class="proj-outcome__card-sub">All surfaces compliant</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       MORE PROJECTS
-  ============================================================ -->
-  <section class="proj-more">
-    <div class="w">
-      <div class="proj-more__hdr reveal">
-        <div>
-          <p class="slabel">More Work</p>
-          <h2 class="sh">You might also<br><em>like these.</em></h2>
-        </div>
-        <a href="work.html" class="proj-more__link">Full Archive &#8599;</a>
-      </div>
-      <div class="proj-more__grid stagger">
-        <a href="project.html" class="proj-card">
-          <div class="proj-card__img"><img src="images/placeholders/related-01.svg" alt="Vestas project"></div>
-          <div class="proj-card__body">
-            <p class="proj-card__client">Vestas</p>
-            <p class="proj-card__name">Wind Energy Digital Platform</p>
-            <p class="proj-card__tag">Brand Systems · Digital Strategy</p>
-          </div>
-        </a>
-        <a href="project.html" class="proj-card">
-          <div class="proj-card__img"><img src="images/placeholders/related-02.svg" alt="Sportradar project"></div>
-          <div class="proj-card__body">
-            <p class="proj-card__client">Sportradar</p>
-            <p class="proj-card__name">Live Data Visualisation Suite</p>
-            <p class="proj-card__tag">Interface Design · Frontend Engineering</p>
-          </div>
-        </a>
-        <a href="project.html" class="proj-card">
-          <div class="proj-card__img"><img src="images/placeholders/related-03.svg" alt="Sopra project"></div>
-          <div class="proj-card__body">
-            <p class="proj-card__client">Sopra Steria</p>
-            <p class="proj-card__name">Enterprise Design Transformation</p>
-            <p class="proj-card__tag">Creative Direction · Design Systems</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       CTA BAND
-  ============================================================ -->
-  <section class="cta-band" id="cta-band">
-    <div class="cta-band__cursor-fx" aria-hidden="true"></div>
-    <div class="w">
-      <div class="cta-band__inner reveal">
-        <div class="cta-band__text">
-          <h2>Let's build something<br><em>worth</em> building.</h2>
-          <p>We're selective about the projects we take on.<br>That's by design.</p>
-        </div>
-        <div class="cta-band__btns">
-          <a href="parallax-landing.html#contact" class="btn btn-p">Start a Project &#8594;</a>
-          <a href="work.html" class="btn btn-g">See Our Work</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       WORLD CLOCKS
-  ============================================================ -->
-  <div class="clocks">
-    <div class="w">
-      <div class="clocks__inner">
-        <span class="clocks__label">Global Presence</span>
-        <div class="clock">
-          <span class="clock__city">Munich</span>
-          <span class="clock__time" id="clock-de">--:--:--</span>
-        </div>
-        <div class="clock__sep"></div>
-        <div class="clock">
-          <span class="clock__city">Dubai</span>
-          <span class="clock__time" id="clock-ae">--:--:--</span>
-        </div>
-        <div class="clock__sep"></div>
-        <div class="clock">
-          <span class="clock__city">Bengaluru</span>
-          <span class="clock__time" id="clock-in">--:--:--</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
-  <footer class="footer">
-    <div class="w">
-      <div class="footer__in">
-        <span class="footer__logo">Parallax.</span>
-        <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
-        <ul class="footer__links">
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Dribbble</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">Privacy</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ============================================================
-       DEV / DEMO TOGGLE — remove before shipping
-  ============================================================ -->
-  <div class="demo-toggle" role="group" aria-label="Project type preview">
-    <button data-type="mix" class="active">Mix</button>
-    <button data-type="branding">Branding</button>
-    <button data-type="website">Website</button>
-    <button data-type="app">App</button>
-  </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin/supabase.js"></script>
   <script>
-    /* ---- NAV ---- */
+    /* ---- NAV scroll + burger ---- */
     const nav     = document.getElementById('main-nav');
     const burger  = document.getElementById('nav-burger');
     const overlay = document.getElementById('nav-overlay');
-
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
     nav.classList.toggle('scrolled', window.scrollY > 40);
-
     burger.addEventListener('click', () => {
       const isOpen = document.body.classList.toggle('menu-open');
       burger.setAttribute('aria-expanded', isOpen);
       overlay.setAttribute('aria-hidden', !isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-    overlay.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.body.classList.remove('menu-open');
-        burger.setAttribute('aria-expanded', 'false');
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      });
-    });
+    overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      document.body.classList.remove('menu-open');
+      burger.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }));
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
         document.body.classList.remove('menu-open');
@@ -2202,237 +1539,531 @@
       }
     });
 
-    /* ---- SCROLL REVEAL ---- */
-    const revealEls = document.querySelectorAll('.reveal, .stagger, .bsys-token');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
+    /* ---- HELPERS ---- */
+    function hl(text) { if (!text) return ''; return text.replace(/\*(.*?)\*/g, '<em>$1</em>'); }
+    function vimeoEmbed(url) {
+      if (!url) return null;
+      const m = url.match(/vimeo\.com\/(\d+)/);
+      return m ? `https://player.vimeo.com/video/${m[1]}?autoplay=0&loop=1&title=0&byline=0&portrait=0&dnt=1` : null;
+    }
+    function imgTile(url, cls, cap) {
+      return url
+        ? `<div class="${cls}"><img src="${url}" alt="${cap}" loading="lazy"><span class="apps-tile__cap">${cap}</span></div>`
+        : `<div class="${cls}" style="border:1px dashed oklch(0 0 0/0.12);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:oklch(0 0 0/0.18);">${cap}</div>`;
+    }
+    function digTile(url, cls, cap) {
+      return url ? `<div class="${cls}"><img src="${url}" alt="${cap}" loading="lazy"><span class="dig-tile__cap">${cap}</span></div>` : '';
+    }
+
+    /* ---- LOAD PROJECT ---- */
+    (async () => {
+      const id = new URLSearchParams(location.search).get('id');
+      if (!id) {
+        document.getElementById('app').innerHTML = `<div class="loading-screen">No project ID. <a href="work.html" style="color:var(--accent);">← Back to Work</a></div>`;
+        return;
+      }
+
+      const [{ data: p, error }, { data: moreProjects }] = await Promise.all([
+        db.from('case_studies').select('*').eq('id', id).eq('status', 'published').single(),
+        db.from('case_studies')
+          .select('id, client, title, industry, img_hero, sort_order')
+          .eq('status', 'published').neq('id', id)
+          .order('sort_order', { ascending: true, nullsFirst: false }).limit(3)
+      ]);
+
+      if (error || !p) {
+        document.getElementById('app').innerHTML = `<div class="loading-screen">Project not found or not published. <a href="work.html" style="color:var(--accent);">← Back to Work</a></div>`;
+        return;
+      }
+
+      document.title = `${p.client || p.title} — ${p.title || 'Project'} | Parallax`;
+
+      if (p.accent_color) {
+        document.documentElement.style.setProperty('--accent', p.accent_color);
+        document.documentElement.style.setProperty('--accent-muted', p.accent_color + '25');
+        document.documentElement.style.setProperty('--accent-soft',  p.accent_color + '10');
+      }
+
+      const services     = Array.isArray(p.services) ? p.services.join(' · ') : (p.services || '—');
+      const colours      = Array.isArray(p.brand_colours) ? p.brand_colours : [];
+      const tokens       = p.brand_tokens || {};
+      const atoms        = Array.isArray(p.brand_atoms) ? p.brand_atoms : [];
+      const uiComponents = Array.isArray(p.brand_ui) ? p.brand_ui : [];
+      const widgets      = Array.isArray(p.brand_widgets) ? p.brand_widgets : [];
+      const fontSources  = Array.isArray(p.brand_fonts?.sources) ? p.brand_fonts.sources : [];
+      const fonts        = fontSources.filter(s => s.family);
+      const stats        = [1,2,3,4,5].map(i => ({ value: p[`stat${i}_value`], label: p[`stat${i}_label`] })).filter(s => s.value);
+      const outcomes     = [1,2,3,4].map(i => ({ title: p[`outcome${i}_title`], desc: p[`outcome${i}_description`] })).filter(o => o.title);
+      const allSwatches  = colours.flatMap(g => (g.swatches || []).map(s => ({ ...s, group: g.name || '' })));
+
+      // Load Google fonts
+      const googleSources = fontSources.filter(s => s.source === 'google' && s.family);
+      if (googleSources.length) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = `https://fonts.googleapis.com/css2?${googleSources.map(s => `family=${encodeURIComponent(s.family)}:wght@100..900`).join('&')}&display=swap`;
+        document.head.appendChild(link);
+      }
+      const uploadedSources = fontSources.filter(s => s.source === 'upload' && s.url && s.family);
+      if (uploadedSources.length) {
+        const st = document.createElement('style');
+        st.textContent = uploadedSources.map(s => {
+          const ext = s.url.split('?')[0].split('.').pop().toLowerCase();
+          const fmt = ext === 'woff2' ? 'woff2' : ext === 'woff' ? 'woff' : ext === 'ttf' ? 'truetype' : 'opentype';
+          return `@font-face { font-family: '${s.family}'; src: url('${s.url}') format('${fmt}'); font-display: swap; }`;
+        }).join('\n');
+        document.head.appendChild(st);
+      }
+
+      /* -- Render helpers (need p/allSwatches/etc in scope) -- */
+      function renderPaletteCard() {
+        if (!allSwatches.length) return '';
+        const first = allSwatches[0];
+        const btns = allSwatches.map((s, i) =>
+          `<button class="bsys-swatch${i===0?' active':''}" style="background:${s.hex};" data-hex="${s.hex}" data-name="${s.name||''}" data-usage="${s.group||''}" aria-label="${s.name||s.hex}"></button>`).join('');
+        return `<div class="bsys-card" id="bsys-palette-card">
+          <div class="bsys-card__head"><span class="bsys-card__label">Colour Palette</span><span class="bsys-card__meta">${allSwatches.length} tokens</span></div>
+          <div class="bsys-palette" id="bsys-palette">${btns}</div>
+          <div class="bsys-readout" id="bsys-readout">
+            <span class="bsys-readout__chip" style="background:${first.hex};"></span>
+            <span class="bsys-readout__name">${first.name||''}${first.group?' — '+first.group:''}</span>
+            <span class="bsys-readout__hex">${first.hex}</span>
+          </div></div>`;
+      }
+      function renderTypographyCard() {
+        if (!fonts.length) return '';
+        const family = fonts[0].family || 'sans-serif';
+        const wbtns = [{w:400,l:'Regular'},{w:700,l:'Bold'}]
+          .map(({w,l}) => `<button class="bsys-wbtn${w===700?' active':''}" data-weight="${w}">${l}</button>`).join('');
+        return `<div class="bsys-card" id="bsys-typo-card">
+          <div class="bsys-card__head"><span class="bsys-card__label">Typography</span><span class="bsys-card__meta">${family}</span></div>
+          <div class="bsys-type-weights" id="bsys-weights">${wbtns}</div>
+          <p class="bsys-type-preview" id="bsys-preview" style="font-family:'${family}',sans-serif;font-weight:700;">${family}</p>
+          <div class="bsys-type-scale">
+            ${[['Heading',48,96],['Subheading',24,40],['Body',14,18],['Caption',10,13]].map(([n,mn,mx]) =>
+              `<div class="bsys-type-scale__item"><span class="bsys-type-scale__val">${mn+Math.floor(Math.random()*(mx-mn+1))}</span><span class="bsys-type-scale__name">${n}</span></div>`).join('')}
+          </div></div>`;
+      }
+      function renderMarquee() {
+        if (!allSwatches.length) return '';
+        const items = allSwatches.map(s =>
+          `<span class="bsys-marquee__item"><span style="width:10px;height:10px;flex-shrink:0;background:${s.hex};display:inline-block;"></span><span>${s.hex}</span><span style="color:var(--accent)">${s.name||''}</span></span>
+           <span class="bsys-marquee__item"><span style="color:var(--accent);font-weight:800;">&#10022;</span></span>`).join('');
+        return `<div class="bsys-marquee" aria-hidden="true"><div class="bsys-marquee__track">${items}${items}</div></div>`;
+      }
+      function renderTokens() {
+        if (!tokens.spacing && !tokens.radius && !tokens.grid && !tokens.elevation) return '';
+        const rpx = parseInt(tokens.radius)||14;
+        const defs = [
+          { key:'spacing',   name:'Spacing',   val:tokens.spacing||'4 · 8 · 16 · 32 · 64', demo:`<div class="bsys-token__demo">${[4,8,16,32,64].map(w=>`<span style="width:${w}px;"></span>`).join('')}</div>` },
+          { key:'radius',    name:'Radius',    val:`${rpx}px`,                               demo:`<div class="bsys-token__demo"><div class="bsys-token__radius" style="border-radius:${rpx}px;"></div></div>` },
+          { key:'elevation', name:'Elevation', val:tokens.elevation||'—',                    demo:`<div class="bsys-token__demo"><div class="bsys-token__shadow"></div></div>` },
+          { key:'grid',      name:'Grid',      val:tokens.grid||'—',                         demo:`<div class="bsys-token__demo" style="gap:2px;">${Array(6).fill('<span style="width:10%;height:60%;"></span>').join('')}</div>` },
+        ].filter(d => tokens[d.key] || d.key === 'spacing');
+        return `<div class="bsys-tokens">${defs.map(d=>`<div class="bsys-token"><p class="bsys-token__name">${d.name}</p>${d.demo}<p class="bsys-token__val">${d.val}</p></div>`).join('')}</div>`;
+      }
+      const ATOM_DEFS = {
+        action:   { label:'Action',   demo:`<button class="bsys-demo-btn">Confirm &#8594;</button><button class="bsys-demo-btn bsys-demo-btn--g">Cancel</button>` },
+        field:    { label:'Field',    demo:`<input class="bsys-demo-input" type="text" placeholder="Enter value">` },
+        tag:      { label:'Tag',      demo:`<span class="bsys-demo-chip">Design</span><span class="bsys-demo-chip">Brand</span><span class="bsys-demo-chip">Digital</span>` },
+        badge:    { label:'Badge',    demo:`<span class="bsys-demo-chip" style="border-radius:999px;">New</span><span class="bsys-demo-chip" style="border-radius:999px;opacity:.6;">Draft</span>` },
+        toggle:   { label:'Toggle',   demo:`<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--font-m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);"><span style="width:36px;height:20px;background:var(--accent);border-radius:999px;position:relative;display:block;"><span style="position:absolute;top:2px;right:2px;width:16px;height:16px;background:#fff;border-radius:50%;"></span></span>Enabled</label>` },
+        card:     { label:'Card',     demo:`<div style="border:1px solid var(--border);padding:12px 16px;flex:1;"><p style="font-family:var(--font-m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;">Card</p><p style="font-size:13px;color:var(--text-2);line-height:1.5;">A surface that groups related content.</p></div>` },
+        alert:    { label:'Alert',    demo:`<div style="border:1px solid var(--accent);background:var(--accent-muted);padding:10px 14px;width:100%;font-family:var(--font-m);font-size:10px;letter-spacing:.08em;color:var(--text);">&#9888; Action required before continuing.</div>` },
+        modal:    { label:'Modal',    demo:`<div style="border:1px solid var(--border);padding:16px;width:100%;"><p style="font-family:var(--font-m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;">Dialog</p><p style="font-size:12px;color:var(--text-2);margin-bottom:12px;">Confirm this action?</p><div style="display:flex;gap:8px;"><button class="bsys-demo-btn" style="font-size:9px;padding:6px 12px;">Confirm</button><button class="bsys-demo-btn bsys-demo-btn--g" style="font-size:9px;padding:6px 12px;">Cancel</button></div></div>` },
+        dropdown: { label:'Dropdown', demo:`<div style="border:1px solid var(--border);width:100%;"><div style="padding:10px 12px;font-family:var(--font-m);font-size:10px;letter-spacing:.08em;color:var(--text);display:flex;justify-content:space-between;border-bottom:1px solid var(--border);">Select option <span>&#9660;</span></div><div style="padding:8px 12px;font-family:var(--font-m);font-size:10px;color:var(--accent);background:var(--accent-muted);">Option B</div></div>` },
+        tooltip:  { label:'Tooltip',  demo:`<div style="position:relative;display:inline-block;"><button class="bsys-demo-btn bsys-demo-btn--g" style="font-size:9px;padding:6px 12px;">Hover me</button><div style="position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);font-family:var(--font-m);font-size:9px;padding:5px 9px;white-space:nowrap;">Helpful hint</div></div>` },
+      };
+      function renderAtoms() {
+        const sel = atoms.filter(a => ATOM_DEFS[a]);
+        if (!sel.length) return '';
+        return `<div class="bsys-atoms-head"><span class="bsys-atoms-head__title">Atoms / Foundations</span><span class="bsys-atoms-head__meta">The smallest units — composed into patterns</span></div>
+          <div class="bsys-components">${sel.map(a=>`<div class="bsys-comp"><span class="bsys-comp__label">Atom · ${ATOM_DEFS[a].label}</span><div class="bsys-comp__demo">${ATOM_DEFS[a].demo}</div></div>`).join('')}</div>`;
+      }
+      const UI_DEFS = {
+        'btn':           { label:'Buttons',    demo:`<button class="uid-btn">Confirm →</button><button class="uid-btn uid-btn--g">Cancel</button>` },
+        'input':         { label:'Input Field', demo:`<input class="uid-input" type="text" placeholder="Enter value…">` },
+        'select':        { label:'Select',     demo:`<select class="uid-select"><option>All Projects</option><option>Brand</option><option>Digital</option><option>Motion</option></select>` },
+        'chip-filter':   { label:'Chip Filter', demo:`<label class="uid-chip"><input type="checkbox" checked><span>All</span></label><label class="uid-chip"><input type="checkbox" checked><span>Brand</span></label><label class="uid-chip"><input type="checkbox"><span>Digital</span></label>` },
+        'tabs':          { label:'Tabs',       demo:`<div class="uid-tab-bar"><label class="uid-tab"><input type="radio" name="uid-t" checked><span>Overview</span></label><label class="uid-tab"><input type="radio" name="uid-t"><span>Details</span></label><label class="uid-tab"><input type="radio" name="uid-t"><span>Files</span></label></div>` },
+        'toggle-switch': { label:'Toggle',     demo:`<div style="display:flex;flex-direction:column;gap:8px;"><label class="uid-toggle"><input type="checkbox" checked><span class="uid-toggle__track"><span class="uid-toggle__thumb"></span></span>Notifications</label><label class="uid-toggle"><input type="checkbox"><span class="uid-toggle__track"><span class="uid-toggle__thumb"></span></span>Dark Mode</label></div>` },
+        'progress':      { label:'Progress',   demo:`<div style="width:100%;display:flex;flex-direction:column;gap:8px;"><div class="uid-prog"><div class="uid-prog__bar" style="width:72%"></div></div><div class="uid-prog"><div class="uid-prog__bar" style="width:44%;opacity:.6"></div></div></div>` },
+        'skeleton':      { label:'Skeleton',   demo:`<div class="uid-skel-row"><div class="uid-skel" style="height:12px;width:55%;"></div><div class="uid-skel" style="height:12px;width:88%;"></div><div class="uid-skel" style="height:12px;width:70%;"></div></div>` },
+        'toast':         { label:'Toast',      demo:`<div style="display:flex;flex-direction:column;gap:6px;width:100%;"><div class="uid-toast"><span class="uid-toast__icon">✓</span>Changes saved.</div><div class="uid-toast uid-toast--warn"><span class="uid-toast__icon">!</span>Review before publishing.</div></div>` },
+        'table':         { label:'Data Table', demo:`<table class="uid-table"><thead><tr><th>Project</th><th>Type</th><th>Status</th></tr></thead><tbody><tr><td>Parallax Co.</td><td>Brand</td><td><span class="uid-badge">Active</span></td></tr><tr><td>Suka App</td><td>Digital</td><td><span class="uid-badge">Live</span></td></tr></tbody></table>` },
+      };
+      function renderUIComponents() {
+        const sel = uiComponents.filter(c => UI_DEFS[c]);
+        if (!sel.length) return '';
+        return `<div class="bsys-ui-head"><span class="bsys-ui-head__title">UI Components</span><span class="bsys-ui-head__meta">Interactive elements — live in browser</span></div>
+          <div class="bsys-components">${sel.map(c=>`<div class="bsys-comp"><span class="bsys-comp__label">UI · ${UI_DEFS[c].label}</span><div class="bsys-comp__demo">${UI_DEFS[c].demo}</div></div>`).join('')}</div>`;
+      }
+      const WIDGET_DEFS = {
+        'suka-order':       { label:'Order Tracking — Suka App',   path:'widgets/suka-order-widget.html',       width:400 },
+        'suka-reservation': { label:'Table Reservation — Suka App', path:'widgets/suka-reservation-widget.html', width:420 },
+        'suka-weather':     { label:'Weather Card — Suka App',      path:'widgets/suka-weather-widget.html',     width:500 },
+      };
+      function renderWidgets() {
+        const sel = widgets.filter(w => WIDGET_DEFS[w]);
+        if (!sel.length) return '';
+        return `<div style="display:flex;flex-wrap:nowrap;gap:32px;align-items:flex-start;padding-bottom:48px;overflow-x:auto;">
+          ${sel.map(w => { const d=WIDGET_DEFS[w]; return `<div class="apps-tile" style="display:inline-flex;flex-shrink:0;"><iframe src="${d.path}" width="${d.width}" height="350" style="border:none;display:block;" loading="lazy" scrolling="no"></iframe><span class="apps-tile__cap">${d.label}</span></div>`; }).join('')}</div>`;
+      }
+      function renderApplications() {
+        const embedApp = vimeoEmbed(p.video_applications);
+        const lead = embedApp
+          ? `<div class="apps-tile at--lead" style="background:#000;overflow:hidden;"><iframe src="${embedApp}" style="width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe><span class="apps-tile__cap">Video Reel</span></div>`
+          : imgTile(p.img_app_signage, 'apps-tile at--lead', 'Signage');
+        const slots = [
+          {key:'img_app_stationery',cls:'apps-tile at--7',cap:'Stationery'},
+          {key:'img_app_packaging',cls:'apps-tile at--5',cap:'Packaging'},
+          {key:'img_app_letterhead',cls:'apps-tile at--4',cap:'Letterhead'},
+          {key:'img_app_apparel',cls:'apps-tile at--4',cap:'Apparel'},
+          {key:'img_app_brochure',cls:'apps-tile at--4',cap:'Brochure'},
+          {key:'img_app_livery',cls:'apps-tile at--6',cap:'Livery'},
+          {key:'img_app_environmental',cls:'apps-tile at--6',cap:'Environmental'},
+        ];
+        const rest = slots.filter(s=>p[s.key]).map(s=>imgTile(p[s.key],s.cls,s.cap)).join('');
+        if (!embedApp && !p.img_app_signage && !rest) return '';
+        return `<div class="apps-bento">${lead}${rest}</div>`;
+      }
+      function renderDigital() {
+        const embedDig = vimeoEmbed(p.video_digital);
+        const items = [];
+        if (embedDig) {
+          items.push(`<div class="dig-tile dig--lead" style="background:#000;overflow:hidden;"><div class="browser-chrome"><div class="browser-chrome__dots"><span></span><span></span><span></span></div><div class="browser-chrome__url">parallax.studio</div></div><div class="dig-tile__media" style="position:relative;flex:1;"><iframe src="${embedDig}" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe></div></div>`);
+        } else if (p.img_digital_desktop) {
+          items.push(`<div class="dig-browser"><div class="browser-chrome"><div class="browser-chrome__dots"><span></span><span></span><span></span></div><div class="browser-chrome__url">parallax.studio</div></div><div class="dig-browser__viewport"><img src="${p.img_digital_desktop}" alt="Desktop" loading="lazy"></div></div>`);
         }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(el => io.observe(el));
-
-    /* ---- STAT COUNT-UP ---- */
-    (function () {
-      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
-      function animateVal(el) {
-        const target = parseInt(el.dataset.count, 10);
-        const duration = 1600;
-        const startTs = performance.now();
-        function step(now) {
-          const progress = Math.min((now - startTs) / duration, 1);
-          el.textContent = Math.round(easeOutCubic(progress) * target);
-          if (progress < 1) requestAnimationFrame(step);
-          else el.textContent = target;
-        }
-        requestAnimationFrame(step);
+        ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03'].forEach((k,i)=>{ if(p[k]) items.push(digTile(p[k],'dig-tile dig--p4',`Phone 0${i+1}`)); });
+        if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop,'dig-tile dig--lead','Laptop'));
+        return items.length ? `<div class="dig-bento">${items.join('')}</div>` : '';
       }
-      const statsSection = document.querySelector('.proj-stats__grid');
-      if (!statsSection) return;
-      const statObs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => {
-              setTimeout(() => animateVal(el), i * 100);
-            });
-            statObs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 });
-      statObs.observe(statsSection);
+
+      const appsHTML    = renderApplications();
+      const digitalHTML = renderDigital();
+
+      document.getElementById('app').innerHTML = `
+
+        <section class="proj-hero">
+          ${p.img_hero ? `<img class="proj-hero__img" src="${p.img_hero}" alt="${p.title}">` : ''}
+          <div class="proj-hero__scrim"></div>
+          <div class="proj-hero__content">
+            <div class="w">
+              <p class="proj-hero__tag"><span class="proj-hero__client">${p.client || 'Client'}</span></p>
+              <h1 class="proj-hero__h1">${hl(p.title) || 'Project Title'}</h1>
+            </div>
+          </div>
+          <div class="proj-hero__scroll" aria-hidden="true">Scroll</div>
+        </section>
+
+        <div class="proj-meta">
+          <div class="w">
+            <div class="proj-meta__grid stagger">
+              <div class="proj-meta__item"><span class="proj-meta__label">Client</span><span class="proj-meta__val">${p.client||'—'}</span></div>
+              <div class="proj-meta__item"><span class="proj-meta__label">Industry</span><span class="proj-meta__val">${p.industry||'—'}</span></div>
+              <div class="proj-meta__item"><span class="proj-meta__label">Services</span><span class="proj-meta__val">${services||'—'}</span></div>
+              <div class="proj-meta__item"><span class="proj-meta__label">Year</span><span class="proj-meta__val">${p.year||'—'}</span></div>
+            </div>
+          </div>
+        </div>
+
+        ${p.overview ? `
+        <section class="proj-overview">
+          <div class="w"><div class="proj-overview__inner reveal">
+            <div><p class="slabel">Project Overview</p><h2 class="proj-overview__h">${hl(p.overview_heading)||'Project Overview'}</h2></div>
+            <div class="proj-overview__body"><p>${p.overview}</p></div>
+          </div></div>
+        </section>` : ''}
+
+        ${p.challenge_heading||p.challenge_body ? `
+        <section class="proj-challenge">
+          <div class="w"><div class="proj-challenge__inner reveal">
+            <p class="slabel">The Challenge</p>
+            ${p.challenge_heading ? `<p class="proj-challenge__pull">${hl(p.challenge_heading)}</p>` : ''}
+            ${p.challenge_body ? `<p class="proj-challenge__body">${p.challenge_body}</p>` : ''}
+          </div></div>
+        </section>` : ''}
+
+        ${p.show_brand_system !== false ? `
+        <section class="sec--branding">
+          <div class="w">
+            <div class="sec__hdr reveal"><p class="slabel">Identity</p><h2 class="sh">${hl(p.heading_identity||'A mark built to *endure.*')}</h2></div>
+            <div class="brand-marks-row">
+              ${[['img_identity_mark_02','Stacked'],['img_identity_mark_03','Monogram']].map(([slot,label])=>`
+              <div class="brand-mark">
+                ${p[slot] ? `<img src="${p[slot]}" alt="${label}" loading="lazy"><span class="brand-mark__caption">${label}</span>` : `<div class="brand-mark__empty">${label}</div>`}
+              </div>`).join('')}
+            </div>
+            <div class="brand-row stagger">
+              <div class="brand-construction">${p.img_identity_construction?`<img src="${p.img_identity_construction}" alt="Construction" loading="lazy"><span class="brand-construction__caption">Construction</span>`:`<div class="slot-empty">Construction</div>`}</div>
+              <div class="brand-variant">${p.img_identity_variant_light?`<img src="${p.img_identity_variant_light}" alt="Light" loading="lazy"><span class="brand-variant__label">Light</span>`:`<div class="slot-empty">Light</div>`}</div>
+              <div class="brand-variant brand-variant--dark">${p.img_identity_variant_dark?`<img src="${p.img_identity_variant_dark}" alt="Dark" loading="lazy"><span class="brand-variant__label">Reversed</span>`:`<div class="slot-empty" style="color:oklch(1 0 0/0.2);">Dark</div>`}</div>
+              <div class="brand-variant brand-variant--accent">${p.img_identity_variant_accent?`<img src="${p.img_identity_variant_accent}" alt="Accent" loading="lazy"><span class="brand-variant__label">On Accent</span>`:`<div class="slot-empty" style="color:oklch(1 0 0/0.3);">Accent</div>`}</div>
+            </div>
+          </div>
+        </section>` : ''}
+
+        ${(p.show_brand_system!==false && (colours.length||fonts.length)) ? `
+        <section class="sec--system">
+          <div class="w">
+            <div class="sec__hdr reveal"><p class="slabel">Brand System</p><h2 class="sh">${hl(p.heading_brand_system||'The mechanics behind the *mark.*')}</h2></div>
+            <div class="bsys-grid">${renderPaletteCard()}${renderTypographyCard()}</div>
+            ${renderMarquee()}
+            ${renderTokens()}
+            ${renderAtoms()}
+          </div>
+        </section>` : ''}
+
+        ${(p.show_applications!==false && appsHTML) ? `
+        <section class="sec--applications">
+          <div class="w">
+            <div class="sec__hdr reveal"><p class="slabel">Applications</p><h2 class="sh">${hl(p.heading_applications||'The brand in the *wild.*')}</h2></div>
+            ${appsHTML}
+          </div>
+        </section>` : ''}
+
+        ${(p.show_digital!==false && digitalHTML) ? `
+        <section class="sec--digital">
+          <div class="w">
+            <div class="sec__hdr reveal"><p class="slabel">Digital</p><h2 class="sh">${hl(p.heading_digital||'Shipped to every *screen.*')}</h2></div>
+            ${digitalHTML}
+          </div>
+        </section>` : ''}
+
+        ${(widgets.length||uiComponents.length) ? `
+        <section class="sec--branding" style="border-top:1px solid var(--border);">
+          <div class="w">
+            <div class="sec__hdr reveal"><p class="slabel">Live Widgets</p><h2 class="sh">${hl(p.heading_digital||'The product in *motion.*')}</h2></div>
+            ${renderWidgets()}
+            ${renderUIComponents()}
+          </div>
+        </section>` : ''}
+
+        ${stats.length ? `
+        <section class="proj-stats">
+          <div class="w">
+            <div class="proj-stats__hdr reveal">
+              <p class="slabel">By the Numbers</p>
+              <h2 class="sh">${hl(p.heading_stats||'The work, *quantified.*')}</h2>
+              ${p.stats_description ? `<p style="font-family:var(--font-d);font-size:clamp(15px,1.4vw,18px);color:oklch(1 0 0/0.55);margin-top:var(--s4);max-width:60ch;line-height:1.6;">${hl(p.stats_description)}</p>` : ''}
+            </div>
+            <div class="proj-stats__grid stagger">
+              ${stats.map(s=>`<div class="proj-stat"><p class="proj-stat__n">${s.value}</p><p class="proj-stat__unit">${s.label}</p></div>`).join('')}
+            </div>
+          </div>
+        </section>` : ''}
+
+        ${p.quote_text ? `
+        <section class="proj-quote">
+          <div class="w"><div class="proj-quote__inner reveal">
+            <span class="proj-quote__mark">&ldquo;</span>
+            <p class="proj-quote__text">${hl(p.quote_text)}</p>
+            <div class="proj-quote__byline">
+              <span class="proj-quote__author"><strong>${p.quote_attribution_name||''}</strong>${p.quote_attribution_role?' &mdash; '+p.quote_attribution_role:''}</span>
+            </div>
+          </div></div>
+        </section>` : ''}
+
+        ${outcomes.length ? `
+        <section class="proj-outcome">
+          <div class="w"><div class="proj-outcome__inner reveal">
+            <div><p class="slabel">Outcome</p><h2 class="proj-outcome__h">${hl(p.heading_outcomes||'What we *delivered.*')}</h2></div>
+            <div class="proj-outcome__cards">
+              ${outcomes.map(o=>`<div class="proj-outcome__card"><p class="proj-outcome__card-n">${o.title}</p><p class="proj-outcome__card-sub">${o.desc}</p></div>`).join('')}
+            </div>
+          </div></div>
+        </section>` : ''}
+
+        ${(moreProjects && moreProjects.length) ? `
+        <section class="proj-more">
+          <div class="w">
+            <div class="proj-more__hdr reveal">
+              <div><p class="slabel">More Work</p><h2 class="sh">You might also<br><em>like these.</em></h2></div>
+              <a href="work.html" class="proj-more__link">Full Archive &#8599;</a>
+            </div>
+            <div class="proj-more__grid stagger">
+              ${moreProjects.map(mp=>`
+                <a href="project.html?id=${mp.id}" class="proj-card">
+                  <div class="proj-card__img">${mp.img_hero?`<img src="${mp.img_hero}" alt="${mp.client||''}" loading="lazy">`:''}  </div>
+                  <div class="proj-card__body">
+                    <p class="proj-card__client">${mp.client||''}</p>
+                    <p class="proj-card__name">${mp.title||''}</p>
+                    <p class="proj-card__tag">${mp.industry||''}</p>
+                  </div>
+                </a>`).join('')}
+            </div>
+          </div>
+        </section>` : ''}
+
+        <section class="cta-band" id="cta-band">
+          <div class="cta-band__cursor-fx" aria-hidden="true"></div>
+          <div class="w">
+            <div class="cta-band__inner reveal">
+              <div class="cta-band__text">
+                <h2>Let's build something<br><em>worth</em> building.</h2>
+                <p>We're selective about the projects we take on.<br>That's by design.</p>
+              </div>
+              <div class="cta-band__btns">
+                <a href="parallax-landing.html#contact" class="btn btn-p">Start a Project &#8594;</a>
+                <a href="work.html" class="btn btn-g">See Our Work</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="clocks">
+          <div class="w"><div class="clocks__inner">
+            <span class="clocks__label">Global Presence</span>
+            <div class="clock"><span class="clock__city">Munich</span><span class="clock__time" id="clock-de">--:--:--</span></div>
+            <div class="clock__sep"></div>
+            <div class="clock"><span class="clock__city">Dubai</span><span class="clock__time" id="clock-ae">--:--:--</span></div>
+            <div class="clock__sep"></div>
+            <div class="clock"><span class="clock__city">Bengaluru</span><span class="clock__time" id="clock-in">--:--:--</span></div>
+          </div></div>
+        </div>
+
+        <footer class="footer">
+          <div class="w">
+            <div class="footer__in">
+              <span class="footer__logo">Parallax.</span>
+              <a href="work.html" style="font-family:var(--font-m);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:white;text-decoration:none;opacity:0.75;transition:opacity 180ms;">← Back to Work</a>
+              <ul class="footer__links">
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Dribbble</a></li>
+                <li><a href="#">LinkedIn</a></li>
+              </ul>
+            </div>
+          </div>
+        </footer>
+      `;
+
+      initInteractivity();
     })();
 
-    /* ---- CTA CURSOR FX ---- */
-    (function () {
-      const band = document.getElementById('cta-band');
-      if (!band || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-      band.addEventListener('mousemove', e => {
-        const r = band.getBoundingClientRect();
-        band.style.setProperty('--ctx', ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%');
-        band.style.setProperty('--cty', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
-      });
-      band.addEventListener('mouseleave', () => {
-        band.style.setProperty('--ctx', '50%');
-        band.style.setProperty('--cty', '50%');
-      });
-    })();
-
-    /* ---- WORLD CLOCKS ---- */
-    (function () {
-      const zones = [
-        { id: 'clock-de', tz: 'Europe/Berlin' },
-        { id: 'clock-ae', tz: 'Asia/Dubai'    },
-        { id: 'clock-in', tz: 'Asia/Kolkata'  },
-      ];
-      function fmt(tz) {
-        return new Date().toLocaleTimeString('en-GB', {
-          timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
-        });
-      }
-      function tick() {
-        zones.forEach(({ id, tz }) => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          const t = fmt(tz);
-          if (el.textContent !== t) {
-            el.textContent = t;
-            el.classList.add('tick');
-            setTimeout(() => el.classList.remove('tick'), 120);
-          }
-        });
-      }
-      tick();
-      setInterval(tick, 1000);
-    })();
-
-    /* ---- BRAND SYSTEM — interactive palette ---- */
-    (function () {
+    /* ---- BRAND SYSTEM interactivity (called after render) ---- */
+    function initBrandSystem() {
       const palette = document.getElementById('bsys-palette');
       const readout = document.getElementById('bsys-readout');
-      if (!palette || !readout) return;
-      const chip  = readout.querySelector('.bsys-readout__chip');
-      const name  = readout.querySelector('.bsys-readout__name');
-      const hex   = readout.querySelector('.bsys-readout__hex');
-      palette.addEventListener('click', e => {
-        const btn = e.target.closest('.bsys-swatch');
-        if (!btn) return;
-        palette.querySelectorAll('.bsys-swatch').forEach(s => s.classList.remove('active'));
-        btn.classList.add('active');
-        chip.style.background = btn.dataset.hex;
-        name.textContent = btn.dataset.name + ' — ' + btn.dataset.usage;
-        hex.textContent  = btn.dataset.hex;
-      });
-    })();
-
-    /* ---- BRAND SYSTEM — interactive typography ---- */
-    (function () {
+      if (palette && readout) {
+        const chip = readout.querySelector('.bsys-readout__chip');
+        const name = readout.querySelector('.bsys-readout__name');
+        const hex  = readout.querySelector('.bsys-readout__hex');
+        palette.addEventListener('click', e => {
+          const btn = e.target.closest('.bsys-swatch');
+          if (!btn) return;
+          palette.querySelectorAll('.bsys-swatch').forEach(s => s.classList.remove('active'));
+          btn.classList.add('active');
+          chip.style.background = btn.dataset.hex;
+          name.textContent = btn.dataset.name + (btn.dataset.usage ? ' — ' + btn.dataset.usage : '');
+          hex.textContent  = btn.dataset.hex;
+        });
+      }
       const group   = document.getElementById('bsys-weights');
       const preview = document.getElementById('bsys-preview');
-      if (!group || !preview) return;
-      group.addEventListener('click', e => {
-        const btn = e.target.closest('.bsys-wbtn');
-        if (!btn) return;
-        group.querySelectorAll('.bsys-wbtn').forEach(s => s.classList.remove('active'));
-        btn.classList.add('active');
-        preview.style.fontWeight = btn.dataset.weight;
-      });
-    })();
-
-    /* ---- LOGO MORPH (auto-cycle) ---- */
-    (function () {
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) return;
-      const layers = document.querySelectorAll('#brand-morph .morph-layer');
-      const counter = document.getElementById('morph-i');
-      if (layers.length < 2) return;
-      let i = 0;
-      setInterval(() => {
-        layers[i].classList.remove('is-active');
-        i = (i + 1) % layers.length;
-        layers[i].classList.add('is-active');
-        if (counter) counter.textContent = String(i + 1).padStart(2, '0');
-      }, 2800);
-    })();
-
-    /* ---- TOKEN SPOTLIGHT (auto-cycle, paused on hover) ---- */
-    (function () {
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) return;
-      const container = document.getElementById('bsys-tokens');
-      if (!container) return;
-      const tokens = container.querySelectorAll('.bsys-token');
-      if (tokens.length < 2) return;
-      let i = 0, paused = false;
-      container.addEventListener('mouseenter', () => paused = true);
-      container.addEventListener('mouseleave', () => paused = false);
-      setInterval(() => {
-        if (paused) return;
-        tokens.forEach(t => t.classList.remove('spotlight'));
-        tokens[i].classList.add('spotlight');
-        i = (i + 1) % tokens.length;
-      }, 3400);
-    })();
-
-    /* ---- PARALLAX (translateY, sub-pixel, rAF-throttled) ---- */
-    (function () {
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) return;
-      const targets = Array.from(document.querySelectorAll('[data-parallax]'));
-      if (!targets.length) return;
-      let ticking = false;
-      function update() {
-        const vh = window.innerHeight;
-        targets.forEach(el => {
-          const r = el.getBoundingClientRect();
-          if (r.bottom < -100 || r.top > vh + 100) return;
-          const center = r.top + r.height / 2;
-          const dist = (center - vh / 2) / vh;
-          const speed = parseFloat(el.dataset.parallax) || 0.15;
-          el.style.transform = `translateY(${(-dist * speed * 80).toFixed(2)}px)`;
-        });
-        ticking = false;
-      }
-      function onScroll() {
-        if (!ticking) {
-          requestAnimationFrame(update);
-          ticking = true;
-        }
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      update();
-    })();
-
-    /* ---- MAGNETIC HOVER on .magnet wrappers ---- */
-    (function () {
-      if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) return;
-      document.querySelectorAll('.magnet').forEach(el => {
-        el.addEventListener('mousemove', e => {
-          const r = el.getBoundingClientRect();
-          const x = ((e.clientX - r.left) / r.width  - 0.5) * 14;
-          const y = ((e.clientY - r.top)  / r.height - 0.5) * 14;
-          el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
-        });
-        el.addEventListener('mouseleave', () => { el.style.transform = ''; });
-      });
-    })();
-
-    /* ---- DSYS — segmented + switch interactivity ---- */
-    (function () {
-      const seg = document.getElementById('dsys-seg');
-      if (seg) {
-        seg.addEventListener('click', e => {
-          const btn = e.target.closest('button');
+      if (group && preview) {
+        group.addEventListener('click', e => {
+          const btn = e.target.closest('.bsys-wbtn');
           if (!btn) return;
-          seg.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          group.querySelectorAll('.bsys-wbtn').forEach(s => s.classList.remove('active'));
           btn.classList.add('active');
+          preview.style.fontWeight = btn.dataset.weight;
         });
       }
-      const sw = document.getElementById('dsys-switch');
-      if (sw) {
-        sw.addEventListener('click', () => {
-          const on = sw.classList.toggle('active');
-          sw.setAttribute('aria-checked', on);
-        });
-      }
-    })();
+    }
 
-    /* ---- DEV / DEMO TOGGLE ---- */
-    (function () {
-      const toggle = document.querySelector('.demo-toggle');
-      if (!toggle) return;
-      toggle.addEventListener('click', e => {
-        const btn = e.target.closest('button[data-type]');
-        if (!btn) return;
-        toggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.body.dataset.projectType = btn.dataset.type;
-      });
-    })();
+    /* ---- ALL INTERACTIVITY (wired after innerHTML is set) ---- */
+    function initInteractivity() {
+      /* Scroll reveal */
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal, .stagger, .bsys-token').forEach(el => io.observe(el));
+
+      /* Stat count-up */
+      (function () {
+        function easeOut(t) { return 1 - Math.pow(1-t, 3); }
+        function animate(el) {
+          const target = parseInt(el.dataset.count, 10);
+          if (isNaN(target)) return;
+          const start = performance.now();
+          (function step(now) {
+            const p = Math.min((now - start) / 1600, 1);
+            el.textContent = Math.round(easeOut(p) * target);
+            if (p < 1) requestAnimationFrame(step); else el.textContent = target;
+          })(performance.now());
+        }
+        const grid = document.querySelector('.proj-stats__grid');
+        if (!grid) return;
+        new IntersectionObserver(([e]) => {
+          if (!e.isIntersecting) return;
+          document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => setTimeout(() => animate(el), i * 100));
+        }, { threshold: 0.3 }).observe(grid);
+      })();
+
+      /* CTA cursor fx */
+      (function () {
+        const band = document.getElementById('cta-band');
+        if (!band || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+        band.addEventListener('mousemove', e => {
+          const r = band.getBoundingClientRect();
+          band.style.setProperty('--ctx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+          band.style.setProperty('--cty', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+        });
+        band.addEventListener('mouseleave', () => { band.style.setProperty('--ctx','50%'); band.style.setProperty('--cty','50%'); });
+      })();
+
+      /* World clocks */
+      (function () {
+        const zones = [{id:'clock-de',tz:'Europe/Berlin'},{id:'clock-ae',tz:'Asia/Dubai'},{id:'clock-in',tz:'Asia/Kolkata'}];
+        function fmt(tz) { return new Date().toLocaleTimeString('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}); }
+        function tick() {
+          zones.forEach(({id,tz}) => {
+            const el = document.getElementById(id); if (!el) return;
+            const t = fmt(tz);
+            if (el.textContent !== t) { el.textContent = t; el.classList.add('tick'); setTimeout(()=>el.classList.remove('tick'),120); }
+          });
+        }
+        tick(); setInterval(tick, 1000);
+      })();
+
+      /* Brand system */
+      initBrandSystem();
+
+      /* Parallax */
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const targets = Array.from(document.querySelectorAll('[data-parallax]'));
+        if (!targets.length) return;
+        let ticking = false;
+        function update() {
+          const vh = window.innerHeight;
+          targets.forEach(el => {
+            const r = el.getBoundingClientRect();
+            if (r.bottom < -100 || r.top > vh+100) return;
+            const dist = (r.top + r.height/2 - vh/2) / vh;
+            el.style.transform = `translateY(${(-dist * (parseFloat(el.dataset.parallax)||0.15) * 80).toFixed(2)}px)`;
+          });
+          ticking = false;
+        }
+        window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+      })();
+
+      /* Magnetic hover */
+      (function () {
+        if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.querySelectorAll('.magnet').forEach(el => {
+          el.addEventListener('mousemove', e => {
+            const r = el.getBoundingClientRect();
+            el.style.transform = `translate(${(((e.clientX-r.left)/r.width-0.5)*14).toFixed(1)}px,${(((e.clientY-r.top)/r.height-0.5)*14).toFixed(1)}px)`;
+          });
+          el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+        });
+      })();
+    }
   </script>
 </body>
 </html>

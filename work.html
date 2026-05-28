@@ -730,6 +730,28 @@
       color: var(--text-3);
     }
 
+    /* Coming soon card */
+    .pc--soon { cursor: default; pointer-events: none; }
+    .pc--soon .pc__photo { filter: grayscale(1); opacity: 0.5; }
+    .pc--soon .pc__overlay { background: linear-gradient(to bottom, oklch(0 0 0 / 0.35) 0%, oklch(0 0 0 / 0.72) 100%); }
+    .pc--soon-badge {
+      position: absolute; top: 16px; right: 16px; z-index: 3;
+      font-family: var(--font-m); font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: white; border: 1px solid oklch(1 0 0 / 0.5); padding: 4px 10px;
+      background: oklch(0 0 0 / 0.35);
+    }
+    .pc--soon .pc__info { border-color: var(--border); }
+    .pc--soon .pc__name { color: var(--text-3); }
+
+    /* Grid skeleton while loading */
+    .grid-skeleton { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+    .grid-skel-item { background: var(--surface); border: 1px solid var(--border); animation: skel-pulse 1.6s ease-in-out infinite; }
+    .grid-skel-item:nth-child(1) { grid-column: span 5; grid-row: span 2; min-height: 560px; }
+    .grid-skel-item:nth-child(2) { grid-column: span 7; min-height: 260px; }
+    .grid-skel-item:nth-child(3) { grid-column: span 7; min-height: 260px; }
+    .grid-skel-item:nth-child(4) { grid-column: span 12; min-height: 340px; }
+    @keyframes skel-pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
     /* ============================================================
        CTA BAND
     ============================================================ */
@@ -1071,7 +1093,7 @@
         Every project here started with a question, not a brief. We dug into the problem, challenged assumptions, and built something that actually performed.
       </p>
       <p class="work-hero__count reveal">
-        <strong>9 case studies</strong> &nbsp;·&nbsp; 2020 – Present
+        <strong>— case studies</strong> &nbsp;·&nbsp; 2020 – Present
       </p>
     </div>
   </section>
@@ -1113,192 +1135,18 @@
   </div>
 
   <!-- ============================================================
-       WORK GRID — BENTO LAYOUT
+       WORK GRID — BENTO LAYOUT (dynamic)
   ============================================================ -->
   <section class="work-grid-section">
     <div class="w">
-      <div class="grid stagger">
-
-        <!-- 01 — BMW · 8 cols × 2 rows -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="images/work/BMW.jpg" alt="BMW project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/BMW.svg" alt="BMW">
-              <span class="pc__industry">Automotive</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Frontend Engineering</p>
-            <h2 class="pc__name">Digital Platform Redesign</h2>
-            <div class="pc__meta">
-              <span class="pc__client">BMW Group</span>
-              <span class="pc__yr">2024</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 02 — Nissan · 4 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80" alt="Nissan project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Nissan.svg" alt="Nissan">
-              <span class="pc__industry">Automotive</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Brand Systems · Digital Strategy</p>
-            <h2 class="pc__name">Connected Car Brand Experience</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Nissan</span>
-              <span class="pc__yr">2023</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 03 — Sportradar · 4 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=900&q=80" alt="Sportradar project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Sportradar.svg" alt="Sportradar">
-              <span class="pc__industry">Sports & Media</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Data Visualisation</p>
-            <h2 class="pc__name">Live Sports Data Dashboard</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Sportradar</span>
-              <span class="pc__yr">2023</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 04 — Vestas · 12 cols full width -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=1400&q=80" alt="Vestas project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Vestas.svg" alt="Vestas">
-              <span class="pc__industry">Energy</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Digital Strategy · Motion & Interaction</p>
-            <h2 class="pc__name">Sustainability Annual Report</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Vestas</span>
-              <span class="pc__yr">2022</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 05 — Biblica · 4 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Biblica project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Biblica.svg" alt="Biblica">
-              <span class="pc__industry">Non-profit</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Brand Systems</p>
-            <h2 class="pc__name">Scripture Platform Redesign</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Biblica</span>
-              <span class="pc__yr">2022</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 06 — Accenture · 8 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80" alt="Accenture project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Accenture.svg" alt="Accenture">
-              <span class="pc__industry">Consulting</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Brand Systems · Frontend Engineering</p>
-            <h2 class="pc__name">Enterprise Design System</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Accenture</span>
-              <span class="pc__yr">2021</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 07 — Meridian · 12 cols full width -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="images/work/Meridian.jpg" alt="Meridian project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <span class="pc__logo-text">Meridian</span>
-              <span class="pc__industry">Financial Services</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Digital Strategy · Interface Design</p>
-            <h2 class="pc__name">Digital Banking Platform</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Meridian Bank</span>
-              <span class="pc__yr">2021</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 08 — Elara · 4 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=900&q=80" alt="Elara project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <span class="pc__logo-text">Elara</span>
-              <span class="pc__industry">Healthcare</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Brand Systems · Motion</p>
-            <h2 class="pc__name">Patient Experience Redesign</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Elara Health</span>
-              <span class="pc__yr">2020</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 09 — August · 8 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80" alt="August project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <span class="pc__logo-text">August</span>
-              <span class="pc__industry">Consumer Goods</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Creative Direction · E-Commerce</p>
-            <h2 class="pc__name">Brand & Commerce Launch</h2>
-            <div class="pc__meta">
-              <span class="pc__client">August Co.</span>
-              <span class="pc__yr">2020</span>
-            </div>
-          </div>
-        </a>
-
+      <div id="work-grid-wrap">
+        <!-- skeleton shown while loading -->
+        <div class="grid-skeleton" id="grid-skeleton">
+          <div class="grid-skel-item"></div>
+          <div class="grid-skel-item"></div>
+          <div class="grid-skel-item"></div>
+          <div class="grid-skel-item"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -1389,186 +1237,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       WORK GRID — Original Layout (backup)
-  ============================================================ -->
-  <section class="work-grid-section" style="display: none;">
-    <div class="w">
-      <div class="work-meta-bar reveal">
-        <p class="work-meta-bar__count">Showing <strong id="project-count">6</strong> projects</p>
-        <p class="work-meta-bar__note">Click any project to view the case study</p>
-      </div>
-
-      <div class="work-grid stagger" id="work-grid">
-
-        <!-- ── PROJECT 1 — BMW (featured, full width) ── -->
-        <a class="work-card work-card--featured"
-           href="project.html"
-           data-categories="interface engineering"
-           data-index="0">
-          <div class="work-card__media">
-            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.14 0.06 249) 0%, oklch(0.22 0.10 240) 50%, oklch(0.10 0.04 260) 100%);"></div>
-            <span class="work-card__idx">01</span>
-            <span class="work-card__cat">Interface Design · Frontend Engineering</span>
-            <span class="work-card__arrow">↗</span>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__left">
-              <p class="work-card__client">BMW Group</p>
-              <h2 class="work-card__title">Digital Platform Redesign</h2>
-              <div class="work-card__tags">
-                <span class="work-card__tag">Interface Design</span>
-                <span class="work-card__tag">Frontend Engineering</span>
-                <span class="work-card__tag">Design Systems</span>
-              </div>
-            </div>
-            <div class="work-card__right">
-              <p class="work-card__year">2024</p>
-            </div>
-          </div>
-        </a>
-
-        <!-- ── PROJECT 2 — Nissan ── -->
-        <a class="work-card"
-           href="project.html"
-           data-categories="brand strategy"
-           data-index="1">
-          <div class="work-card__media">
-            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.12 0.03 30) 0%, oklch(0.20 0.05 20) 55%, oklch(0.09 0.01 0) 100%);"></div>
-            <span class="work-card__idx">02</span>
-            <span class="work-card__cat">Brand Systems · Digital Strategy</span>
-            <span class="work-card__arrow">↗</span>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__left">
-              <p class="work-card__client">Nissan</p>
-              <h2 class="work-card__title">Connected Car Brand Experience</h2>
-              <div class="work-card__tags">
-                <span class="work-card__tag">Brand Systems</span>
-                <span class="work-card__tag">Digital Strategy</span>
-              </div>
-            </div>
-            <div class="work-card__right">
-              <p class="work-card__year">2023</p>
-            </div>
-          </div>
-        </a>
-
-        <!-- ── PROJECT 3 — Sportradar ── -->
-        <a class="work-card"
-           href="project.html"
-           data-categories="interface engineering"
-           data-index="2">
-          <div class="work-card__media">
-            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.45 0.22 35) 0%, oklch(0.30 0.18 28) 50%, oklch(0.18 0.10 35) 100%);"></div>
-            <span class="work-card__idx">03</span>
-            <span class="work-card__cat">Interface Design · Frontend Engineering</span>
-            <span class="work-card__arrow">↗</span>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__left">
-              <p class="work-card__client">Sportradar</p>
-              <h2 class="work-card__title">Live Sports Data Dashboard</h2>
-              <div class="work-card__tags">
-                <span class="work-card__tag">Interface Design</span>
-                <span class="work-card__tag">Data Visualisation</span>
-                <span class="work-card__tag">Engineering</span>
-              </div>
-            </div>
-            <div class="work-card__right">
-              <p class="work-card__year">2023</p>
-            </div>
-          </div>
-        </a>
-
-        <!-- ── PROJECT 4 — Vestas (featured, full width) ── -->
-        <a class="work-card work-card--featured"
-           href="project.html"
-           data-categories="strategy brand"
-           data-index="3">
-          <div class="work-card__media">
-            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.20 0.08 160) 0%, oklch(0.28 0.10 150) 40%, oklch(0.14 0.05 170) 100%);"></div>
-            <span class="work-card__idx">04</span>
-            <span class="work-card__cat">Digital Strategy · Motion & Interaction</span>
-            <span class="work-card__arrow">↗</span>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__left">
-              <p class="work-card__client">Vestas</p>
-              <h2 class="work-card__title">Sustainability Digital Annual Report</h2>
-              <div class="work-card__tags">
-                <span class="work-card__tag">Digital Strategy</span>
-                <span class="work-card__tag">Motion & Interaction</span>
-                <span class="work-card__tag">Creative Direction</span>
-              </div>
-            </div>
-            <div class="work-card__right">
-              <p class="work-card__year">2022</p>
-            </div>
-          </div>
-        </a>
-
-        <!-- ── PROJECT 5 — Biblica ── -->
-        <a class="work-card"
-           href="project.html"
-           data-categories="interface brand"
-           data-index="4">
-          <div class="work-card__media">
-            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.18 0.07 295) 0%, oklch(0.25 0.09 285) 50%, oklch(0.13 0.04 310) 100%);"></div>
-            <span class="work-card__idx">05</span>
-            <span class="work-card__cat">Interface Design · Brand Systems</span>
-            <span class="work-card__arrow">↗</span>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__left">
-              <p class="work-card__client">Biblica</p>
-              <h2 class="work-card__title">Scripture Platform Redesign</h2>
-              <div class="work-card__tags">
-                <span class="work-card__tag">Interface Design</span>
-                <span class="work-card__tag">Brand Systems</span>
-              </div>
-            </div>
-            <div class="work-card__right">
-              <p class="work-card__year">2022</p>
-            </div>
-          </div>
-        </a>
-
-        <!-- ── PROJECT 6 — Accenture ── -->
-        <a class="work-card"
-           href="project.html"
-           data-categories="brand engineering"
-           data-index="5">
-          <div class="work-card__media">
-            <div class="work-card__media-bg" style="background: linear-gradient(135deg, oklch(0.10 0.005 0) 0%, oklch(0.18 0.008 0) 50%, oklch(0.07 0.002 0) 100%);"></div>
-            <span class="work-card__idx">06</span>
-            <span class="work-card__cat">Brand Systems · Frontend Engineering</span>
-            <span class="work-card__arrow">↗</span>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__left">
-              <p class="work-card__client">Accenture</p>
-              <h2 class="work-card__title">Enterprise Design System</h2>
-              <div class="work-card__tags">
-                <span class="work-card__tag">Brand Systems</span>
-                <span class="work-card__tag">Frontend Engineering</span>
-                <span class="work-card__tag">Design Ops</span>
-              </div>
-            </div>
-            <div class="work-card__right">
-              <p class="work-card__year">2021</p>
-            </div>
-          </div>
-        </a>
-
-        <!-- No results message -->
-        <div class="no-results" id="no-results">
-          <p>No projects in this category yet.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
+  <!-- hidden backup removed — grid is now dynamic -->
 
   <!-- ============================================================
        CTA BAND
@@ -1632,6 +1301,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin/supabase.js"></script>
   <script>
     /* ============================================================
        NAV — scroll + burger toggle
@@ -1669,44 +1340,136 @@
     });
 
     /* ============================================================
-       FILTER — category pills
-       Data attr: data-categories="brand interface" (space-sep list)
+       DYNAMIC GRID — load from Supabase
     ============================================================ */
-    const pills      = document.querySelectorAll('.filter-pill');
-    const cards      = document.querySelectorAll('.work-card');
-    const countEl    = document.getElementById('project-count');
-    const noResults  = document.getElementById('no-results');
+    const CARD_GRADIENTS = [
+      'linear-gradient(145deg, oklch(0.14 0.08 249) 0%, oklch(0.20 0.12 238) 50%, oklch(0.09 0.05 262) 100%)',
+      'linear-gradient(145deg, oklch(0.13 0.04 28) 0%, oklch(0.22 0.07 20) 55%, oklch(0.09 0.01 5) 100%)',
+      'linear-gradient(145deg, oklch(0.30 0.13 35) 0%, oklch(0.18 0.09 28) 50%, oklch(0.11 0.04 42) 100%)',
+      'linear-gradient(145deg, oklch(0.16 0.07 155) 0%, oklch(0.24 0.10 148) 50%, oklch(0.12 0.05 168) 100%)',
+      'linear-gradient(145deg, oklch(0.17 0.08 292) 0%, oklch(0.24 0.10 280) 50%, oklch(0.11 0.04 308) 100%)',
+      'linear-gradient(145deg, oklch(0.10 0.005 0) 0%, oklch(0.20 0.010 0) 55%, oklch(0.07 0.002 0) 100%)',
+      'linear-gradient(145deg, oklch(0.14 0.06 220) 0%, oklch(0.22 0.09 210) 50%, oklch(0.10 0.04 232) 100%)',
+      'linear-gradient(145deg, oklch(0.18 0.08 328) 0%, oklch(0.26 0.10 318) 50%, oklch(0.13 0.05 340) 100%)',
+      'linear-gradient(145deg, oklch(0.16 0.06 78) 0%, oklch(0.24 0.09 68) 50%, oklch(0.12 0.04 90) 100%)',
+    ];
 
-    function applyFilter(filter) {
-      let visible = 0;
-      cards.forEach(card => {
-        const cats = (card.dataset.categories || '').split(' ');
-        const show = filter === 'all' || cats.includes(filter);
-        card.classList.toggle('hidden', !show);
-        if (show) visible++;
-      });
+    function buildCard(p, index) {
+      const isSoon   = p.status === 'coming_soon';
+      const services = Array.isArray(p.services) ? p.services.join(' · ') : (p.services || '');
+      const bg       = p.accent_color
+        ? `linear-gradient(145deg, ${p.accent_color}33 0%, ${p.accent_color}22 100%)`
+        : CARD_GRADIENTS[index % CARD_GRADIENTS.length];
 
-      // Update count
-      countEl.textContent = visible;
+      const tag = isSoon
+        ? `<span class="pc--soon-badge">Coming Soon</span>`
+        : '';
 
-      // No-results state
-      noResults.classList.toggle('visible', visible === 0);
+      const inner = `
+        <div class="pc__img" style="background:${bg};">
+          ${p.img_hero ? `<img class="pc__photo" src="${p.img_hero}" alt="${p.client}" loading="lazy">` : ''}
+          <div class="pc__overlay"></div>
+          ${tag}
+          <div class="pc__img-inner">
+            <span class="pc__logo-text" style="opacity:0.9;">${p.client || ''}</span>
+            <span class="pc__industry">${p.industry || ''}</span>
+          </div>
+        </div>
+        <div class="pc__info">
+          ${services ? `<p class="pc__discipline">${services}</p>` : ''}
+          <h2 class="pc__name">${isSoon ? (p.title || 'Case Study') : p.title}</h2>
+          <div class="pc__meta">
+            <span class="pc__client">${p.client || ''}</span>
+            ${p.year ? `<span class="pc__yr">${p.year}</span>` : ''}
+          </div>
+        </div>`;
 
-      // Re-trigger stagger animation
-      const grid = document.getElementById('work-grid');
-      grid.classList.remove('in');
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => { grid.classList.add('in'); });
-      });
+      if (isSoon) {
+        const div = document.createElement('div');
+        div.className = 'pc pc--soon';
+        div.dataset.categories = p.categories || '';
+        div.innerHTML = inner;
+        return div;
+      } else {
+        const a = document.createElement('a');
+        a.className = 'pc';
+        a.href = `project.html?id=${p.id}`;
+        a.dataset.categories = p.categories || '';
+        a.innerHTML = inner;
+        return a;
+      }
     }
 
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        pills.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-        applyFilter(pill.dataset.filter);
+    let allCards = [];
+    let activeFilter = 'all';
+
+    function applyFilter(filter) {
+      activeFilter = filter;
+      let visible = 0;
+      allCards.forEach(card => {
+        if (card.classList.contains('pc--soon')) { card.style.display = ''; return; }
+        const cats = (card.dataset.categories || '').split(' ').filter(Boolean);
+        const show = filter === 'all' || cats.includes(filter);
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
       });
-    });
+      const countEl = document.querySelector('.work-hero__count strong');
+      if (countEl) countEl.textContent = `${visible} case ${visible === 1 ? 'study' : 'studies'}`;
+    }
+
+    (async () => {
+      try {
+        const { data: projects, error } = await db
+          .from('case_studies')
+          .select('id,title,client,industry,services,year,img_hero,accent_color,categories,sort_order,status')
+          .in('status', ['published', 'coming_soon'])
+          .order('sort_order', { ascending: true, nullsFirst: false });
+
+        const skeleton = document.getElementById('grid-skeleton');
+        const wrap     = document.getElementById('work-grid-wrap');
+
+        if (error || !projects?.length) {
+          skeleton.remove();
+          wrap.innerHTML = '<p style="font-family:var(--font-m);font-size:11px;color:var(--text-3);padding:48px 0;">No projects found.</p>';
+          return;
+        }
+
+        const grid = document.createElement('div');
+        grid.className = 'grid stagger';
+
+        projects.forEach((p, i) => {
+          const card = buildCard(p, i);
+          allCards.push(card);
+          grid.appendChild(card);
+        });
+
+        skeleton.remove();
+        wrap.appendChild(grid);
+
+        // Update hero count
+        const published = projects.filter(p => p.status === 'published').length;
+        const countEl   = document.querySelector('.work-hero__count strong');
+        if (countEl) countEl.textContent = `${published} case ${published === 1 ? 'study' : 'studies'}`;
+
+        // Trigger scroll reveal on the grid
+        const io2 = new IntersectionObserver(entries => {
+          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io2.unobserve(e.target); } });
+        }, { threshold: 0.04 });
+        io2.observe(grid);
+
+        // Wire filter pills
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            applyFilter(pill.dataset.filter);
+          });
+        });
+
+      } catch (e) {
+        console.error('Grid load error:', e);
+      }
+    })();
 
     /* ============================================================
        SCROLL REVEAL — IntersectionObserver

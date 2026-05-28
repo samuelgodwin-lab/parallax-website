@@ -99,6 +99,17 @@
                   <input type="text" id="f-services" placeholder="Brand Identity, Motion, Digital (comma-separated)">
                 </div>
               </div>
+              <div class="form-grid" style="margin-bottom:14px;">
+                <div class="field">
+                  <label>Sort Order</label>
+                  <input type="number" id="f-sort-order" placeholder="1" min="1" max="99">
+                  <span class="field__hint">Lower = appears first in the grid</span>
+                </div>
+                <div class="field">
+                  <label>Filter Categories</label>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;" id="categories-list"></div>
+                </div>
+              </div>
               <div class="field" style="margin-bottom:14px;">
                 <label>Overview Heading</label>
                 <input type="text" id="f-overview-heading" placeholder="e.g. A digital experience worthy of the badge.">
@@ -178,23 +189,16 @@
               </div>
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Logo Marks — cycles automatically on the page</div>
-                <div class="img-grid img-grid--3">
+                <div class="img-grid img-grid--2">
                   <div class="img-slot">
-                    <div class="img-slot__label">Mark 01 <span>Wordmark</span></div>
-                    <div class="img-slot__box" data-slot="img_identity_mark_01" data-ratio="square" style="aspect-ratio:1;">
-                      <input type="file" accept="image/*">
-                      <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
-                    </div>
-                  </div>
-                  <div class="img-slot">
-                    <div class="img-slot__label">Mark 02 <span>Stacked</span></div>
+                    <div class="img-slot__label">Mark 01 <span>Stacked</span></div>
                     <div class="img-slot__box" data-slot="img_identity_mark_02" data-ratio="square" style="aspect-ratio:1;">
                       <input type="file" accept="image/*">
                       <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
                   </div>
                   <div class="img-slot">
-                    <div class="img-slot__label">Mark 03 <span>Monogram</span></div>
+                    <div class="img-slot__label">Mark 02 <span>Monogram</span></div>
                     <div class="img-slot__box" data-slot="img_identity_mark_03" data-ratio="square" style="aspect-ratio:1;">
                       <input type="file" accept="image/*">
                       <div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
@@ -275,10 +279,45 @@
                 <button class="btn btn--ghost btn--sm" id="add-font-btn" style="margin-top:8px;">+ Add font</button>
               </div>
 
+              <!-- Brand Tokens -->
               <div class="pe-subsection">
-                <div class="pe-subsection__label">Typography — Type Styles</div>
-                <div id="type-style-list"></div>
-                <button class="btn btn--ghost btn--sm" id="add-style-btn" style="margin-top:8px;">+ Add type style</button>
+                <div class="pe-subsection__label">Brand Tokens</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                  <div class="field">
+                    <label>Spacing scale</label>
+                    <input type="text" id="f-token-spacing" placeholder="e.g. 4 · 8 · 16 · 32 · 64">
+                  </div>
+                  <div class="field">
+                    <label>Border radius (px)</label>
+                    <input type="number" id="f-token-radius" placeholder="e.g. 14" min="0" max="9999">
+                  </div>
+                  <div class="field">
+                    <label>Grid</label>
+                    <input type="text" id="f-token-grid" placeholder="e.g. 12-col · 80px gutter">
+                  </div>
+                  <div class="field">
+                    <label>Elevation</label>
+                    <input type="text" id="f-token-elevation" placeholder="e.g. 0 12px 32px · 12%">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Atoms / Foundations -->
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Atoms / Foundations — select which to show</div>
+                <div id="atom-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+              </div>
+
+              <!-- UI Components -->
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">UI Components — interactive elements to showcase</div>
+                <div id="ui-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+              </div>
+
+              <!-- Live Widgets -->
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Live Widgets — interactive UI showcases</div>
+                <div id="widget-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
               </div>
 
               <!-- Brand Elements -->
@@ -471,6 +510,10 @@
                 <input type="text" id="f-heading-stats" placeholder="e.g. The work, quantified.">
                 <span class="field__hint">e.g. "The work, *quantified.*" — wrap a word in *asterisks* to highlight it</span>
               </div>
+              <div class="field">
+                <label>Section Description</label>
+                <input type="text" id="f-stats-desc" placeholder="e.g. Measured across the first 12 months post-launch.">
+              </div>
               <div class="form-grid">
                 <div class="field"><label>Stat 1 — Label</label><input type="text" id="f-stat1-label" placeholder="Brand touchpoints"></div>
                 <div class="field"><label>Stat 1 — Value</label><input type="text" id="f-stat1-val" placeholder="240+"></div>
@@ -587,6 +630,7 @@
                 <label>Status</label>
                 <select id="f-status">
                   <option value="draft">Draft</option>
+                  <option value="coming_soon">Coming Soon</option>
                   <option value="published">Published</option>
                 </select>
               </div>
@@ -736,14 +780,6 @@
       return Array.from(document.querySelectorAll('.fs-family')).map(i => i.value).filter(Boolean);
     }
 
-    function refreshFamilySelects() {
-      const families = getFamilies();
-      document.querySelectorAll('.ts-family').forEach(sel => {
-        const current = sel.value;
-        sel.innerHTML = families.map(f => `<option value="${f}" ${current===f?'selected':''}>${f}</option>`).join('') || '<option value="">— add font source —</option>';
-      });
-    }
-
     function makeFontSource(data = {}) {
       const div = document.createElement('div');
       div.className = 'font-row';
@@ -754,37 +790,49 @@
             `<option value="${s}" ${data.source===s?'selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)} Fonts</option>`
           ).join('')}
         </select>
+        <input type="file" class="fs-file" accept=".woff,.woff2,.ttf,.otf" style="display:none;">
+        <button class="btn btn--ghost btn--sm fs-upload-btn" style="display:none;">Upload file</button>
+        <span class="fs-filename" style="font-size:11px;color:var(--text-3);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+        <input type="hidden" class="fs-url" value="${data.url || ''}">
         <button class="builder-remove remove-font">×</button>
       `;
-      div.querySelector('.fs-family').addEventListener('input', refreshFamilySelects);
-      div.querySelector('.remove-font').addEventListener('click', () => { div.remove(); refreshFamilySelects(); });
-      return div;
-    }
 
-    function makeTypeStyle(data = {}) {
-      const families = getFamilies();
-      const familyOpts = families.map(f => `<option value="${f}" ${data.family===f?'selected':''}>${f}</option>`).join('') || '<option value="">—</option>';
-      const roles = ['heading','subheading','body','caption','mono','display','label'];
-      const div = document.createElement('div');
-      div.className = 'style-row';
-      div.innerHTML = `
-        <div class="style-row__main">
-          <input type="text" class="ts-label builder-input builder-input--md" placeholder="Style name" value="${data.label || ''}">
-          <select class="ts-role builder-select">
-            ${roles.map(r => `<option value="${r}" ${data.role===r?'selected':''}>${r.charAt(0).toUpperCase()+r.slice(1)}</option>`).join('')}
-          </select>
-          <select class="ts-family builder-select">${familyOpts}</select>
-          <button class="builder-remove remove-style" style="margin-left:auto;">×</button>
-        </div>
-        <div class="style-row__metrics">
-          <div class="metric-group"><span class="builder-sublabel">Weight</span><input type="number" class="ts-weight builder-input builder-input--sm" value="${data.weight||400}" min="100" max="900" step="100"></div>
-          <div class="metric-group"><span class="builder-sublabel">Size (px)</span><input type="number" class="ts-size builder-input builder-input--sm" value="${data.size||16}" min="8"></div>
-          <div class="metric-group"><span class="builder-sublabel">Line height</span><input type="number" class="ts-lh builder-input builder-input--sm" value="${data.line_height||1.5}" min="0.8" max="3" step="0.05"></div>
-          <div class="metric-group"><span class="builder-sublabel">Tracking (em)</span><input type="number" class="ts-ls builder-input builder-input--sm" value="${data.letter_spacing||0}" min="-0.1" max="0.3" step="0.005"></div>
-          <input type="text" class="ts-usage builder-input builder-input--flex" placeholder="Usage notes" value="${data.usage||''}">
-        </div>
-      `;
-      div.querySelector('.remove-style').addEventListener('click', () => div.remove());
+      const familyInput  = div.querySelector('.fs-family');
+      const sourceSelect = div.querySelector('.fs-source');
+      const fileInput    = div.querySelector('.fs-file');
+      const uploadBtn    = div.querySelector('.fs-upload-btn');
+      const filenameSpan = div.querySelector('.fs-filename');
+      const urlInput     = div.querySelector('.fs-url');
+
+      function toggleUploadBtn() {
+        const show = sourceSelect.value === 'upload';
+        uploadBtn.style.display = show ? '' : 'none';
+        filenameSpan.style.display = show ? '' : 'none';
+        if (data.url && show) filenameSpan.textContent = data.url.split('/').pop().split('?')[0];
+      }
+      toggleUploadBtn();
+
+      sourceSelect.addEventListener('change', toggleUploadBtn);
+      uploadBtn.addEventListener('click', () => fileInput.click());
+
+      fileInput.addEventListener('change', async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        const slug = document.getElementById('f-slug').value.trim() || 'project';
+        const path = `projects/${slug}/fonts/${file.name}`;
+        uploadBtn.textContent = 'Uploading…';
+        uploadBtn.disabled = true;
+        const { error } = await db.storage.from('parallax-assets').upload(path, file, { upsert: true });
+        uploadBtn.textContent = 'Upload file';
+        uploadBtn.disabled = false;
+        if (error) { showToast('Font upload error: ' + error.message); return; }
+        const { data: urlData } = db.storage.from('parallax-assets').getPublicUrl(path);
+        urlInput.value = urlData.publicUrl;
+        filenameSpan.textContent = file.name;
+        showToast('Font uploaded: ' + file.name);
+      });
+
+      div.querySelector('.remove-font').addEventListener('click', () => { div.remove(); refreshFamilySelects(); });
       return div;
     }
 
@@ -792,35 +840,150 @@
       document.getElementById('font-source-list').appendChild(makeFontSource());
     });
 
-    document.getElementById('add-style-btn').addEventListener('click', () => {
-      document.getElementById('type-style-list').appendChild(makeTypeStyle());
-    });
-
     function getBrandFonts() {
       const sources = Array.from(document.querySelectorAll('.font-row')).map(r => ({
         family: r.querySelector('.fs-family').value,
         source: r.querySelector('.fs-source').value,
+        url:    r.querySelector('.fs-url')?.value || '',
       }));
-      const styles = Array.from(document.querySelectorAll('.style-row')).map(r => ({
-        label:          r.querySelector('.ts-label').value,
-        role:           r.querySelector('.ts-role').value,
-        family:         r.querySelector('.ts-family').value,
-        weight:         parseInt(r.querySelector('.ts-weight').value) || 400,
-        size:           parseInt(r.querySelector('.ts-size').value) || 16,
-        line_height:    parseFloat(r.querySelector('.ts-lh').value) || 1.5,
-        letter_spacing: parseFloat(r.querySelector('.ts-ls').value) || 0,
-        usage:          r.querySelector('.ts-usage').value,
-      }));
-      return { sources, styles };
+      return { sources };
     }
 
     function loadBrandFonts(data) {
       const sl = document.getElementById('font-source-list');
-      const tl = document.getElementById('type-style-list');
-      sl.innerHTML = ''; tl.innerHTML = '';
+      sl.innerHTML = '';
       (data?.sources || []).forEach(s => sl.appendChild(makeFontSource(s)));
-      refreshFamilySelects();
-      (data?.styles || []).forEach(s => tl.appendChild(makeTypeStyle(s)));
+    }
+
+    // ── Brand tokens ──
+    function getBrandTokens() {
+      return {
+        spacing:   document.getElementById('f-token-spacing').value.trim(),
+        radius:    document.getElementById('f-token-radius').value.trim(),
+        grid:      document.getElementById('f-token-grid').value.trim(),
+        elevation: document.getElementById('f-token-elevation').value.trim(),
+      };
+    }
+    function loadBrandTokens(data) {
+      document.getElementById('f-token-spacing').value   = data?.spacing   || '';
+      document.getElementById('f-token-radius').value    = data?.radius    || '';
+      document.getElementById('f-token-grid').value      = data?.grid      || '';
+      document.getElementById('f-token-elevation').value = data?.elevation || '';
+    }
+
+    // ── Atoms ──
+    const ATOM_OPTIONS = [
+      { id: 'action',   label: 'Action' },
+      { id: 'field',    label: 'Field' },
+      { id: 'tag',      label: 'Tag' },
+      { id: 'badge',    label: 'Badge' },
+      { id: 'modal',    label: 'Modal' },
+      { id: 'dropdown', label: 'Dropdown' },
+      { id: 'tooltip',  label: 'Tooltip' },
+      { id: 'toggle',   label: 'Toggle' },
+      { id: 'card',     label: 'Card' },
+      { id: 'alert',    label: 'Alert' },
+    ];
+    (function initAtoms() {
+      const list = document.getElementById('atom-list');
+      ATOM_OPTIONS.forEach(({ id, label }) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'atom-chip';
+        lbl.innerHTML = `<input type="checkbox" value="${id}"><span>${label}</span>`;
+        list.appendChild(lbl);
+      });
+    })();
+    function getAtoms() {
+      return Array.from(document.querySelectorAll('#atom-list input[type=checkbox]:checked')).map(cb => cb.value);
+    }
+    function loadAtoms(data) {
+      const selected = Array.isArray(data) ? data : [];
+      document.querySelectorAll('#atom-list input[type=checkbox]').forEach(cb => {
+        cb.checked = selected.includes(cb.value);
+      });
+    }
+
+    // ── UI Components ──
+    const UI_OPTIONS = [
+      { id: 'btn',           label: 'Buttons'       },
+      { id: 'input',         label: 'Input Field'   },
+      { id: 'select',        label: 'Select'        },
+      { id: 'chip-filter',   label: 'Chip Filter'   },
+      { id: 'tabs',          label: 'Tabs'          },
+      { id: 'toggle-switch', label: 'Toggle'        },
+      { id: 'progress',      label: 'Progress'      },
+      { id: 'skeleton',      label: 'Skeleton'      },
+      { id: 'toast',         label: 'Toast'         },
+      { id: 'table',         label: 'Data Table'    },
+    ];
+    (function initUI() {
+      const list = document.getElementById('ui-list');
+      UI_OPTIONS.forEach(({ id, label }) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'atom-chip';
+        lbl.innerHTML = `<input type="checkbox" value="${id}"><span>${label}</span>`;
+        list.appendChild(lbl);
+      });
+    })();
+    function getUI() {
+      return Array.from(document.querySelectorAll('#ui-list input[type=checkbox]:checked')).map(cb => cb.value);
+    }
+    function loadUI(data) {
+      const selected = Array.isArray(data) ? data : [];
+      document.querySelectorAll('#ui-list input[type=checkbox]').forEach(cb => {
+        cb.checked = selected.includes(cb.value);
+      });
+    }
+
+    // ── Live widgets ──
+    const WIDGET_OPTIONS = [
+      { id: 'suka-order',       label: 'Order Tracking — Suka App'   },
+      { id: 'suka-reservation', label: 'Table Reservation — Suka App' },
+      { id: 'suka-weather',     label: 'Weather Card — Suka App'      },
+    ];
+    (function initWidgets() {
+      const list = document.getElementById('widget-list');
+      WIDGET_OPTIONS.forEach(({ id, label }) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'atom-chip';
+        lbl.innerHTML = `<input type="checkbox" value="${id}"><span>${label}</span>`;
+        list.appendChild(lbl);
+      });
+    })();
+    function getWidgets() {
+      return Array.from(document.querySelectorAll('#widget-list input[type=checkbox]:checked')).map(cb => cb.value);
+    }
+    function loadWidgets(data) {
+      const selected = Array.isArray(data) ? data : [];
+      document.querySelectorAll('#widget-list input[type=checkbox]').forEach(cb => {
+        cb.checked = selected.includes(cb.value);
+      });
+    }
+
+    // ── Filter Categories ──
+    const CAT_OPTIONS = [
+      { id: 'brand',     label: 'Brand Systems'    },
+      { id: 'interface', label: 'Interface Design'  },
+      { id: 'engineering', label: 'Engineering'     },
+      { id: 'strategy',  label: 'Strategy'          },
+    ];
+    (function() {
+      const list = document.getElementById('categories-list');
+      CAT_OPTIONS.forEach(({ id, label }) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'atom-chip';
+        lbl.innerHTML = `<input type="checkbox" value="${id}"><span>${label}</span>`;
+        list.appendChild(lbl);
+      });
+    })();
+    function getCategories() {
+      return Array.from(document.querySelectorAll('#categories-list input:checked')).map(cb => cb.value).join(' ');
+    }
+    function loadCategories(data) {
+      const selected = (data || '').split(' ').filter(Boolean);
+      document.querySelectorAll('#categories-list input').forEach(cb => {
+        cb.checked = selected.includes(cb.value);
+      });
     }
 
     // ── Brand elements ──
@@ -914,7 +1077,7 @@
       spinner.remove();
       if (error) { showToast('Upload error: ' + error.message); return; }
       const { data } = db.storage.from('parallax-assets').getPublicUrl(`projects/${slug}/${slot}.${ext}`);
-      renderSlot(box, data.publicUrl);
+      renderSlot(box, data.publicUrl + '?t=' + Date.now());
     }
 
     function wireSlot(box) {
@@ -940,6 +1103,8 @@
         industry:               document.getElementById('f-industry').value.trim(),
         year:                   document.getElementById('f-year').value.trim(),
         services:               csv(document.getElementById('f-services').value),
+        sort_order:             parseInt(document.getElementById('f-sort-order').value) || null,
+        categories:             getCategories(),
         overview_heading:       document.getElementById('f-overview-heading').value.trim(),
         overview:               document.getElementById('f-overview').value.trim(),
         challenge_heading:      document.getElementById('f-challenge-heading').value.trim(),
@@ -960,7 +1125,12 @@
         show_digital:           document.getElementById('show-digital').checked,
         brand_colours:          getBrandColours(),
         brand_fonts:            getBrandFonts(),
+        brand_tokens:           getBrandTokens(),
+        brand_atoms:            getAtoms(),
+        brand_ui:               getUI(),
+        brand_widgets:          getWidgets(),
         brand_elements:         getBrandElements(),
+        stats_description:      document.getElementById('f-stats-desc').value.trim(),
         stat1_label:            document.getElementById('f-stat1-label').value.trim(),
         stat1_value:            document.getElementById('f-stat1-val').value.trim(),
         stat2_label:            document.getElementById('f-stat2-label').value.trim(),
@@ -1029,6 +1199,8 @@
           document.getElementById('f-industry').value         = p.industry || '';
           document.getElementById('f-year').value             = p.year || '';
           document.getElementById('f-services').value         = (p.services || []).join(', ');
+          document.getElementById('f-sort-order').value       = p.sort_order || '';
+          loadCategories(p.categories);
           document.getElementById('f-overview-heading').value = p.overview_heading || '';
           document.getElementById('f-overview').value         = p.overview || '';
           document.getElementById('f-challenge-heading').value  = p.challenge_heading || '';
@@ -1050,6 +1222,7 @@
           document.getElementById('show-brand-system').checked  = p.show_brand_system !== false;
           document.getElementById('show-applications').checked  = p.show_applications !== false;
           document.getElementById('show-digital').checked       = p.show_digital !== false;
+          document.getElementById('f-stats-desc').value   = p.stats_description || '';
           document.getElementById('f-stat1-label').value  = p.stat1_label || '';
           document.getElementById('f-stat1-val').value    = p.stat1_value || '';
           document.getElementById('f-stat2-label').value  = p.stat2_label || '';
@@ -1074,11 +1247,15 @@
 
           loadBrandColours(p.brand_colours);
           loadBrandFonts(p.brand_fonts);
+          loadBrandTokens(p.brand_tokens);
+          loadAtoms(p.brand_atoms);
+          loadUI(p.brand_ui);
+          loadWidgets(p.brand_widgets);
           loadBrandElements(p.brand_elements);
 
           const imageFields = [
             'img_hero',
-            'img_identity_mark_01','img_identity_mark_02','img_identity_mark_03',
+            'img_identity_mark_02','img_identity_mark_03',
             'img_identity_construction','img_identity_variant_light','img_identity_variant_dark','img_identity_variant_accent',
             'img_app_signage','img_app_stationery','img_app_packaging','img_app_letterhead',
             'img_app_apparel','img_app_brochure','img_app_livery','img_app_environmental',

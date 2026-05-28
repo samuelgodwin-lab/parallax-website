@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suka Reservation Widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+      font-family: 'Inter', sans-serif;
+      padding: 24px 20px 36px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: #faf8f4;
+      border: 1px solid #e6e1d7;
+      border-radius: 16px;
+      padding: 16px 14px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Food image ── */
+    .food-img {
+      width: 65px;
+      height: 97px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* ── Table info (middle) ── */
+    .table-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .table-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: #504128;
+    }
+    .table-name-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .table-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: #1e1e1e;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .table-sub {
+      font-size: 11px;
+      color: #8c8c8c;
+      font-weight: 400;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: background 0.5s ease, color 0.5s ease;
+      align-self: flex-start;
+    }
+    .badge--confirmed { background: #bed2c3; color: #1a3a2a; }
+    .badge--ready     { background: rgba(162,131,69,0.22); color: #7a5c1e; }
+
+    /* ── Countdown (right) ── */
+    .countdown-side {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .timer-blocks {
+      display: flex;
+      gap: 4px;
+      align-items: flex-start;
+    }
+    .timer-block {
+      background: #f5f0e8;
+      border: 1px solid #dcd7cd;
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      min-width: 44px;
+      overflow: hidden;
+    }
+    .timer-digit {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #1e1e1e;
+      line-height: 1;
+      display: block;
+      will-change: transform, opacity;
+    }
+    .timer-digit.flip {
+      animation: digit-flip 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes digit-flip {
+      0%   { transform: translateY(-10px); opacity: 0; }
+      100% { transform: translateY(0);     opacity: 1; }
+    }
+    .timer-label {
+      font-size: 7px;
+      font-weight: 500;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: #8c8c8c;
+    }
+    .timer-status {
+      font-size: 9px;
+      color: #8c8c8c;
+      text-align: center;
+      line-height: 1.45;
+      max-width: 80px;
+      transition: opacity 0.4s ease;
+    }
+
+    /* ── Ready state overlay ── */
+    @keyframes ready-pop {
+      0%   { transform: scale(0.85); opacity: 0; }
+      70%  { transform: scale(1.04); }
+      100% { transform: scale(1);    opacity: 1; }
+    }
+    .ready-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      border: 1.5px solid rgba(162,131,69,0.45);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .card.is-ready .ready-glow { opacity: 1; }
+
+    /* Badge pulse when almost ready */
+    @keyframes badge-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(190,210,195,0); }
+      50%       { box-shadow: 0 0 0 5px rgba(190,210,195,0.4); }
+    }
+    .badge.pulsing { animation: badge-pulse 1.4s ease infinite; }
+  </style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="ready-glow"></div>
+
+  <!-- Food image -->
+  <img class="food-img" src="./suka-icons/reservation-food.png" alt="Table reservation">
+
+  <!-- Table info -->
+  <div class="table-info">
+    <span class="table-tag" id="tag">TONIGHT • 7:30 PM</span>
+    <div class="table-name-block">
+      <span class="table-name">Table 12</span>
+      <span class="table-sub">2 Guests • Indoor</span>
+    </div>
+    <span class="badge badge--confirmed" id="badge">CONFIRMED</span>
+  </div>
+
+  <!-- Countdown -->
+  <div class="countdown-side">
+    <div class="timer-blocks">
+      <div class="timer-block">
+        <span class="timer-digit" id="hrs">01</span>
+        <span class="timer-label">HRS</span>
+      </div>
+      <div class="timer-block">
+        <span class="timer-digit" id="mins">15</span>
+        <span class="timer-label">MINS</span>
+      </div>
+    </div>
+    <p class="timer-status" id="status">Your table is<br>being prepared</p>
+  </div>
+</div>
+
+<script>
+  const STAGES = [
+    { totalMins: 75, endMins: 45, statusText: 'Your table is<br>being prepared', badgeClass: 'badge--confirmed', badgeText: 'CONFIRMED', pulse: false },
+    { totalMins: 45, endMins: 5,  statusText: 'Almost ready<br>for you',         badgeClass: 'badge--confirmed', badgeText: 'CONFIRMED', pulse: true  },
+    { totalMins: 5,  endMins: 0,  statusText: 'Your table<br>awaits!',            badgeClass: 'badge--ready',     badgeText: 'SEATED',    pulse: false },
+  ];
+
+  const STAGE_DURATION = 5000;
+  const TICK_MS        = 80;
+
+  let stage       = 0;
+  let currentMins = 0;
+  let tickTimer   = null;
+  let stageTimer  = null;
+
+  const elHrs    = document.getElementById('hrs');
+  const elMins   = document.getElementById('mins');
+  const elStatus = document.getElementById('status');
+  const elBadge  = document.getElementById('badge');
+  const elCard   = document.getElementById('card');
+
+  function pad(n) { return String(Math.round(n)).padStart(2, '0'); }
+
+  function setDigit(el, val) {
+    const formatted = pad(val);
+    if (el.textContent !== formatted) {
+      el.textContent = formatted;
+      el.classList.remove('flip');
+      void el.offsetWidth; // reflow
+      el.classList.add('flip');
+    }
+  }
+
+  function setStage(idx) {
+    stage = idx;
+    const s = STAGES[idx];
+
+    // Badge
+    elBadge.className = 'badge ' + s.badgeClass + (s.pulse ? ' pulsing' : '');
+    elBadge.textContent = s.badgeText;
+
+    // Status
+    elStatus.innerHTML = s.statusText;
+
+    // Card ready state
+    if (idx === 2 && s.endMins === 0) {
+      elCard.classList.add('is-ready');
+    } else {
+      elCard.classList.remove('is-ready');
+    }
+
+    // Countdown
+    clearInterval(tickTimer);
+    const totalSteps = STAGE_DURATION / TICK_MS;
+    const decrement  = (s.totalMins - s.endMins) / totalSteps;
+    currentMins      = s.totalMins;
+
+    updateDisplay(currentMins);
+
+    tickTimer = setInterval(() => {
+      currentMins = Math.max(s.endMins, currentMins - decrement);
+      updateDisplay(currentMins);
+    }, TICK_MS);
+  }
+
+  function updateDisplay(totalMins) {
+    const h = Math.floor(totalMins / 60);
+    const m = Math.floor(totalMins % 60);
+    setDigit(elHrs, h);
+    setDigit(elMins, m);
+  }
+
+  function advance() {
+    clearInterval(tickTimer);
+    const next = (stage + 1) % STAGES.length;
+    setStage(next);
+    stageTimer = setTimeout(advance, next === 2 ? STAGE_DURATION * 1.6 : STAGE_DURATION);
+  }
+
+  setStage(0);
+  stageTimer = setTimeout(advance, STAGE_DURATION);
+</script>
+
+</body>
+</html>

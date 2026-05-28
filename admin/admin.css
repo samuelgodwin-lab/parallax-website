@@ -495,6 +495,21 @@ tbody tr:hover td { background: #fafafa; }
   font-weight: 600; white-space: nowrap;
 }
 
+/* ── Atom chips ── */
+.atom-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border: 1px solid var(--border);
+  border-radius: 999px; font-size: 12px; color: var(--text-2);
+  cursor: pointer; user-select: none;
+  transition: border-color 150ms, color 150ms, background 150ms;
+}
+.atom-chip input { display: none; }
+.atom-chip:hover { border-color: var(--accent, #6366f1); color: var(--text); }
+.atom-chip:has(input:checked) {
+  background: var(--accent, #6366f1); border-color: var(--accent, #6366f1);
+  color: #fff;
+}
+
 /* ── Colour palette builder ── */
 .palette-group {
   border: 1px solid var(--border); border-radius: var(--radius);

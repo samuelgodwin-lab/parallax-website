@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suka Order Widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+      font-family: 'Inter', sans-serif;
+      padding: 24px 20px;
+    }
+
+    .card {
+      background: #2d4a35;
+      border-radius: 20px;
+      padding: 20px 16px 18px;
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+    }
+
+    /* Card background texture from design */
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    /* All card content sits above background */
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Steps ── */
+    .steps-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    /* Connector lines — one segment per step, sits behind circles */
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: calc(50% + 22px);
+      width: calc(100% - 44px);
+      height: 0;
+      border-top: 2px dashed rgba(229,229,229,0.22);
+      transition: border-color 0.6s ease;
+      z-index: 0;
+    }
+    .step.done:not(:last-child)::after  { border-color: rgba(162,131,69,0.65); }
+    .step.active:not(:last-child)::after { border-color: rgba(229,229,229,0.22); }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+      position: relative;
+      z-index: 2;
+    }
+    .step-circle {
+      width: 40px; height: 40px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(245,240,232,0.2);
+      transition: background 0.5s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .step.active .step-circle {
+      background: #f5f0e8;
+      transform: scale(1.1);
+    }
+    .step.done .step-circle {
+      background: rgba(162,131,69,0.28);
+    }
+    .step-circle svg {
+      width: 20px; height: 20px;
+      transition: color 0.4s ease;
+      overflow: visible;
+    }
+    .step.active  .step-circle svg { color: #285037; }
+    .step.done    .step-circle svg { color: rgba(237,199,121,0.8); }
+    .step.pending .step-circle svg { color: rgba(245,240,232,0.4); }
+
+    .step-label {
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.64px;
+      text-transform: uppercase;
+      text-align: center;
+      white-space: nowrap;
+      transition: color 0.4s ease;
+    }
+    .step.active  .step-label { color: #fff; font-weight: 700; }
+    .step.done    .step-label { color: rgba(160,190,170,0.8); }
+    .step.pending .step-label { color: #8caa96; }
+
+    /* Pulse ring on active step */
+    @keyframes pulse {
+      0%   { transform: scale(1);   opacity: 0.55; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+    .step.active .step-circle::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(245,240,232,0.6);
+      animation: pulse 1.8s ease-out infinite;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: rgba(229,229,229,0.25);
+      margin: 0;
+    }
+
+    /* ── Estimated row ── */
+    .estimated-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 38px;
+    }
+    .est-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .est-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: #a0beaa;
+      letter-spacing: 1.08px;
+      text-transform: uppercase;
+    }
+    .est-time {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1;
+    }
+    .live-tracking {
+      font-size: 12px;
+      color: #bfa36a;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    /* ── Progress bar ── */
+    .bar-bg {
+      height: 5px;
+      background: #455442;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #a28345, #edc779);
+      width: 0%;
+      transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Chef note ── */
+    .note {
+      font-size: 11px;
+      color: #dcd7cd;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    /* ── Delivered overlay ── */
+    @keyframes pop-in {
+      0%   { transform: scale(0.8); opacity: 0; }
+      70%  { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .delivered-badge {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(162,131,69,0.18);
+      border: 1px solid rgba(237,199,121,0.35);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      color: #edc779;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .delivered-badge.show {
+      display: flex;
+      animation: pop-in 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Card background texture -->
+  <img class="card-bg" src="./suka-icons/card-bg.png" alt="">
+
+  <div class="card-inner">
+
+    <!-- Steps row -->
+    <div class="steps-row">
+
+      <!-- Preparing -->
+      <div class="step active" id="step-0">
+        <div class="step-circle">
+          <svg viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.2525 10.3495C13.635 10.491 13.8349 10.0839 14.0331 9.87943C14.9667 8.92714 16.4514 8.68251 17.6527 9.23467C18.4837 9.61559 18.9478 10.3792 18.9965 11.307C19.0574 12.4812 18.1794 13.7218 16.9034 13.7236L2.50169 13.7376C1.74892 13.7376 1.06396 13.5069 0.578918 12.9547C-0.0643243 12.2226 -0.165157 11.2057 0.239912 10.3198C0.606734 9.51599 1.46903 9.00577 2.4252 8.9813C3.51697 8.86074 4.53052 9.26787 5.13377 10.2062L5.48147 10.3914C5.74746 10.5329 6.38027 8.79259 8.22829 8.95335C9.12883 9.03198 10.0102 9.07042 10.9143 8.99354C12.5589 8.8555 12.7901 10.1782 13.2508 10.3495H13.2525ZM11.3489 10.3652L7.77802 10.3302C7.60243 10.3302 7.33644 10.498 7.21649 10.6186L6.16818 11.6739C5.35456 12.4934 4.49922 11.4468 3.72559 10.6605C3.39702 10.3268 2.8633 10.3233 2.40955 10.3425C1.7976 10.3687 1.33342 10.7514 1.32299 11.3577C1.3143 11.8574 1.72285 12.4183 2.35044 12.4183L16.627 12.4078C17.1642 12.4078 17.571 12.0968 17.6648 11.6582C17.7587 11.2196 17.6162 10.7251 17.1589 10.5102C16.4027 10.1573 15.4222 10.325 14.8241 10.9296L14.0835 11.6809C13.6802 12.0898 13.063 12.0776 12.6371 11.653L11.3506 10.3652H11.3489Z" fill="currentColor"/>
+            <path d="M17.7135 7.80884L1.2239 7.80535C0.841431 7.80535 0.530241 7.49782 0.531979 7.16058C0.531979 5.64739 1.05179 4.22156 2.05664 3.08579C4.91298 -0.143282 9.84683 -0.751354 13.7463 0.856194C16.3192 1.91683 18.4819 4.1971 18.4298 7.0505C18.4228 7.45937 18.2055 7.75118 17.7118 7.80884H17.7135ZM2.21832 6.48436L17.1155 6.46514C16.7939 4.91176 15.9507 3.6694 14.7077 2.86563C11.5106 0.80028 7.45292 0.80028 4.26453 2.86563C3.09278 3.62397 2.29829 4.7545 1.91234 6.09121C1.8654 6.25546 1.9645 6.48436 2.21832 6.48436Z" fill="currentColor"/>
+            <path d="M18.2577 17.2637C17.6648 19.3063 15.9368 20.0017 13.8662 20.0017L4.75652 19.9983C3.57087 19.9983 2.45649 19.7204 1.61332 18.8992C0.742337 18.05 0.439839 16.8653 0.48504 15.6544C0.498948 15.2595 0.707567 14.9135 1.17001 14.9135L17.8491 14.9292C18.7375 14.9292 18.5654 16.1978 18.2559 17.2654L18.2577 17.2637ZM14.8276 18.5829C16.1332 18.5829 17.0407 17.4349 17.1189 16.2642L1.82368 16.2677C1.89844 17.524 2.82158 18.5969 4.08546 18.5951L14.8294 18.5829H14.8276Z" fill="currentColor"/>
+            <path d="M14.0401 5.55478C14.4241 5.55478 14.7355 5.24186 14.7355 4.85585C14.7355 4.46983 14.4241 4.15691 14.0401 4.15691C13.656 4.15691 13.3447 4.46983 13.3447 4.85585C13.3447 5.24186 13.656 5.55478 14.0401 5.55478Z" fill="currentColor"/>
+            <path d="M7.99359 5.56002C8.37765 5.56002 8.68899 5.2471 8.68899 4.86109C8.68899 4.47508 8.37765 4.16215 7.99359 4.16215C7.60954 4.16215 7.2982 4.47508 7.2982 4.86109C7.2982 5.2471 7.60954 5.56002 7.99359 5.56002Z" fill="currentColor"/>
+            <path d="M4.97731 5.56002C5.35945 5.56002 5.66923 5.24866 5.66923 4.86458C5.66923 4.4805 5.35945 4.16914 4.97731 4.16914C4.59517 4.16914 4.28539 4.4805 4.28539 4.86458C4.28539 5.24866 4.59517 5.56002 4.97731 5.56002Z" fill="currentColor"/>
+            <path d="M10.9577 5.56876C11.3427 5.56876 11.6549 5.25505 11.6549 4.86808C11.6549 4.4811 11.3427 4.1674 10.9577 4.1674C10.5727 4.1674 10.2606 4.4811 10.2606 4.86808C10.2606 5.25505 10.5727 5.56876 10.9577 5.56876Z" fill="currentColor"/>
+            <path d="M6.55064 3.74279C6.91742 3.74279 7.21475 3.44395 7.21475 3.07531C7.21475 2.70667 6.91742 2.40783 6.55064 2.40783C6.18387 2.40783 5.88654 2.70667 5.88654 3.07531C5.88654 3.44395 6.18387 3.74279 6.55064 3.74279Z" fill="currentColor"/>
+            <path d="M9.48175 3.72881C9.84852 3.72881 10.1459 3.42997 10.1459 3.06133C10.1459 2.69269 9.84852 2.39385 9.48175 2.39385C9.11497 2.39385 8.81764 2.69269 8.81764 3.06133C8.81764 3.42997 9.11497 3.72881 9.48175 3.72881Z" fill="currentColor"/>
+            <path d="M12.3763 3.72707C12.7393 3.72707 13.0335 3.43135 13.0335 3.06657C13.0335 2.70179 12.7393 2.40608 12.3763 2.40608C12.0134 2.40608 11.7192 2.70179 11.7192 3.06657C11.7192 3.43135 12.0134 3.72707 12.3763 3.72707Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="step-label">Preparing</span>
+      </div>
+
+      <!-- Packed -->
+      <div class="step pending" id="step-1">
+        <div class="step-circle">
+          <svg viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.7676 19.2848C18.7676 19.6714 18.4709 20 18.0515 20L0.712392 19.9927C0.267376 19.9927 0.0146507 19.6424 0.0128194 19.2449L0 5.40207C0 4.93919 0.115375 4.69232 0.390076 4.36014L3.7689 0.281358C3.88428 0.141586 4.14982 0.0127065 4.3531 0.0127065L15.4126 0.0199673L20.2785 0C20.4872 0 20.804 0.148847 20.8993 0.286803C20.9945 0.424759 21.0403 0.813215 20.9597 0.987475L19.1577 4.91559C18.9031 5.47105 18.7694 5.94119 18.7694 6.57651V19.283L18.7676 19.2848ZM10.131 4.69958L12.8377 1.40679L4.64245 1.3959L1.94122 4.7014H10.1292L10.131 4.69958ZM19.2401 1.4322H15.7752L18.0112 4.0933L19.2382 1.4322H19.2401ZM16.6487 4.65602L14.2973 1.87693L11.9532 4.66328L16.6487 4.65602ZM9.56327 18.5823C9.6878 18.5823 9.86544 18.3572 9.86544 18.2501L9.85079 6.11545L1.78922 6.11C1.55298 6.11 1.39731 6.32964 1.41013 6.57107L1.39915 18.1612C1.39915 18.428 1.55298 18.5823 1.80387 18.5823H9.56327ZM17.3666 6.10274H11.2609L11.2646 18.5896H17.3703L17.3666 6.10274Z" fill="currentColor"/>
+            <path d="M7.88576 14.5961L3.43377 14.5671C3.09131 14.5653 2.82393 14.2022 2.8221 13.8882L2.80745 8.114C2.80745 7.74732 3.08764 7.41151 3.46856 7.41151H7.78687C8.10735 7.41151 8.45531 7.70194 8.45531 8.01597L8.4608 13.9935C8.4608 14.2948 8.19526 14.5017 7.8821 14.5979L7.88576 14.5961ZM7.08729 8.80378H4.22674V13.1857H7.08729V8.80378Z" fill="currentColor"/>
+            <path d="M7.82532 17.299H3.61873C3.15357 17.2971 2.82576 17.1029 2.79646 16.6691C2.76899 16.2734 3.0327 15.8976 3.529 15.8994L7.89675 15.9049C8.26302 15.9049 8.53772 16.3369 8.54321 16.5874C8.55054 16.965 8.24836 17.3008 7.82532 17.3008V17.299Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="step-label">Packed</span>
+      </div>
+
+      <!-- On the Way -->
+      <div class="step pending" id="step-2">
+        <div class="step-circle">
+          <svg viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.50013 13.6117L0.732332 13.5229C0.569844 13.5035 0.307362 13.4358 0.191299 13.3535C0.0752361 13.2711 -0.0408271 12.9693 0.0180973 12.8144C0.534132 11.4813 1.33229 10.0675 2.64648 9.20408C2.01974 8.65696 1.65369 7.94845 1.93582 7.17377C2.14473 6.60245 2.81968 5.93267 3.64641 5.93106L8.98889 5.91492C10.0924 5.91169 11.0673 6.42653 11.5351 7.31902C11.8744 7.96459 11.7494 8.68601 11.1941 9.2073C9.90489 10.4194 9.64777 12.2544 10.8013 12.2544H14.2296C15.0367 12.2544 16.7705 10.3403 16.0527 8.47297L14.1903 3.63445C14.1314 3.48113 13.8921 3.34072 13.7314 3.34072H12.1065C11.6137 3.34072 11.3209 2.95177 11.3834 2.57734C11.4601 2.12867 11.8762 1.99633 12.3636 2.06573C13.2618 2.19161 14.1564 1.88497 14.9188 1.43953L17.2544 0.0789982C17.5115 -0.0710959 17.9882 0.00959986 18.2454 0.162922C18.4811 0.303332 18.6668 0.672919 18.6632 1.00054L18.64 4.01534C18.5703 4.10249 18.3846 4.27679 18.3829 4.36233C18.3739 4.70932 20.2274 5.96656 20.9255 8.58918C21.2166 9.68502 20.6988 10.3483 21.1398 10.3984C22.6558 10.5711 23.8628 11.307 24.7538 12.3867C24.9413 12.6143 25.0681 12.8903 24.961 13.1243C24.8431 13.3793 24.5574 13.5455 24.2485 13.5584L23.6914 13.581C23.8271 14.409 23.8718 15.2078 23.6289 15.9938C23.2807 17.1187 22.2915 17.7901 21.0434 17.9563C18.7703 18.2614 17.4829 16.896 17.0258 14.9367C16.1509 15.3902 15.2688 15.855 14.2492 15.855H8.53892C8.22644 15.8534 7.91218 15.9067 7.76576 16.1826C7.12473 17.3931 5.80518 18.108 4.33029 17.9838C2.9536 17.8676 1.69833 17.0235 1.3305 15.7372C1.12516 15.0174 1.23408 14.4009 1.49835 13.6117H1.50013ZM17.2936 3.47306L17.2972 1.53798L15.6134 2.51117L17.2936 3.47145V3.47306ZM6.29801 15.8437L4.5267 15.8195C4.19816 15.8147 3.92318 15.5193 3.87318 15.2998C3.82675 15.0997 3.93746 14.622 4.28208 14.622L13.3529 14.6284C13.9742 14.6284 14.6081 14.6478 15.1777 14.4009C17.2562 13.4971 18.8989 11.867 19.5685 9.8561C20.1095 8.23411 17.6508 5.2516 15.917 4.13315L17.2347 7.65956C18.0061 9.72376 17.3454 11.9445 15.3974 13.2421C15.0117 13.5003 14.6492 13.5504 14.1528 13.5504L3.66248 13.5278C3.19109 13.5278 2.90718 13.7908 2.74112 14.141C2.30901 15.0465 2.67148 16.0035 3.61606 16.4957C4.56063 16.988 5.78733 16.7443 6.29622 15.8437H6.29801ZM9.07817 7.18507L3.81426 7.18184C3.45 7.18184 3.22323 7.44168 3.22501 7.7225C3.22501 7.92586 3.45 8.23573 3.7589 8.23734L9.96917 8.25509C10.0924 8.25509 10.2727 8.1857 10.3174 8.11146C10.5316 7.76124 9.87454 7.18668 9.07817 7.18507ZM8.77462 12.2624C8.58177 11.3877 8.76569 10.5582 9.1478 9.86255C9.19066 9.78509 9.20494 9.56721 9.1353 9.54623C9.08352 9.53009 8.9621 9.50749 8.90139 9.50588L6.27837 9.49458C4.0446 9.4849 2.78754 10.2902 1.78761 12.2673L8.77462 12.2624ZM22.6361 12.2737C21.9344 11.7105 21.2237 11.6104 20.4274 11.5426L19.8542 12.2867L22.6361 12.2721V12.2737ZM19.5488 13.723C18.7918 13.7731 18.4275 14.3218 18.4525 14.9528C18.4846 15.8034 19.1507 16.4667 19.997 16.662C20.8863 16.8669 21.7915 16.5329 22.2576 15.8147C22.7486 15.061 22.6093 14.112 21.7915 13.5988C21.5844 13.4697 21.1434 13.5326 20.9755 13.6698L21.1059 15.0126C21.1398 15.3612 20.8541 15.6258 20.5291 15.6646C20.2792 15.6952 19.881 15.5193 19.8274 15.2304L19.5488 13.723Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="step-label">On the Way</span>
+      </div>
+
+      <!-- Delivered -->
+      <div class="step pending" id="step-3">
+        <div class="step-circle">
+          <svg viewBox="0 0 26 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.5797 17.4863C10.6015 16.8856 9.4163 15.9177 10.244 15.3805C10.4561 15.2432 10.8152 15.1969 11.0547 15.4234C14.4083 18.5864 19.7065 18.3204 22.7318 14.8125C25.4322 11.6804 25.333 6.91455 22.5027 3.88375C18.9916 0.126998 12.9359 0.624695 9.98066 4.79677C9.7686 5.0971 9.30514 5.06278 9.07768 4.88772C8.77327 4.65432 8.72538 4.30422 8.98533 3.94038C10.87 1.29573 14.0475 -0.204227 17.2455 0.0223105C23.0551 0.435914 26.9851 5.81619 25.7828 11.4831C25.227 14.1088 23.7357 16.3227 21.3397 17.6511C18.0425 19.4788 14.8154 19.4754 11.5797 17.4863Z" fill="currentColor"/>
+            <path d="M11.8037 12.9847C12.286 12.9847 12.5135 13.3022 12.5083 13.6489C12.5032 14.0436 12.2193 14.3165 11.7627 14.3148L4.61922 14.2839C4.23785 14.2839 4.02236 13.908 4.01552 13.6403C4.00697 13.3074 4.27205 12.971 4.68934 12.971L11.8054 12.9847H11.8037Z" fill="currentColor"/>
+            <path d="M19.4329 8.13477L17.3635 10.05C17.095 10.2972 16.8283 10.4499 16.4452 10.3384C16.2177 10.2731 15.9099 9.96423 15.9099 9.63129L15.9065 6.35336C15.9065 5.91058 16.2057 5.63942 16.594 5.64457C16.9822 5.64972 17.278 5.92431 17.2815 6.35164L17.2986 8.23774L18.5761 7.20974C18.7864 7.03983 19.1404 7.16168 19.2944 7.30928C19.4739 7.47918 19.6894 7.89793 19.4329 8.13477Z" fill="currentColor"/>
+            <path d="M9.37355 11.0815L6.31231 11.1021C5.88305 11.1055 5.62139 10.8137 5.61113 10.4705C5.59916 10.0758 5.86253 9.79948 6.30034 9.79776L9.24015 9.78746C9.58903 9.78746 9.86608 10.014 9.92081 10.3092C9.9704 10.5838 9.78912 11.078 9.37355 11.0815Z" fill="currentColor"/>
+            <path d="M3.52299 11.0592L0.754193 11.1004C0.383082 11.1055 0.107742 10.9287 0.0205223 10.5992C-0.0513057 10.3263 0.0598566 9.79776 0.45149 9.79776L3.49221 9.80119C3.78636 9.80119 3.93514 10.1822 3.94541 10.3898C3.95396 10.5855 3.84964 11.0523 3.52299 11.0574V11.0592Z" fill="currentColor"/>
+            <path d="M10.7024 7.87562H7.74887C7.44274 7.87562 7.25633 7.45 7.27172 7.23548C7.29224 6.94544 7.49063 6.57131 7.83437 6.5696L10.6596 6.55587C11.0205 6.55587 11.2804 6.84934 11.3129 7.1531C11.3454 7.45687 11.1385 7.87562 10.7024 7.87562Z" fill="currentColor"/>
+            <path d="M5.24002 7.8945L3.39986 7.84816C3.13478 7.8413 2.95179 7.42426 2.96205 7.22518C2.97231 7.00551 3.14162 6.60735 3.41354 6.60564L5.45037 6.58504C5.80096 6.58161 5.99934 7.02954 5.96685 7.30241C5.92922 7.63364 5.65901 7.90651 5.24002 7.89622V7.8945Z" fill="currentColor"/>
+            <path d="M23.3851 10.0346C22.6634 10.2834 21.5946 10.1839 21.5894 9.44937C21.5894 9.23828 21.7194 8.90534 21.9622 8.84184C22.4086 8.72514 22.8413 8.71999 23.2996 8.81781C23.5134 8.86415 23.6741 9.20052 23.6964 9.39617C23.7152 9.57122 23.6194 9.95393 23.3834 10.0346H23.3851Z" fill="currentColor"/>
+            <path d="M17.2644 3.93009C17.1378 4.40719 16.3682 4.4827 16.1237 4.09999C15.8552 3.67952 15.8791 3.09945 16.0416 2.62406C16.1185 2.40096 16.464 2.27911 16.6778 2.2894C17.3174 2.31858 17.4679 3.15608 17.2644 3.9318V3.93009Z" fill="currentColor"/>
+            <path d="M17.1258 16.3708C16.9634 16.654 16.558 16.6505 16.3238 16.5441C15.8175 16.3124 15.7953 15.4664 16.0364 14.8674C16.0963 14.7198 16.4418 14.6014 16.5974 14.5962C16.7855 14.5911 17.1121 14.7112 17.2011 14.9223C17.3892 15.3685 17.3806 15.9246 17.1258 16.3691V16.3708Z" fill="currentColor"/>
+            <path d="M21.0798 14.5825C20.7035 14.4692 20.3718 14.1209 20.2076 13.8102C20.0314 13.4807 20.2281 13.134 20.4812 12.9624C21.0353 12.5831 21.7604 13.2868 21.8938 13.8102C22.0033 14.241 21.5484 14.7232 21.0815 14.5825H21.0798Z" fill="currentColor"/>
+            <path d="M21.0011 6.1251C20.7583 6.23837 20.4368 6.08735 20.2965 5.94319C20.1255 5.76813 20.0383 5.40602 20.1854 5.17261C20.5394 4.60627 21.049 4.25788 21.5381 4.52561C21.7365 4.63373 21.9486 4.93063 21.8631 5.19836C21.7348 5.60509 21.4235 5.92774 20.9994 6.1251H21.0011Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="step-label">Delivered</span>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Estimated delivery -->
+    <div class="estimated-row">
+      <div class="est-left">
+        <div class="est-label">Estimated Delivery</div>
+        <div class="est-time" id="countdown">15 mins</div>
+      </div>
+      <div class="live-tracking">Live tracking ›</div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="bar-bg">
+      <div class="bar-fill" id="bar-fill"></div>
+    </div>
+
+    <!-- Note -->
+    <div class="note" id="note">Our chef is preparing your delicious meal</div>
+    <div class="delivered-badge" id="delivered-badge">🎉 Your order has been delivered!</div>
+
+  </div>
+</div>
+
+<script>
+  const STAGES = [
+    { barPct: 28, startSecs: 900, endSecs: 660, note: 'Our chef is preparing your delicious meal' },
+    { barPct: 54, startSecs: 600, endSecs: 420, note: 'Your order is packed and ready for pickup' },
+    { barPct: 80, startSecs: 360, endSecs: 120, note: 'Rohan is 2.1 km away from your location' },
+    { barPct: 100, startSecs: 0,   endSecs: 0,   note: '' },
+  ];
+
+  const STAGE_DURATION = 5000;
+  const TICK_MS        = 80;
+
+  let stage = 0;
+  let countdownSecs = 0;
+  let tickTimer = null;
+  let stageTimer = null;
+
+  const elCountdown = document.getElementById('countdown');
+  const elFill      = document.getElementById('bar-fill');
+  const elNote      = document.getElementById('note');
+  const elBadge     = document.getElementById('delivered-badge');
+
+  function fmt(s) {
+    const m = Math.floor(s / 60), sec = Math.round(s % 60);
+    if (m > 0) return `${m}:${String(sec).padStart(2,'0')} mins`;
+    return `${sec} secs`;
+  }
+
+  function setStage(idx) {
+    stage = idx;
+    const s = STAGES[idx];
+
+    elFill.style.width = s.barPct + '%';
+
+    elNote.style.display  = s.note ? 'block' : 'none';
+    elNote.textContent    = s.note;
+    if (idx === 3) elBadge.classList.add('show');
+    else           elBadge.classList.remove('show');
+
+    for (let i = 0; i < 4; i++) {
+      const el = document.getElementById('step-' + i);
+      el.className = 'step ' + (i < idx ? 'done' : i === idx ? 'active' : 'pending');
+    }
+
+    clearInterval(tickTimer);
+    if (idx < 3) {
+      const totalSteps = STAGE_DURATION / TICK_MS;
+      const decrement  = (s.startSecs - s.endSecs) / totalSteps;
+      countdownSecs    = s.startSecs;
+      elCountdown.textContent = fmt(countdownSecs);
+      tickTimer = setInterval(() => {
+        countdownSecs = Math.max(s.endSecs, countdownSecs - decrement);
+        elCountdown.textContent = fmt(countdownSecs);
+      }, TICK_MS);
+    } else {
+      elCountdown.textContent = '00:00';
+    }
+  }
+
+  function advance() {
+    clearInterval(tickTimer);
+    const next = (stage + 1) % STAGES.length;
+    setStage(next);
+    stageTimer = setTimeout(advance, next === 3 ? STAGE_DURATION * 1.6 : STAGE_DURATION);
+  }
+
+  setStage(0);
+  stageTimer = setTimeout(advance, STAGE_DURATION);
+</script>
+
+</body>
+</html>
