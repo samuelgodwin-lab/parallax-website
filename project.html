@@ -1731,12 +1731,15 @@
         const embedDig = vimeoEmbed(p.video_digital);
         const items = [];
         if (embedDig) {
-          items.push(`<div class="dig-tile dig--lead" style="background:#000;overflow:hidden;"><div class="browser-chrome"><div class="browser-chrome__dots"><span></span><span></span><span></span></div><div class="browser-chrome__url">parallax.studio</div></div><div class="dig-tile__media" style="position:relative;flex:1;"><iframe src="${embedDig}" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe></div></div>`);
+          items.push(`<div class="dig-tile dig--lead" style="background:#000;overflow:hidden;"><div class="dig-tile__media" style="position:relative;flex:1;"><iframe src="${embedDig}" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe></div></div>`);
         } else if (p.img_digital_desktop) {
-          items.push(`<div class="dig-browser"><div class="browser-chrome"><div class="browser-chrome__dots"><span></span><span></span><span></span></div><div class="browser-chrome__url">parallax.studio</div></div><div class="dig-browser__viewport"><img src="${p.img_digital_desktop}" alt="Desktop" loading="lazy"></div></div>`);
+          items.push(digTile(p.img_digital_desktop, 'dig-tile dig--lead', p.img_digital_desktop_tag || 'Desktop'));
         }
-        ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03'].forEach((k,i)=>{ if(p[k]) items.push(digTile(p[k],'dig-tile dig--p4',`Phone 0${i+1}`)); });
-        if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop,'dig-tile dig--lead','Laptop'));
+        const phones = ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03'];
+        const phoneTags = ['img_digital_phone_01_tag','img_digital_phone_02_tag','img_digital_phone_03_tag'];
+        const phoneDefs = ['Phone 01','Phone 02','Phone 03'];
+        phones.forEach((k,i)=>{ if(p[k]) items.push(digTile(p[k],'dig-tile dig--p4',p[phoneTags[i]]||phoneDefs[i])); });
+        if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop,'dig-tile dig--lead',p.img_digital_laptop_tag||'Laptop'));
         return items.length ? `<div class="dig-bento">${items.join('')}</div>` : '';
       }
 

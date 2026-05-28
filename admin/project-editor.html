@@ -457,32 +457,36 @@
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Desktop</div>
                 <div class="img-slot">
-                  <div class="img-slot__label">Website Desktop <span>Full-width browser mockup — or use Vimeo below</span></div>
+                  <div class="img-slot__label">Website Desktop <span>Full-width tile — or use Vimeo below</span></div>
                   <div class="img-slot__box" data-slot="img_digital_desktop" data-ratio="wide" style="aspect-ratio:16/9;">
                     <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Click to upload</span></div>
                   </div>
+                  <input type="text" id="f-dig-desktop-tag" class="img-slot__tag" placeholder="Caption / tag (e.g. Website)">
                 </div>
               </div>
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Mobile Screens</div>
                 <div class="img-grid img-grid--3">
                   <div class="img-slot">
-                    <div class="img-slot__label">Phone 01 <span>Home</span></div>
+                    <div class="img-slot__label">Phone 01</div>
                     <div class="img-slot__box" data-slot="img_digital_phone_01" data-ratio="tall" style="aspect-ratio:9/16;">
                       <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
+                    <input type="text" id="f-dig-phone-01-tag" class="img-slot__tag" placeholder="Caption / tag (e.g. Home)">
                   </div>
                   <div class="img-slot">
                     <div class="img-slot__label">Phone 02</div>
                     <div class="img-slot__box" data-slot="img_digital_phone_02" data-ratio="tall" style="aspect-ratio:9/16;">
                       <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
+                    <input type="text" id="f-dig-phone-02-tag" class="img-slot__tag" placeholder="Caption / tag">
                   </div>
                   <div class="img-slot">
                     <div class="img-slot__label">Phone 03</div>
                     <div class="img-slot__box" data-slot="img_digital_phone_03" data-ratio="tall" style="aspect-ratio:9/16;">
                       <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
+                    <input type="text" id="f-dig-phone-03-tag" class="img-slot__tag" placeholder="Caption / tag">
                   </div>
                 </div>
               </div>
@@ -494,6 +498,7 @@
                     <div class="img-slot__box" data-slot="img_digital_laptop" data-ratio="wide" style="aspect-ratio:16/9;">
                       <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
+                    <input type="text" id="f-dig-laptop-tag" class="img-slot__tag" placeholder="Caption / tag (e.g. Laptop)">
                   </div>
                 </div>
               </div>
@@ -1128,6 +1133,11 @@
         img_app_livery_tag:     document.getElementById('f-app-livery-tag').value.trim(),
         img_app_environmental_tag: document.getElementById('f-app-environmental-tag').value.trim(),
         video_digital:          document.getElementById('f-video-digital').value.trim(),
+        img_digital_desktop_tag:  document.getElementById('f-dig-desktop-tag').value.trim(),
+        img_digital_phone_01_tag: document.getElementById('f-dig-phone-01-tag').value.trim(),
+        img_digital_phone_02_tag: document.getElementById('f-dig-phone-02-tag').value.trim(),
+        img_digital_phone_03_tag: document.getElementById('f-dig-phone-03-tag').value.trim(),
+        img_digital_laptop_tag:   document.getElementById('f-dig-laptop-tag').value.trim(),
         heading_identity:       document.getElementById('f-heading-identity').value.trim(),
         heading_brand_system:   document.getElementById('f-heading-brand-system').value.trim(),
         heading_applications:   document.getElementById('f-heading-applications').value.trim(),
@@ -1235,6 +1245,11 @@
           document.getElementById('f-app-livery-tag').value     = p.img_app_livery_tag || '';
           document.getElementById('f-app-environmental-tag').value = p.img_app_environmental_tag || '';
           document.getElementById('f-video-digital').value      = p.video_digital || '';
+          document.getElementById('f-dig-desktop-tag').value    = p.img_digital_desktop_tag || '';
+          document.getElementById('f-dig-phone-01-tag').value   = p.img_digital_phone_01_tag || '';
+          document.getElementById('f-dig-phone-02-tag').value   = p.img_digital_phone_02_tag || '';
+          document.getElementById('f-dig-phone-03-tag').value   = p.img_digital_phone_03_tag || '';
+          document.getElementById('f-dig-laptop-tag').value     = p.img_digital_laptop_tag || '';
           document.getElementById('f-heading-identity').value  = p.heading_identity || '';
           document.getElementById('f-heading-brand-system').value = p.heading_brand_system || '';
           document.getElementById('f-heading-applications').value = p.heading_applications || '';
