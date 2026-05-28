@@ -382,6 +382,18 @@ tbody tr:hover td { background: #fafafa; }
 .img-grid--4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
 
 .img-slot { display: flex; flex-direction: column; gap: 5px; }
+.img-slot__tag {
+  font-size: 11px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.img-slot__tag:focus { border-color: #a1a1aa; }
+.img-slot__tag::placeholder { color: #aaa; }
 .img-slot__label {
   font-size: 11px;
   font-weight: 600;

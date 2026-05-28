@@ -1713,17 +1713,17 @@
         const embedApp = vimeoEmbed(p.video_applications);
         const lead = embedApp
           ? `<div class="apps-tile at--lead" style="background:#000;overflow:hidden;"><iframe src="${embedApp}" style="width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe><span class="apps-tile__cap">Video Reel</span></div>`
-          : imgTile(p.img_app_signage, 'apps-tile at--lead', 'Signage');
+          : imgTile(p.img_app_signage, 'apps-tile at--lead', p.img_app_signage_tag || 'Signage');
         const slots = [
-          {key:'img_app_stationery',cls:'apps-tile at--7',cap:'Stationery'},
-          {key:'img_app_packaging',cls:'apps-tile at--5',cap:'Packaging'},
-          {key:'img_app_letterhead',cls:'apps-tile at--4',cap:'Letterhead'},
-          {key:'img_app_apparel',cls:'apps-tile at--4',cap:'Apparel'},
-          {key:'img_app_brochure',cls:'apps-tile at--4',cap:'Brochure'},
-          {key:'img_app_livery',cls:'apps-tile at--6',cap:'Livery'},
-          {key:'img_app_environmental',cls:'apps-tile at--6',cap:'Environmental'},
+          {key:'img_app_stationery',cls:'apps-tile at--7',tagKey:'img_app_stationery_tag',def:'Stationery'},
+          {key:'img_app_packaging',cls:'apps-tile at--5',tagKey:'img_app_packaging_tag',def:'Packaging'},
+          {key:'img_app_letterhead',cls:'apps-tile at--4',tagKey:'img_app_letterhead_tag',def:'Letterhead'},
+          {key:'img_app_apparel',cls:'apps-tile at--4',tagKey:'img_app_apparel_tag',def:'Apparel'},
+          {key:'img_app_brochure',cls:'apps-tile at--4',tagKey:'img_app_brochure_tag',def:'Brochure'},
+          {key:'img_app_livery',cls:'apps-tile at--6',tagKey:'img_app_livery_tag',def:'Livery'},
+          {key:'img_app_environmental',cls:'apps-tile at--6',tagKey:'img_app_environmental_tag',def:'Environmental'},
         ];
-        const rest = slots.filter(s=>p[s.key]).map(s=>imgTile(p[s.key],s.cls,s.cap)).join('');
+        const rest = slots.filter(s=>p[s.key]).map(s=>imgTile(p[s.key],s.cls,p[s.tagKey]||s.def)).join('');
         if (!embedApp && !p.img_app_signage && !rest) return '';
         return `<div class="apps-bento">${lead}${rest}</div>`;
       }
