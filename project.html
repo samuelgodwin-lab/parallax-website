@@ -1722,8 +1722,8 @@
           <div class="bsys-type-weights" id="bsys-weights">${wbtns}</div>
           <p class="bsys-type-preview" id="bsys-preview" style="font-family:'${family}',sans-serif;font-weight:700;">${family}</p>
           <div class="bsys-type-scale">
-            ${[['Heading',48,96],['Subheading',24,40],['Body',14,18],['Caption',10,13]].map(([n,mn,mx]) =>
-              `<div class="bsys-type-scale__item"><span class="bsys-type-scale__val">${mn+Math.floor(Math.random()*(mx-mn+1))}</span><span class="bsys-type-scale__name">${n}</span></div>`).join('')}
+            ${[['Heading',64],['Subheading',32],['Body',16],['Caption',12]].map(([n,v]) =>
+              `<div class="bsys-type-scale__item"><span class="bsys-type-scale__val">${v}</span><span class="bsys-type-scale__name">${n}</span></div>`).join('')}
           </div></div>`;
       }
       function renderMarquee() {
