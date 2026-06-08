@@ -187,6 +187,11 @@
                 <input type="text" id="f-heading-identity" placeholder="e.g. A mark built to endure.">
                 <span class="field__hint">e.g. "A mark built to *endure.*" — wrap a word in *asterisks* to highlight it</span>
               </div>
+              <div class="field" style="margin-bottom:16px;">
+                <label>Animated Brand Mark <span style="font-weight:400;color:#aaa;">(SVG code)</span></label>
+                <textarea id="f-brand-mark-svg" rows="5" placeholder="Paste your SVG code here — it will be animated with a path draw-on effect on the project page." style="font-family:monospace;font-size:11px;resize:vertical;"></textarea>
+                <span class="field__hint">Paste the full &lt;svg&gt;...&lt;/svg&gt; code. Paths must be stroke-compatible. Displayed as a full-width animated showcase above the logo mark grid.</span>
+              </div>
               <div class="pe-subsection">
                 <div class="pe-subsection__label">Logo Marks — cycles automatically on the page</div>
                 <div class="img-grid img-grid--2">
@@ -1138,6 +1143,7 @@
         img_digital_phone_02_tag: document.getElementById('f-dig-phone-02-tag').value.trim(),
         img_digital_phone_03_tag: document.getElementById('f-dig-phone-03-tag').value.trim(),
         img_digital_laptop_tag:   document.getElementById('f-dig-laptop-tag').value.trim(),
+        brand_mark_svg:         document.getElementById('f-brand-mark-svg').value.trim(),
         heading_identity:       document.getElementById('f-heading-identity').value.trim(),
         heading_brand_system:   document.getElementById('f-heading-brand-system').value.trim(),
         heading_applications:   document.getElementById('f-heading-applications').value.trim(),
@@ -1250,6 +1256,7 @@
           document.getElementById('f-dig-phone-02-tag').value   = p.img_digital_phone_02_tag || '';
           document.getElementById('f-dig-phone-03-tag').value   = p.img_digital_phone_03_tag || '';
           document.getElementById('f-dig-laptop-tag').value     = p.img_digital_laptop_tag || '';
+          document.getElementById('f-brand-mark-svg').value    = p.brand_mark_svg || '';
           document.getElementById('f-heading-identity').value  = p.heading_identity || '';
           document.getElementById('f-heading-brand-system').value = p.heading_brand_system || '';
           document.getElementById('f-heading-applications').value = p.heading_applications || '';
