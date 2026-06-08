@@ -1569,56 +1569,68 @@
       const textEls = Array.from(svg.querySelectorAll('text'));
       if (!paths.length) return;
 
-      // Separate main logomark (longest path) from decorative paths
+      // Resolve fill: check inline attribute first, then SVG's <style> block for class-based fills
+      function resolveF(el) {
+        const a = el.getAttribute('fill');
+        if (a && a !== 'none') return a;
+        const cls = (el.getAttribute('class') || '').split(/\s+/)[0];
+        if (cls) {
+          const st = svg.querySelector('style');
+          if (st) {
+            const m = st.textContent.match(new RegExp('\\.' + cls + '\\s*\\{([^}]+)\\}'));
+            if (m) { const fm = m[1].match(/fill\s*:\s*([^;}\n]+)/); if (fm) return fm[1].trim(); }
+          }
+        }
+        return '#568065';
+      }
+
       const lengths = paths.map(p => { try { return p.getTotalLength(); } catch(e) { return 0; } });
       const maxLen = Math.max(...lengths);
       const mainIdx = lengths.indexOf(maxLen);
 
       paths.forEach((p, i) => {
-        const len = lengths[i];
-        const isMain = i === mainIdx;
-        const color = p.getAttribute('fill') || getComputedStyle(p).fill || '#568065';
-        p._origFill = color === 'none' ? '#568065' : color;
+        const fill = resolveF(p);
+        p._origFill = fill;
+        p._isGrad = fill.startsWith('url(');
         p.style.fill = 'none';
-        p.style.stroke = p._origFill;
-        p.style.strokeWidth = isMain ? '1.5' : '1';
-        p.style.strokeDasharray = len;
-        p.style.strokeDashoffset = len;
+        p.style.stroke = fill;             // SVG supports url() gradient references as stroke
+        p.style.strokeWidth = i === mainIdx ? '2.5' : '1.5';
+        p.style.strokeLinecap = 'round';
+        p.style.strokeLinejoin = 'round';
+        p.style.strokeDasharray = lengths[i];
+        p.style.strokeDashoffset = lengths[i];
+        p.style.transition = 'none';
       });
       textEls.forEach(t => { t.style.opacity = '0'; });
 
-      // Animate paths in: main first (slow), then decoratives staggered
-      const DRAW_MAIN = 1600;   // ms
-      const DRAW_DEC  = 500;
-      const STAGGER   = 60;
-      const FILL_DUR  = 400;
+      const DRAW_MAIN = 2000, DRAW_DEC = 600, STAGGER = 60;
 
-      function animatePath(p, len, drawDuration, startMs) {
+      function animatePath(p, drawDuration, startMs) {
         setTimeout(() => {
           p.style.transition = `stroke-dashoffset ${drawDuration}ms cubic-bezier(0.4,0,0.2,1)`;
           p.style.strokeDashoffset = '0';
         }, startMs);
         setTimeout(() => {
-          p.style.transition = `fill ${FILL_DUR}ms ease, stroke ${FILL_DUR}ms ease`;
           p.style.fill = p._origFill;
-          p.style.stroke = 'transparent';
-        }, startMs + drawDuration - 80);
+          if (p._isGrad) {
+            // Gradient paints can't CSS-transition; fade stroke-width to 0 for a clean finish
+            p.style.transition = 'stroke-width 350ms ease';
+            p.style.strokeWidth = '0';
+          } else {
+            p.style.transition = 'fill 400ms ease, stroke 400ms ease';
+            p.style.stroke = 'transparent';
+          }
+        }, startMs + drawDuration - 60);
       }
 
-      // Main path
-      animatePath(paths[mainIdx], maxLen, DRAW_MAIN, 100);
-
-      // Decorative paths after main starts
+      animatePath(paths[mainIdx], DRAW_MAIN, 150);
       const decPaths = paths.filter((_, i) => i !== mainIdx);
-      decPaths.forEach((p, i) => {
-        animatePath(p, lengths[paths.indexOf(p)], DRAW_DEC, 400 + i * STAGGER);
-      });
+      decPaths.forEach((p, i) => animatePath(p, DRAW_DEC, 500 + i * STAGGER));
 
-      // Text fades in after everything draws
-      const textStart = 400 + decPaths.length * STAGGER + DRAW_DEC + 200;
+      const textStart = Math.max(DRAW_MAIN + 400, 500 + decPaths.length * STAGGER + DRAW_DEC + 200);
       textEls.forEach(t => {
         setTimeout(() => {
-          t.style.transition = 'opacity 0.7s ease';
+          t.style.transition = 'opacity 0.8s ease';
           t.style.opacity = '1';
         }, textStart);
       });
@@ -1874,7 +1886,7 @@
         <section class="sec--branding">
           <div class="w">
             <div class="sec__hdr reveal"><p class="slabel">Identity</p><h2 class="sh">${hl(p.heading_identity||'A mark built to *endure.*')}</h2></div>
-            ${p.brand_mark_svg ? `<div class="mark-showcase reveal" id="mark-showcase">${p.brand_mark_svg}</div>` : ''}
+            ${p.brand_mark_svg ? `<div class="mark-showcase reveal" id="mark-showcase">${p.brand_mark_svg.replace(/<\?xml[^?]*\?>/i, '').trim()}</div>` : ''}
             <div class="brand-marks-row">
               ${[['img_identity_mark_02','Stacked'],['img_identity_mark_03','Monogram']].map(([slot,label])=>`
               <div class="brand-mark">
