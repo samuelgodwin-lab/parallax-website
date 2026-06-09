@@ -800,15 +800,18 @@
     .dig--lead { grid-column: span 12; aspect-ratio: 16/7; }
     .dig--p4   { grid-column: span 4;  aspect-ratio: 4/5; }
     .dig--w4   { grid-column: span 4;  aspect-ratio: 4/5; }
+    .dig--w6   { grid-column: span 6;  aspect-ratio: 16/9; }
     .dig--w8   { grid-column: span 8; }
     @media (max-width: 900px) {
       .dig-bento { grid-template-columns: repeat(6, 1fr); }
       .dig--lead { grid-column: span 6; aspect-ratio: 16/9; }
       .dig--p4, .dig--w4 { grid-column: span 3; }
+      .dig--w6 { grid-column: span 3; }
       .dig--w8 { grid-column: span 6; aspect-ratio: 16/9; }
     }
     @media (max-width: 540px) {
       .dig--p4, .dig--w4 { grid-column: span 6; aspect-ratio: 4/5; }
+      .dig--w6 { grid-column: span 6; }
     }
 
     /* Lead — browser chrome wrapper */
@@ -1833,7 +1836,9 @@
         const phoneTags = ['img_digital_phone_01_tag','img_digital_phone_02_tag','img_digital_phone_03_tag'];
         const phoneDefs = ['Phone 01','Phone 02','Phone 03'];
         phones.forEach((k,i)=>{ if(p[k]) items.push(digTile(p[k],'dig-tile dig--p4',p[phoneTags[i]]||phoneDefs[i])); });
-        if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop,'dig-tile dig--lead',p.img_digital_laptop_tag||'Laptop'));
+        if (p.img_digital_desktop_02) items.push(digTile(p.img_digital_desktop_02,'dig-tile dig--w6',p.img_digital_desktop_02_tag||'Desktop 02'));
+        if (p.img_digital_desktop_03) items.push(digTile(p.img_digital_desktop_03,'dig-tile dig--w6',p.img_digital_desktop_03_tag||'Desktop 03'));
+        if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop,'dig-tile dig--lead',p.img_digital_laptop_tag||'Desktop'));
         return items.length ? `<div class="dig-bento">${items.join('')}</div>` : '';
       }
 
