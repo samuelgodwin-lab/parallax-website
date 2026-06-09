@@ -172,6 +172,18 @@
       color: oklch(0 0 0 / 0.2);
     }
     @media (max-width: 700px) { .brand-marks-row { grid-template-columns: 1fr; } }
+    .mark-showcase {
+      position: relative; overflow: hidden;
+      background: #f8f8f8; border: 1px solid #e8e8e8; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 64px 48px; margin-bottom: 16px; min-height: 280px;
+    }
+    .mark-showcase::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+      background-size: 48px 48px; pointer-events: none;
+    }
+    .mark-showcase svg { position: relative; z-index: 1; max-width: 320px; width: 100%; height: auto; }
     .brand-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .brand-construction, .brand-variant {
       aspect-ratio: 5/4; background: var(--surface); border: 1px solid var(--border);
@@ -332,6 +344,7 @@
     .dig-tile__cap { position: absolute; left: var(--s4); bottom: var(--s4); z-index: 3; font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: white; background: oklch(0 0 0 / 0.45); padding: 5px 9px; }
     .dig--lead { grid-column: span 12; }
     .dig--p4   { grid-column: span 4;  aspect-ratio: 4/5; }
+    .dig--w6   { grid-column: span 6;  aspect-ratio: 16/9; }
     /* Browser mockup for desktop screenshot */
     .dig-browser { grid-column: span 12; background: oklch(0.10 0.003 249); border: 1px solid oklch(1 0 0 / 0.08); display: flex; flex-direction: column; }
     .browser-chrome { flex-shrink: 0; height: 38px; background: oklch(0.14 0.003 249); border-bottom: 1px solid oklch(1 0 0 / 0.08); display: flex; align-items: center; gap: var(--s3); padding: 0 var(--s4); }
@@ -344,7 +357,8 @@
     .dig-browser__viewport img { width: 100%; display: block; }
     .dig--lead .dig-tile__media { flex: 1; overflow: hidden; }
     .dig--lead .dig-tile__media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-    @media (max-width: 900px) { .dig-bento { grid-template-columns: repeat(6, 1fr); } .dig--lead { grid-column: span 6; } .dig--p4 { grid-column: span 3; } }
+    @media (max-width: 900px) { .dig-bento { grid-template-columns: repeat(6, 1fr); } .dig--lead { grid-column: span 6; } .dig--p4 { grid-column: span 3; } .dig--w6 { grid-column: span 3; } }
+    @media (max-width: 540px) { .dig--w6 { grid-column: span 6; } }
 
     /* Stats */
     .proj-stats { padding: var(--s24) 0; background: oklch(0.06 0.003 249); }
@@ -422,6 +436,73 @@
     function hl(text) {
       if (!text) return '';
       return text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    }
+
+    function animateMarkSVG(wrapper) {
+      const svg = wrapper.querySelector('svg');
+      if (!svg) return;
+      const paths = Array.from(svg.querySelectorAll('path'));
+      const textEls = Array.from(svg.querySelectorAll('text'));
+      if (!paths.length) return;
+
+      function resolveF(el) {
+        const a = el.getAttribute('fill');
+        if (a && a !== 'none') return a;
+        const cls = (el.getAttribute('class') || '').split(/\s+/)[0];
+        if (cls) {
+          const st = svg.querySelector('style');
+          if (st) {
+            const m = st.textContent.match(new RegExp('\\.' + cls + '\\s*\\{([^}]+)\\}'));
+            if (m) { const fm = m[1].match(/fill\s*:\s*([^;}\n]+)/); if (fm) return fm[1].trim(); }
+          }
+        }
+        return '#568065';
+      }
+
+      const lengths = paths.map(p => { try { return p.getTotalLength(); } catch(e) { return 0; } });
+      const maxLen = Math.max(...lengths);
+      const mainIdx = lengths.indexOf(maxLen);
+      paths.forEach((p, i) => {
+        const fill = resolveF(p);
+        p._origFill = fill;
+        p._isGrad = fill.startsWith('url(');
+        p.style.fill = 'none';
+        p.style.stroke = fill;
+        p.style.strokeWidth = i === mainIdx ? '2.5' : '1.5';
+        p.style.strokeLinecap = 'round';
+        p.style.strokeLinejoin = 'round';
+        p.style.strokeDasharray = lengths[i];
+        p.style.strokeDashoffset = lengths[i];
+        p.style.transition = 'none';
+      });
+      textEls.forEach(t => { t.style.opacity = '0'; });
+      const DRAW_MAIN = 2000, DRAW_DEC = 600, STAGGER = 60;
+      function animatePath(p, drawDuration, startMs) {
+        setTimeout(() => {
+          p.style.transition = `stroke-dashoffset ${drawDuration}ms cubic-bezier(0.4,0,0.2,1)`;
+          p.style.strokeDashoffset = '0';
+        }, startMs);
+        setTimeout(() => {
+          p.style.fill = p._origFill;
+          if (p._isGrad) {
+            p.style.transition = 'stroke-width 350ms ease';
+            p.style.strokeWidth = '0';
+          } else {
+            p.style.transition = 'fill 400ms ease, stroke 400ms ease';
+            p.style.stroke = 'transparent';
+          }
+        }, startMs + drawDuration - 60);
+      }
+      animatePath(paths[mainIdx], DRAW_MAIN, 150);
+      const decPaths = paths.filter((_, i) => i !== mainIdx);
+      decPaths.forEach((p, i) => animatePath(p, DRAW_DEC, 500 + i * STAGGER));
+      const textStart = Math.max(DRAW_MAIN + 400, 500 + decPaths.length * STAGGER + DRAW_DEC + 200);
+      textEls.forEach(t => {
+        setTimeout(() => {
+          t.style.transition = 'opacity 0.8s ease';
+          t.style.opacity = '1';
+        }, textStart);
+      });
     }
 
     function vimeoEmbed(url) {
@@ -542,10 +623,9 @@
               <div class="bsys-type-weights" id="bsys-weights">${wbtns}</div>
               <p class="bsys-type-preview" id="bsys-preview" style="font-family:'${family}',sans-serif;font-weight:700;">${family}</p>
               <div class="bsys-type-scale">
-                ${[['Heading',48,96],['Subheading',24,40],['Body',14,18],['Caption',10,13]].map(([name,min,max]) => {
-                  const val = min + Math.floor(Math.random() * (max - min + 1));
-                  return `<div class="bsys-type-scale__item"><span class="bsys-type-scale__val">${val}</span><span class="bsys-type-scale__name">${name}</span></div>`;
-                }).join('')}
+                ${[['Heading',64],['Subheading',32],['Body',16],['Caption',12]].map(([name,val]) =>
+                  `<div class="bsys-type-scale__item"><span class="bsys-type-scale__val">${val}</span><span class="bsys-type-scale__name">${name}</span></div>`
+                ).join('')}
               </div>
             </div>`;
         }
@@ -709,7 +789,9 @@
           const phoneTags = ['img_digital_phone_01_tag','img_digital_phone_02_tag','img_digital_phone_03_tag'];
           const phoneDefs = ['Phone 01','Phone 02','Phone 03'];
           phones.forEach((k,i) => { if (p[k]) items.push(digTile(p[k], 'dig-tile dig--p4', p[phoneTags[i]] || phoneDefs[i])); });
-          if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop, 'dig-tile dig--lead', p.img_digital_laptop_tag || 'Laptop'));
+          if (p.img_digital_desktop_02) items.push(digTile(p.img_digital_desktop_02, 'dig-tile dig--w6', p.img_digital_desktop_02_tag || 'Desktop 02'));
+          if (p.img_digital_desktop_03) items.push(digTile(p.img_digital_desktop_03, 'dig-tile dig--w6', p.img_digital_desktop_03_tag || 'Desktop 03'));
+          if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop, 'dig-tile dig--lead', p.img_digital_laptop_tag || 'Desktop'));
           if (!items.length) return '<p style="font-family:var(--font-m);font-size:10px;color:var(--text-3);margin-top:16px;">No digital images or video uploaded yet.</p>';
           return `<div class="dig-bento">${items.join('')}</div>`;
         }
@@ -783,6 +865,7 @@
                 <p class="slabel">Identity</p>
                 <h2 class="sh">${hl(p.heading_identity || 'A mark built to *endure.*')}</h2>
               </div>
+              ${p.brand_mark_svg ? `<div class="mark-showcase" id="mark-showcase">${p.brand_mark_svg.replace(/<\?xml[^?]*\?>/i, '').trim()}</div>` : ''}
               <div class="brand-marks-row">
                 ${[['img_identity_mark_02','Stacked'],['img_identity_mark_03','Monogram']].map(([slot, label]) => `
                 <div class="brand-mark">
@@ -926,6 +1009,17 @@
           </footer>
         `;
         initBrandSystem();
+
+        // Animated brand mark
+        const markShowcase = document.getElementById('mark-showcase');
+        if (markShowcase) {
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+              if (e.isIntersecting) { animateMarkSVG(markShowcase); observer.disconnect(); }
+            });
+          }, { threshold: 0.3 });
+          observer.observe(markShowcase);
+        }
       })();
     }
 

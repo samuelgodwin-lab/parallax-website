@@ -496,14 +496,33 @@
                 </div>
               </div>
               <div class="pe-subsection">
-                <div class="pe-subsection__label">Other</div>
+                <div class="pe-subsection__label">Side-by-Side Desktop</div>
                 <div class="img-grid img-grid--2">
                   <div class="img-slot">
-                    <div class="img-slot__label">Laptop / Tablet</div>
+                    <div class="img-slot__label">Desktop 02 <span>Left half</span></div>
+                    <div class="img-slot__box" data-slot="img_digital_desktop_02" data-ratio="wide" style="aspect-ratio:16/9;">
+                      <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                    <input type="text" id="f-dig-desktop-02-tag" class="img-slot__tag" placeholder="Caption / tag">
+                  </div>
+                  <div class="img-slot">
+                    <div class="img-slot__label">Desktop 03 <span>Right half</span></div>
+                    <div class="img-slot__box" data-slot="img_digital_desktop_03" data-ratio="wide" style="aspect-ratio:16/9;">
+                      <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
+                    </div>
+                    <input type="text" id="f-dig-desktop-03-tag" class="img-slot__tag" placeholder="Caption / tag">
+                  </div>
+                </div>
+              </div>
+              <div class="pe-subsection">
+                <div class="pe-subsection__label">Full-Width Bottom</div>
+                <div class="img-grid img-grid--2">
+                  <div class="img-slot">
+                    <div class="img-slot__label">Desktop 04 <span>Full-width closing screen</span></div>
                     <div class="img-slot__box" data-slot="img_digital_laptop" data-ratio="wide" style="aspect-ratio:16/9;">
                       <input type="file" accept="image/*"><div class="img-slot__empty"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><span>Upload</span></div>
                     </div>
-                    <input type="text" id="f-dig-laptop-tag" class="img-slot__tag" placeholder="Caption / tag (e.g. Laptop)">
+                    <input type="text" id="f-dig-laptop-tag" class="img-slot__tag" placeholder="Caption / tag">
                   </div>
                 </div>
               </div>
@@ -1138,11 +1157,13 @@
         img_app_livery_tag:     document.getElementById('f-app-livery-tag').value.trim(),
         img_app_environmental_tag: document.getElementById('f-app-environmental-tag').value.trim(),
         video_digital:          document.getElementById('f-video-digital').value.trim(),
-        img_digital_desktop_tag:  document.getElementById('f-dig-desktop-tag').value.trim(),
-        img_digital_phone_01_tag: document.getElementById('f-dig-phone-01-tag').value.trim(),
-        img_digital_phone_02_tag: document.getElementById('f-dig-phone-02-tag').value.trim(),
-        img_digital_phone_03_tag: document.getElementById('f-dig-phone-03-tag').value.trim(),
-        img_digital_laptop_tag:   document.getElementById('f-dig-laptop-tag').value.trim(),
+        img_digital_desktop_tag:    document.getElementById('f-dig-desktop-tag').value.trim(),
+        img_digital_phone_01_tag:   document.getElementById('f-dig-phone-01-tag').value.trim(),
+        img_digital_phone_02_tag:   document.getElementById('f-dig-phone-02-tag').value.trim(),
+        img_digital_phone_03_tag:   document.getElementById('f-dig-phone-03-tag').value.trim(),
+        img_digital_desktop_02_tag: document.getElementById('f-dig-desktop-02-tag').value.trim(),
+        img_digital_desktop_03_tag: document.getElementById('f-dig-desktop-03-tag').value.trim(),
+        img_digital_laptop_tag:     document.getElementById('f-dig-laptop-tag').value.trim(),
         brand_mark_svg:         document.getElementById('f-brand-mark-svg').value.trim(),
         heading_identity:       document.getElementById('f-heading-identity').value.trim(),
         heading_brand_system:   document.getElementById('f-heading-brand-system').value.trim(),
@@ -1251,11 +1272,13 @@
           document.getElementById('f-app-livery-tag').value     = p.img_app_livery_tag || '';
           document.getElementById('f-app-environmental-tag').value = p.img_app_environmental_tag || '';
           document.getElementById('f-video-digital').value      = p.video_digital || '';
-          document.getElementById('f-dig-desktop-tag').value    = p.img_digital_desktop_tag || '';
-          document.getElementById('f-dig-phone-01-tag').value   = p.img_digital_phone_01_tag || '';
-          document.getElementById('f-dig-phone-02-tag').value   = p.img_digital_phone_02_tag || '';
-          document.getElementById('f-dig-phone-03-tag').value   = p.img_digital_phone_03_tag || '';
-          document.getElementById('f-dig-laptop-tag').value     = p.img_digital_laptop_tag || '';
+          document.getElementById('f-dig-desktop-tag').value      = p.img_digital_desktop_tag || '';
+          document.getElementById('f-dig-phone-01-tag').value     = p.img_digital_phone_01_tag || '';
+          document.getElementById('f-dig-phone-02-tag').value     = p.img_digital_phone_02_tag || '';
+          document.getElementById('f-dig-phone-03-tag').value     = p.img_digital_phone_03_tag || '';
+          document.getElementById('f-dig-desktop-02-tag').value   = p.img_digital_desktop_02_tag || '';
+          document.getElementById('f-dig-desktop-03-tag').value   = p.img_digital_desktop_03_tag || '';
+          document.getElementById('f-dig-laptop-tag').value       = p.img_digital_laptop_tag || '';
           document.getElementById('f-brand-mark-svg').value    = p.brand_mark_svg || '';
           document.getElementById('f-heading-identity').value  = p.heading_identity || '';
           document.getElementById('f-heading-brand-system').value = p.heading_brand_system || '';
@@ -1305,7 +1328,8 @@
             'img_identity_construction','img_identity_variant_light','img_identity_variant_dark','img_identity_variant_accent',
             'img_app_signage','img_app_stationery','img_app_packaging','img_app_letterhead',
             'img_app_apparel','img_app_brochure','img_app_livery','img_app_environmental',
-            'img_digital_desktop','img_digital_phone_01','img_digital_phone_02','img_digital_phone_03','img_digital_laptop',
+            'img_digital_desktop','img_digital_phone_01','img_digital_phone_02','img_digital_phone_03',
+            'img_digital_desktop_02','img_digital_desktop_03','img_digital_laptop',
             'img_related_01','img_related_02','img_related_03',
           ];
           imageFields.forEach(field => {
