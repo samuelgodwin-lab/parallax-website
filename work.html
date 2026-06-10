@@ -359,7 +359,10 @@
       inset: 0;
       pointer-events: none;
       z-index: 2;
+      opacity: 0;
+      transition: opacity 700ms ease-out;
     }
+    .work-hero:hover .work-hero__cursor-fx { opacity: 0.65; }
     .work-hero__cursor-fx::before {
       content: '';
       position: absolute;
