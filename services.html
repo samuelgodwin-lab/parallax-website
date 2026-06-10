@@ -278,6 +278,32 @@
       );
     }
 
+    /* ---- Services hero right-side image ---- */
+    .svc-hero__img {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 58%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .svc-hero__img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 28%);
+      mask-image: linear-gradient(to right, transparent 0%, black 28%);
+      opacity: 0;
+      animation: svcImgFade 900ms var(--ease-out) 400ms forwards;
+    }
+    @keyframes svcImgFade {
+      to { opacity: 1; }
+    }
+    @media (max-width: 768px) {
+      .svc-hero__img { display: none; }
+    }
+
     .svc-hero .w { position: relative; z-index: 3; padding-bottom: clamp(60px, 8vw, 100px); }
 
     .svc-hero__slabel { color: var(--accent); }
@@ -779,6 +805,9 @@
     <video class="svc-hero__video" autoplay muted loop playsinline preload="auto">
       <source src="Video/Services video.mp4" type="video/mp4">
     </video>
+    <div class="svc-hero__img" aria-hidden="true">
+      <img src="Assets/Header Images/Service 3.png" alt="">
+    </div>
     <div class="svc-hero__cursor-fx" aria-hidden="true"></div>
     <div class="w">
       <p class="slabel svc-hero__slabel reveal">What We Do</p>
