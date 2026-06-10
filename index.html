@@ -1070,12 +1070,12 @@
     /* Brand sculpture — blended into testimonial background */
     .testi__brand-img {
       position: absolute;
-      top: 50%;
+      top: 0;
       right: -2%;
-      transform: translateY(-50%);
       width: clamp(320px, 38%, 560px);
       pointer-events: none;
       z-index: 0;
+      will-change: transform;
     }
     .testi__brand-img img {
       width: 100%;
@@ -3331,6 +3331,26 @@
     })();
 
   })();
+
+  /* ── Testimonial sculpture — smooth parallax ── */
+  (() => {
+    const section = document.querySelector('.testi');
+    const img     = section.querySelector('.testi__brand-img');
+    if (!img) return;
+
+    let current = 0, target = 0;
+
+    function tick() {
+      const rect     = section.getBoundingClientRect();
+      const progress = (window.innerHeight * 0.5 - rect.top) / rect.height;
+      target  = progress * 100 - 50;           // ±50px travel
+      current += (target - current) * 0.07;    // smooth lag
+      img.style.transform = `translateY(calc(-50% + ${current.toFixed(2)}px))`;
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
   </script>
 </body>
 </html>
