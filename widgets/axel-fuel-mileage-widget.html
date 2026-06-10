@@ -134,98 +134,104 @@
   </div>
 
   <script>
-    const DRAW_DURATION  = 1800;  // ms — line draw
-    const HOLD_DURATION  = 2000;  // ms — hold at end
-    const CYCLE_DURATION = DRAW_DURATION + HOLD_DURATION + 400; // total loop period
+    const DRAW_DURATION  = 1800;
+    const HOLD_DURATION  = 2000;
+    const CYCLE_DURATION = DRAW_DURATION + HOLD_DURATION + 600;
 
-    // ── Stat count helpers ──────────────────────────────────
+    // ── Track & cancel all running animations ───────────────
+    let rafIds    = [];
+    let timerIds  = [];
+
+    function cancelAll() {
+      rafIds.forEach(id => cancelAnimationFrame(id));
+      timerIds.forEach(id => clearTimeout(id));
+      rafIds   = [];
+      timerIds = [];
+    }
+
+    // ── Safe count helper — cancellable, clamped ────────────
     function countTo(elId, fromVal, toVal, decimals, duration) {
       const el   = document.getElementById(elId);
       const unit = el.querySelector('.unit').outerHTML;
       const start = performance.now();
+      const lo = Math.min(fromVal, toVal);
+      const hi = Math.max(fromVal, toVal);
       function step(now) {
         const p    = Math.min((now - start) / duration, 1);
         const ease = 1 - Math.pow(1 - p, 3);
-        const val  = fromVal + ease * (toVal - fromVal);
-        const disp = decimals > 0
-          ? val.toFixed(decimals)
-          : Math.round(val).toLocaleString();
+        const raw  = fromVal + ease * (toVal - fromVal);
+        const val  = Math.min(hi, Math.max(lo, raw)); // clamp — never outside range
+        const disp = decimals > 0 ? val.toFixed(decimals) : Math.round(val).toLocaleString();
         el.innerHTML = disp + unit;
-        if (p < 1) requestAnimationFrame(step);
+        if (p < 1) rafIds.push(requestAnimationFrame(step));
       }
-      requestAnimationFrame(step);
+      rafIds.push(requestAnimationFrame(step));
     }
 
-    function resetStat(elId, fromVal, decimals) {
+    function resetStat(elId, val, decimals) {
       const el   = document.getElementById(elId);
       const unit = el.querySelector('.unit').outerHTML;
-      const disp = decimals > 0 ? fromVal.toFixed(decimals) : Math.round(fromVal).toLocaleString();
-      el.innerHTML = disp + unit;
+      el.innerHTML = (decimals > 0 ? val.toFixed(decimals) : Math.round(val).toLocaleString()) + unit;
     }
 
-    // ── SVG line draw ───────────────────────────────────────
+    // ── SVG ──────────────────────────────────────────────────
     const linePath = document.getElementById('linePath');
     const areaPath = document.getElementById('areaPath');
     const dots     = [0,1,2,3,4,5,6].map(i => document.getElementById('dot'+i));
     const dotXFractions = [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1];
-
     let lineLen = 0;
-    let dotTimers = [];
 
     function runCycle() {
-      // 1. Reset state instantly
+      // Cancel any in-flight animations from the previous cycle
+      cancelAll();
+
+      // Reset SVG
       linePath.style.transition = 'none';
       linePath.style.strokeDashoffset = lineLen;
       areaPath.style.transition = 'none';
       areaPath.style.opacity = '0';
       dots.forEach(d => { d.style.transition = 'none'; d.style.opacity = '0'; });
 
-      // 2. Clear any pending dot timers
-      dotTimers.forEach(clearTimeout);
-      dotTimers = [];
+      // Reset stats to start values immediately
+      resetStat('stat-km',   1150, 0);
+      resetStat('stat-fuel', 12.0, 1);
 
-      // Force reflow so reset takes effect
+      // Force reflow
       linePath.getBoundingClientRect();
 
-      // 3. Animate line
-      requestAnimationFrame(() => {
+      // Animate line draw
+      rafIds.push(requestAnimationFrame(() => {
         linePath.style.transition = `stroke-dashoffset ${DRAW_DURATION}ms cubic-bezier(0.4,0,0.2,1)`;
         linePath.style.strokeDashoffset = '0';
-      });
+      }));
 
-      // 4. Area fade after line arrives
-      dotTimers.push(setTimeout(() => {
-        areaPath.style.transition = `opacity 500ms ease`;
+      // Area fade
+      timerIds.push(setTimeout(() => {
+        areaPath.style.transition = 'opacity 500ms ease';
         areaPath.style.opacity = '1';
       }, DRAW_DURATION - 200));
 
-      // 5. Dots pop in as line passes each point
+      // Dot pop-ins
       dotXFractions.forEach((frac, i) => {
-        const delay = frac * DRAW_DURATION * 0.92;
-        dotTimers.push(setTimeout(() => {
+        timerIds.push(setTimeout(() => {
           dots[i].style.transition = 'opacity 200ms ease';
           dots[i].style.opacity = '1';
-        }, delay));
+        }, frac * DRAW_DURATION * 0.92));
       });
 
-      // 6. Stat count-ups
+      // Count up stats
       countTo('stat-km',   1150, 1230, 0, DRAW_DURATION * 0.85);
       countTo('stat-fuel', 12.0, 12.8, 1, DRAW_DURATION * 0.85);
 
-      // 7. After hold, reset stats to starting values (ready for next cycle)
-      dotTimers.push(setTimeout(() => {
-        resetStat('stat-km',   1150, 0);
-        resetStat('stat-fuel', 12.0, 1);
-      }, DRAW_DURATION + HOLD_DURATION));
+      // Schedule next cycle (self-scheduling — no setInterval overlap)
+      timerIds.push(setTimeout(runCycle, CYCLE_DURATION));
     }
 
     window.addEventListener('load', () => {
       lineLen = linePath.getTotalLength();
       linePath.style.strokeDasharray  = lineLen;
       linePath.style.strokeDashoffset = lineLen;
-
       runCycle();
-      setInterval(runCycle, CYCLE_DURATION);
     });
   </script>
 </body>
