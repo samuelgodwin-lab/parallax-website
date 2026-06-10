@@ -16,7 +16,7 @@
     .card {
       background: #fff;
       border-radius: 20px;
-      padding: 22px 22px 18px;
+      padding: 22px 22px 20px;
       width: 340px;
       box-shadow: 0 2px 20px rgba(0,0,0,0.08);
     }
@@ -31,77 +31,85 @@
     .card-dropdown {
       font-size: 11px; font-weight: 500; color: #777;
       background: #f2f3f5; border-radius: 20px;
-      padding: 4px 10px; display: flex; align-items: center; gap: 4px;
+      padding: 4px 11px;
     }
     .card-expand {
       width: 28px; height: 28px; border-radius: 8px;
       background: #f2f3f5; display: flex; align-items: center;
-      justify-content: center; font-size: 12px; color: #999; cursor: pointer;
+      justify-content: center; font-size: 13px; color: #aaa;
     }
 
     /* ── Bar chart ── */
     .bars-row {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      gap: 10px; height: 148px; padding: 0 2px;
-    }
-    .bar-item {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; gap: 8px;
-    }
-    .bar-number {
-      font-size: 24px; font-weight: 800; color: #111;
-      letter-spacing: -0.04em; line-height: 1; min-width: 32px; text-align: center;
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      height: 150px;
     }
 
-    /* The arch-shaped track */
+    .bar-item {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px;
+    }
+
+    /* Arch-shaped container — full height */
     .bar-track {
+      position: relative;
       width: 100%; flex: 1;
-      border-radius: 999px 999px 10px 10px;
+      border-radius: 999px 999px 14px 14px;
       background: #eef0f3;
       overflow: hidden;
-      display: flex; align-items: flex-end;
     }
 
-    /* The gradient fill — pure CSS animation loop */
+    /* Gradient fill — grows from bottom up via height animation */
     .bar-fill {
-      width: 100%;
-      border-radius: inherit;
-      transform: scaleY(0);
-      transform-origin: bottom center;
-      animation: barLoop 4.2s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 0%;
+      background: linear-gradient(to top, #89c8f0 0%, #b8e4fa 60%, #d4f0ff 100%);
     }
 
-    /* Bar colours and individual heights */
-    .bar-item:nth-child(1) .bar-fill {
-      height: 84%;
-      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
-      animation-delay: 0s;
-    }
-    .bar-item:nth-child(2) .bar-fill {
-      height: 48%;
-      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
-      animation-delay: 0.14s;
-    }
-    .bar-item:nth-child(3) .bar-fill {
-      height: 48%;
-      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
-      animation-delay: 0.28s;
-    }
-    .bar-item:nth-child(4) .bar-fill {
-      height: 24%;
-      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
-      animation-delay: 0.42s;
-    }
-
-    @keyframes barLoop {
-      0%        { transform: scaleY(0); }
-      28%, 68%  { transform: scaleY(1); }
-      92%, 100% { transform: scaleY(0); }
+    /* Number overlaid at the bottom of the fill */
+    .bar-number {
+      position: absolute;
+      bottom: 10px; left: 0; right: 0;
+      text-align: center;
+      font-size: 22px; font-weight: 800; color: #1a3a4a;
+      letter-spacing: -0.04em; line-height: 1;
+      z-index: 2;
     }
 
     .bar-label {
       font-size: 10.5px; font-weight: 500; color: #aaa;
-      text-align: center; letter-spacing: 0.01em;
+      text-align: center; white-space: nowrap;
+    }
+
+    /* ── Per-bar animations (height: 0 → target → 0) ── */
+    .bar-item:nth-child(1) .bar-fill { animation: bar1 4.4s ease-in-out infinite; }
+    .bar-item:nth-child(2) .bar-fill { animation: bar2 4.4s ease-in-out infinite; animation-delay: 0.15s; }
+    .bar-item:nth-child(3) .bar-fill { animation: bar3 4.4s ease-in-out infinite; animation-delay: 0.30s; }
+    .bar-item:nth-child(4) .bar-fill { animation: bar4 4.4s ease-in-out infinite; animation-delay: 0.45s; }
+
+    @keyframes bar1 {
+      0%, 4%    { height: 0%; }
+      38%, 68%  { height: 84%; }
+      95%, 100% { height: 0%; }
+    }
+    @keyframes bar2 {
+      0%, 4%    { height: 0%; }
+      38%, 68%  { height: 46%; }
+      95%, 100% { height: 0%; }
+    }
+    @keyframes bar3 {
+      0%, 4%    { height: 0%; }
+      38%, 68%  { height: 46%; }
+      95%, 100% { height: 0%; }
+    }
+    @keyframes bar4 {
+      0%, 4%    { height: 0%; }
+      38%, 68%  { height: 22%; }
+      95%, 100% { height: 0%; }
     }
 
     /* ── Footer ── */
@@ -123,23 +131,31 @@
 
     <div class="bars-row">
       <div class="bar-item">
-        <span class="bar-number" data-target="8" data-from="5">05</span>
-        <div class="bar-track"><div class="bar-fill"></div></div>
+        <div class="bar-track">
+          <div class="bar-fill"></div>
+          <span class="bar-number" data-target="8" data-from="5">05</span>
+        </div>
         <span class="bar-label">On Route</span>
       </div>
       <div class="bar-item">
-        <span class="bar-number" data-target="2" data-from="0">00</span>
-        <div class="bar-track"><div class="bar-fill"></div></div>
+        <div class="bar-track">
+          <div class="bar-fill"></div>
+          <span class="bar-number" data-target="2" data-from="0">00</span>
+        </div>
         <span class="bar-label">Available</span>
       </div>
       <div class="bar-item">
-        <span class="bar-number" data-target="2" data-from="0">00</span>
-        <div class="bar-track"><div class="bar-fill"></div></div>
+        <div class="bar-track">
+          <div class="bar-fill"></div>
+          <span class="bar-number" data-target="2" data-from="0">00</span>
+        </div>
         <span class="bar-label">Maintenance</span>
       </div>
       <div class="bar-item">
-        <span class="bar-number" data-target="1" data-from="0">00</span>
-        <div class="bar-track"><div class="bar-fill"></div></div>
+        <div class="bar-track">
+          <div class="bar-fill"></div>
+          <span class="bar-number" data-target="1" data-from="0">00</span>
+        </div>
         <span class="bar-label">Idle</span>
       </div>
     </div>
@@ -148,46 +164,58 @@
   </div>
 
   <script>
-    const CYCLE    = 4200;  // must match animation-duration
-    const COUNT_MS = 900;   // how long the count-up lasts
-    const HOLD_MS  = 1600;  // how long we hold at target before resetting
+    // Animation cycle must stay in sync with CSS duration (4400ms)
+    const CYCLE     = 4400;
+    const RISE_MS   = 4400 * 0.38; // ~1670ms — time bars take to reach peak
+    const HOLD_MS   = 4400 * 0.30; // ~1320ms — hold at peak
+    const FALL_MS   = 4400 * 0.27; // ~1190ms — fall back down
 
     function countUp(el, from, to, duration) {
       const start = performance.now();
       function step(now) {
-        const p    = Math.min((now - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        const val  = Math.round(from + ease * (to - from));
+        const p   = Math.min((now - start) / duration, 1);
+        const val = Math.round(from + (1 - Math.pow(1 - p, 3)) * (to - from));
         el.textContent = String(val).padStart(2, '0');
         if (p < 1) requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
     }
 
-    function runNumberCycle(el) {
-      const from = parseInt(el.dataset.from);
-      const to   = parseInt(el.dataset.target);
-
-      // Count up from 'from' to target
-      countUp(el, from, to, COUNT_MS);
-
-      // After hold period, snap back to 'from' and repeat next cycle
-      setTimeout(() => {
-        el.textContent = String(from).padStart(2, '0');
-      }, COUNT_MS + HOLD_MS);
+    function countDown(el, from, to, duration) {
+      const start = performance.now();
+      function step(now) {
+        const p   = Math.min((now - start) / duration, 1);
+        const val = Math.round(from - (1 - Math.pow(1 - p, 3)) * (from - to));
+        el.textContent = String(val).padStart(2, '0');
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     }
 
-    const staggerDelays = [0, 140, 280, 420];
+    const staggerDelays = [0, 150, 300, 450];
+
+    function runNumberCycle(el, stagger) {
+      const from   = parseInt(el.dataset.from);
+      const target = parseInt(el.dataset.target);
+
+      setTimeout(() => {
+        // Count up as bars rise
+        countUp(el, from, target, RISE_MS * 0.85);
+
+        // Count back down as bars fall
+        setTimeout(() => countDown(el, target, from, FALL_MS * 0.9), RISE_MS + HOLD_MS);
+      }, stagger);
+    }
 
     function startLoops() {
-      document.querySelectorAll('.bar-number').forEach((el, i) => {
-        // Initial run with stagger
-        setTimeout(() => runNumberCycle(el), staggerDelays[i]);
+      const numbers = document.querySelectorAll('.bar-number');
 
-        // Loop every CYCLE ms, offset by stagger
-        setTimeout(() => {
-          setInterval(() => runNumberCycle(el), CYCLE);
-        }, staggerDelays[i]);
+      numbers.forEach((el, i) => {
+        // First run immediately (bars start from CSS initial state)
+        runNumberCycle(el, staggerDelays[i]);
+
+        // Loop every cycle
+        setInterval(() => runNumberCycle(el, staggerDelays[i]), CYCLE);
       });
     }
 
