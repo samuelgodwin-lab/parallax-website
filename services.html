@@ -463,25 +463,41 @@
       margin-bottom: var(--s8);
     }
 
-    /* ── Brand Systems torch-reveal image ── */
+    /* ── Brand Systems centre image + reverse hover ── */
     #brand-systems { position: relative; }
 
     .svc-detail__hover-img {
       position: absolute;
-      inset: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(260px, 32%, 420px);
       pointer-events: none;
       z-index: 2;
-      overflow: hidden;
     }
     .svc-detail__hover-img img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
+      height: auto;
       display: block;
+      filter: drop-shadow(0 24px 56px oklch(0 0 0 / 0.14));
     }
-    /* Text sits above the image layer */
-    #brand-systems .w { position: relative; z-index: 3; }
+
+    /* White overlay — hidden by default, fades in on hover */
+    #brand-systems::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: oklch(1 0 0 / 0);
+      transition: background 500ms var(--ease-out);
+      pointer-events: none;
+      z-index: 4;
+    }
+    #brand-systems:hover::after {
+      background: oklch(1 0 0 / 0.82);
+    }
+
+    /* Text always above the overlay */
+    #brand-systems .w { position: relative; z-index: 5; }
 
     /* Artifacts panel */
     .svc-detail__artifacts {
@@ -1393,37 +1409,6 @@
       document.querySelectorAll('.svc-detail__item').forEach(item => numObserver.observe(item));
     })();
 
-    /* ── Brand Systems — torch/spotlight reveal ── */
-    (() => {
-      const section = document.getElementById('brand-systems');
-      const layer   = section.querySelector('.svc-detail__hover-img');
-
-      let mouseX = 50, mouseY = 50;
-      let radius = 0, targetRadius = 0;
-
-      function setMask(r, x, y) {
-        const v = `radial-gradient(circle ${r}px at ${x}% ${y}%, black 0%, black 55%, transparent 100%)`;
-        layer.style.webkitMaskImage = v;
-        layer.style.maskImage       = v;
-      }
-
-      function loop() {
-        radius += (targetRadius - radius) * 0.09;
-        setMask(radius, mouseX, mouseY);
-        requestAnimationFrame(loop);
-      }
-
-      section.addEventListener('mouseenter', () => { targetRadius = 208; });
-      section.addEventListener('mouseleave', () => { targetRadius = 0; });
-      section.addEventListener('mousemove', e => {
-        const r = section.getBoundingClientRect();
-        mouseX = ((e.clientX - r.left) / r.width)  * 100;
-        mouseY = ((e.clientY - r.top)  / r.height) * 100;
-      });
-
-      setMask(0, 50, 50);
-      loop();
-    })();
 
     /* ---- FAQ ACCORDION ---- */
     document.querySelectorAll('[data-faq]').forEach(item => {
