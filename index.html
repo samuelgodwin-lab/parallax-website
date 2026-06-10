@@ -394,26 +394,6 @@
       opacity: 0;
       animation: fadeUp 900ms var(--ease-out) 400ms forwards;
     }
-    /* Maze streak — subtle drifting glow */
-    .hero__streak-glow {
-      position: absolute;
-      bottom: 28%;
-      left: 18%;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(80,180,255,0.38) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(18px);
-      mix-blend-mode: screen;
-      pointer-events: none;
-      z-index: 1;
-      animation: mazeGlow 4s ease-in-out infinite;
-    }
-    @keyframes mazeGlow {
-      0%   { transform: translate(0, 0)     scale(1);    opacity: 0.6; }
-      50%  { transform: translate(18px, -22px) scale(1.15); opacity: 1;   }
-      100% { transform: translate(0, 0)     scale(1);    opacity: 0.6; }
-    }
 
     @media (max-width: 768px) {
       .hero__img {
@@ -2178,7 +2158,6 @@
     </div>
     <div class="hero__img" aria-hidden="true">
       <img src="Assets/Header Images/Parallax 2_01.png" alt="">
-      <div class="hero__streak-glow"></div>
     </div>
     <div class="hero__cursor-fx" aria-hidden="true"></div>
   </section>
