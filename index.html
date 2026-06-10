@@ -409,23 +409,6 @@
     }
     .hero:hover .hero__cursor-fx { opacity: 0.65; }
     /* Brighter grid revealed at cursor position — soft edges, 15% smaller */
-    .hero__cursor-fx::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,0,0,0.16) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.16) 1px, transparent 1px);
-      background-size: 56px 56px;
-      -webkit-mask-image: radial-gradient(
-        circle 411px at var(--hx, 85%) var(--hy, 50%),
-        black 5%, transparent 75%
-      );
-      mask-image: radial-gradient(
-        circle 411px at var(--hx, 85%) var(--hy, 50%),
-        black 5%, transparent 75%
-      );
-    }
     /* Accent colour sweep — soft edges, 15% smaller */
     .hero__cursor-fx::after {
       content: '';

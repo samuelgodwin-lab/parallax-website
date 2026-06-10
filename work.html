@@ -363,17 +363,6 @@
       transition: opacity 700ms ease-out;
     }
     .work-hero:hover .work-hero__cursor-fx { opacity: 0.65; }
-    .work-hero__cursor-fx::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: radial-gradient(circle 411px at var(--hx, 50%) var(--hy, 50%), black 5%, transparent 75%);
-      -webkit-mask-image: radial-gradient(circle 411px at var(--hx, 50%) var(--hy, 50%), black 5%, transparent 75%);
-    }
     .work-hero__cursor-fx::after {
       content: '';
       position: absolute;
