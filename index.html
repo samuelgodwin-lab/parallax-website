@@ -1066,6 +1066,29 @@
       position: relative;
       z-index: 1;
     }
+
+    /* Brand sculpture — blended into testimonial background */
+    .testi__brand-img {
+      position: absolute;
+      top: 50%;
+      right: -2%;
+      transform: translateY(-50%);
+      width: clamp(320px, 38%, 560px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .testi__brand-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.18;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 35%);
+      mask-image: linear-gradient(to right, transparent 0%, black 35%);
+      mix-blend-mode: multiply;
+    }
+    @media (max-width: 768px) {
+      .testi__brand-img { display: none; }
+    }
     .testi__clip {
       overflow: hidden;
       position: relative;
@@ -2393,6 +2416,9 @@
        TESTIMONIALS
   ============================================================ -->
   <section class="testi" id="clients">
+    <div class="testi__brand-img" aria-hidden="true">
+      <img src="Assets/Services/Brand.png" alt="">
+    </div>
     <video class="testi__video" autoplay muted loop playsinline preload="auto">
       <source src="Video/Testimonial_Blue.mp4" type="video/mp4">
       Your browser does not support the video tag.
