@@ -394,6 +394,18 @@
       opacity: 0;
       animation: fadeUp 900ms var(--ease-out) 400ms forwards;
     }
+    /* Maze streak SVG animation overlay */
+    .hero__streak {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: screen;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+      mask-image: linear-gradient(to right, transparent 0%, black 30%);
+    }
+    .hero__streak svg { width: 100%; height: 100%; }
+
     @media (max-width: 768px) {
       .hero__img {
         position: relative;
@@ -2157,6 +2169,29 @@
     </div>
     <div class="hero__img" aria-hidden="true">
       <img src="Assets/Header Images/Parallax 2_01.png" alt="">
+      <div class="hero__streak">
+        <svg viewBox="0 0 1661 947" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="maze-glow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path id="mazeStreak"
+            d="M 215 870 Q 310 810 400 750 Q 480 695 555 635 Q 595 590 630 540 Q 685 475 745 420 Q 800 370 838 308 Q 852 262 840 200 Q 834 168 824 138"
+            fill="none"
+            stroke="#5bbfff"
+            stroke-width="20"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            filter="url(#maze-glow)"
+          />
+        </svg>
+      </div>
     </div>
     <div class="hero__cursor-fx" aria-hidden="true"></div>
   </section>
@@ -3349,6 +3384,46 @@
       requestAnimationFrame(tick);
     }
     tick();
+  })();
+
+  /* ── Maze blue streak animation ── */
+  (() => {
+    const path = document.getElementById('mazeStreak');
+    if (!path) return;
+
+    const DRAW_DURATION  = 2000;
+    const HOLD_DURATION  = 1800;
+    const CYCLE_DURATION = DRAW_DURATION + HOLD_DURATION + 600;
+
+    let rafIds = [], timerIds = [];
+
+    function cancelAll() {
+      rafIds.forEach(id => cancelAnimationFrame(id));
+      timerIds.forEach(id => clearTimeout(id));
+      rafIds = []; timerIds = [];
+    }
+
+    window.addEventListener('load', () => {
+      const len = path.getTotalLength();
+      path.style.strokeDasharray  = len;
+      path.style.strokeDashoffset = len;
+
+      function runCycle() {
+        cancelAll();
+        path.style.transition      = 'none';
+        path.style.strokeDashoffset = len;
+        path.getBoundingClientRect();
+
+        rafIds.push(requestAnimationFrame(() => {
+          path.style.transition      = `stroke-dashoffset ${DRAW_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+          path.style.strokeDashoffset = '0';
+        }));
+
+        timerIds.push(setTimeout(runCycle, CYCLE_DURATION));
+      }
+
+      runCycle();
+    });
   })();
 
   </script>
