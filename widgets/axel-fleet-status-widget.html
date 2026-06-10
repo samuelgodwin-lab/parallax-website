@@ -7,97 +7,108 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #f0f2f5; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; }
+    html, body {
+      height: 100%; background: #f0f2f5;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+    }
 
     .card {
       background: #fff;
-      border-radius: 18px;
-      padding: 20px 20px 18px;
+      border-radius: 20px;
+      padding: 22px 22px 18px;
       width: 340px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
     }
 
     /* ── Header ── */
     .card-head {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
-    .card-title { font-size: 14px; font-weight: 600; color: #111; letter-spacing: -0.01em; }
+    .card-title { font-size: 15px; font-weight: 700; color: #111; letter-spacing: -0.02em; }
     .card-controls { display: flex; align-items: center; gap: 8px; }
     .card-dropdown {
-      font-size: 11px; font-weight: 500; color: #888;
-      background: #f4f4f6; border-radius: 6px;
-      padding: 3px 8px; cursor: pointer;
+      font-size: 11px; font-weight: 500; color: #777;
+      background: #f2f3f5; border-radius: 20px;
+      padding: 4px 10px; display: flex; align-items: center; gap: 4px;
     }
-    .card-expand { font-size: 13px; color: #bbb; cursor: pointer; line-height: 1; }
+    .card-expand {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: #f2f3f5; display: flex; align-items: center;
+      justify-content: center; font-size: 12px; color: #999; cursor: pointer;
+    }
 
     /* ── Bar chart ── */
     .bars-row {
       display: flex; align-items: flex-end; justify-content: space-between;
-      gap: 10px; height: 130px; padding: 0 4px;
+      gap: 10px; height: 148px; padding: 0 2px;
     }
     .bar-item {
       flex: 1; display: flex; flex-direction: column;
-      align-items: center; gap: 6px;
+      align-items: center; gap: 8px;
     }
     .bar-number {
-      font-size: 22px; font-weight: 800; color: #111; letter-spacing: -0.04em;
-      line-height: 1; transition: opacity 0.3s;
+      font-size: 24px; font-weight: 800; color: #111;
+      letter-spacing: -0.04em; line-height: 1; min-width: 32px; text-align: center;
     }
+
+    /* The arch-shaped track */
     .bar-track {
-      width: 100%; flex: 1; border-radius: 100px;
-      background: #f0f2f5; overflow: hidden;
+      width: 100%; flex: 1;
+      border-radius: 999px 999px 10px 10px;
+      background: #eef0f3;
+      overflow: hidden;
       display: flex; align-items: flex-end;
-      position: relative;
     }
+
+    /* The gradient fill — pure CSS animation loop */
     .bar-fill {
       width: 100%;
-      border-radius: 100px;
+      border-radius: inherit;
       transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 1.1s cubic-bezier(0.34, 1.3, 0.64, 1);
+      transform-origin: bottom center;
+      animation: barLoop 4.2s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
     }
-    .bar-fill.animate { transform: scaleY(1); }
 
-    /* Each bar gets a unique gradient + height */
+    /* Bar colours and individual heights */
     .bar-item:nth-child(1) .bar-fill {
-      height: 82%;
-      background: linear-gradient(to top, #5bb8e8, #6be6c4);
+      height: 84%;
+      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
+      animation-delay: 0s;
     }
     .bar-item:nth-child(2) .bar-fill {
-      height: 46%;
-      background: linear-gradient(to top, #5bb8e8, #6be6c4);
+      height: 48%;
+      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
+      animation-delay: 0.14s;
     }
     .bar-item:nth-child(3) .bar-fill {
-      height: 46%;
-      background: linear-gradient(to top, #5bb8e8, #6be6c4);
+      height: 48%;
+      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
+      animation-delay: 0.28s;
     }
     .bar-item:nth-child(4) .bar-fill {
-      height: 22%;
-      background: linear-gradient(to top, #5bb8e8, #6be6c4);
+      height: 24%;
+      background: linear-gradient(to top, #a8d8f0, #c2ecfa);
+      animation-delay: 0.42s;
     }
 
-    /* Stagger animation delay per bar */
-    .bar-item:nth-child(1) .bar-fill { transition-delay: 0.05s; }
-    .bar-item:nth-child(2) .bar-fill { transition-delay: 0.18s; }
-    .bar-item:nth-child(3) .bar-fill { transition-delay: 0.31s; }
-    .bar-item:nth-child(4) .bar-fill { transition-delay: 0.44s; }
+    @keyframes barLoop {
+      0%        { transform: scaleY(0); }
+      28%, 68%  { transform: scaleY(1); }
+      92%, 100% { transform: scaleY(0); }
+    }
 
     .bar-label {
-      font-size: 10px; font-weight: 500; color: #999; text-align: center;
-      letter-spacing: 0.01em; white-space: nowrap;
+      font-size: 10.5px; font-weight: 500; color: #aaa;
+      text-align: center; letter-spacing: 0.01em;
     }
 
     /* ── Footer ── */
     .card-footer {
-      margin-top: 16px;
-      font-size: 12px; font-weight: 600;
-      color: #3dbf7a; letter-spacing: -0.01em;
-      opacity: 0; transform: translateY(4px);
-      transition: opacity 0.5s ease 1.2s, transform 0.5s ease 1.2s;
+      margin-top: 18px; text-align: center;
+      font-size: 13px; font-weight: 600; color: #3dbf7a;
     }
-    .card-footer.animate { opacity: 1; transform: translateY(0); }
-    .card-footer::before { content: '↑ '; }
   </style>
 </head>
 <body>
@@ -106,28 +117,28 @@
       <span class="card-title">Fleet Status</span>
       <div class="card-controls">
         <span class="card-dropdown">Daily ▾</span>
-        <span class="card-expand">⤢</span>
+        <span class="card-expand">↗</span>
       </div>
     </div>
 
     <div class="bars-row">
       <div class="bar-item">
-        <span class="bar-number" data-target="8">0</span>
+        <span class="bar-number" data-target="8" data-from="5">05</span>
         <div class="bar-track"><div class="bar-fill"></div></div>
         <span class="bar-label">On Route</span>
       </div>
       <div class="bar-item">
-        <span class="bar-number" data-target="2">0</span>
+        <span class="bar-number" data-target="2" data-from="0">00</span>
         <div class="bar-track"><div class="bar-fill"></div></div>
         <span class="bar-label">Available</span>
       </div>
       <div class="bar-item">
-        <span class="bar-number" data-target="2">0</span>
+        <span class="bar-number" data-target="2" data-from="0">00</span>
         <div class="bar-track"><div class="bar-fill"></div></div>
         <span class="bar-label">Maintenance</span>
       </div>
       <div class="bar-item">
-        <span class="bar-number" data-target="1">0</span>
+        <span class="bar-number" data-target="1" data-from="0">00</span>
         <div class="bar-track"><div class="bar-fill"></div></div>
         <span class="bar-label">Idle</span>
       </div>
@@ -137,41 +148,53 @@
   </div>
 
   <script>
-    function countUp(el, target, duration, delay) {
-      setTimeout(() => {
-        const start = performance.now();
-        function step(now) {
-          const p = Math.min((now - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(ease * target).toString().padStart(2, '0');
-          if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      }, delay);
+    const CYCLE    = 4200;  // must match animation-duration
+    const COUNT_MS = 900;   // how long the count-up lasts
+    const HOLD_MS  = 1600;  // how long we hold at target before resetting
+
+    function countUp(el, from, to, duration) {
+      const start = performance.now();
+      function step(now) {
+        const p    = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const val  = Math.round(from + ease * (to - from));
+        el.textContent = String(val).padStart(2, '0');
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     }
 
-    function init() {
-      const fills   = document.querySelectorAll('.bar-fill');
-      const numbers = document.querySelectorAll('.bar-number');
-      const footer  = document.querySelector('.card-footer');
+    function runNumberCycle(el) {
+      const from = parseInt(el.dataset.from);
+      const to   = parseInt(el.dataset.target);
 
-      // Trigger bar animations
-      requestAnimationFrame(() => {
-        fills.forEach(f => f.classList.add('animate'));
-        footer.classList.add('animate');
-      });
+      // Count up from 'from' to target
+      countUp(el, from, to, COUNT_MS);
 
-      // Count up each number with matching stagger
-      const delays = [50, 180, 310, 440];
-      numbers.forEach((el, i) => {
-        countUp(el, parseInt(el.dataset.target), 900, delays[i]);
+      // After hold period, snap back to 'from' and repeat next cycle
+      setTimeout(() => {
+        el.textContent = String(from).padStart(2, '0');
+      }, COUNT_MS + HOLD_MS);
+    }
+
+    const staggerDelays = [0, 140, 280, 420];
+
+    function startLoops() {
+      document.querySelectorAll('.bar-number').forEach((el, i) => {
+        // Initial run with stagger
+        setTimeout(() => runNumberCycle(el), staggerDelays[i]);
+
+        // Loop every CYCLE ms, offset by stagger
+        setTimeout(() => {
+          setInterval(() => runNumberCycle(el), CYCLE);
+        }, staggerDelays[i]);
       });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
+      document.addEventListener('DOMContentLoaded', startLoops);
     } else {
-      setTimeout(init, 120);
+      startLoops();
     }
   </script>
 </body>

@@ -7,80 +7,61 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #f0f2f5; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; }
+    html, body {
+      height: 100%; background: #f0f2f5;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+    }
 
     .card {
       background: #fff;
-      border-radius: 18px;
-      padding: 20px 20px 16px;
+      border-radius: 20px;
+      padding: 22px 22px 16px;
       width: 400px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
     }
 
     /* ── Header ── */
     .card-head {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
-    .card-title { font-size: 14px; font-weight: 600; color: #111; letter-spacing: -0.01em; }
+    .card-title { font-size: 15px; font-weight: 700; color: #111; letter-spacing: -0.02em; }
     .card-controls { display: flex; align-items: center; gap: 8px; }
     .card-dropdown {
-      font-size: 11px; font-weight: 500; color: #888;
-      background: #f4f4f6; border-radius: 6px;
-      padding: 3px 8px;
+      font-size: 11px; font-weight: 500; color: #777;
+      background: #f2f3f5; border-radius: 20px;
+      padding: 4px 10px; display: flex; align-items: center; gap: 4px;
     }
-    .card-expand { font-size: 13px; color: #bbb; line-height: 1; }
+    .card-expand {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: #f2f3f5; display: flex; align-items: center;
+      justify-content: center; font-size: 12px; color: #999;
+    }
 
-    /* ── Stats row ── */
-    .stats-row {
-      display: flex; gap: 24px; margin-bottom: 10px;
-    }
+    /* ── Stats ── */
+    .stats-row { display: flex; gap: 32px; margin-bottom: 14px; }
     .stat-item { display: flex; flex-direction: column; gap: 1px; }
-    .stat-label { font-size: 10px; font-weight: 500; color: #aaa; letter-spacing: 0.02em; }
+    .stat-label { font-size: 10.5px; font-weight: 500; color: #aaa; letter-spacing: 0.01em; }
     .stat-value {
-      font-size: 22px; font-weight: 800; letter-spacing: -0.04em; color: #111;
-      line-height: 1.1;
+      font-size: 26px; font-weight: 800; letter-spacing: -0.04em; color: #111; line-height: 1.1;
     }
-    .stat-value .unit {
-      font-size: 13px; font-weight: 500; color: #999; margin-left: 2px; letter-spacing: 0;
-    }
+    .stat-value .unit { font-size: 13px; font-weight: 500; color: #aaa; margin-left: 3px; letter-spacing: 0; }
 
-    /* ── Fuel usage badge ── */
-    .fuel-badge {
-      font-size: 10.5px; font-weight: 500; color: #3dbf7a; margin-bottom: 12px;
-      opacity: 0; transform: translateY(3px);
-      transition: opacity 0.4s ease 0.6s, transform 0.4s ease 0.6s;
-    }
-    .fuel-badge.animate { opacity: 1; transform: translateY(0); }
-    .fuel-badge strong { font-weight: 700; }
+    /* ── Fuel badge ── */
+    .fuel-badge { font-size: 11px; font-weight: 600; color: #111; margin-bottom: 14px; }
+    .fuel-badge .change { color: #3dbf7a; font-weight: 700; }
 
     /* ── Chart ── */
-    .chart-wrap { position: relative; width: 100%; }
-
+    .chart-wrap { position: relative; }
     .chart-svg { width: 100%; display: block; overflow: visible; }
 
-    /* Gradient stroke via linearGradient in SVG */
-    .line-path {
-      fill: none;
-      stroke: url(#lineGrad);
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .area-path {
-      stroke: none;
-      fill: url(#areaGrad);
-    }
-
-    /* X-axis labels */
-    .axis-labels {
+    /* Axis labels */
+    .axis-row {
       display: flex; justify-content: space-between;
-      padding: 4px 2px 0;
+      padding: 5px 4px 0;
     }
-    .axis-labels span {
-      font-size: 10px; color: #bbb; font-weight: 500;
-      width: 24px; text-align: center;
-    }
+    .axis-row span { font-size: 10px; color: #c0c3ca; font-weight: 500; text-align: center; width: 28px; }
   </style>
 </head>
 <body>
@@ -89,134 +70,163 @@
       <span class="card-title">Fuel &amp; Mileage Trends</span>
       <div class="card-controls">
         <span class="card-dropdown">Weekly ▾</span>
-        <span class="card-expand">⤢</span>
+        <span class="card-expand">↗</span>
       </div>
     </div>
 
     <div class="stats-row">
       <div class="stat-item">
         <span class="stat-label">Total Kilometers Driven</span>
-        <span class="stat-value" data-target="1230" data-decimals="0">0<span class="unit">km</span></span>
+        <span class="stat-value" id="stat-km">1,150<span class="unit">km</span></span>
       </div>
       <div class="stat-item">
         <span class="stat-label">Average Fuel Efficiency</span>
-        <span class="stat-value" data-target="12.8" data-decimals="1">0<span class="unit">km/l</span></span>
+        <span class="stat-value" id="stat-fuel">12.0<span class="unit">km/l</span></span>
       </div>
     </div>
 
-    <div class="fuel-badge">Fuel Usage <strong>+8%</strong> vs last week</div>
+    <div class="fuel-badge">Fuel Usage <span class="change">+8%</span> vs last week</div>
 
     <div class="chart-wrap">
-      <svg class="chart-svg" viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+      <svg id="chartSvg" class="chart-svg" viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stop-color="#5bb8e8"/>
-            <stop offset="50%"  stop-color="#4ecfd6"/>
-            <stop offset="100%" stop-color="#6be6c4"/>
+            <stop offset="0%"   stop-color="#6ab4e8"/>
+            <stop offset="45%"  stop-color="#4ecdd6"/>
+            <stop offset="100%" stop-color="#5de8b0"/>
           </linearGradient>
           <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"   stop-color="#6be6c4" stop-opacity="0.18"/>
-            <stop offset="100%" stop-color="#6be6c4" stop-opacity="0"/>
+            <stop offset="0%"   stop-color="#5de8b0" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#5de8b0" stop-opacity="0"/>
           </linearGradient>
+          <!-- Grid lines -->
         </defs>
 
-        <!--
-          Data points (Mon–Sun), y=0 is top, y=110 is bottom.
-          Values scaled so higher usage = higher y (lower on screen).
-          Points: (10,68),(70,48),(130,72),(190,52),(250,30),(310,58),(355,78)
-        -->
+        <!-- Horizontal grid lines -->
+        <line x1="0" y1="10"  x2="360" y2="10"  stroke="#f0f1f3" stroke-width="1"/>
+        <line x1="0" y1="35"  x2="360" y2="35"  stroke="#f0f1f3" stroke-width="1"/>
+        <line x1="0" y1="60"  x2="360" y2="60"  stroke="#f0f1f3" stroke-width="1"/>
+        <line x1="0" y1="85"  x2="360" y2="85"  stroke="#f0f1f3" stroke-width="1"/>
 
-        <!-- Area fill (drawn under line, fades in) -->
-        <path class="area-path" id="areaPath"
-          d="M10,68 C30,68 50,48 70,48 C90,48 110,72 130,72 C150,72 170,52 190,52 C210,52 230,30 250,30 C270,30 290,58 310,58 C330,58 345,78 355,78 L355,110 L10,110 Z"
-          opacity="0" />
+        <!-- Area fill -->
+        <path id="areaPath" fill="url(#areaGrad)" opacity="0"
+          d="M0,72 C20,72 35,58 60,52 C80,47 95,62 120,60 C142,58 158,45 180,38 C202,31 218,18 240,14 C262,10 278,36 300,44 C320,50 338,55 360,50 L360,100 L0,100 Z"/>
 
         <!-- Line -->
-        <path class="line-path" id="linePath"
-          d="M10,68 C30,68 50,48 70,48 C90,48 110,72 130,72 C150,72 170,52 190,52 C210,52 230,30 250,30 C270,30 290,58 310,58 C330,58 345,78 355,78" />
+        <path id="linePath" fill="none" stroke="url(#lineGrad)" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round"
+          d="M0,72 C20,72 35,58 60,52 C80,47 95,62 120,60 C142,58 158,45 180,38 C202,31 218,18 240,14 C262,10 278,36 300,44 C320,50 338,55 360,50"/>
 
-        <!-- Data point dots -->
-        <circle id="d0" cx="10"  cy="68" r="3.5" fill="#5bb8e8" opacity="0"/>
-        <circle id="d1" cx="70"  cy="48" r="3.5" fill="#50c8dc" opacity="0"/>
-        <circle id="d2" cx="130" cy="72" r="3.5" fill="#4dd3d2" opacity="0"/>
-        <circle id="d3" cx="190" cy="52" r="3.5" fill="#4adcc8" opacity="0"/>
-        <circle id="d4" cx="250" cy="30" r="3.5" fill="#56e2be" opacity="0"/>
-        <circle id="d5" cx="310" cy="58" r="3.5" fill="#65e4bc" opacity="0"/>
-        <circle id="d6" cx="355" cy="78" r="3.5" fill="#6be6c4" opacity="0"/>
+        <!-- Dots -->
+        <circle id="dot0" cx="0"   cy="72" r="3.5" fill="#6ab4e8" opacity="0"/>
+        <circle id="dot1" cx="60"  cy="52" r="3.5" fill="#5cc5df" opacity="0"/>
+        <circle id="dot2" cx="120" cy="60" r="3.5" fill="#4ecdd6" opacity="0"/>
+        <circle id="dot3" cx="180" cy="38" r="3.5" fill="#4dd8ca" opacity="0"/>
+        <circle id="dot4" cx="240" cy="14" r="3.5" fill="#54e0bd" opacity="0"/>
+        <circle id="dot5" cx="300" cy="44" r="3.5" fill="#5ae5b4" opacity="0"/>
+        <circle id="dot6" cx="360" cy="50" r="3.5" fill="#5de8b0" opacity="0"/>
       </svg>
 
-      <div class="axis-labels">
+      <div class="axis-row">
         <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
       </div>
     </div>
   </div>
 
   <script>
-    function countUp(el, target, decimals, duration, delay) {
-      const unit = el.querySelector('.unit');
-      const unitHTML = unit ? unit.outerHTML : '';
-      setTimeout(() => {
-        const start = performance.now();
-        function step(now) {
-          const p = Math.min((now - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - p, 3);
-          const val = ease * target;
-          el.innerHTML = (decimals > 0 ? val.toFixed(decimals) : Math.round(val)) + unitHTML;
-          if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      }, delay);
+    const DRAW_DURATION  = 1800;  // ms — line draw
+    const HOLD_DURATION  = 2000;  // ms — hold at end
+    const CYCLE_DURATION = DRAW_DURATION + HOLD_DURATION + 400; // total loop period
+
+    // ── Stat count helpers ──────────────────────────────────
+    function countTo(elId, fromVal, toVal, decimals, duration) {
+      const el   = document.getElementById(elId);
+      const unit = el.querySelector('.unit').outerHTML;
+      const start = performance.now();
+      function step(now) {
+        const p    = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const val  = fromVal + ease * (toVal - fromVal);
+        const disp = decimals > 0
+          ? val.toFixed(decimals)
+          : Math.round(val).toLocaleString();
+        el.innerHTML = disp + unit;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     }
 
-    function init() {
-      const linePath = document.getElementById('linePath');
-      const areaPath = document.getElementById('areaPath');
-      const dots     = document.querySelectorAll('[id^="d"]');
-      const badge    = document.querySelector('.fuel-badge');
-      const stats    = document.querySelectorAll('.stat-value');
+    function resetStat(elId, fromVal, decimals) {
+      const el   = document.getElementById(elId);
+      const unit = el.querySelector('.unit').outerHTML;
+      const disp = decimals > 0 ? fromVal.toFixed(decimals) : Math.round(fromVal).toLocaleString();
+      el.innerHTML = disp + unit;
+    }
 
-      // ── Line draw-on ──────────────────────────────────────
-      const totalLen = linePath.getTotalLength();
-      linePath.style.strokeDasharray  = totalLen;
-      linePath.style.strokeDashoffset = totalLen;
-      linePath.style.transition = `stroke-dashoffset 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.15s`;
+    // ── SVG line draw ───────────────────────────────────────
+    const linePath = document.getElementById('linePath');
+    const areaPath = document.getElementById('areaPath');
+    const dots     = [0,1,2,3,4,5,6].map(i => document.getElementById('dot'+i));
+    const dotXFractions = [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1];
 
+    let lineLen = 0;
+    let dotTimers = [];
+
+    function runCycle() {
+      // 1. Reset state instantly
+      linePath.style.transition = 'none';
+      linePath.style.strokeDashoffset = lineLen;
+      areaPath.style.transition = 'none';
+      areaPath.style.opacity = '0';
+      dots.forEach(d => { d.style.transition = 'none'; d.style.opacity = '0'; });
+
+      // 2. Clear any pending dot timers
+      dotTimers.forEach(clearTimeout);
+      dotTimers = [];
+
+      // Force reflow so reset takes effect
+      linePath.getBoundingClientRect();
+
+      // 3. Animate line
       requestAnimationFrame(() => {
+        linePath.style.transition = `stroke-dashoffset ${DRAW_DURATION}ms cubic-bezier(0.4,0,0.2,1)`;
         linePath.style.strokeDashoffset = '0';
       });
 
-      // ── Area fill fades in after line ─────────────────────
-      setTimeout(() => {
-        areaPath.style.transition = 'opacity 0.6s ease';
+      // 4. Area fade after line arrives
+      dotTimers.push(setTimeout(() => {
+        areaPath.style.transition = `opacity 500ms ease`;
         areaPath.style.opacity = '1';
-      }, 1400);
+      }, DRAW_DURATION - 200));
 
-      // ── Dots pop in sequentially ──────────────────────────
-      const dotXFractions = [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1];
+      // 5. Dots pop in as line passes each point
       dotXFractions.forEach((frac, i) => {
-        const delay = 150 + frac * 1600;
-        setTimeout(() => {
-          dots[i].style.transition = 'opacity 0.25s ease, r 0.25s ease';
+        const delay = frac * DRAW_DURATION * 0.92;
+        dotTimers.push(setTimeout(() => {
+          dots[i].style.transition = 'opacity 200ms ease';
           dots[i].style.opacity = '1';
-        }, delay);
+        }, delay));
       });
 
-      // ── Badge ─────────────────────────────────────────────
-      badge.classList.add('animate');
+      // 6. Stat count-ups
+      countTo('stat-km',   1150, 1230, 0, DRAW_DURATION * 0.85);
+      countTo('stat-fuel', 12.0, 12.8, 1, DRAW_DURATION * 0.85);
 
-      // ── Count-up stats ────────────────────────────────────
-      stats.forEach(el => {
-        const target   = parseFloat(el.dataset.target);
-        const decimals = parseInt(el.dataset.decimals);
-        countUp(el, target, decimals, 1400, 200);
-      });
+      // 7. After hold, reset stats to starting values (ready for next cycle)
+      dotTimers.push(setTimeout(() => {
+        resetStat('stat-km',   1150, 0);
+        resetStat('stat-fuel', 12.0, 1);
+      }, DRAW_DURATION + HOLD_DURATION));
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      setTimeout(init, 120);
-    }
+    window.addEventListener('load', () => {
+      lineLen = linePath.getTotalLength();
+      linePath.style.strokeDasharray  = lineLen;
+      linePath.style.strokeDashoffset = lineLen;
+
+      runCycle();
+      setInterval(runCycle, CYCLE_DURATION);
+    });
   </script>
 </body>
 </html>
