@@ -1402,7 +1402,7 @@
       let radius = 0, targetRadius = 0;
 
       function setMask(r, x, y) {
-        const v = `radial-gradient(circle ${r}px at ${x}% ${y}%, black 0%, black 40%, transparent 100%)`;
+        const v = `radial-gradient(circle ${r}px at ${x}% ${y}%, black 0%, black 55%, transparent 100%)`;
         layer.style.webkitMaskImage = v;
         layer.style.maskImage       = v;
       }
@@ -1413,7 +1413,7 @@
         requestAnimationFrame(loop);
       }
 
-      section.addEventListener('mouseenter', () => { targetRadius = 160; });
+      section.addEventListener('mouseenter', () => { targetRadius = 208; });
       section.addEventListener('mouseleave', () => { targetRadius = 0; });
       section.addEventListener('mousemove', e => {
         const r = section.getBoundingClientRect();
