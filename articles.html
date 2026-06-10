@@ -195,7 +195,46 @@
     @keyframes artImgFade {
       to { opacity: 1; }
     }
-    .art-hero .w { position: relative; z-index: 1; }
+    .art-hero .w { position: relative; z-index: 3; }
+
+    /* ---- Articles hero cursor FX ---- */
+    .art-hero__cursor-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 700ms ease-out;
+    }
+    .art-hero:hover .art-hero__cursor-fx { opacity: 0.65; }
+    .art-hero__cursor-fx::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(
+        circle 411px at var(--hx, 50%) var(--hy, 50%),
+        black 5%, transparent 75%
+      );
+      mask-image: radial-gradient(
+        circle 411px at var(--hx, 50%) var(--hy, 50%),
+        black 5%, transparent 75%
+      );
+    }
+    .art-hero__cursor-fx::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle 367px at var(--hx, 50%) var(--hy, 50%),
+        oklch(0.60 0.20 249 / 0.18) 10%,
+        transparent 69%
+      );
+    }
+
     @media (max-width: 768px) {
       .art-hero__img { display: none; }
     }
@@ -472,6 +511,7 @@
     <div class="art-hero__img" aria-hidden="true">
       <img src="Assets/Header Images/Articles 5.png" alt="">
     </div>
+    <div class="art-hero__cursor-fx" aria-hidden="true"></div>
     <div class="w">
       <div class="art-hero__inner reveal">
         <div>
@@ -794,6 +834,18 @@
       }
       tick(); setInterval(tick, 1000);
     })();
+
+    /* ---- Articles hero cursor FX ---- */
+    const artHero = document.querySelector('.art-hero');
+    artHero.addEventListener('mousemove', e => {
+      const r = artHero.getBoundingClientRect();
+      artHero.style.setProperty('--hx', ((e.clientX - r.left) / r.width  * 100) + '%');
+      artHero.style.setProperty('--hy', ((e.clientY - r.top)  / r.height * 100) + '%');
+    });
+    artHero.addEventListener('mouseleave', () => {
+      artHero.style.setProperty('--hx', '50%');
+      artHero.style.setProperty('--hy', '50%');
+    });
   </script>
 
 </body>
