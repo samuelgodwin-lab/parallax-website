@@ -1796,18 +1796,18 @@
           <div class="bsys-components">${sel.map(c=>`<div class="bsys-comp"><span class="bsys-comp__label">UI · ${UI_DEFS[c].label}</span><div class="bsys-comp__demo">${UI_DEFS[c].demo}</div></div>`).join('')}</div>`;
       }
       const WIDGET_DEFS = {
-        'suka-order':         { label:'Order Tracking — Suka App',       path:'widgets/suka-order-widget.html',         width:400 },
-        'suka-reservation':   { label:'Table Reservation — Suka App',    path:'widgets/suka-reservation-widget.html',   width:420 },
-        'suka-weather':       { label:'Weather Card — Suka App',         path:'widgets/suka-weather-widget.html',       width:500 },
-        'axel-fleet-status':  { label:'Fleet Status — Axel Dashboard',   path:'widgets/axel-fleet-status-widget.html',   width:360 },
-        'axel-fuel-mileage':  { label:'Fuel & Mileage — Axel Dashboard', path:'widgets/axel-fuel-mileage-widget.html',   width:420 },
-        'axel-current-trip':  { label:'Current Trip — Axel Dashboard',   path:'widgets/axel-current-trip-widget.html',   width:400 },
+        'suka-order':         { label:'Order Tracking — Suka App',       path:'widgets/suka-order-widget.html',         width:400, height:350 },
+        'suka-reservation':   { label:'Table Reservation — Suka App',    path:'widgets/suka-reservation-widget.html',   width:420, height:350 },
+        'suka-weather':       { label:'Weather Card — Suka App',         path:'widgets/suka-weather-widget.html',       width:500, height:350 },
+        'axel-fleet-status':  { label:'Fleet Status — Axel Dashboard',   path:'widgets/axel-fleet-status-widget.html',   width:360, height:490, capGap:'28px' },
+        'axel-fuel-mileage':  { label:'Fuel & Mileage — Axel Dashboard', path:'widgets/axel-fuel-mileage-widget.html',   width:420, height:490, capGap:'28px' },
+        'axel-current-trip':  { label:'Current Trip — Axel Dashboard',   path:'widgets/axel-current-trip-widget.html',   width:400, height:280 },
       };
       function renderWidgets() {
         const sel = widgets.filter(w => WIDGET_DEFS[w]);
         if (!sel.length) return '';
         return `<div style="display:flex;flex-wrap:nowrap;gap:32px;align-items:flex-start;padding-bottom:48px;overflow-x:auto;">
-          ${sel.map(w => { const d=WIDGET_DEFS[w]; return `<div class="apps-tile" style="display:inline-flex;flex-shrink:0;"><iframe src="${d.path}" width="${d.width}" height="350" style="border:none;display:block;" loading="lazy" scrolling="no"></iframe><span class="apps-tile__cap">${d.label}</span></div>`; }).join('')}</div>`;
+          ${sel.map(w => { const d=WIDGET_DEFS[w]; const capStyle=d.capGap?`style="bottom:${d.capGap}"`:''; return `<div class="apps-tile" style="display:inline-flex;flex-shrink:0;"><iframe src="${d.path}" width="${d.width}" height="${d.height||350}" style="border:none;display:block;" loading="lazy" scrolling="no"></iframe><span class="apps-tile__cap" ${capStyle}>${d.label}</span></div>`; }).join('')}</div>`;
       }
       function renderApplications() {
         const embedApp = vimeoEmbed(p.video_applications);
