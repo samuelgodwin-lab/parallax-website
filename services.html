@@ -463,27 +463,6 @@
       margin-bottom: var(--s8);
     }
 
-    /* ── Brand Systems centre image + reverse hover ── */
-    #brand-systems { position: relative; }
-
-    .svc-detail__hover-img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: clamp(390px, 48%, 630px);
-      pointer-events: none;
-      z-index: 2;
-    }
-    .svc-detail__hover-img img {
-      width: 100%;
-      height: auto;
-      display: block;
-      filter: drop-shadow(0 24px 56px oklch(0 0 0 / 0.14));
-    }
-
-    /* Text always above the image */
-    #brand-systems .w { position: relative; z-index: 3; }
 
     /* Artifacts panel */
     .svc-detail__artifacts {
@@ -953,9 +932,6 @@
 
     <!-- 01 — Brand Systems -->
     <div class="svc-detail__item" id="brand-systems">
-      <div class="svc-detail__hover-img" aria-hidden="true">
-        <img src="Assets/Services/Brand.png" alt="">
-      </div>
       <div class="w">
         <div class="svc-detail__inner reveal">
           <div>
