@@ -1989,7 +1989,7 @@
     }
     @media (max-width: 768px) {
       /* ── Hero mobile fixes ── */
-      .hero { padding-top: 90px; padding-bottom: var(--s16); }
+      .hero { padding-top: 300px; padding-bottom: var(--s16); }
       .hero__video { display: none; }
       .hero__cursor-fx { display: none; }
       .hero__body { padding-bottom: var(--s8); }
@@ -2001,6 +2001,17 @@
       }
       .hero__foot { gap: var(--s8); }
       .hero__scroll { display: none; }
+      .hero__img {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        width: 100%;
+        height: 300px;
+        z-index: 0;
+      }
+      .hero__img img {
+        -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+      }
 
       /* ── Other sections ── */
       .grid { grid-template-columns: repeat(2, 1fr); }
