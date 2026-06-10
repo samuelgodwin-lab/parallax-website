@@ -463,29 +463,25 @@
       margin-bottom: var(--s8);
     }
 
-    /* ── Brand Systems cursor-follow image ── */
+    /* ── Brand Systems torch-reveal image ── */
     #brand-systems { position: relative; }
 
     .svc-detail__hover-img {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 340px;
+      inset: 0;
       pointer-events: none;
-      opacity: 0;
-      transition: opacity 400ms var(--ease-out);
-      z-index: 10;
-      will-change: transform;
-    }
-    .svc-detail__hover-img.is-visible {
-      opacity: 1;
+      z-index: 2;
+      overflow: hidden;
     }
     .svc-detail__hover-img img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
-      filter: drop-shadow(0 24px 48px oklch(0 0 0 / 0.15));
     }
+    /* Text sits above the image layer */
+    #brand-systems .w { position: relative; z-index: 3; }
 
     /* Artifacts panel */
     .svc-detail__artifacts {
@@ -1397,38 +1393,36 @@
       document.querySelectorAll('.svc-detail__item').forEach(item => numObserver.observe(item));
     })();
 
-    /* ── Brand Systems — cursor-follow image ── */
+    /* ── Brand Systems — torch/spotlight reveal ── */
     (() => {
       const section = document.getElementById('brand-systems');
-      const img     = section.querySelector('.svc-detail__hover-img');
+      const layer   = section.querySelector('.svc-detail__hover-img');
 
-      let mouseX = 0, mouseY = 0;
-      let curX   = 0, curY   = 0;
-      let raf    = null;
+      let mouseX = 50, mouseY = 50;
+      let radius = 0, targetRadius = 0;
 
-      function loop() {
-        curX += (mouseX - curX) * 0.08;
-        curY += (mouseY - curY) * 0.08;
-        img.style.transform = `translate(${curX - img.offsetWidth / 2}px, ${curY - img.offsetHeight / 2}px)`;
-        raf = requestAnimationFrame(loop);
+      function setMask(r, x, y) {
+        const v = `radial-gradient(circle ${r}px at ${x}% ${y}%, black 0%, black 40%, transparent 100%)`;
+        layer.style.webkitMaskImage = v;
+        layer.style.maskImage       = v;
       }
 
-      section.addEventListener('mouseenter', () => {
-        img.classList.add('is-visible');
-        if (!raf) loop();
-      });
+      function loop() {
+        radius += (targetRadius - radius) * 0.09;
+        setMask(radius, mouseX, mouseY);
+        requestAnimationFrame(loop);
+      }
 
+      section.addEventListener('mouseenter', () => { targetRadius = 160; });
+      section.addEventListener('mouseleave', () => { targetRadius = 0; });
       section.addEventListener('mousemove', e => {
         const r = section.getBoundingClientRect();
-        mouseX = e.clientX - r.left;
-        mouseY = e.clientY - r.top;
+        mouseX = ((e.clientX - r.left) / r.width)  * 100;
+        mouseY = ((e.clientY - r.top)  / r.height) * 100;
       });
 
-      section.addEventListener('mouseleave', () => {
-        img.classList.remove('is-visible');
-        cancelAnimationFrame(raf);
-        raf = null;
-      });
+      setMask(0, 50, 50);
+      loop();
     })();
 
     /* ---- FAQ ACCORDION ---- */
