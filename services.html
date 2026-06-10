@@ -463,31 +463,28 @@
       margin-bottom: var(--s8);
     }
 
-    /* ── Brand Systems hover image ── */
+    /* ── Brand Systems cursor-follow image ── */
     #brand-systems { position: relative; }
 
     .svc-detail__hover-img {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -44%) scale(0.88);
-      width: clamp(280px, 36%, 480px);
+      top: 0;
+      left: 0;
+      width: 340px;
       pointer-events: none;
       opacity: 0;
-      transition:
-        opacity  500ms var(--ease-out),
-        transform 600ms var(--ease-out);
+      transition: opacity 400ms var(--ease-out);
       z-index: 10;
+      will-change: transform;
     }
-    #brand-systems:hover .svc-detail__hover-img {
+    .svc-detail__hover-img.is-visible {
       opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
     }
     .svc-detail__hover-img img {
       width: 100%;
       height: auto;
       display: block;
-      filter: drop-shadow(0 32px 64px oklch(0 0 0 / 0.18));
+      filter: drop-shadow(0 24px 48px oklch(0 0 0 / 0.15));
     }
 
     /* Artifacts panel */
@@ -1398,6 +1395,40 @@
         });
       }, { threshold: 0.2 });
       document.querySelectorAll('.svc-detail__item').forEach(item => numObserver.observe(item));
+    })();
+
+    /* ── Brand Systems — cursor-follow image ── */
+    (() => {
+      const section = document.getElementById('brand-systems');
+      const img     = section.querySelector('.svc-detail__hover-img');
+
+      let mouseX = 0, mouseY = 0;
+      let curX   = 0, curY   = 0;
+      let raf    = null;
+
+      function loop() {
+        curX += (mouseX - curX) * 0.08;
+        curY += (mouseY - curY) * 0.08;
+        img.style.transform = `translate(${curX - img.offsetWidth / 2}px, ${curY - img.offsetHeight / 2}px)`;
+        raf = requestAnimationFrame(loop);
+      }
+
+      section.addEventListener('mouseenter', () => {
+        img.classList.add('is-visible');
+        if (!raf) loop();
+      });
+
+      section.addEventListener('mousemove', e => {
+        const r = section.getBoundingClientRect();
+        mouseX = e.clientX - r.left;
+        mouseY = e.clientY - r.top;
+      });
+
+      section.addEventListener('mouseleave', () => {
+        img.classList.remove('is-visible');
+        cancelAnimationFrame(raf);
+        raf = null;
+      });
     })();
 
     /* ---- FAQ ACCORDION ---- */
