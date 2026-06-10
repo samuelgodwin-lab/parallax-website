@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Axel — Current Trip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%; background: #f0f2f5;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      width: 370px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Top row: title + map ── */
+    .top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-size: 13px; font-weight: 700; color: #111;
+      letter-spacing: -0.01em; padding-top: 2px;
+    }
+
+    /* ── Map container ── */
+    .map-wrap {
+      width: 200px; height: 76px;
+      border-radius: 10px;
+      background: #edf2f8;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .map-svg {
+      width: 100%; height: 100%;
+      display: block;
+    }
+
+    /* Gradient fade on left edge of map (matches Figma) */
+    .map-fade {
+      position: absolute;
+      top: 0; left: 0;
+      width: 40px; height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0.9), transparent);
+      pointer-events: none;
+    }
+
+    /* Animated dot */
+    .trip-dot {
+      r: 5;
+      fill: #2F80ED;
+      filter: drop-shadow(0 0 4px rgba(47,128,237,0.6));
+      offset-path: path("M 8,65 C 30,65 45,52 65,46 C 82,41 95,54 115,48 C 132,42 148,28 168,18 C 178,12 188,8 196,7");
+      offset-distance: 0%;
+      animation: moveDot 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    /* Pulsing glow behind dot */
+    .trip-dot-glow {
+      r: 10; fill: rgba(47,128,237,0.18);
+      offset-path: path("M 8,65 C 30,65 45,52 65,46 C 82,41 95,54 115,48 C 132,42 148,28 168,18 C 178,12 188,8 196,7");
+      offset-distance: 0%;
+      animation: moveDot 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes moveDot {
+      0%        { offset-distance: 0%; }
+      72%, 88%  { offset-distance: 100%; }
+      100%      { offset-distance: 100%; }
+    }
+
+    /* ── Distance note row ── */
+    .dist-row {
+      display: flex; align-items: center; gap: 4px;
+      margin-bottom: 10px;
+    }
+    .dist-pin {
+      font-size: 13px; color: #2F80ED; flex-shrink: 0;
+    }
+    .dist-text {
+      font-size: 10px; color: #6d6d72;
+    }
+    .dist-text strong { color: #111; font-weight: 700; }
+
+    /* Thin separator line */
+    .sep {
+      height: 1px; background: #f0f0f2; margin-bottom: 10px;
+    }
+
+    /* ── Bottom stats row ── */
+    .stats-row {
+      display: flex; align-items: flex-start;
+    }
+    .stat {
+      flex: 1;
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .stat + .stat {
+      border-left: 1px solid #f0f0f2;
+      padding-left: 16px;
+    }
+    .stat-label {
+      font-size: 10px; color: #8e8e93;
+      font-weight: 400; line-height: 1;
+    }
+    .stat-value {
+      display: flex; align-items: baseline; gap: 1px;
+    }
+    .stat-num {
+      font-size: 18px; font-weight: 800; color: #111;
+      letter-spacing: -0.04em; line-height: 1;
+    }
+    .stat-unit {
+      font-size: 10px; color: #6d6d72; font-weight: 400;
+    }
+    .stat-text {
+      font-size: 13px; font-weight: 700; color: #111;
+      letter-spacing: -0.01em; line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-row">
+      <span class="card-title">Current Trip</span>
+
+      <!-- Map -->
+      <div class="map-wrap">
+        <svg class="map-svg" viewBox="0 0 200 76" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Route gradient: blue → teal → green -->
+            <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#4aaff5"/>
+              <stop offset="50%"  stop-color="#3fcfd4"/>
+              <stop offset="100%" stop-color="#4ddb9e"/>
+            </linearGradient>
+            <!-- Map road colour -->
+          </defs>
+
+          <!-- Map background roads (subtle grid) -->
+          <rect width="200" height="76" fill="#edf2f8"/>
+          <line x1="0" y1="25" x2="200" y2="25" stroke="#dde4ee" stroke-width="1"/>
+          <line x1="0" y1="50" x2="200" y2="50" stroke="#dde4ee" stroke-width="1"/>
+          <line x1="50"  y1="0" x2="50"  y2="76" stroke="#dde4ee" stroke-width="1"/>
+          <line x1="110" y1="0" x2="110" y2="76" stroke="#dde4ee" stroke-width="1"/>
+          <line x1="160" y1="0" x2="160" y2="76" stroke="#dde4ee" stroke-width="1"/>
+
+          <!-- Route path (blue → green gradient, wavy) -->
+          <path
+            d="M 8,65 C 30,65 45,52 65,46 C 82,41 95,54 115,48 C 132,42 148,28 168,18 C 178,12 188,8 196,7"
+            fill="none"
+            stroke="url(#routeGrad)"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+          <!-- Destination pin (fixed at end of route) -->
+          <circle cx="196" cy="8" r="7" fill="#4ddb9e"/>
+          <text x="196" y="12" text-anchor="middle" font-size="7" fill="white" font-weight="700">▼</text>
+
+          <!-- Animated glow + dot (move along route) -->
+          <circle class="trip-dot-glow"/>
+          <circle class="trip-dot"/>
+
+          <!-- Origin pulse ring (static at start) -->
+          <circle cx="8" cy="65" r="4" fill="none" stroke="#2F80ED" stroke-width="1.5" opacity="0.35"/>
+        </svg>
+        <div class="map-fade"></div>
+      </div>
+    </div>
+
+    <!-- Distance note -->
+    <div class="dist-row">
+      <span class="dist-pin">📍</span>
+      <span class="dist-text"><strong id="dist-note">2.4</strong> km away from delivery location</span>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-label">ETA</span>
+        <div class="stat-value">
+          <span class="stat-num" id="eta-num">20</span>
+          <span class="stat-unit"> min</span>
+        </div>
+      </div>
+      <div class="stat" style="padding-left:16px;">
+        <span class="stat-label">Distance Remaining</span>
+        <div class="stat-value">
+          <span class="stat-num" id="dist-num">2.4</span>
+          <span class="stat-unit"> km</span>
+        </div>
+      </div>
+      <div class="stat" style="padding-left:16px;">
+        <span class="stat-label">Next Stop</span>
+        <div class="stat-value">
+          <span class="stat-text">Aero<br>Manufacturing</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Animation cycle = 6s (must match CSS moveDot duration)
+    const CYCLE      = 6000;
+    const COUNT_DUR  = CYCLE * 0.72;  // count-down finishes when dot arrives (~4320ms)
+    const HOLD_DUR   = CYCLE * 0.16;  // hold at 0 (~960ms)
+    const RESET_DUR  = CYCLE * 0.12;  // snap back (~720ms)
+
+    function easeInOut(p) {
+      return p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    }
+
+    // Count a number down from `from` to `to` over `duration` ms
+    function countDown(updateFn, from, to, duration) {
+      const start = performance.now();
+      function step(now) {
+        const p   = Math.min((now - start) / duration, 1);
+        const val = from - easeInOut(p) * (from - to);
+        updateFn(val, p >= 1);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function runCycle() {
+      // ── ETA: 20 → 0 ──────────────────────────────────────
+      countDown(
+        (val, done) => {
+          document.getElementById('eta-num').textContent = Math.round(val);
+        },
+        20, 0, COUNT_DUR
+      );
+
+      // ── Distance stat: 2.4 → 0.0 ─────────────────────────
+      countDown(
+        (val) => {
+          document.getElementById('dist-num').textContent = val.toFixed(1);
+        },
+        2.4, 0.0, COUNT_DUR
+      );
+
+      // ── Distance note text: 2.4 → 0.0 ────────────────────
+      countDown(
+        (val) => {
+          document.getElementById('dist-note').textContent = val.toFixed(1);
+        },
+        2.4, 0.0, COUNT_DUR
+      );
+
+      // ── After hold period, snap all values back to start ─
+      setTimeout(() => {
+        document.getElementById('eta-num').textContent  = '20';
+        document.getElementById('dist-num').textContent = '2.4';
+        document.getElementById('dist-note').textContent = '2.4';
+      }, COUNT_DUR + HOLD_DUR);
+    }
+
+    // Start immediately and loop
+    runCycle();
+    setInterval(runCycle, CYCLE);
+  </script>
+</body>
+</html>
