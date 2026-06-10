@@ -372,6 +372,31 @@
     /* Ambient glow removed */
     .hero::after { display: none; }
 
+    /* ---- Hero right-side image ---- */
+    .hero__img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 55%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+      mask-image: linear-gradient(to right, transparent 0%, black 30%);
+      opacity: 0;
+      animation: fadeUp 900ms var(--ease-out) 400ms forwards;
+    }
+    @media (max-width: 768px) {
+      .hero__img { display: none; }
+    }
+
     /* ---- Hero cursor colour-reveal FX ---- */
     .hero__cursor-fx {
       position: absolute;
@@ -2090,6 +2115,9 @@
         </div>
       </div>
 
+    </div>
+    <div class="hero__img" aria-hidden="true">
+      <img src="Assets/Header Images/Parallax 2.png" alt="">
     </div>
     <div class="hero__cursor-fx" aria-hidden="true"></div>
   </section>
