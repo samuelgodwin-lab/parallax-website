@@ -381,6 +381,7 @@
       height: 100%;
       z-index: 1;
       pointer-events: none;
+      overflow: hidden;
     }
     .hero__img img {
       width: 100%;
@@ -392,6 +393,27 @@
       mask-image: linear-gradient(to right, transparent 0%, black 30%);
       opacity: 0;
       animation: fadeUp 900ms var(--ease-out) 400ms forwards;
+    }
+    /* Blue streak sweep — matches the diagonal path in the maze image */
+    .hero__img::after {
+      content: '';
+      position: absolute;
+      inset: -60% -40%;
+      background: linear-gradient(
+        118deg,
+        transparent 38%,
+        oklch(0.65 0.24 249 / 0.55) 50%,
+        transparent 62%
+      );
+      mix-blend-mode: screen;
+      animation: blueStreakSweep 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes blueStreakSweep {
+      0%   { transform: translateY(70%) translateX(-30%); opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { transform: translateY(-70%) translateX(30%); opacity: 0; }
     }
     @media (max-width: 768px) {
       .hero__img { display: none; }
