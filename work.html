@@ -394,7 +394,17 @@
       to { opacity: 1; }
     }
     @media (max-width: 768px) {
-      .work-hero__img { display: none; }
+      .work-hero__img {
+        position: relative;
+        top: auto; right: auto;
+        width: 100%;
+        height: 240px;
+        margin-top: var(--s6);
+      }
+      .work-hero__img img {
+        -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+      }
     }
 
     .work-hero .w { position: relative; z-index: 3; }
