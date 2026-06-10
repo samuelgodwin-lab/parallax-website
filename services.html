@@ -471,7 +471,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: clamp(260px, 32%, 420px);
+      width: clamp(390px, 48%, 630px);
       pointer-events: none;
       z-index: 2;
     }
@@ -482,22 +482,8 @@
       filter: drop-shadow(0 24px 56px oklch(0 0 0 / 0.14));
     }
 
-    /* White overlay — hidden by default, fades in on hover */
-    #brand-systems::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: oklch(1 0 0 / 0);
-      transition: background 500ms var(--ease-out);
-      pointer-events: none;
-      z-index: 4;
-    }
-    #brand-systems:hover::after {
-      background: oklch(1 0 0 / 0.82);
-    }
-
-    /* Text always above the overlay */
-    #brand-systems .w { position: relative; z-index: 5; }
+    /* Text always above the image */
+    #brand-systems .w { position: relative; z-index: 3; }
 
     /* Artifacts panel */
     .svc-detail__artifacts {
