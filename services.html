@@ -281,19 +281,21 @@
     /* ---- Services hero right-side image ---- */
     .svc-hero__img {
       position: absolute;
-      top: 50%;
+      top: 0;
       right: 0;
-      transform: translateY(-50%);
-      width: 58%;
+      width: 55%;
+      height: 100%;
       z-index: 2;
       pointer-events: none;
     }
     .svc-hero__img img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 28%);
-      mask-image: linear-gradient(to right, transparent 0%, black 28%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+      mask-image: linear-gradient(to right, transparent 0%, black 30%);
       opacity: 0;
       animation: svcImgFade 900ms var(--ease-out) 400ms forwards;
     }
