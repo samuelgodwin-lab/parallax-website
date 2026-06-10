@@ -30,8 +30,7 @@
     .card-controls { display: flex; align-items: center; gap: 8px; }
     .card-dropdown {
       font-size: 11px; font-weight: 500; color: #777;
-      background: #f2f3f5; border-radius: 20px;
-      padding: 4px 11px;
+      background: #f2f3f5; border-radius: 20px; padding: 4px 11px;
     }
     .card-expand {
       width: 28px; height: 28px; border-radius: 8px;
@@ -39,44 +38,45 @@
       justify-content: center; font-size: 13px; color: #aaa;
     }
 
-    /* ── Bar chart ── */
+    /* ── Bars ── */
     .bars-row {
-      display: flex; align-items: flex-end;
+      display: flex;
       justify-content: space-between;
       gap: 10px;
-      height: 150px;
+      margin-bottom: 14px;
     }
 
-    .bar-item {
+    .bar-col {
       flex: 1;
       display: flex; flex-direction: column; align-items: center;
       gap: 8px;
     }
 
-    /* Arch-shaped container — full height */
+    /* Fixed-height arch track — always visible as grey */
     .bar-track {
-      position: relative;
-      width: 100%; flex: 1;
-      border-radius: 999px 999px 14px 14px;
+      width: 100%;
+      height: 130px;                          /* fixed so arch never collapses */
+      border-radius: 999px 999px 12px 12px;
       background: #eef0f3;
+      position: relative;
       overflow: hidden;
     }
 
-    /* Gradient fill — grows from bottom up via height animation */
+    /* Fill grows from bottom */
     .bar-fill {
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 0%;
-      background: linear-gradient(to top, #89c8f0 0%, #b8e4fa 60%, #d4f0ff 100%);
+      background: linear-gradient(to top, #89c8f0 0%, #b6e3fa 55%, #d6f2ff 100%);
     }
 
-    /* Number overlaid at the bottom of the fill */
+    /* Number inside arch, bottom-aligned */
     .bar-number {
       position: absolute;
       bottom: 10px; left: 0; right: 0;
       text-align: center;
-      font-size: 22px; font-weight: 800; color: #1a3a4a;
-      letter-spacing: -0.04em; line-height: 1;
+      font-size: 18px; font-weight: 800; color: #1a3a4a;
+      letter-spacing: -0.03em; line-height: 1;
       z-index: 2;
     }
 
@@ -85,36 +85,41 @@
       text-align: center; white-space: nowrap;
     }
 
-    /* ── Per-bar animations (height: 0 → target → 0) ── */
-    .bar-item:nth-child(1) .bar-fill { animation: bar1 4.4s ease-in-out infinite; }
-    .bar-item:nth-child(2) .bar-fill { animation: bar2 4.4s ease-in-out infinite; animation-delay: 0.15s; }
-    .bar-item:nth-child(3) .bar-fill { animation: bar3 4.4s ease-in-out infinite; animation-delay: 0.30s; }
-    .bar-item:nth-child(4) .bar-fill { animation: bar4 4.4s ease-in-out infinite; animation-delay: 0.45s; }
+    /* ── Individual bar animations ── */
+    /* Heights are visually proportional on a sqrt scale for clarity */
+    .bar-col:nth-child(1) .bar-fill { animation: bar1 4.4s ease-in-out infinite; }
+    .bar-col:nth-child(2) .bar-fill { animation: bar2 4.4s ease-in-out infinite 0.14s; }
+    .bar-col:nth-child(3) .bar-fill { animation: bar3 4.4s ease-in-out infinite 0.28s; }
+    .bar-col:nth-child(4) .bar-fill { animation: bar4 4.4s ease-in-out infinite 0.42s; }
 
+    /* On Route 250 → 84% */
     @keyframes bar1 {
       0%, 4%    { height: 0%; }
       38%, 68%  { height: 84%; }
       95%, 100% { height: 0%; }
     }
+    /* Available 50 → 44% */
     @keyframes bar2 {
       0%, 4%    { height: 0%; }
-      38%, 68%  { height: 46%; }
+      38%, 68%  { height: 44%; }
       95%, 100% { height: 0%; }
     }
+    /* Maintenance 25 → 28% */
     @keyframes bar3 {
       0%, 4%    { height: 0%; }
-      38%, 68%  { height: 46%; }
+      38%, 68%  { height: 28%; }
       95%, 100% { height: 0%; }
     }
+    /* Idle 14 → 18% */
     @keyframes bar4 {
       0%, 4%    { height: 0%; }
-      38%, 68%  { height: 22%; }
+      38%, 68%  { height: 18%; }
       95%, 100% { height: 0%; }
     }
 
     /* ── Footer ── */
     .card-footer {
-      margin-top: 18px; text-align: center;
+      text-align: center;
       font-size: 13px; font-weight: 600; color: #3dbf7a;
     }
   </style>
@@ -130,31 +135,31 @@
     </div>
 
     <div class="bars-row">
-      <div class="bar-item">
+      <div class="bar-col">
         <div class="bar-track">
           <div class="bar-fill"></div>
-          <span class="bar-number" data-target="8" data-from="5">05</span>
+          <span class="bar-number" data-target="250" data-from="0">0</span>
         </div>
         <span class="bar-label">On Route</span>
       </div>
-      <div class="bar-item">
+      <div class="bar-col">
         <div class="bar-track">
           <div class="bar-fill"></div>
-          <span class="bar-number" data-target="2" data-from="0">00</span>
+          <span class="bar-number" data-target="50" data-from="0">0</span>
         </div>
         <span class="bar-label">Available</span>
       </div>
-      <div class="bar-item">
+      <div class="bar-col">
         <div class="bar-track">
           <div class="bar-fill"></div>
-          <span class="bar-number" data-target="2" data-from="0">00</span>
+          <span class="bar-number" data-target="25" data-from="0">0</span>
         </div>
         <span class="bar-label">Maintenance</span>
       </div>
-      <div class="bar-item">
+      <div class="bar-col">
         <div class="bar-track">
           <div class="bar-fill"></div>
-          <span class="bar-number" data-target="1" data-from="0">00</span>
+          <span class="bar-number" data-target="14" data-from="0">0</span>
         </div>
         <span class="bar-label">Idle</span>
       </div>
@@ -164,58 +169,40 @@
   </div>
 
   <script>
-    // Animation cycle must stay in sync with CSS duration (4400ms)
-    const CYCLE     = 4400;
-    const RISE_MS   = 4400 * 0.38; // ~1670ms — time bars take to reach peak
-    const HOLD_MS   = 4400 * 0.30; // ~1320ms — hold at peak
-    const FALL_MS   = 4400 * 0.27; // ~1190ms — fall back down
+    const CYCLE    = 4400;
+    const RISE_END = CYCLE * 0.38;   // peak reached at ~1670ms
+    const HOLD_END = CYCLE * 0.68;   // hold until ~2990ms
+    const FALL_END = CYCLE * 0.95;   // back to 0 at ~4180ms
 
-    function countUp(el, from, to, duration) {
-      const start = performance.now();
+    function ease(p) { return 1 - Math.pow(1 - p, 3); }
+
+    function animateNumber(el, from, to, startMs, durationMs) {
+      const begin = performance.now() + startMs;
       function step(now) {
-        const p   = Math.min((now - start) / duration, 1);
-        const val = Math.round(from + (1 - Math.pow(1 - p, 3)) * (to - from));
-        el.textContent = String(val).padStart(2, '0');
+        if (now < begin) { requestAnimationFrame(step); return; }
+        const p   = Math.min((now - begin) / durationMs, 1);
+        el.textContent = String(Math.round(from + ease(p) * (to - from)));
         if (p < 1) requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
     }
 
-    function countDown(el, from, to, duration) {
-      const start = performance.now();
-      function step(now) {
-        const p   = Math.min((now - start) / duration, 1);
-        const val = Math.round(from - (1 - Math.pow(1 - p, 3)) * (from - to));
-        el.textContent = String(val).padStart(2, '0');
-        if (p < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-
-    const staggerDelays = [0, 150, 300, 450];
-
-    function runNumberCycle(el, stagger) {
-      const from   = parseInt(el.dataset.from);
+    function runCycle(el, stagger) {
       const target = parseInt(el.dataset.target);
 
-      setTimeout(() => {
-        // Count up as bars rise
-        countUp(el, from, target, RISE_MS * 0.85);
+      // Count up during rise (with stagger offset)
+      animateNumber(el, 0, target, stagger, RISE_END * 0.85);
 
-        // Count back down as bars fall
-        setTimeout(() => countDown(el, target, from, FALL_MS * 0.9), RISE_MS + HOLD_MS);
-      }, stagger);
+      // Count back down during fall
+      animateNumber(el, target, 0, HOLD_END + stagger, (FALL_END - HOLD_END) * 0.85);
     }
 
+    const staggerDelays = [0, 140, 280, 420];
+
     function startLoops() {
-      const numbers = document.querySelectorAll('.bar-number');
-
-      numbers.forEach((el, i) => {
-        // First run immediately (bars start from CSS initial state)
-        runNumberCycle(el, staggerDelays[i]);
-
-        // Loop every cycle
-        setInterval(() => runNumberCycle(el, staggerDelays[i]), CYCLE);
+      document.querySelectorAll('.bar-number').forEach((el, i) => {
+        runCycle(el, staggerDelays[i]);
+        setInterval(() => runCycle(el, staggerDelays[i]), CYCLE);
       });
     }
 
