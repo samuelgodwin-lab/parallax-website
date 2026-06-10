@@ -463,6 +463,33 @@
       margin-bottom: var(--s8);
     }
 
+    /* ── Brand Systems hover image ── */
+    #brand-systems { position: relative; }
+
+    .svc-detail__hover-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -44%) scale(0.88);
+      width: clamp(280px, 36%, 480px);
+      pointer-events: none;
+      opacity: 0;
+      transition:
+        opacity  500ms var(--ease-out),
+        transform 600ms var(--ease-out);
+      z-index: 10;
+    }
+    #brand-systems:hover .svc-detail__hover-img {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .svc-detail__hover-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 32px 64px oklch(0 0 0 / 0.18));
+    }
+
     /* Artifacts panel */
     .svc-detail__artifacts {
       position: sticky;
@@ -931,6 +958,9 @@
 
     <!-- 01 — Brand Systems -->
     <div class="svc-detail__item" id="brand-systems">
+      <div class="svc-detail__hover-img" aria-hidden="true">
+        <img src="Assets/Services/Brand.png" alt="">
+      </div>
       <div class="w">
         <div class="svc-detail__inner reveal">
           <div>
