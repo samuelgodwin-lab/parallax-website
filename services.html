@@ -158,6 +158,12 @@
     .nav__menu-links li:nth-child(3) a { transition-delay: 200ms, 0ms; }
     .nav__menu-links li:nth-child(4) a { transition-delay: 260ms, 0ms; }
     .menu-open .nav__menu-links a { transform: translateY(0); }
+    @media (max-width: 640px) {
+      .nav__overlay { grid-template-columns: 1fr; overflow-y: auto; }
+      .nav__overlay-left { min-height: auto; padding-bottom: 40px; }
+      .nav__overlay-right { display: flex; padding: 40px clamp(24px, 6vw, 48px) 48px; }
+      .nav__menu-links a { font-size: clamp(44px, 12vw, 72px); }
+    }
     @media (hover:hover) and (pointer:fine) { .nav__menu-links a:hover { color: oklch(0.08 0.003 249); } }
     .nav__menu-links a::before {
       content: attr(data-index); font-family: var(--font-m);

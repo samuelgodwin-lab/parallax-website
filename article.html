@@ -620,7 +620,12 @@
     @media (hover:hover) and (pointer:fine) { .footer__links a:hover { color: oklch(0 0 0 / 0.5); } }
     @media (max-width: 600px) { .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); } }
 
-    @media (max-width: 640px) { .nav__overlay { grid-template-columns: 1fr; } .nav__overlay-right { display: none; } }
+    @media (max-width: 640px) {
+      .nav__overlay { grid-template-columns: 1fr; overflow-y: auto; }
+      .nav__overlay-left { min-height: auto; padding-bottom: 40px; }
+      .nav__overlay-right { display: flex; padding: 40px clamp(24px, 6vw, 48px) 48px; }
+      .nav__menu-links a { font-size: clamp(44px, 12vw, 72px); }
+    }
     @media (prefers-reduced-motion: reduce) { .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; } }
   </style>
 </head>
