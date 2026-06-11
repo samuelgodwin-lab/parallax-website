@@ -2065,8 +2065,9 @@
       .logos-mobile-marquee { display: block !important; overflow: hidden; }
       .logos-mobile-marquee span { font-size: 10px !important; letter-spacing: 0.16em !important; padding: 0 16px !important; }
 
-      /* ── Investment cards: reduce padding ── */
-      .pricing .prc { padding: 20px 16px !important; }
+      /* ── Investment cards: reduce padding, fix border direction ── */
+      .pricing .prc { padding: 20px 16px !important; border-right: none !important; border-bottom: 1px solid oklch(0.25 0.002 0) !important; }
+      .pricing .prc:last-child { border-bottom: none !important; }
       /* ── Pricing: hide header CTA, show below cards ── */
       .pricing .work__hdr .work__all { display: none !important; }
       .pricing__cta-mobile { display: inline-flex !important; margin-top: 40px; }
