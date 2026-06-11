@@ -1503,11 +1503,13 @@
 
       /* 2 — Meta band: fix alignment + font size */
       .proj-meta__grid { grid-template-columns: 1fr 1fr; }
-      .proj-meta__item { padding: var(--s6) 0; }
-      .proj-meta__item:first-child { padding-left: 0; padding-right: var(--s5); }
-      .proj-meta__item:nth-child(2) { border-right: none; padding-left: var(--s5); padding-right: 0; }
-      .proj-meta__item:nth-child(3) { border-right: 1px solid var(--border); padding-left: 0; padding-right: var(--s5); border-top: 1px solid var(--border); }
-      .proj-meta__item:last-child { padding-left: var(--s5); padding-right: 0; border-top: 1px solid var(--border); }
+      .proj-meta__item { padding-top: var(--s6) !important; padding-bottom: var(--s6) !important; }
+      .proj-meta__item:first-child,
+      .proj-meta__item:nth-child(3) { padding-left: 0 !important; padding-right: var(--s5) !important; border-right: 1px solid var(--border) !important; }
+      .proj-meta__item:nth-child(2),
+      .proj-meta__item:last-child { padding-left: var(--s5) !important; padding-right: 0 !important; border-right: none !important; }
+      .proj-meta__item:nth-child(3),
+      .proj-meta__item:last-child { border-top: 1px solid var(--border); }
       .proj-meta__val { font-size: 14px; overflow-wrap: break-word; word-break: break-word; }
 
       /* 3 — Horizontal scroll: contain overflow on wide elements */
