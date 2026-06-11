@@ -983,6 +983,8 @@
     }
 
     .svcs__list { display: flex; flex-direction: column; }
+    .svc-explore-mobile { display: none; }
+    .logos-mobile-marquee { display: none; }
 
     .svc {
       display: grid;
@@ -2015,10 +2017,11 @@
       .hero__body { padding-bottom: var(--s8); }
       .hero__stats {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--s4) var(--s8);
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--s4) var(--s6);
         flex-wrap: unset;
       }
+      .hero__stats > div:nth-child(3) { display: none; }
       .hero__foot { gap: var(--s8); }
       .hero__scroll { display: none; }
       .hero__img {
@@ -2035,13 +2038,34 @@
       }
 
       /* ── Other sections ── */
-      .grid { grid-template-columns: repeat(2, 1fr); }
-      .pc:nth-child(n) { grid-column: span 1; min-height: 180px; }
-      .pc:nth-child(1) { grid-column: span 2; min-height: 240px; }
+      .grid { grid-template-columns: 1fr !important; gap: 12px; }
+      .pc:nth-child(n) { grid-column: span 1 !important; grid-row: span 1 !important; min-height: 240px; }
+      .pc__name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
       .tslide { grid-template-columns: 1fr; gap: var(--s6); }
       .contact__grid { grid-template-columns: 1fr; gap: var(--s12); }
       .form__row { grid-template-columns: 1fr; }
       .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); }
+
+      /* ── Services: hide btn in left col, show btn below accordion ── */
+      .svcs__left .btn { display: none !important; }
+      .svc-explore-mobile { display: inline-flex !important; }
+
+      /* ── Logo strip: hide SVG marks, show text marquee ── */
+      .logos-strip__inner { display: none !important; }
+      .logos-mobile-marquee { display: block !important; }
+
+      /* ── Investment cards: reduce padding ── */
+      .pricing .prc { padding: 20px 16px !important; }
+
+      /* ── Clocks: 2×2 grid on mobile ── */
+      .clocks__inner { display: grid !important; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .clocks__label { grid-column: span 2; width: 100%; }
+      .clock__sep { display: none !important; }
+    }
+
+    @keyframes logos-mobile-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
 
     /* Hide cursor FX on touch devices — no hover state */
@@ -2405,6 +2429,9 @@
           </div>
 
         </div>
+
+        <a href="services.html" class="btn btn-p svc-explore-mobile" style="border-color: white; margin-top: 32px; align-self: flex-start;">Explore Services</a>
+
       </div>
     </div>
   </section>
@@ -2525,6 +2552,32 @@
         </div>
 
       </div>
+
+      <div class="logos-mobile-marquee" style="overflow:hidden; white-space:nowrap; padding: 12px 0;">
+        <div style="display:inline-block; animation: logos-mobile-scroll 18s linear infinite;">
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Strato</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Suka</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Sopra</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Vestas</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">YVT</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Re'flekt</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">BMW</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">BuildDeli</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Sinnerschrader</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Sportradar</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Strato</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Suka</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Sopra</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Vestas</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">YVT</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Re'flekt</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">BMW</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">BuildDeli</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Sinnerschrader</span>
+          <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Sportradar</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -2812,6 +2865,11 @@
           <span class="clock__city">Bengaluru</span>
           <span class="clock__time" id="clock-in">--:--</span>
         </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Denver</span>
+          <span class="clock__time" id="clock-us">--:--</span>
+        </div>
       </div>
     </div>
   </div>
@@ -3007,6 +3065,7 @@
         { id: 'clock-de', tz: 'Europe/Berlin'  },
         { id: 'clock-ae', tz: 'Asia/Dubai'     },
         { id: 'clock-in', tz: 'Asia/Kolkata'   },
+        { id: 'clock-us', tz: 'America/Denver' },
       ];
 
       function fmt(tz) {
