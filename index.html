@@ -2059,10 +2059,11 @@
       .svcs__left .btn { display: none !important; }
       .svc-explore-mobile { display: inline-flex !important; justify-self: start; align-self: start; }
 
-      /* ── Logo strip: hide SVG marks, show text marquee ── */
+      /* ── Logo strip: match header marquee height + font ── */
+      .logos-strip { padding: 16px 0 !important; }
       .logos-strip__inner { display: none !important; }
-      .logos-mobile-marquee { display: block !important; }
-      .logos-mobile-marquee span { font-size: 10px !important; letter-spacing: 0.16em !important; }
+      .logos-mobile-marquee { display: block !important; overflow: hidden; }
+      .logos-mobile-marquee span { font-size: 10px !important; letter-spacing: 0.16em !important; padding: 0 16px !important; }
 
       /* ── Investment cards: reduce padding ── */
       .pricing .prc { padding: 20px 16px !important; }
@@ -2573,7 +2574,7 @@
 
       </div>
 
-      <div class="logos-mobile-marquee" style="overflow:hidden; white-space:nowrap; padding: 12px 0;">
+      <div class="logos-mobile-marquee" style="white-space:nowrap;">
         <div style="display:inline-block; animation: logos-mobile-scroll 18s linear infinite;">
           <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Strato</span>
           <span style="font-family:var(--font-m); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:oklch(1 0 0 / 0.55); padding: 0 24px;">Suka</span>
