@@ -987,6 +987,7 @@
     .logos-mobile-marquee { display: none; }
     .work__archive-mobile { display: none; }
     .pricing__cta-mobile { display: none; }
+    .blog-mobile-cta { display: none; }
 
     .svc {
       display: grid;
@@ -2069,6 +2070,10 @@
       .pricing .work__hdr .work__all { display: none !important; }
       .pricing__cta-mobile { display: inline-flex !important; margin-top: 24px; }
 
+      /* ── Blog: hide header CTA, show below grid ── */
+      .blog .work__hdr .work__all { display: none !important; }
+      .blog-mobile-cta { display: inline-flex !important; margin-top: 24px; }
+
       /* ── Clocks: 2×2 grid on mobile ── */
       .clocks__inner { display: grid !important; grid-template-columns: 1fr 1fr; gap: 16px; }
       .clocks__label { grid-column: span 2; width: 100%; }
@@ -2356,7 +2361,7 @@
 
       </div>
 
-      <a href="work.html" class="work__all work__archive-mobile">Full Archive &#8594;</a>
+      <a href="work.html" class="btn btn-g work__archive-mobile">Full Archive &#8594;</a>
 
     </div>
   </section>
@@ -2710,7 +2715,7 @@
 
       </div>
 
-      <a href="#contact" class="work__all pricing__cta-mobile">Start a Project &#8594;</a>
+      <a href="#contact" class="btn btn-g pricing__cta-mobile">Start a Project &#8594;</a>
 
     </div>
   </section>
@@ -2784,6 +2789,9 @@
         </a>
 
       </div>
+
+      <a href="#" class="btn btn-g blog-mobile-cta">All Articles &#8594;</a>
+
     </div>
   </section>
 
