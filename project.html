@@ -130,6 +130,13 @@
       transition: color 300ms var(--ease-out);
     }
     .nav__logo span { color: var(--accent); }
+    /* Hero is always dark — show nav in white until page is scrolled */
+    .nav__logo { color: white; }
+    .nav__burger-line { background: white; }
+    .nav__burger { border-color: oklch(1 0 0 / 0.35); }
+    .nav.scrolled .nav__logo { color: var(--text); }
+    .nav.scrolled .nav__burger-line { background: var(--text); }
+    .nav.scrolled .nav__burger { border-color: var(--border-strong); }
     .menu-open .nav__logo { color: white; }
     .nav__burger {
       position: relative; z-index: 210;
