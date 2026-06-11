@@ -132,10 +132,8 @@
     .nav__logo span { color: var(--accent); }
     /* Hero is always dark — show nav in white until page is scrolled */
     .nav__logo { color: white; }
-    .nav__burger-line { background: white; }
     .nav__burger { border-color: oklch(1 0 0 / 0.35); }
     .nav.scrolled .nav__logo { color: var(--text); }
-    .nav.scrolled .nav__burger-line { background: var(--text); }
     .nav.scrolled .nav__burger { border-color: var(--border-strong); }
     .menu-open .nav__logo { color: white; }
     .nav__burger {
@@ -149,10 +147,11 @@
     @media (hover:hover) and (pointer:fine) { .nav__burger:hover { border-color: var(--accent); } }
     .nav__burger:active { transform: scale(0.95); }
     .nav__burger-line {
-      display: block; width: 18px; height: 1.5px; background: var(--text);
+      display: block; width: 18px; height: 1.5px; background: white;
       transform-origin: center;
       transition: transform 360ms var(--ease-out), opacity 200ms var(--ease-out), width 300ms var(--ease-out), background 200ms var(--ease-out);
     }
+    .nav.scrolled .nav__burger-line { background: var(--text); }
     .menu-open .nav__burger-line { background: white; }
     .menu-open .nav__burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .menu-open .nav__burger-line:nth-child(2) { opacity: 0; width: 0; }
