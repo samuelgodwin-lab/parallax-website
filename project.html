@@ -1505,11 +1505,11 @@
 
       /* 3 — Meta band: clean 2×2 grid */
       .proj-meta__grid { grid-template-columns: 1fr 1fr; }
-      .proj-meta__item { padding: 20px 16px !important; border-right: 1px solid var(--border) !important; }
+      .proj-meta__item { padding: 20px 0 !important; border-right: none !important; border-top: none !important; }
       .proj-meta__item:first-child,
-      .proj-meta__item:nth-child(3) { padding-left: 0 !important; }
+      .proj-meta__item:nth-child(3) { padding-left: 0 !important; padding-right: 20px !important; border-right: 1px solid var(--border) !important; }
       .proj-meta__item:nth-child(2),
-      .proj-meta__item:last-child { border-right: none !important; }
+      .proj-meta__item:last-child { padding-left: 20px !important; padding-right: 0 !important; }
       .proj-meta__item:nth-child(3),
       .proj-meta__item:last-child { border-top: 1px solid var(--border) !important; }
       .proj-meta__val { font-size: 14px; overflow-wrap: break-word; word-break: break-word; }
