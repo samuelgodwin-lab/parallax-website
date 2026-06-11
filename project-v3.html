@@ -1363,6 +1363,49 @@
     }
     .demo-toggle button:hover { color: var(--text); }
     .demo-toggle button.active { background: var(--text); color: var(--bg); }
+
+    /* ============================================================
+       MOBILE FIXES (max-width: 700px)
+    ============================================================ */
+    @media (max-width: 700px) {
+      /* 1 — Nav: logo + burger visible over dark hero */
+      body { overflow-x: hidden; }
+      .nav__logo { color: white; }
+      .nav__burger-line { background: white; }
+      .nav__burger { border-color: oklch(1 0 0 / 0.35); }
+      .nav.scrolled .nav__logo { color: var(--text); }
+      .nav.scrolled .nav__burger-line { background: var(--text); }
+      .nav.scrolled .nav__burger { border-color: var(--border-strong); }
+
+      /* 2 — Meta band: fix alignment + font size */
+      .proj-meta__grid { grid-template-columns: 1fr 1fr; }
+      .proj-meta__item { padding: var(--s6) 0; }
+      .proj-meta__item:first-child { padding-left: 0; padding-right: var(--s5); }
+      .proj-meta__item:nth-child(2) { border-right: none; padding-left: var(--s5); padding-right: 0; }
+      .proj-meta__item:nth-child(3) { border-right: 1px solid var(--border); padding-left: 0; padding-right: var(--s5); border-top: 1px solid var(--border); }
+      .proj-meta__item:last-child { padding-left: var(--s5); padding-right: 0; border-top: 1px solid var(--border); }
+      .proj-meta__val { font-size: 14px; overflow-wrap: break-word; word-break: break-word; }
+
+      /* 3 — Horizontal scroll: contain overflow on wide elements */
+      .bsys-type-scale { grid-template-columns: repeat(2, 1fr); }
+      .bsys-grid { overflow: hidden; }
+      .proj-overview__inner,
+      .proj-outcome__inner { grid-template-columns: 1fr; gap: var(--s8); }
+
+      /* 4 — Brand tokens: horizontal scroll instead of overflow */
+      .bsys-tokens {
+        display: flex; flex-wrap: nowrap;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 12px; gap: 12px;
+        margin-left: calc(var(--s8) * -1); margin-right: calc(var(--s8) * -1);
+        padding-left: var(--s8); padding-right: var(--s8);
+      }
+      .bsys-token {
+        flex: 0 0 160px; scroll-snap-align: start;
+        min-height: 120px;
+      }
+    }
   </style>
 </head>
 <body data-project-type="mix">
