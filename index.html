@@ -985,6 +985,8 @@
     .svcs__list { display: flex; flex-direction: column; }
     .svc-explore-mobile { display: none; }
     .logos-mobile-marquee { display: none; }
+    .work__archive-mobile { display: none; }
+    .pricing__cta-mobile { display: none; }
 
     .svc {
       display: grid;
@@ -2046,16 +2048,26 @@
       .form__row { grid-template-columns: 1fr; }
       .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); }
 
+      /* ── Work heading: prevent balance-wrap breaking lines, force 2-line ── */
+      .work .sh { font-size: 26px; text-wrap: wrap; }
+      /* ── Work: hide header CTA, show below grid ── */
+      .work .work__hdr .work__all { display: none !important; }
+      .work__archive-mobile { display: inline-flex !important; margin-top: 24px; }
+
       /* ── Services: hide btn in left col, show btn below accordion ── */
       .svcs__left .btn { display: none !important; }
-      .svc-explore-mobile { display: inline-flex !important; }
+      .svc-explore-mobile { display: inline-flex !important; justify-self: start; align-self: start; }
 
       /* ── Logo strip: hide SVG marks, show text marquee ── */
       .logos-strip__inner { display: none !important; }
       .logos-mobile-marquee { display: block !important; }
+      .logos-mobile-marquee span { font-size: 10px !important; letter-spacing: 0.16em !important; }
 
       /* ── Investment cards: reduce padding ── */
       .pricing .prc { padding: 20px 16px !important; }
+      /* ── Pricing: hide header CTA, show below cards ── */
+      .pricing .work__hdr .work__all { display: none !important; }
+      .pricing__cta-mobile { display: inline-flex !important; margin-top: 24px; }
 
       /* ── Clocks: 2×2 grid on mobile ── */
       .clocks__inner { display: grid !important; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -2343,6 +2355,9 @@
         </a>
 
       </div>
+
+      <a href="work.html" class="work__all work__archive-mobile">Full Archive &#8594;</a>
+
     </div>
   </section>
 
@@ -2694,6 +2709,9 @@
         </article>
 
       </div>
+
+      <a href="#contact" class="work__all pricing__cta-mobile">Start a Project &#8594;</a>
+
     </div>
   </section>
 
