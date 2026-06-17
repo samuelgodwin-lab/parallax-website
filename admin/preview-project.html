@@ -441,10 +441,42 @@
     function animateMarkSVG(wrapper) {
       const svg = wrapper.querySelector('svg');
       if (!svg) return;
+
+      // Structured logomark: assemble from parts
+      const body       = svg.querySelector('#logo-body');
+      const bottomArcs = Array.from(svg.querySelectorAll('#logo-arcs-bottom path'));
+      const topArcs    = Array.from(svg.querySelectorAll('#logo-arcs-top path'));
+
+      if (body && bottomArcs.length && topArcs.length) {
+        const SPRING   = 'cubic-bezier(0.34, 1.4, 0.64, 1)';
+        const EASE_OUT = 'ease-out';
+        function setStart(el, tx, ty) {
+          el.style.transition = 'none';
+          el.style.opacity    = '0';
+          el.style.transform  = `translate(${tx}px, ${ty}px)`;
+        }
+        function arrive(el, delay, dur) {
+          setTimeout(() => {
+            el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${Math.round(dur * 1.1)}ms ${SPRING}`;
+            el.style.opacity    = '1';
+            el.style.transform  = 'translate(0, 0)';
+          }, delay);
+        }
+        setStart(body, 0, 28);
+        bottomArcs.forEach(p => setStart(p, -22, 0));
+        topArcs.forEach(p    => setStart(p,  22, 0));
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          arrive(body, 60, 860);
+          bottomArcs.forEach((p, i) => arrive(p, 110 + i * 62, 680));
+          topArcs.forEach((p, i)    => arrive(p, 190 + i * 62, 680));
+        }));
+        return;
+      }
+
+      // Generic fallback: stroke draw-on for any other logo SVG
       const paths = Array.from(svg.querySelectorAll('path'));
       const textEls = Array.from(svg.querySelectorAll('text'));
       if (!paths.length) return;
-
       function resolveF(el) {
         const a = el.getAttribute('fill');
         if (a && a !== 'none') return a;
@@ -458,7 +490,6 @@
         }
         return '#568065';
       }
-
       const lengths = paths.map(p => { try { return p.getTotalLength(); } catch(e) { return 0; } });
       const maxLen = Math.max(...lengths);
       const mainIdx = lengths.indexOf(maxLen);
@@ -498,10 +529,7 @@
       decPaths.forEach((p, i) => animatePath(p, DRAW_DEC, 500 + i * STAGGER));
       const textStart = Math.max(DRAW_MAIN + 400, 500 + decPaths.length * STAGGER + DRAW_DEC + 200);
       textEls.forEach(t => {
-        setTimeout(() => {
-          t.style.transition = 'opacity 0.8s ease';
-          t.style.opacity = '1';
-        }, textStart);
+        setTimeout(() => { t.style.transition = 'opacity 0.8s ease'; t.style.opacity = '1'; }, textStart);
       });
     }
 
