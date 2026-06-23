@@ -1,0 +1,23 @@
+{
+  "name": "parallax-website",
+  "version": "1.0.0",
+  "description": "Parallax Digital Craft Studio Website",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuelgodwin-lab/parallax-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samuelgodwin-lab/parallax-website/issues"
+  },
+  "homepage": "https://github.com/samuelgodwin-lab/parallax-website#readme",
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
