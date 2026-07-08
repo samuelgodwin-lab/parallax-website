@@ -338,11 +338,22 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center;
       z-index: 0;
       opacity: 1;
       pointer-events: none;
+      overflow: hidden;
+    }
+    .hero__video iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      min-width: 177.78vh;
+      min-height: 56.25vw;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      border: none;
     }
 
     /* Ensure content is above video and effects */
@@ -372,43 +383,6 @@
     }
     /* Ambient glow removed */
     .hero::after { display: none; }
-
-    /* ---- Hero right-side image ---- */
-    .hero__img {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 55%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .hero__img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
-      mask-image: linear-gradient(to right, transparent 0%, black 30%);
-      opacity: 0;
-      animation: fadeUp 900ms var(--ease-out) 400ms forwards;
-    }
-
-    @media (max-width: 768px) {
-      .hero__img {
-        position: relative;
-        top: auto; right: auto;
-        width: 100%;
-        height: 240px;
-        margin-top: var(--s6);
-      }
-      .hero__img img {
-        -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-      }
-    }
 
     /* ---- Hero cursor colour-reveal FX ---- */
     .hero__cursor-fx {
@@ -739,6 +713,8 @@
       grid-template-columns: repeat(12, 1fr);
       gap: 20px;
     }
+    @keyframes skel-pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+    .pc.skel { background: var(--surface); border: 1px solid var(--border); animation: skel-pulse 1.5s ease-in-out infinite; pointer-events: none; min-height: 260px; }
 
     /* ── Layout 1: cards 1–4 ── */
     .pc:nth-child(1) { grid-column: span 5; grid-row: span 2; }
@@ -1063,11 +1039,22 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center;
       z-index: 0;
       opacity: 1;
       pointer-events: none;
+      overflow: hidden;
+    }
+    .testi__video iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      min-width: 177.78vh;
+      min-height: 56.25vw;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      border: none;
     }
     .testi > .w {
       position: relative;
@@ -1093,6 +1080,7 @@
     }
     @media (max-width: 768px) {
       .testi__brand-img { display: none; }
+      .testi__btn { border-color: white !important; color: white !important; }
     }
     .testi__clip {
       overflow: hidden;
@@ -1127,6 +1115,7 @@
       max-width: 72ch;
       font-style: normal;
     }
+    .tslide__q em { font-style: normal; color: var(--accent); }
     .tslide__attr { padding-top: var(--s3); }
     .tslide__name {
       font-size: 16px;
@@ -2016,30 +2005,18 @@
     @media (max-width: 768px) {
       /* ── Hero mobile fixes ── */
       .hero { padding-top: 300px; padding-bottom: var(--s16); }
-      .hero__video { display: none; }
       .hero__cursor-fx { display: none; }
       .hero__body { padding-bottom: var(--s8); }
       .hero__stats {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--s4) var(--s6);
+        gap: var(--s4) 29px;
         flex-wrap: unset;
       }
       .hero__stats > div:nth-child(3) { display: none; }
+      .hero__sl { font-size: 8px; letter-spacing: 0.08em; }
       .hero__foot { gap: var(--s8); }
       .hero__scroll { display: none; }
-      .hero__img {
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        width: 100%;
-        height: 300px;
-        z-index: 0;
-      }
-      .hero__img img {
-        object-position: top center;
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 40%, transparent 100%);
-        mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 40%, transparent 100%);
-      }
 
       /* ── Other sections ── */
       .grid { grid-template-columns: 1fr !important; gap: 12px; }
@@ -2108,9 +2085,86 @@
       .marquee__t { animation: none; }
       .hero__scroll-line { animation: none; }
     }
+
+    /* ── Preloader ── */
+    #plx-loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #05050a;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 600ms cubic-bezier(0.77,0,0.175,1), transform 600ms cubic-bezier(0.77,0,0.175,1);
+    }
+    #plx-loader.plx--out { opacity: 0; transform: translateY(-16px); pointer-events: none; }
+    .plx__center { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .plx__mark {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(38px, 5.5vw, 72px);
+      letter-spacing: -0.045em;
+      color: #fff; line-height: 1;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 700ms cubic-bezier(0.23,1,0.32,1), transform 700ms cubic-bezier(0.23,1,0.32,1);
+    }
+    .plx__mark.plx--vis { opacity: 1; transform: translateY(0); }
+    .plx__dot { color: oklch(0.60 0.18 249); }
+    .plx__status {
+      font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: oklch(0.60 0.18 249 / 0.65);
+      opacity: 0; height: 14px; min-width: 130px; text-align: center;
+      transition: opacity 400ms ease;
+    }
+    .plx__status.plx--vis { opacity: 1; }
   </style>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
+
+  <!-- ============================================================
+       PRELOADER
+  ============================================================ -->
+  <div id="plx-loader">
+    <div class="plx__center">
+      <div class="plx__mark" id="plxMark">Parallax<span class="plx__dot">.</span></div>
+      <div class="plx__status" id="plxStatus"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var MIN_MS = 2000;
+      var start  = Date.now();
+      var loader = document.getElementById('plx-loader');
+      var mark   = document.getElementById('plxMark');
+      var status = document.getElementById('plxStatus');
+
+      setTimeout(function () { mark.classList.add('plx--vis'); }, 380);
+
+      var POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      var FINAL = 'INITIALISING';
+      var frame = 0;
+      setTimeout(function () {
+        status.classList.add('plx--vis');
+        var iv = setInterval(function () {
+          frame++;
+          if (frame > 16) { status.textContent = FINAL; clearInterval(iv); return; }
+          status.textContent = Array.from({length: FINAL.length}, function(_, k) {
+            return (frame / 16 > k / FINAL.length) ? FINAL[k] : POOL[Math.floor(Math.random() * POOL.length)];
+          }).join('');
+        }, 55);
+      }, 720);
+
+      function exit() {
+        var wait = Math.max(0, MIN_MS - (Date.now() - start));
+        setTimeout(function () {
+          loader.classList.add('plx--out');
+          setTimeout(function () { loader.style.display = 'none'; }, 650);
+        }, wait);
+      }
+
+      if (document.readyState === 'complete') { exit(); }
+      else { window.addEventListener('load', exit, { once: true }); }
+    })();
+  </script>
 
   <!-- ============================================================
        NAV
@@ -2151,10 +2205,9 @@
        HERO
   ============================================================ -->
   <section class="hero" id="home">
-    <video class="hero__video" autoplay muted loop playsinline preload="auto">
-      <source src="Video/Hero video.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <div class="hero__video">
+      <iframe src="https://player.vimeo.com/video/1203711194?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
     <div class="w hero__wrap">
 
       <div class="hero__body">
@@ -2199,9 +2252,6 @@
       </div>
 
     </div>
-    <div class="hero__img" aria-hidden="true">
-      <img src="Assets/Header Images/Parallax 2_01.png" alt="">
-    </div>
     <div class="hero__cursor-fx" aria-hidden="true"></div>
   </section>
 
@@ -2239,128 +2289,8 @@
         <a href="work.html" class="work__all">Full Archive &#8594;</a>
       </div>
 
-      <div class="grid reveal">
-
-        <!-- 01 — BMW · 5 cols × 2 rows -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="images/work/BMW.jpg" alt="BMW project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/BMW.svg" alt="BMW">
-              <span class="pc__industry">Automotive</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Frontend Engineering</p>
-            <h2 class="pc__name">Digital Platform Redesign</h2>
-            <div class="pc__meta">
-              <span class="pc__client">BMW Group</span>
-              <span class="pc__yr">2024</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 02 — Nissan · 7 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80" alt="Nissan project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Nissan.svg" alt="Nissan">
-              <span class="pc__industry">Automotive</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Brand Systems · Digital Strategy</p>
-            <h2 class="pc__name">Connected Car Brand Experience</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Nissan</span>
-              <span class="pc__yr">2023</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 03 — Sportradar · 7 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=900&q=80" alt="Sportradar project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Sportradar.svg" alt="Sportradar">
-              <span class="pc__industry">Sports & Media</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Data Visualisation</p>
-            <h2 class="pc__name">Live Sports Data Dashboard</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Sportradar</span>
-              <span class="pc__yr">2023</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 04 — Vestas · 12 cols full width -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=1400&q=80" alt="Vestas project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Vestas.svg" alt="Vestas">
-              <span class="pc__industry">Energy</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Digital Strategy · Motion & Interaction</p>
-            <h2 class="pc__name">Sustainability Annual Report</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Vestas</span>
-              <span class="pc__yr">2022</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 05 — Biblica · 4 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Biblica project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Biblica.svg" alt="Biblica">
-              <span class="pc__industry">Non-profit</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Brand Systems</p>
-            <h2 class="pc__name">Scripture Platform Redesign</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Biblica</span>
-              <span class="pc__yr">2022</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 06 — Accenture · 8 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80" alt="Accenture project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Accenture.svg" alt="Accenture">
-              <span class="pc__industry">Consulting</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Brand Systems · Frontend Engineering</p>
-            <h2 class="pc__name">Enterprise Design System</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Accenture</span>
-              <span class="pc__yr">2021</span>
-            </div>
-          </div>
-        </a>
-
+      <div class="grid reveal" id="home-work-grid">
+        <!-- populated dynamically from Supabase -->
       </div>
 
       <a href="work.html" class="btn btn-g work__archive-mobile">Full Archive &#8594;</a>
@@ -2465,10 +2395,9 @@
     <div class="testi__brand-img" aria-hidden="true">
       <img src="Assets/Services/Brand.png" alt="">
     </div>
-    <video class="testi__video" autoplay muted loop playsinline preload="auto">
-      <source src="Video/Testimonial_Blue.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <div class="testi__video">
+      <iframe src="https://player.vimeo.com/video/1203711361?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
     <div class="w">
       <p class="slabel reveal">Client Voices</p>
 
@@ -2743,56 +2672,14 @@
           <p class="slabel">Thinking</p>
           <h2 class="sh">From the <em>studio.</em></h2>
         </div>
-        <a href="#" class="work__all">All Articles &#8594;</a>
+        <a href="articles.html" class="work__all">All Articles &#8594;</a>
       </div>
 
-      <div class="blog__grid reveal">
-
-        <a class="bpost" href="#">
-          <div class="bpost__img">
-            <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80&sat=-100" alt="Abstract geometric architecture" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-          </div>
-          <span class="bpost__cat">Design Strategy</span>
-          <h3 class="bpost__title">Why most redesigns fail before a pixel is drawn</h3>
-          <p class="bpost__excerpt">The problem isn't execution — it's the brief. Here's how we diagnose broken strategy before it becomes expensive visual work.</p>
-          <div class="bpost__foot">
-            <span class="bpost__meta">8 Apr 2026 &nbsp;·&nbsp; 6 min</span>
-            <span class="bpost__arrow">↗</span>
-          </div>
-          <div class="bpost__line"></div>
-        </a>
-
-        <a class="bpost" href="#">
-          <div class="bpost__img">
-            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80&sat=-100" alt="Modular design systems and structure" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-          </div>
-          <span class="bpost__cat">Brand Systems</span>
-          <h3 class="bpost__title">The case for building a design system before your MVP</h3>
-          <p class="bpost__excerpt">Teams that skip the system pay for it at scale. We'll show you exactly when it matters — and when it doesn't.</p>
-          <div class="bpost__foot">
-            <span class="bpost__meta">22 Mar 2026 &nbsp;·&nbsp; 5 min</span>
-            <span class="bpost__arrow">↗</span>
-          </div>
-          <div class="bpost__line"></div>
-        </a>
-
-        <a class="bpost" href="#">
-          <div class="bpost__img">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80&sat=-100" alt="Team collaboration and process" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-          </div>
-          <span class="bpost__cat">Process</span>
-          <h3 class="bpost__title">What 47 projects taught us about client collaboration</h3>
-          <p class="bpost__excerpt">The studios that do the best work aren't the ones with the best taste. They're the ones with the clearest process.</p>
-          <div class="bpost__foot">
-            <span class="bpost__meta">5 Mar 2026 &nbsp;·&nbsp; 7 min</span>
-            <span class="bpost__arrow">↗</span>
-          </div>
-          <div class="bpost__line"></div>
-        </a>
-
+      <div class="blog__grid reveal" id="home-blog-grid">
+        <!-- populated from Supabase -->
       </div>
 
-      <a href="#" class="btn btn-g blog-mobile-cta">All Articles &#8594;</a>
+      <a href="articles.html" class="btn btn-g blog-mobile-cta">All Articles &#8594;</a>
 
     </div>
   </section>
@@ -2816,7 +2703,7 @@
             </div>
             <div class="contact__row">
               <span class="contact__k">Location</span>
-              <span class="contact__v">San Francisco, CA</span>
+              <span class="contact__v">Bengaluru, India</span>
             </div>
             <div class="contact__row">
               <span class="contact__k">Available</span>
@@ -2911,9 +2798,8 @@
         <span class="footer__logo">Parallax.</span>
         <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
         <ul class="footer__links">
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Dribbble</a></li>
           <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
           <li><a href="#">Privacy</a></li>
         </ul>
       </div>
@@ -3173,35 +3059,41 @@
       });
     });
 
-    /* TESTIMONIALS SLIDER */
-    (function () {
-      const track = document.getElementById('ttrack');
-      const dots  = document.querySelectorAll('.tdot');
-      const prev  = document.getElementById('tprev');
-      const next  = document.getElementById('tnext');
-      const n     = dots.length;
-      let   i     = 0, timer;
-
+    /* TESTIMONIALS SLIDER — callable after dynamic content is injected */
+    let _testiTimer = null;
+    function initTestiSlider() {
+      if (_testiTimer) { clearInterval(_testiTimer); _testiTimer = null; }
+      const track  = document.getElementById('ttrack');
+      const dotsEl = document.getElementById('tdots');
+      const prev   = document.getElementById('tprev');
+      const next   = document.getElementById('tnext');
+      if (!track || !dotsEl) return;
+      const slides = track.querySelectorAll('.tslide');
+      const n = slides.length;
+      if (!n) return;
+      dotsEl.innerHTML = Array.from({length: n}, (_, k) =>
+        `<button class="tdot${k === 0 ? ' on' : ''}" aria-label="Slide ${k + 1}"></button>`
+      ).join('');
+      const dots = Array.from(dotsEl.querySelectorAll('.tdot'));
+      let cur = 0;
       function go(idx) {
-        i = ((idx % n) + n) % n;
-        track.style.transform = `translateX(-${i * 100}%)`;
-        dots.forEach((d, j) => d.classList.toggle('on', j === i));
+        cur = ((idx % n) + n) % n;
+        track.style.transform = `translateX(-${cur * 100}%)`;
+        dots.forEach((d, j) => d.classList.toggle('on', j === cur));
       }
       function restart() {
-        clearInterval(timer);
-        timer = setInterval(() => go(i + 1), 6000);
+        clearInterval(_testiTimer);
+        _testiTimer = setInterval(() => go(cur + 1), 6000);
       }
-
-      prev.addEventListener('click',  () => { go(i - 1); restart(); });
-      next.addEventListener('click',  () => { go(i + 1); restart(); });
-      dots.forEach((d, j) => d.addEventListener('click', () => { go(j); restart(); }));
-
+      prev.onclick = () => { go(cur - 1); restart(); };
+      next.onclick = () => { go(cur + 1); restart(); };
+      dots.forEach((d, j) => { d.onclick = () => { go(j); restart(); }; });
       const wrap = track.closest('.testi__clip');
-      wrap.addEventListener('mouseenter', () => clearInterval(timer));
-      wrap.addEventListener('mouseleave', restart);
-
+      wrap.onmouseenter = () => clearInterval(_testiTimer);
+      wrap.onmouseleave = restart;
       restart();
-    })();
+    }
+    initTestiSlider();
 
     /* MAGNETIC SPOTLIGHT — tracks cursor inside project + pricing cards */
     if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
@@ -3439,7 +3331,147 @@
     tick();
   })();
 
+  </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin/supabase.js"></script>
+  <script>
+    (async () => {
+      const grid = document.getElementById('home-work-grid');
+      if (!grid) return;
+
+      const CARD_GRADIENTS = [
+        'linear-gradient(145deg, oklch(0.14 0.08 249) 0%, oklch(0.20 0.12 238) 50%, oklch(0.09 0.05 262) 100%)',
+        'linear-gradient(145deg, oklch(0.13 0.04 28) 0%, oklch(0.22 0.07 20) 55%, oklch(0.09 0.01 5) 100%)',
+        'linear-gradient(145deg, oklch(0.30 0.13 35) 0%, oklch(0.18 0.09 28) 50%, oklch(0.11 0.04 42) 100%)',
+        'linear-gradient(145deg, oklch(0.16 0.07 155) 0%, oklch(0.24 0.10 148) 50%, oklch(0.12 0.05 168) 100%)',
+        'linear-gradient(145deg, oklch(0.17 0.08 292) 0%, oklch(0.24 0.10 280) 50%, oklch(0.11 0.04 308) 100%)',
+        'linear-gradient(145deg, oklch(0.10 0.005 0) 0%, oklch(0.20 0.010 0) 55%, oklch(0.07 0.002 0) 100%)',
+      ];
+
+      // Skeleton placeholders while loading
+      for (let i = 0; i < 6; i++) {
+        const sk = document.createElement('div');
+        sk.className = 'pc skel';
+        grid.appendChild(sk);
+      }
+
+      const { data: projects, error } = await db
+        .from('case_studies')
+        .select('id,title,client,industry,services,year,img_hero,accent_color,sort_order')
+        .eq('status', 'published')
+        .order('sort_order', { ascending: true, nullsFirst: false })
+        .limit(6);
+
+      grid.innerHTML = '';
+
+      if (error || !projects?.length) return;
+
+      projects.forEach((p, i) => {
+        const services = Array.isArray(p.services) ? p.services.join(' · ') : (p.services || '');
+        const bg = p.accent_color
+          ? `linear-gradient(145deg, ${p.accent_color}55 0%, ${p.accent_color}33 100%)`
+          : CARD_GRADIENTS[i % CARD_GRADIENTS.length];
+
+        const a = document.createElement('a');
+        a.className = 'pc';
+        a.href = `project.html?id=${p.id}`;
+        a.innerHTML = `
+          <div class="pc__img" style="background:${bg};">
+            ${p.img_hero ? `<img class="pc__photo" src="${p.img_hero}" alt="${p.client || p.title}" loading="lazy">` : ''}
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <span class="pc__logo-text">${p.client || ''}</span>
+              <span class="pc__industry">${p.industry || ''}</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            ${services ? `<p class="pc__discipline">${services}</p>` : ''}
+            <h2 class="pc__name">${p.title || ''}</h2>
+            <div class="pc__meta">
+              <span class="pc__client">${p.client || ''}</span>
+              ${p.year ? `<span class="pc__yr">${p.year}</span>` : ''}
+            </div>
+          </div>`;
+        grid.appendChild(a);
+      });
+
+      grid.classList.add('in');
+    })();
+
+    /* ── Testimonials: load from CMS ── */
+    (async () => {
+      const { data: raw } = await db
+        .from('case_studies')
+        .select('quote_text,quote_attribution_name,quote_attribution_role')
+        .eq('status', 'published')
+        .not('quote_text', 'is', null)
+        .order('sort_order', { ascending: true, nullsFirst: false });
+
+      const quotes = (raw || []).filter(q => q.quote_text && q.quote_text.trim());
+      if (!quotes.length) return;
+
+      const track = document.getElementById('ttrack');
+      if (!track) return;
+
+      const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const hlq = s => esc(s).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+      track.innerHTML = quotes.map(q => `
+        <div class="tslide">
+          <em class="tslide__mark">&ldquo;</em>
+          <blockquote class="tslide__q">${hlq(q.quote_text)}</blockquote>
+          <div class="tslide__attr">
+            ${q.quote_attribution_name ? `<p class="tslide__name">${esc(q.quote_attribution_name)}</p>` : ''}
+            ${q.quote_attribution_role ? `<p class="tslide__role">${esc(q.quote_attribution_role)}</p>` : ''}
+          </div>
+        </div>`).join('');
+
+      initTestiSlider();
+    })();
+
+    /* ── Blog: load latest 3 published articles from CMS ── */
+    (async () => {
+      const grid = document.getElementById('home-blog-grid');
+      if (!grid) return;
+
+      const CAT = { brand: 'Brand Identity', interface: 'Interface Design', engineering: 'Engineering', process: 'Process', opinion: 'Opinion' };
+      const esc = s => s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const accentify = str => str ? esc(str).replace(/\*([^*]+)\*/g, '<em style="font-style:normal;color:var(--accent)">$1</em>') : '';
+      const plain = str => (str || '').replace(/\*([^*]+)\*/g, '$1');
+      const fmtDate = iso => iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+      const placeholder = `<svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="80" height="6" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="24" y="40" width="200" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/><circle cx="500" cy="169" r="90" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="24" y="280" width="48" height="24" rx="2" fill="oklch(0.60 0.18 249)"/></svg>`;
+
+      const { data: articles } = await db
+        .from('articles')
+        .select('id,slug,title,category,excerpt,read_time,hero_image_url,created_at')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      if (!articles || !articles.length) return;
+
+      grid.innerHTML = articles.map(a => {
+        const label = CAT[a.category] || a.category || '';
+        const urlParam = a.slug ? `slug=${encodeURIComponent(a.slug)}` : `id=${encodeURIComponent(a.id)}`;
+        const img = a.hero_image_url
+          ? `<img src="${esc(a.hero_image_url)}" alt="${esc(plain(a.title))}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">`
+          : placeholder;
+        return `<a class="bpost" href="article.html?${urlParam}">
+          <div class="bpost__img">${img}</div>
+          <span class="bpost__cat">${esc(label)}</span>
+          <h3 class="bpost__title">${accentify(a.title)}</h3>
+          <p class="bpost__excerpt">${esc(a.excerpt || '')}</p>
+          <div class="bpost__foot">
+            <span class="bpost__meta">${fmtDate(a.created_at)}${a.read_time ? ' &nbsp;·&nbsp; ' + esc(a.read_time) : ''}</span>
+            <span class="bpost__arrow">↗</span>
+          </div>
+          <div class="bpost__line"></div>
+        </a>`;
+      }).join('');
+
+      grid.classList.add('in');
+    })();
   </script>
 </body>
 </html>
