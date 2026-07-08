@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/images/Favicon.png">
+  <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- CMS: <title>{site.name} Articles — {site.tagline}</title> -->
   <title>Articles — Parallax Digital Craft Studio</title>
@@ -259,7 +261,7 @@
     .afeat__img {
       position: relative;
       overflow: hidden;
-      aspect-ratio: 4/3;
+      min-height: 320px;
       background: oklch(0.10 0.003 249);
     }
     .afeat__img-inner {
@@ -273,7 +275,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: var(--s6);
+      gap: 0;
     }
     .afeat__label {
       font-family: var(--font-m);
@@ -284,6 +286,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 30px;
     }
     .afeat__label::before { content: ''; width: 18px; height: 1px; background: var(--accent); flex-shrink: 0; }
     .afeat__title {
@@ -292,6 +295,7 @@
       letter-spacing: -0.042em;
       line-height: 1.05;
       color: white;
+      margin-bottom: 12px;
     }
     .afeat__title em { font-style: normal; color: var(--accent); }
     .afeat__excerpt {
@@ -299,6 +303,7 @@
       color: oklch(1 0 0 / 0.55);
       line-height: 1.72;
       max-width: 52ch;
+      margin-bottom: var(--s6);
     }
     .afeat__meta {
       display: flex;
@@ -330,6 +335,7 @@
     @media (max-width: 860px) {
       .afeat__inner { grid-template-columns: 1fr; }
       .afeat__img { aspect-ratio: 16/7; }
+      .afeat__author { display: none; }
     }
 
     /* ============================================================
@@ -469,7 +475,10 @@
     @media (prefers-reduced-motion: reduce) {
       .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
+    .text-accent { color: var(--accent); font-style: normal; }
   </style>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -521,11 +530,11 @@
         </div>
         <div class="art-hero__stats stagger">
           <div>
-            <span class="art-hero__stat-n">24<em>+</em></span>
+            <span class="art-hero__stat-n" id="stat-article-count">—</span>
             <span class="art-hero__stat-l">Articles</span>
           </div>
           <div>
-            <span class="art-hero__stat-n">5</span>
+            <span class="art-hero__stat-n" id="stat-topic-count">—</span>
             <span class="art-hero__stat-l">Topics</span>
           </div>
           <div>
@@ -541,7 +550,7 @@
   <!-- CMS: articles.featured { category, title, excerpt, date, author, slug, image } -->
   <section class="afeat">
     <div class="w">
-      <a href="article.html" class="afeat__inner reveal">
+      <a href="article.html" class="afeat__inner reveal" id="afeat-card">
         <div class="afeat__img">
           <div class="afeat__img-inner">
             <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -585,13 +594,7 @@
       <div class="afilter__inner">
         <span class="afilter__label">Filter</span>
         <button class="afilter__btn active" data-filter="all">All</button>
-        <button class="afilter__btn" data-filter="brand">Brand Identity</button>
-        <button class="afilter__btn" data-filter="interface">Interface Design</button>
-        <button class="afilter__btn" data-filter="engineering">Engineering</button>
-        <button class="afilter__btn" data-filter="process">Process</button>
-        <button class="afilter__btn" data-filter="opinion">Opinion</button>
-        <!-- CMS: <span class="afilter__count" id="afilter-count">{articles.count} articles</span> -->
-        <span class="afilter__count" id="afilter-count">24 articles</span>
+        <span class="afilter__count" id="afilter-count"></span>
       </div>
     </div>
   </div>
@@ -746,6 +749,8 @@
         <div class="clock"><span class="clock__city">Dubai</span><span class="clock__time" id="clock-ae">--:--:--</span></div>
         <div class="clock__sep"></div>
         <div class="clock"><span class="clock__city">Bengaluru</span><span class="clock__time" id="clock-in">--:--:--</span></div>
+        <div class="clock__sep"></div>
+        <div class="clock"><span class="clock__city">Denver</span><span class="clock__time" id="clock-us">--:--:--</span></div>
       </div>
     </div>
   </div>
@@ -757,9 +762,8 @@
         <span class="footer__logo">Parallax.</span>
         <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
         <ul class="footer__links">
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Dribbble</a></li>
           <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
           <li><a href="#">Privacy</a></li>
         </ul>
       </div>
@@ -793,26 +797,30 @@
     document.querySelectorAll('.reveal, .stagger').forEach(el => io.observe(el));
 
     /* ---- Filter ---- */
-    const filterBtns = document.querySelectorAll('.afilter__btn');
-    const posts = document.querySelectorAll('.bpost');
-    const countEl = document.getElementById('afilter-count');
-    let activeFilter = 'all';
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
-        if (filter === activeFilter) return;
-        activeFilter = filter;
-        filterBtns.forEach(b => b.classList.toggle('active', b === btn));
-        let visible = 0;
-        posts.forEach(post => {
-          const match = filter === 'all' || post.dataset.category === filter;
-          post.hidden = !match;
-          if (match) visible++;
+    function initFilter() {
+      const filterBtns = document.querySelectorAll('.afilter__btn');
+      const posts = document.querySelectorAll('.bpost');
+      const countEl = document.getElementById('afilter-count');
+      let activeFilter = 'all';
+      const total = posts.length;
+      if (countEl) countEl.textContent = total + ' article' + (total !== 1 ? 's' : '');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+          if (filter === activeFilter) return;
+          activeFilter = filter;
+          filterBtns.forEach(b => b.classList.toggle('active', b === btn));
+          let visible = 0;
+          posts.forEach(post => {
+            const match = filter === 'all' || post.dataset.category === filter;
+            post.hidden = !match;
+            if (match) visible++;
+          });
+          if (countEl) countEl.textContent = visible + ' article' + (visible !== 1 ? 's' : '');
         });
-        countEl.textContent = visible + ' article' + (visible !== 1 ? 's' : '');
       });
-    });
+    }
+    initFilter();
 
     /* ---- World Clocks ---- */
     (function () {
@@ -820,6 +828,7 @@
         { id: 'clock-de', tz: 'Europe/Berlin' },
         { id: 'clock-ae', tz: 'Asia/Dubai' },
         { id: 'clock-in', tz: 'Asia/Kolkata' },
+        { id: 'clock-us', tz: 'America/Denver' },
       ];
       function fmt(tz) {
         return new Date().toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
@@ -846,6 +855,107 @@
       artHero.style.setProperty('--hx', '50%');
       artHero.style.setProperty('--hy', '50%');
     });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin/supabase.js"></script>
+  <script>
+  (async () => {
+    const CAT = { brand: 'Brand Identity', interface: 'Interface Design', engineering: 'Engineering', process: 'Process', opinion: 'Opinion' };
+    const esc = s => s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const accentify = str => str ? esc(str).replace(/\*([^*]+)\*/g, '<span class="text-accent">$1</span>') : '';
+    const plain = str => (str || '').replace(/\*([^*]+)\*/g, '$1');
+    function fmtDate(iso) {
+      if (!iso) return '';
+      return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    function cardHtml(a) {
+      const label = CAT[a.category] || a.category || '';
+      const date = fmtDate(a.created_at);
+      const urlParam = a.slug ? `slug=${encodeURIComponent(a.slug)}` : `id=${encodeURIComponent(a.id)}`;
+      const imgHtml = a.hero_image_url
+        ? `<img src="${esc(a.hero_image_url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`
+        : `<svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="80" height="6" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="24" y="40" width="200" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/><rect x="24" y="62" width="160" height="6" rx="2" fill="oklch(0 0 0 / 0.07)"/><circle cx="500" cy="169" r="90" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="24" y="280" width="48" height="24" rx="2" fill="oklch(0.60 0.18 249)"/></svg>`;
+      return `
+      <a href="article.html?${urlParam}" class="bpost" data-category="${esc(a.category || '')}">
+        <div class="bpost__line"></div>
+        <div class="bpost__img">${imgHtml}</div>
+        <span class="bpost__cat">${esc(label)}</span>
+        <h3 class="bpost__title">${accentify(a.title)}</h3>
+        <p class="bpost__excerpt">${esc(a.excerpt || '')}</p>
+        <div class="bpost__foot">
+          <span class="bpost__meta">${esc(date)}${a.read_time ? ' · ' + esc(a.read_time) : ''}</span>
+          <span class="bpost__arrow">↗</span>
+        </div>
+      </a>`;
+    }
+
+    const { data: articles } = await db
+      .from('articles')
+      .select('id,slug,title,category,excerpt,author,read_time,hero_image_url,created_at')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+
+    if (!articles || !articles.length) return;
+
+    /* Hero stats */
+    const statCount = document.getElementById('stat-article-count');
+    if (statCount) statCount.innerHTML = `${articles.length}<em>+</em>`;
+    const statTopics = document.getElementById('stat-topic-count');
+    if (statTopics) statTopics.textContent = new Set(articles.map(a => a.category).filter(Boolean)).size;
+
+    /* Featured article */
+    const feat = articles[0];
+    const featEl = document.getElementById('afeat-card');
+    if (featEl) {
+      const featLabel = CAT[feat.category] || feat.category || '';
+      const featParam = feat.slug ? `slug=${encodeURIComponent(feat.slug)}` : `id=${encodeURIComponent(feat.id)}`;
+      featEl.href = `article.html?${featParam}`;
+      const inner = featEl.querySelector('.afeat__img-inner');
+      if (inner) {
+        inner.innerHTML = feat.hero_image_url
+          ? `<img src="${esc(feat.hero_image_url)}" alt="${esc(plain(feat.title))}" loading="eager" style="width:100%;height:100%;object-fit:cover;">`
+          : inner.innerHTML;
+      }
+      const catEl = featEl.querySelector('.afeat__label');
+      if (catEl) catEl.textContent = `Featured · ${featLabel}`;
+      const titleEl = featEl.querySelector('.afeat__title');
+      if (titleEl) titleEl.innerHTML = accentify(feat.title);
+      const excEl = featEl.querySelector('.afeat__excerpt');
+      if (excEl) excEl.textContent = feat.excerpt || '';
+      const bylineEl = featEl.querySelector('.afeat__byline');
+      if (bylineEl) {
+        const d = fmtDate(feat.created_at);
+        bylineEl.innerHTML = `<span class="afeat__author"><strong>${esc(feat.author || 'Parallax')}</strong>${d ? ' &nbsp;·&nbsp; ' : ''}</span>${d ? d : ''}${feat.read_time ? ' &nbsp;·&nbsp; ' + esc(feat.read_time) : ''}`;
+      }
+    }
+
+    /* Category filter buttons */
+    const filterInner = document.querySelector('.afilter__inner');
+    if (filterInner) {
+      const countSpan = document.getElementById('afilter-count');
+      const cats = [...new Set(articles.map(a => a.category).filter(Boolean))];
+      cats.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'afilter__btn';
+        btn.dataset.filter = cat;
+        btn.textContent = CAT[cat] || cat;
+        filterInner.insertBefore(btn, countSpan);
+      });
+    }
+
+    /* Article grid (all articles except featured) */
+    const grid = document.getElementById('blog-grid');
+    if (grid) {
+      grid.innerHTML = articles.slice(1).map(a => cardHtml(a)).join('');
+      requestAnimationFrame(() => {
+        if (grid.getBoundingClientRect().top < window.innerHeight) grid.classList.add('in');
+      });
+    }
+
+    /* Re-init filter with live content */
+    initFilter();
+  })();
   </script>
 
 </body>

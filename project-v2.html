@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/images/Favicon.png">
+  <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- CMS: <title>{project.client} — {project.title} | Parallax</title> -->
   <title>BMW — Redefining the Digital Showroom | Parallax</title>
@@ -587,7 +589,7 @@
     .bsys-wbtn.active { color: var(--bg); background: var(--text); border-color: var(--text); }
     .bsys-type-preview {
       font-size: clamp(42px, 6vw, 80px);
-      line-height: 1.0; letter-spacing: -0.04em;
+      line-height: 1.0; letter-spacing: 0.04em;
       color: var(--text); margin-top: var(--s2);
       transition: font-weight 240ms var(--ease-out);
       min-height: 1.1em;
@@ -1064,6 +1066,8 @@
       .bsys-token { flex: 0 0 160px; scroll-snap-align: start; min-height: 120px; }
     }
   </style>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body data-project-type="mix">
 
@@ -1622,6 +1626,8 @@
         <div class="clock"><span class="clock__city">Dubai</span><span class="clock__time" id="clock-ae">--:--</span></div>
         <div class="clock__sep"></div>
         <div class="clock"><span class="clock__city">Bengaluru</span><span class="clock__time" id="clock-in">--:--</span></div>
+        <div class="clock__sep"></div>
+        <div class="clock"><span class="clock__city">Denver</span><span class="clock__time" id="clock-us">--:--</span></div>
       </div>
     </div>
   </div>
@@ -1635,9 +1641,8 @@
         <span class="footer__logo">Parallax.</span>
         <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
         <ul class="footer__links">
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Dribbble</a></li>
           <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
           <li><a href="#">Privacy</a></li>
         </ul>
       </div>
@@ -1748,9 +1753,10 @@
     /* ---- WORLD CLOCKS ---- */
     (function () {
       const zones = [
-        { id: 'clock-de', tz: 'Europe/Berlin' },
-        { id: 'clock-ae', tz: 'Asia/Dubai'    },
-        { id: 'clock-in', tz: 'Asia/Kolkata'  },
+        { id: 'clock-de', tz: 'Europe/Berlin'  },
+        { id: 'clock-ae', tz: 'Asia/Dubai'     },
+        { id: 'clock-in', tz: 'Asia/Kolkata'   },
+        { id: 'clock-us', tz: 'America/Denver' },
       ];
       function fmt(tz) {
         return new Date().toLocaleTimeString('en-GB', {

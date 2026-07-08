@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/images/Favicon.png">
+  <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- CMS: <title>{project.client} — {project.title} | Parallax</title> -->
   <title>BMW — Redefining the Digital Showroom | Parallax</title>
@@ -140,10 +142,11 @@
       position: relative; z-index: 210;
       width: 44px; height: 44px;
       display: flex; align-items: center; justify-content: center;
-      background: none; border: 1px solid var(--border-strong);
+      background: none; border: 1px solid oklch(1 0 0 / 0.35);
       cursor: pointer; flex-direction: column; gap: 5px; padding: 0;
       transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out);
     }
+    .nav.scrolled .nav__burger { border-color: var(--border-strong); }
     @media (hover:hover) and (pointer:fine) { .nav__burger:hover { border-color: var(--accent); } }
     .nav__burger:active { transform: scale(0.95); }
     .nav__burger-line {
@@ -574,7 +577,7 @@
     .bsys-wbtn.active { color: var(--bg); background: var(--text); border-color: var(--text); }
     .bsys-type-preview {
       font-size: clamp(42px, 6vw, 80px);
-      line-height: 1.0; letter-spacing: -0.04em;
+      line-height: 1.0; letter-spacing: -0.02em;
       color: var(--text); margin-top: var(--s2);
       transition: font-weight 240ms var(--ease-out);
       min-height: 1.1em;
@@ -1414,6 +1417,27 @@
     }
     @media (max-width: 700px) { .brand-marks-row { grid-template-columns: 1fr; } }
 
+    /* ── NomNomGo mobile identity fix: portrait logos overflow on iOS ── */
+    @media (max-width: 860px) {
+      body[data-project="nomnomgo"] .brand-mark,
+      body[data-project="nomnomgo"] .brand-construction,
+      body[data-project="nomnomgo"] .brand-variant {
+        clip-path: inset(0);   /* forces iOS Safari to honour overflow:hidden with aspect-ratio */
+      }
+      body[data-project="nomnomgo"] .brand-mark img {
+        max-width: 50%; max-height: 50%;
+      }
+      body[data-project="nomnomgo"] .brand-mark:nth-child(2) img {
+        max-width: 50%; max-height: 50%;
+      }
+      body[data-project="nomnomgo"] .brand-variant img {
+        max-width: 60%; max-height: 60%;
+      }
+      body[data-project="nomnomgo"] .brand-construction img {
+        max-width: 60%; max-height: 60%;
+      }
+    }
+
     /* ── Animated brand mark showcase ── */
     .mark-showcase {
       position: relative; overflow: hidden;
@@ -1544,6 +1568,8 @@
       .bsys-token { flex: 0 0 160px; scroll-snap-align: start; min-height: 120px; }
     }
   </style>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -1624,6 +1650,28 @@
     function animateMarkSVG(wrapper) {
       const svg = wrapper.querySelector('svg');
       if (!svg) return;
+
+      // Structured logomark: assemble-from-parts animation
+      const body       = svg.querySelector('#logo-body');
+      const bottomArcs = Array.from(svg.querySelectorAll('#logo-arcs-bottom path'));
+      const topArcs    = Array.from(svg.querySelectorAll('#logo-arcs-top path'));
+      if (body && bottomArcs.length && topArcs.length) {
+        const SPRING   = 'cubic-bezier(0.34, 1.4, 0.64, 1)';
+        const EASE_OUT = 'ease-out';
+        function setStart(el, tx, ty) { el.style.transition='none'; el.style.opacity='0'; el.style.transform=`translate(${tx}px,${ty}px)`; }
+        function arrive(el, delay, dur) { setTimeout(() => { el.style.transition=`opacity ${dur}ms ${EASE_OUT}, transform ${Math.round(dur*1.1)}ms ${SPRING}`; el.style.opacity='1'; el.style.transform='translate(0,0)'; }, delay); }
+        setStart(body, 0, 28);
+        bottomArcs.forEach(p => setStart(p, -22, 0));
+        topArcs.forEach(p    => setStart(p,  22, 0));
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          arrive(body, 60, 860);
+          bottomArcs.forEach((p, i) => arrive(p, 110 + i * 62, 680));
+          topArcs.forEach((p, i)    => arrive(p, 190 + i * 62, 680));
+        }));
+        return;
+      }
+
+      // Generic fallback: stroke draw-on animation
       const paths = Array.from(svg.querySelectorAll('path'));
       const textEls = Array.from(svg.querySelectorAll('text'));
       if (!paths.length) return;
@@ -1730,6 +1778,7 @@
       }
 
       document.title = `${p.client || p.title} — ${p.title || 'Project'} | Parallax`;
+      if (p.slug) document.body.setAttribute('data-project', p.slug);
 
       if (p.accent_color) {
         document.documentElement.style.setProperty('--accent', p.accent_color);
@@ -1746,6 +1795,12 @@
       const fontSources  = Array.isArray(p.brand_fonts?.sources) ? p.brand_fonts.sources : [];
       const fonts        = fontSources.filter(s => s.family);
       const stats        = [1,2,3,4,5].map(i => ({ value: p[`stat${i}_value`], label: p[`stat${i}_label`] })).filter(s => s.value);
+      function statHtml(val) {
+        const m = String(val).match(/^(\d+(?:\.\d+)?)(.*)/);
+        if (!m) return `<span>${val}</span>`;
+        const [, num, suf] = m;
+        return `<span class="stat-val" data-count="${num}">0</span>${suf ? `<span class="stat-suffix">${suf}</span>` : ''}`;
+      }
       const outcomes     = [1,2,3,4].map(i => ({ title: p[`outcome${i}_title`], desc: p[`outcome${i}_description`] })).filter(o => o.title);
       const allSwatches  = colours.flatMap(g => (g.swatches || []).map(s => ({ ...s, group: g.name || '' })));
 
@@ -1858,6 +1913,7 @@
         'axel-fleet-status':  { label:'Fleet Status — Axel Dashboard',   path:'widgets/axel-fleet-status-widget.html',   width:360, height:490, capGap:'28px' },
         'axel-fuel-mileage':  { label:'Fuel & Mileage — Axel Dashboard', path:'widgets/axel-fuel-mileage-widget.html',   width:420, height:490, capGap:'28px' },
         'axel-current-trip':  { label:'Current Trip — Axel Dashboard',   path:'widgets/axel-current-trip-widget.html',   width:400, height:490 },
+        'bmw-vehicle-overview': { label:'Vehicle Overview — BMW Dashboard', path:'widgets/bmw-vehicle-overview-widget.html', width:480, height:540 },
       };
       function renderWidgets() {
         const sel = widgets.filter(w => WIDGET_DEFS[w]);
@@ -1891,13 +1947,16 @@
         } else if (p.img_digital_desktop) {
           items.push(digTile(p.img_digital_desktop, 'dig-tile dig--lead', p.img_digital_desktop_tag || 'Desktop'));
         }
-        const phones = ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03'];
-        const phoneTags = ['img_digital_phone_01_tag','img_digital_phone_02_tag','img_digital_phone_03_tag'];
-        const phoneDefs = ['Phone 01','Phone 02','Phone 03'];
+        const phones = ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03','img_digital_phone_04','img_digital_phone_05','img_digital_phone_06'];
+        const phoneTags = ['img_digital_phone_01_tag','img_digital_phone_02_tag','img_digital_phone_03_tag','img_digital_phone_04_tag','img_digital_phone_05_tag','img_digital_phone_06_tag'];
+        const phoneDefs = ['Phone 01','Phone 02','Phone 03','Phone 04','Phone 05','Phone 06'];
         phones.forEach((k,i)=>{ if(p[k]) items.push(digTile(p[k],'dig-tile dig--p4',p[phoneTags[i]]||phoneDefs[i])); });
         if (p.img_digital_desktop_02) items.push(digTile(p.img_digital_desktop_02,'dig-tile dig--w6',p.img_digital_desktop_02_tag||'Desktop 02'));
         if (p.img_digital_desktop_03) items.push(digTile(p.img_digital_desktop_03,'dig-tile dig--w6',p.img_digital_desktop_03_tag||'Desktop 03'));
         if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop,'dig-tile dig--lead',p.img_digital_laptop_tag||'Desktop'));
+        if (p.img_digital_desktop_04) items.push(digTile(p.img_digital_desktop_04,'dig-tile dig--w6',p.img_digital_desktop_04_tag||'Desktop 05'));
+        if (p.img_digital_desktop_05) items.push(digTile(p.img_digital_desktop_05,'dig-tile dig--w6',p.img_digital_desktop_05_tag||'Desktop 06'));
+        if (p.img_digital_desktop_06) items.push(digTile(p.img_digital_desktop_06,'dig-tile dig--lead',p.img_digital_desktop_06_tag||'Desktop'));
         return items.length ? `<div class="dig-bento">${items.join('')}</div>` : '';
       }
 
@@ -1946,23 +2005,24 @@
           </div></div>
         </section>` : ''}
 
-        ${p.show_brand_system !== false ? `
+        ${p.show_identity !== false ? `
         <section class="sec--branding">
           <div class="w">
             <div class="sec__hdr reveal"><p class="slabel">Identity</p><h2 class="sh">${hl(p.heading_identity||'A mark built to *endure.*')}</h2></div>
             ${p.brand_mark_svg ? `<div class="mark-showcase reveal" id="mark-showcase">${p.brand_mark_svg.replace(/<\?xml[^?]*\?>/i, '').trim()}</div>` : ''}
-            <div class="brand-marks-row">
-              ${[['img_identity_mark_02','Stacked'],['img_identity_mark_03','Monogram']].map(([slot,label])=>`
-              <div class="brand-mark">
-                ${p[slot] ? `<img src="${p[slot]}" alt="${label}" loading="lazy"><span class="brand-mark__caption">${label}</span>` : `<div class="brand-mark__empty">${label}</div>`}
-              </div>`).join('')}
-            </div>
-            <div class="brand-row stagger">
-              <div class="brand-construction">${p.img_identity_construction?`<img src="${p.img_identity_construction}" alt="Construction" loading="lazy"><span class="brand-construction__caption">Construction</span>`:`<div class="slot-empty">Construction</div>`}</div>
-              <div class="brand-variant">${p.img_identity_variant_light?`<img src="${p.img_identity_variant_light}" alt="Light" loading="lazy"><span class="brand-variant__label">Light</span>`:`<div class="slot-empty">Light</div>`}</div>
-              <div class="brand-variant brand-variant--dark">${p.img_identity_variant_dark?`<img src="${p.img_identity_variant_dark}" alt="Dark" loading="lazy"><span class="brand-variant__label">Reversed</span>`:`<div class="slot-empty" style="color:oklch(1 0 0/0.2);">Dark</div>`}</div>
-              <div class="brand-variant brand-variant--accent">${p.img_identity_variant_accent?`<img src="${p.img_identity_variant_accent}" alt="Accent" loading="lazy"><span class="brand-variant__label">On Accent</span>`:`<div class="slot-empty" style="color:oklch(1 0 0/0.3);">Accent</div>`}</div>
-            </div>
+            ${(() => {
+              if (p.show_mark_only) return '';
+              const marksRow = [['img_identity_mark_02','Stacked'],['img_identity_mark_03','Monogram']]
+                .filter(([slot]) => p[slot])
+                .map(([slot,label]) => `<div class="brand-mark"><img src="${p[slot]}" alt="${label}" loading="lazy"><span class="brand-mark__caption">${label}</span></div>`)
+                .join('');
+              const constructionHtml = p.img_identity_construction ? `<div class="brand-construction"><img src="${p.img_identity_construction}" alt="Construction" loading="lazy"><span class="brand-construction__caption">Construction</span></div>` : '';
+              const variantLight  = p.img_identity_variant_light  ? `<div class="brand-variant"><img src="${p.img_identity_variant_light}" alt="Light" loading="lazy"><span class="brand-variant__label">Light</span></div>` : '';
+              const variantDark   = p.img_identity_variant_dark   ? `<div class="brand-variant brand-variant--dark"><img src="${p.img_identity_variant_dark}" alt="Dark" loading="lazy"><span class="brand-variant__label">Reversed</span></div>` : '';
+              const variantAccent = p.img_identity_variant_accent ? `<div class="brand-variant brand-variant--accent"><img src="${p.img_identity_variant_accent}" alt="Accent" loading="lazy"><span class="brand-variant__label">On Accent</span></div>` : '';
+              const brandRow = constructionHtml + variantLight + variantDark + variantAccent;
+              return `${marksRow ? `<div class="brand-marks-row">${marksRow}</div>` : ''}${brandRow ? `<div class="brand-row stagger">${brandRow}</div>` : ''}`;
+            })()}
           </div>
         </section>` : ''}
 
@@ -2011,9 +2071,19 @@
               ${p.stats_description ? `<p style="font-family:var(--font-d);font-size:clamp(15px,1.4vw,18px);color:oklch(1 0 0/0.55);margin-top:var(--s4);max-width:60ch;line-height:1.6;">${hl(p.stats_description)}</p>` : ''}
             </div>
             <div class="proj-stats__grid stagger">
-              ${stats.map(s=>`<div class="proj-stat"><p class="proj-stat__n">${s.value}</p><p class="proj-stat__unit">${s.label}</p></div>`).join('')}
+              ${stats.map(s=>`<div class="proj-stat"><p class="proj-stat__n">${statHtml(s.value)}</p><p class="proj-stat__unit">${s.label}</p></div>`).join('')}
             </div>
           </div>
+        </section>` : ''}
+
+        ${outcomes.length ? `
+        <section class="proj-outcome">
+          <div class="w"><div class="proj-outcome__inner reveal">
+            <div><p class="slabel">Outcome</p><h2 class="proj-outcome__h">${hl(p.heading_outcomes||'What we *delivered.*')}</h2></div>
+            <div class="proj-outcome__cards">
+              ${outcomes.map(o=>`<div class="proj-outcome__card"><p class="proj-outcome__card-n">${o.title}</p><p class="proj-outcome__card-sub">${o.desc}</p></div>`).join('')}
+            </div>
+          </div></div>
         </section>` : ''}
 
         ${p.quote_text ? `
@@ -2023,16 +2093,6 @@
             <p class="proj-quote__text">${hl(p.quote_text)}</p>
             <div class="proj-quote__byline">
               <span class="proj-quote__author"><strong>${p.quote_attribution_name||''}</strong>${p.quote_attribution_role?' &mdash; '+p.quote_attribution_role:''}</span>
-            </div>
-          </div></div>
-        </section>` : ''}
-
-        ${outcomes.length ? `
-        <section class="proj-outcome">
-          <div class="w"><div class="proj-outcome__inner reveal">
-            <div><p class="slabel">Outcome</p><h2 class="proj-outcome__h">${hl(p.heading_outcomes||'What we *delivered.*')}</h2></div>
-            <div class="proj-outcome__cards">
-              ${outcomes.map(o=>`<div class="proj-outcome__card"><p class="proj-outcome__card-n">${o.title}</p><p class="proj-outcome__card-sub">${o.desc}</p></div>`).join('')}
             </div>
           </div></div>
         </section>` : ''}
@@ -2082,6 +2142,8 @@
             <div class="clock"><span class="clock__city">Dubai</span><span class="clock__time" id="clock-ae">--:--:--</span></div>
             <div class="clock__sep"></div>
             <div class="clock"><span class="clock__city">Bengaluru</span><span class="clock__time" id="clock-in">--:--:--</span></div>
+            <div class="clock__sep"></div>
+            <div class="clock"><span class="clock__city">Denver</span><span class="clock__time" id="clock-us">--:--:--</span></div>
           </div></div>
         </div>
 
@@ -2091,9 +2153,9 @@
               <span class="footer__logo">Parallax.</span>
               <a href="work.html" style="font-family:var(--font-m);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:white;text-decoration:none;opacity:0.75;transition:opacity 180ms;">← Back to Work</a>
               <ul class="footer__links">
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">Dribbble</a></li>
                 <li><a href="#">LinkedIn</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Privacy</a></li>
               </ul>
             </div>
           </div>
@@ -2164,7 +2226,7 @@
           if (isNaN(target)) return;
           const start = performance.now();
           (function step(now) {
-            const p = Math.min((now - start) / 1600, 1);
+            const p = Math.min((now - start) / 1800, 1);
             el.textContent = Math.round(easeOut(p) * target);
             if (p < 1) requestAnimationFrame(step); else el.textContent = target;
           })(performance.now());
@@ -2173,7 +2235,7 @@
         if (!grid) return;
         new IntersectionObserver(([e]) => {
           if (!e.isIntersecting) return;
-          document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => setTimeout(() => animate(el), i * 100));
+          document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => setTimeout(() => animate(el), i * 120));
         }, { threshold: 0.3 }).observe(grid);
       })();
 
@@ -2191,7 +2253,7 @@
 
       /* World clocks */
       (function () {
-        const zones = [{id:'clock-de',tz:'Europe/Berlin'},{id:'clock-ae',tz:'Asia/Dubai'},{id:'clock-in',tz:'Asia/Kolkata'}];
+        const zones = [{id:'clock-de',tz:'Europe/Berlin'},{id:'clock-ae',tz:'Asia/Dubai'},{id:'clock-in',tz:'Asia/Kolkata'},{id:'clock-us',tz:'America/Denver'}];
         function fmt(tz) { return new Date().toLocaleTimeString('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}); }
         function tick() {
           zones.forEach(({id,tz}) => {

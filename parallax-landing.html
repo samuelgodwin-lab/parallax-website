@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/images/Favicon.png">
+  <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parallax — Digital Craft Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -718,6 +720,11 @@
       grid-template-columns: repeat(12, 1fr);
       gap: 20px;
     }
+
+    /* Skeleton shimmer while projects load */
+    @keyframes skel-pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+    .pc.skel { background: var(--surface); border: 1px solid var(--border); animation: skel-pulse 1.5s ease-in-out infinite; pointer-events: none; min-height: 260px; }
+    .pc.skel::after { display: none; }
 
     /* ── Layout 1: cards 1–4 ── */
     .pc:nth-child(1) { grid-column: span 5; grid-row: span 2; }
@@ -2001,6 +2008,8 @@
       .hero__scroll-line { animation: none; }
     }
   </style>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -2128,127 +2137,8 @@
         <a href="work.html" class="work__all">Full Archive &#8594;</a>
       </div>
 
-      <div class="grid reveal">
-
-        <!-- 01 — BMW · 5 cols × 2 rows -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="images/work/BMW.jpg" alt="BMW project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/BMW.svg" alt="BMW">
-              <span class="pc__industry">Automotive</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Frontend Engineering</p>
-            <h2 class="pc__name">Digital Platform Redesign</h2>
-            <div class="pc__meta">
-              <span class="pc__client">BMW Group</span>
-              <span class="pc__yr">2024</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 02 — Nissan · 7 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80" alt="Nissan project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Nissan.svg" alt="Nissan">
-              <span class="pc__industry">Automotive</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Brand Systems · Digital Strategy</p>
-            <h2 class="pc__name">Connected Car Brand Experience</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Nissan</span>
-              <span class="pc__yr">2023</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 03 — Sportradar · 7 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=900&q=80" alt="Sportradar project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Sportradar.svg" alt="Sportradar">
-              <span class="pc__industry">Sports & Media</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Data Visualisation</p>
-            <h2 class="pc__name">Live Sports Data Dashboard</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Sportradar</span>
-              <span class="pc__yr">2023</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 04 — Vestas · 12 cols full width -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=1400&q=80" alt="Vestas project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Vestas.svg" alt="Vestas">
-              <span class="pc__industry">Energy</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Digital Strategy · Motion & Interaction</p>
-            <h2 class="pc__name">Sustainability Annual Report</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Vestas</span>
-              <span class="pc__yr">2022</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 05 — Biblica · 4 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Biblica project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Biblica.svg" alt="Biblica">
-              <span class="pc__industry">Non-profit</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Interface Design · Brand Systems</p>
-            <h2 class="pc__name">Scripture Platform Redesign</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Biblica</span>
-              <span class="pc__yr">2022</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- 06 — Accenture · 8 cols -->
-        <a class="pc" href="project.html">
-          <div class="pc__img">
-            <img class="pc__photo" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80" alt="Accenture project">
-            <div class="pc__overlay"></div>
-            <div class="pc__img-inner">
-              <img class="pc__logo-img" src="Logos/Logos_White/SVG/Accenture.svg" alt="Accenture">
-              <span class="pc__industry">Consulting</span>
-            </div>
-          </div>
-          <div class="pc__info">
-            <p class="pc__discipline">Brand Systems · Frontend Engineering</p>
-            <h2 class="pc__name">Enterprise Design System</h2>
-            <div class="pc__meta">
-              <span class="pc__client">Accenture</span>
-              <span class="pc__yr">2021</span>
-            </div>
-          </div>
-        </a>
+      <div class="grid reveal" id="home-work-grid">
+        <!-- populated by JS from Supabase -->
 
       </div>
     </div>
@@ -3267,6 +3157,78 @@
     })();
 
   })();
+  </script>
+
+  <!-- ============================================================
+       SELECTED WORK — dynamic from Supabase
+  ============================================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin/supabase.js"></script>
+  <script>
+    (async () => {
+      const grid = document.getElementById('home-work-grid');
+      if (!grid) return;
+
+      const CARD_GRADIENTS = [
+        'linear-gradient(145deg, oklch(0.14 0.08 249) 0%, oklch(0.20 0.12 238) 50%, oklch(0.09 0.05 262) 100%)',
+        'linear-gradient(145deg, oklch(0.13 0.04 28) 0%, oklch(0.22 0.07 20) 55%, oklch(0.09 0.01 5) 100%)',
+        'linear-gradient(145deg, oklch(0.30 0.13 35) 0%, oklch(0.18 0.09 28) 50%, oklch(0.11 0.04 42) 100%)',
+        'linear-gradient(145deg, oklch(0.16 0.07 155) 0%, oklch(0.24 0.10 148) 50%, oklch(0.12 0.05 168) 100%)',
+        'linear-gradient(145deg, oklch(0.17 0.08 292) 0%, oklch(0.24 0.10 280) 50%, oklch(0.11 0.04 308) 100%)',
+        'linear-gradient(145deg, oklch(0.10 0.005 0) 0%, oklch(0.20 0.010 0) 55%, oklch(0.07 0.002 0) 100%)',
+      ];
+
+      // Show skeletons while loading — use same nth-child positions
+      for (let i = 0; i < 6; i++) {
+        const sk = document.createElement('a');
+        sk.className = 'pc skel';
+        grid.appendChild(sk);
+      }
+
+      const { data: projects, error } = await db
+        .from('case_studies')
+        .select('id,title,client,industry,services,year,img_hero,accent_color,sort_order')
+        .eq('status', 'published')
+        .order('sort_order', { ascending: true, nullsFirst: false })
+        .limit(6);
+
+      // Clear skeletons
+      grid.innerHTML = '';
+
+      if (error || !projects?.length) return;
+
+      projects.forEach((p, i) => {
+        const services = Array.isArray(p.services) ? p.services.join(' · ') : (p.services || '');
+        const bg = p.accent_color
+          ? `linear-gradient(145deg, ${p.accent_color}55 0%, ${p.accent_color}33 100%)`
+          : CARD_GRADIENTS[i % CARD_GRADIENTS.length];
+
+        const a = document.createElement('a');
+        a.className = 'pc';
+        a.href = `project.html?id=${p.id}`;
+        a.innerHTML = `
+          <div class="pc__img" style="background:${bg};">
+            ${p.img_hero ? `<img class="pc__photo" src="${p.img_hero}" alt="${p.client || p.title}" loading="lazy">` : ''}
+            <div class="pc__overlay"></div>
+            <div class="pc__img-inner">
+              <span class="pc__logo-text">${p.client || ''}</span>
+              <span class="pc__industry">${p.industry || ''}</span>
+            </div>
+          </div>
+          <div class="pc__info">
+            ${services ? `<p class="pc__discipline">${services}</p>` : ''}
+            <h2 class="pc__name">${p.title || ''}</h2>
+            <div class="pc__meta">
+              <span class="pc__client">${p.client || ''}</span>
+              ${p.year ? `<span class="pc__yr">${p.year}</span>` : ''}
+            </div>
+          </div>`;
+        grid.appendChild(a);
+      });
+
+      // Re-trigger reveal animation for newly inserted cards
+      grid.classList.add('reveal', 'in');
+    })();
   </script>
 </body>
 </html>

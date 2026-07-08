@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/images/Favicon.png">
+  <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work — Parallax Digital Craft Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1015,6 +1017,7 @@
     }
 
     .svcs__list { display: flex; flex-direction: column; }
+    .svc-explore-mobile { display: none; }
 
     .svc {
       display: grid;
@@ -1075,8 +1078,12 @@
     @media (max-width: 960px) {
       .svcs__wrap { grid-template-columns: 1fr; gap: var(--s8); }
       .svcs__left { position: relative; top: 0; }
+      .svcs__left .btn { display: none !important; }
+      .svc-explore-mobile { display: inline-flex !important; justify-self: start; align-self: start; }
     }
   </style>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -1203,6 +1210,7 @@
           <p class="slabel">What We Do</p>
           <h2 class="sh">Six disciplines.<br>One <em>standard.</em></h2>
           <p class="svcs__desc">We start by questioning the brief. Every discipline we practice runs on the same principle - clarity before form.</p>
+          <a href="services.html" class="btn btn-p" style="margin-top: 46px; display: inline-flex; border-color: white;">Explore Services</a>
         </div>
 
         <div class="svcs__list stagger">
@@ -1273,6 +1281,7 @@
             <span class="svc__toggle" aria-hidden="true">+</span>
           </div>
 
+          <a href="services.html" class="btn btn-p svc-explore-mobile" style="margin-top: var(--s6); border-color: white;">Explore Services</a>
         </div>
       </div>
     </div>
@@ -1320,6 +1329,11 @@
           <span class="clock__city">Bengaluru</span>
           <span class="clock__time" id="clock-in">--:--</span>
         </div>
+        <div class="clock__sep"></div>
+        <div class="clock">
+          <span class="clock__city">Denver</span>
+          <span class="clock__time" id="clock-us">--:--</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1333,9 +1347,8 @@
         <span class="footer__logo">Parallax.</span>
         <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
         <ul class="footer__links">
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Dribbble</a></li>
           <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
           <li><a href="#">Privacy</a></li>
         </ul>
       </div>
@@ -1565,9 +1578,10 @@
     /* WORLD CLOCKS */
     (function () {
       const zones = [
-        { id: 'clock-de', tz: 'Europe/Berlin' },
-        { id: 'clock-ae', tz: 'Asia/Dubai'    },
-        { id: 'clock-in', tz: 'Asia/Kolkata'  },
+        { id: 'clock-de', tz: 'Europe/Berlin'  },
+        { id: 'clock-ae', tz: 'Asia/Dubai'     },
+        { id: 'clock-in', tz: 'Asia/Kolkata'   },
+        { id: 'clock-us', tz: 'America/Denver' },
       ];
       function fmt(tz) {
         return new Date().toLocaleTimeString('en-GB', {

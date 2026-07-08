@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/images/Favicon.png">
+  <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- CMS: <title>{article.title} — Parallax</title> -->
   <title>Why most design systems fail before they ship — Parallax</title>
@@ -136,6 +138,10 @@
     @media (hover:hover) and (pointer:fine) { .post-crumb a:hover { color: var(--accent); } }
     .post-crumb__sep { opacity: 0.4; }
     .post-crumb__current { color: var(--text-2); }
+    @media (max-width: 640px) {
+      .post-crumb__sep--title,
+      .post-crumb__current { display: none; }
+    }
 
     /* Category tag */
     .post-cat {
@@ -317,6 +323,7 @@
       .post-layout { grid-template-columns: 1fr; }
       .post-sidebar { position: relative; top: 0; flex-direction: row; flex-wrap: wrap; gap: var(--s4); border-bottom: 1px solid var(--border); padding-bottom: var(--s8); }
       .post-toc { display: none; }
+      .post-sidebar__share { flex-direction: row; flex-wrap: wrap; }
     }
 
     /* ============================================================
@@ -401,8 +408,9 @@
       color: var(--accent);
     }
 
-    /* Code block */
-    .post-body pre {
+    /* Code block (native and Quill output) */
+    .post-body pre,
+    .post-body .ql-syntax {
       background: oklch(0.07 0.003 249);
       border: 1px solid oklch(1 0 0 / 0.08);
       padding: var(--s6) var(--s8);
@@ -627,7 +635,19 @@
       .nav__menu-links a { font-size: clamp(44px, 12vw, 72px); }
     }
     @media (prefers-reduced-motion: reduce) { .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; } }
+    /* CMS loading / error state */
+    .cms-loading { display:flex; align-items:center; gap:var(--s3); padding:var(--s8) 0; }
+    .cms-loading__spin { width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .cms-loading p { font-family:var(--font-m); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-3); }
+    .cms-error { padding:var(--s8); background:oklch(0.98 0.001 0); border-left:3px solid oklch(0.6 0.18 30); margin:var(--s8) 0; }
+    .cms-error p { font-family:var(--font-m); font-size:12px; color:oklch(0.45 0.12 30); }
+    .cms-skel { display:block; border-radius:2px; background:linear-gradient(90deg, oklch(0.93 0 0) 25%, oklch(0.96 0 0) 50%, oklch(0.93 0 0) 75%); background-size:400% 100%; animation:shimmer 1.4s infinite; }
+    @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+    .text-accent { color: var(--accent); font-style: normal; }
   </style>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -678,7 +698,7 @@
         <span class="post-crumb__sep">/</span>
         <!-- CMS: {article.category} -->
         <a href="articles.html">Brand Identity</a>
-        <span class="post-crumb__sep">/</span>
+        <span class="post-crumb__sep post-crumb__sep--title">/</span>
         <span class="post-crumb__current">Current article</span>
       </nav>
 
@@ -904,7 +924,7 @@
         </div>
         <a href="articles.html" class="post-related__all">All Articles →</a>
       </div>
-      <div class="related-grid stagger">
+      <div class="related-grid stagger" id="related-grid">
 
         <a href="article.html" class="bpost">
           <div class="bpost__line"></div>
@@ -962,6 +982,8 @@
         <div class="clock"><span class="clock__city">Dubai</span><span class="clock__time" id="clock-ae">--:--:--</span></div>
         <div class="clock__sep"></div>
         <div class="clock"><span class="clock__city">Bengaluru</span><span class="clock__time" id="clock-in">--:--:--</span></div>
+        <div class="clock__sep"></div>
+        <div class="clock"><span class="clock__city">Denver</span><span class="clock__time" id="clock-us">--:--:--</span></div>
       </div>
     </div>
   </div>
@@ -973,9 +995,8 @@
         <span class="footer__logo">Parallax.</span>
         <span class="footer__copy">&copy; 2026 Parallax Studio. All rights reserved.</span>
         <ul class="footer__links">
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Dribbble</a></li>
           <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
           <li><a href="#">Privacy</a></li>
         </ul>
       </div>
@@ -983,6 +1004,21 @@
   </footer>
 
   <script>
+    /* ---- CMS mode: wipe hardcoded content immediately so it never flashes ---- */
+    (function () {
+      const p = new URLSearchParams(location.search);
+      if (!p.get('slug') && !p.get('id')) return;
+      ['.post-cat','.post-title','.post-meta__name','.post-meta__role','.post-crumb__current'].forEach(s => {
+        const el = document.querySelector(s); if (el) el.textContent = '';
+      });
+      document.querySelectorAll('.post-meta__item').forEach(el => el.innerHTML = '');
+      const hero = document.querySelector('.post-hero-img'); if (hero) hero.innerHTML = '';
+      const body = document.getElementById('post-body');
+      if (body) body.innerHTML = '<div class="cms-loading"><div class="cms-loading__spin"></div><p>Loading article…</p></div>';
+      const toc = document.getElementById('post-toc'); if (toc) toc.innerHTML = '';
+      const rel = document.getElementById('related-grid'); if (rel) rel.innerHTML = '';
+    })();
+
     /* ---- Nav ---- */
     const nav = document.getElementById('main-nav');
     const burger = document.getElementById('nav-burger');
@@ -1023,18 +1059,24 @@
     }, { passive: true });
 
     /* ---- Table of contents active state ---- */
-    const tocLinks = document.querySelectorAll('.post-toc a');
-    const headings = document.querySelectorAll('.post-body h2[id]');
-    const tocObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector('.post-toc a[href="#' + entry.target.id + '"]');
-          if (active) active.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-10% 0px -80% 0px' });
-    headings.forEach(h => tocObserver.observe(h));
+    let _tocObs = null;
+    function initTocObserver() {
+      if (_tocObs) _tocObs.disconnect();
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      const headings = document.querySelectorAll('#post-body h2[id], #post-body h3[id]');
+      if (!tocLinks.length || !headings.length) return;
+      _tocObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector('.post-toc a[href="#' + entry.target.id + '"]');
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-10% 0px -80% 0px' });
+      headings.forEach(h => _tocObs.observe(h));
+    }
+    initTocObserver();
 
     /* ---- Copy link ---- */
     const copyBtn = document.getElementById('copy-link');
@@ -1051,9 +1093,10 @@
     /* ---- World Clocks ---- */
     (function () {
       const zones = [
-        { id: 'clock-de', tz: 'Europe/Berlin' },
-        { id: 'clock-ae', tz: 'Asia/Dubai' },
-        { id: 'clock-in', tz: 'Asia/Kolkata' },
+        { id: 'clock-de', tz: 'Europe/Berlin'   },
+        { id: 'clock-ae', tz: 'Asia/Dubai'       },
+        { id: 'clock-in', tz: 'Asia/Kolkata'     },
+        { id: 'clock-us', tz: 'America/Denver'   },
       ];
       function fmt(tz) {
         return new Date().toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
@@ -1068,6 +1111,221 @@
       }
       tick(); setInterval(tick, 1000);
     })();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin/supabase.js"></script>
+  <script>
+  /* ---- Article CMS ---- */
+  (async () => {
+    try {
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug');
+    const id   = params.get('id');
+    if (!slug && !id) return;
+
+    const CAT = { brand: 'Brand Identity', interface: 'Interface Design', engineering: 'Engineering', process: 'Process', opinion: 'Opinion' };
+    const esc = s => s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const fmtDate = iso => iso ? new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
+
+    /* Minimal markdown → HTML */
+    function mdToHtml(md) {
+      if (!md) return '';
+      const codeBlocks = [];
+      md = md.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+        codeBlocks.push({ lang, code: code.trim() });
+        return `\n\n%%CODE${codeBlocks.length - 1}%%\n\n`;
+      });
+      function inl(t) {
+        return t
+          .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_,a,s) => `<img src="${esc(s)}" alt="${esc(a)}" loading="lazy">`)
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g,   (_,t,h) => `<a href="${esc(h)}" target="_blank" rel="noopener">${t}</a>`)
+          .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.+?)\*/g, '<em>$1</em>')
+          .replace(/`([^`]+)`/g, (_,c) => `<code>${esc(c)}</code>`);
+      }
+      return md.replace(/\r\n/g,'\n').split(/\n{2,}/).map(raw => {
+        const b = raw.trim();
+        if (!b) return '';
+        const cm = b.match(/^%%CODE(\d+)%%$/);
+        if (cm) { const {lang,code} = codeBlocks[+cm[1]]; return `<pre><code class="language-${esc(lang||'')}">${esc(code)}</code></pre>`; }
+        const hm = b.match(/^(#{1,3}) ([\s\S]+)/);
+        if (hm) {
+          const lvl = hm[1].length;
+          const txt = hm[2].replace(/[*_`]/g,'');
+          const id  = txt.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+          return `<h${lvl} id="${id}">${inl(hm[2])}</h${lvl}>`;
+        }
+        if (b.startsWith('> ')) return `<blockquote><p>${inl(b.replace(/^> ?/gm,'').replace(/\n/g,' '))}</p></blockquote>`;
+        const ulLines = b.split('\n').filter(l => /^[*+-] /.test(l));
+        if (ulLines.length && ulLines.length === b.split('\n').filter(l=>l.trim()).length)
+          return `<ul>${ulLines.map(l=>`<li>${inl(l.replace(/^[*+-] /,''))}</li>`).join('')}</ul>`;
+        const olLines = b.split('\n').filter(l => /^\d+\. /.test(l));
+        if (olLines.length && olLines.length === b.split('\n').filter(l=>l.trim()).length)
+          return `<ol>${olLines.map(l=>`<li>${inl(l.replace(/^\d+\. /,''))}</li>`).join('')}</ol>`;
+        if (/^[-*_]{3,}$/.test(b)) return '<hr>';
+        return `<p>${inl(b.replace(/\n/g,' '))}</p>`;
+      }).join('\n');
+    }
+
+    function buildToc(bodyEl) {
+      return Array.from(bodyEl.querySelectorAll('h2[id],h3[id]')).map(h => {
+        const indent = h.tagName === 'H3' ? ' style="padding-left:var(--s4)"' : '';
+        return `<li${indent}><a href="#${h.id}">${esc(h.textContent)}</a></li>`;
+      }).join('');
+    }
+
+    function cardHtml(a) {
+      const label = CAT[a.category] || a.category || '';
+      const urlParam = a.slug ? `slug=${encodeURIComponent(a.slug)}` : `id=${encodeURIComponent(a.id)}`;
+      const img   = a.hero_image_url
+        ? `<img src="${esc(a.hero_image_url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`
+        : `<svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="80" height="6" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="24" y="40" width="200" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/><circle cx="500" cy="169" r="90" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="24" y="280" width="48" height="24" rx="2" fill="oklch(0.60 0.18 249)"/></svg>`;
+      return `<a href="article.html?${urlParam}" class="bpost" data-category="${esc(a.category||'')}">
+        <div class="bpost__line"></div>
+        <div class="bpost__img">${img}</div>
+        <span class="bpost__cat">${esc(label)}</span>
+        <h3 class="bpost__title">${accentify(a.title)}</h3>
+        <p class="bpost__excerpt">${esc(a.excerpt||'')}</p>
+        <div class="bpost__foot">
+          <span class="bpost__meta">${fmtDate(a.created_at)}${a.read_time?' · '+esc(a.read_time):''}</span>
+          <span class="bpost__arrow">↗</span>
+        </div>
+      </a>`;
+    }
+
+    /* Admin preview: check localStorage first (bypasses Supabase RLS) */
+    let a = null;
+    if (id) {
+      try {
+        const raw = localStorage.getItem('parallax_preview');
+        if (raw) {
+          const preview = JSON.parse(raw);
+          if (Date.now() - (preview._ts || 0) < 600000 && (preview.id === id || !preview.id)) {
+            a = preview;
+          }
+        }
+      } catch (e) {}
+    }
+
+    /* Fetch article from Supabase (public articles via slug, or fallback for ?id=) */
+    if (!a) {
+      let q = db.from('articles').select('*');
+      if (slug) q = q.eq('slug', slug).eq('status', 'published');
+      else q = q.eq('id', id);
+      const { data: fetched, error: fetchErr } = await q.single();
+      if (fetchErr || !fetched) {
+        const bodyEl = document.getElementById('post-body');
+        if (bodyEl) bodyEl.innerHTML = `<div class="cms-error"><p>${fetchErr ? 'Database error: ' + fetchErr.message : 'Article not found — it may be unpublished or the URL is incorrect.'}</p></div>`;
+        return;
+      }
+      a = fetched;
+    }
+
+    const catLabel = CAT[a.category] || a.category || '';
+
+    /* Convert *text* → accent span in any field rendered as innerHTML */
+    const accentify = str => str ? esc(str).replace(/\*([^*]+)\*/g, '<span class="text-accent">$1</span>') : '';
+    /* Plain text version — strips asterisks (used for <title>, alt, etc.) */
+    const plain = str => (str || '').replace(/\*([^*]+)\*/g, '$1');
+
+    /* <title> */
+    document.title = `${plain(a.title) || 'Article'} — Parallax`;
+
+    /* Breadcrumb */
+    const crumbCurrent = document.querySelector('.post-crumb__current');
+    if (crumbCurrent) crumbCurrent.innerHTML = accentify(a.title);
+    const crumbLinks = document.querySelectorAll('.post-crumb a');
+    if (crumbLinks[2]) crumbLinks[2].textContent = catLabel;
+
+    /* Category pill */
+    const catEl = document.querySelector('.post-cat');
+    if (catEl) catEl.textContent = catLabel;
+
+    /* Title */
+    const titleEl = document.querySelector('.post-title');
+    if (titleEl) titleEl.innerHTML = accentify(a.title);
+
+    /* Author */
+    const nameEl = document.querySelector('.post-meta__name');
+    if (nameEl) nameEl.textContent = a.author || 'Parallax Studio';
+    const roleEl = document.querySelector('.post-meta__role');
+    if (roleEl) roleEl.textContent = '';
+    const avatarEl = document.querySelector('.post-meta__avatar');
+    if (avatarEl && a.author_image_url) {
+      avatarEl.innerHTML = `<img src="${esc(a.author_image_url)}" alt="${esc(a.author || 'Author')}" style="width:100%;height:100%;object-fit:cover;display:block;">`;
+    }
+
+    /* Date / read time / category meta bar */
+    const metaItems = document.querySelectorAll('.post-meta__item');
+    if (metaItems[0]) metaItems[0].innerHTML = `<strong>${fmtDate(a.created_at)}</strong>`;
+    if (metaItems[1]) metaItems[1].innerHTML = `<strong>${esc(a.read_time||'')}</strong>${a.read_time?' read':''}`;
+    if (metaItems[2]) metaItems[2].textContent = catLabel;
+
+    /* Hero image */
+    const heroFig = document.querySelector('.post-hero-img');
+    if (heroFig && a.hero_image_url) {
+      heroFig.innerHTML = `<img src="${esc(a.hero_image_url)}" alt="${esc(plain(a.title))}" style="width:100%;display:block;max-height:600px;object-fit:cover;">`;
+    }
+
+    /* Body — Quill saves HTML; old articles may have markdown */
+    const bodyEl = document.getElementById('post-body');
+    if (bodyEl && a.body) {
+      const isHtml = /^\s*<[a-zA-Z]/.test(a.body);
+      let bodyHtml = isHtml ? a.body : mdToHtml(a.body);
+      /* Convert *text* → accent-colored span (same convention used site-wide) */
+      bodyHtml = bodyHtml.replace(/\*([^*<>\n]+)\*/g, '<span class="text-accent">$1</span>');
+      bodyEl.innerHTML = bodyHtml;
+      /* Auto-assign IDs to headings that don't have one (Quill doesn't add them) */
+      bodyEl.querySelectorAll('h2:not([id]), h3:not([id])').forEach(h => {
+        const id = h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        if (id) h.id = id;
+      });
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    /* TOC */
+    const tocEl = document.getElementById('post-toc');
+    if (tocEl && bodyEl) {
+      const tocHtml = buildToc(bodyEl);
+      tocEl.innerHTML = tocHtml || '';
+      if (tocHtml) initTocObserver();
+    }
+
+    /* Tags */
+    if (a.tags && a.tags.length) {
+      const tagsEl = document.querySelector('.post-tags');
+      if (tagsEl) tagsEl.innerHTML = `<span class="post-tags__label">Tags</span>${a.tags.map(t=>`<a href="articles.html" class="post-tag">${esc(t)}</a>`).join('')}`;
+    }
+
+    /* Reveal all content elements (IO already fired on empty elements) */
+    document.querySelectorAll('.post-crumb,.post-cat,.post-title,.post-meta,.post-footer').forEach(el => el.classList.add('in'));
+
+    /* Related articles */
+    const { data: related } = await db
+      .from('articles')
+      .select('id,slug,title,category,excerpt,read_time,hero_image_url,created_at')
+      .eq('status','published')
+      .eq('category', a.category)
+      .neq('id', a.id)
+      .order('created_at',{ ascending:false })
+      .limit(3);
+    const relGrid = document.getElementById('related-grid');
+    if (relGrid) {
+      if (related && related.length) {
+        relGrid.innerHTML = related.map(r => cardHtml(r)).join('');
+        relGrid.classList.add('in');
+      } else {
+        relGrid.innerHTML = '';
+      }
+    }
+    } catch (err) {
+      const bodyEl = document.getElementById('post-body');
+      if (bodyEl) bodyEl.innerHTML = `<div class="cms-error"><p>Error loading article: ${err.message || 'Unknown error'}. Check the browser console.</p></div>`;
+      console.error('Article CMS error:', err);
+    }
+  })();
   </script>
 
 </body>
