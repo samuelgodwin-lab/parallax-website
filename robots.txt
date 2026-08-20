@@ -1,0 +1,9 @@
+# https://www.parallaxorg.com
+User-agent: *
+Allow: /
+
+# Admin CMS — never index
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://www.parallaxorg.com/sitemap.xml
