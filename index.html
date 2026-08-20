@@ -5,8 +5,8 @@
   <link rel="icon" type="image/png" href="/images/Favicon.png">
   <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parallax — Design &amp; Engineering Studio | Munich, Dubai, Bengaluru, Denver</title>
-  <meta name="description" content="Parallax is a design and engineering studio working across brand, product and interface — with teams in Munich, Dubai, Bengaluru and Denver.">
+  <title>Parallax — Design &amp; Engineering Studio in Bengaluru</title>
+  <meta name="description" content="Parallax is a design and engineering studio in Bengaluru (Bangalore), working across brand, product and interface — with clients in Munich, Dubai and Denver.">
   <link rel="canonical" href="https://www.parallaxorg.com/">
   <meta name="robots" content="index, follow, max-image-preview:large">
 
@@ -15,7 +15,7 @@
   <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://www.parallaxorg.com/">
   <meta property="og:title" content="Parallax — Design &amp; Engineering Studio">
-  <meta property="og:description" content="Parallax is a design and engineering studio working across brand, product and interface — with teams in Munich, Dubai, Bengaluru and Denver.">
+  <meta property="og:description" content="Parallax is a design and engineering studio in Bengaluru (Bangalore), working across brand, product and interface — with clients in Munich, Dubai and Denver.">
   <meta property="og:image" content="https://www.parallaxorg.com/images/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -23,13 +23,15 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Parallax — Design &amp; Engineering Studio">
-  <meta name="twitter:description" content="Parallax is a design and engineering studio working across brand, product and interface — with teams in Munich, Dubai, Bengaluru and Denver.">
+  <meta name="twitter:description" content="Parallax is a design and engineering studio in Bengaluru (Bangalore), working across brand, product and interface — with clients in Munich, Dubai and Denver.">
   <meta name="twitter:image" content="https://www.parallaxorg.com/images/og-default.png">
 
-  <!-- Organization + office locations. NOTE: addressLocality only —
-       add streetAddress, postalCode and telephone per office when
-       available, and claim a Google Business Profile per city.
-       Those two things, not this tag, are what drive local ranking. -->
+  <!-- Organization. Bengaluru is the registered HQ and the only physical
+       office; Munich, Dubai and Denver are markets we serve and have
+       clients in, expressed as areaServed rather than as locations.
+       TODO: add streetAddress, postalCode and telephone for Bengaluru,
+       matching the Google Business Profile character-for-character, then
+       switch @type to ProfessionalService for local rich results. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,49 +48,22 @@
       "https://www.linkedin.com/company/parallaxorg",
       "https://www.instagram.com/parallaxdsign/"
     ],
-    "location": [
-      {
-        "@type": "Place",
-        "name": "Parallax Munich",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Munich",
-          "addressRegion": "Bayern",
-          "addressCountry": "DE"
-        }
-      },
-      {
-        "@type": "Place",
-        "name": "Parallax Dubai",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Dubai",
-          "addressRegion": "Dubai",
-          "addressCountry": "AE"
-        }
-      },
-      {
-        "@type": "Place",
-        "name": "Parallax Bengaluru",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Bengaluru",
-          "addressRegion": "Karnataka",
-          "addressCountry": "IN"
-        }
-      },
-      {
-        "@type": "Place",
-        "name": "Parallax Denver",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Denver",
-          "addressRegion": "Colorado",
-          "addressCountry": "US"
-        }
-      }
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bengaluru",
+      "addressRegion": "Karnataka",
+      "addressCountry": "IN"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Bengaluru" },
+      { "@type": "City", "name": "Munich" },
+      { "@type": "City", "name": "Dubai" },
+      { "@type": "City", "name": "Denver" },
+      { "@type": "Country", "name": "India" },
+      { "@type": "Country", "name": "Germany" },
+      { "@type": "Country", "name": "United Arab Emirates" },
+      { "@type": "Country", "name": "United States" }
     ],
-    "areaServed": ["DE", "AE", "IN", "US"],
     "knowsAbout": [
       "Brand Identity",
       "Interface Design",
