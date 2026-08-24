@@ -1,1 +1,6 @@
-{}
+{
+  "rewrites": [
+    { "source": "/project.html", "destination": "/api/project" }
+  ]
+}
+

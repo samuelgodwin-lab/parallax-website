@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logomark — Animation Preview</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d0d0d;
+    transition: background 0.4s ease;
+  }
+
+  .showcase {
+    position: relative;
+    overflow: hidden;
+    background: #0d0d0d;
+    border: 1px solid #1c1c1c;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px 64px;
+    width: 640px;
+    min-height: 320px;
+    transition: background 0.4s ease, border-color 0.4s ease;
+  }
+
+  .showcase::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .showcase.light { background: #f5f5f3; border-color: #e0ddd8; }
+  .showcase.light::before {
+    background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px);
+  }
+
+  .showcase svg {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    display: block;
+  }
+
+  .controls {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .ctrl {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.65);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 9px 18px;
+    border-radius: 5px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    font-family: -apple-system, sans-serif;
+  }
+  .ctrl:hover { background: rgba(255,255,255,0.12); color: #fff; }
+  .ctrl.accent { background: #f45b25; color: #fff; border-color: #f45b25; }
+</style>
+</head>
+<body>
+
+<div class="showcase" id="showcase">
+  <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024.19 807.03">
+    <g id="logo-body-group">
+      <path id="logo-body" fill="#f45b25" d="M209.68,473.32l167.08-13.69,85.66-6.94,1.62-.18,85.75-7.02,1.62-.09,85.93-7.03,1.44-.09,85.93-7.03,1.35-.18,86.02-7.03,1.44-.09,84.67-6.94,2.61-.18,83.14-6.76,35.85-2.97c2.43-.18,4.41-2.25,4.41-4.77V4.77c0-2.7-2.16-4.77-4.77-4.77H4.77C2.16,0,0,2.07,0,4.77v237.34l1.44,188.43-1.44,371.72c0,2.7,2.16,4.77,4.77,4.77h1014.64c2.61,0,4.77-2.07,4.77-4.77v-232.38c0-2.7-2.25-4.86-4.95-4.77l-33.24,1.17-86.11,2.88h-.27l-1.35.09-86.11,2.88-1.53.09-86.11,2.97h-1.62l-85.84,2.97-1.89.09-85.66,2.88-1.98.09-85.57,2.88-2.16.09-85.39,2.88-104.66,3.6c-1.71.09-3.42-.9-4.32-2.43l-59.54-107.81c-1.62-3.06.36-6.85,3.78-7.12ZM899.62,124.03c21.17,0,38.28,17.11,38.28,38.28,0,24.77-17.2,37.11-38.28,38.37-21.62,1.17-38.37-17.2-38.37-38.37,0-28.01,17.2-38.28,38.37-38.28Z"/>
+    </g>
+    <g id="logo-arcs-bottom">
+      <path fill="#f45b25" d="M462.52,451.86c-1.08,24-21.41,42.58-45.41,41.49-24-1.08-42.58-21.41-41.49-45.41l86.9,3.92Z"/>
+      <path fill="#f45b25" d="M549.91,444.92c-1.08,24-21.41,42.58-45.41,41.49-24-1.08-42.58-21.41-41.49-45.41l86.9,3.92Z"/>
+      <path fill="#f45b25" d="M637.3,437.97c-1.08,24-21.41,42.58-45.41,41.49-24-1.08-42.58-21.41-41.49-45.41l86.9,3.92Z"/>
+      <path fill="#f45b25" d="M724.7,431.02c-1.08,24-21.41,42.58-45.41,41.49-24-1.08-42.58-21.41-41.49-45.41l86.9,3.92Z"/>
+      <path fill="#f45b25" d="M812.09,424.08c-1.08,24-21.41,42.58-45.41,41.49-24-1.08-42.58-21.41-41.49-45.41l86.9,3.92Z"/>
+      <path fill="#f45b25" d="M899.49,417.13c-1.08,24-21.41,42.58-45.41,41.49-24-1.08-42.58-21.41-41.49-45.41l86.9,3.92Z"/>
+      <path fill="#f45b25" d="M986.88,410.19c-1.08,24-21.41,42.58-45.41,41.49-24-1.08-42.58-21.41-41.49-45.41l86.9,3.92Z"/>
+    </g>
+    <g id="logo-arcs-top">
+      <path fill="#f45b25" d="M899.64,569.12c2.02-23.94,23.06-41.7,47-39.68,23.94,2.02,41.7,23.06,39.68,47l-86.68-7.32Z"/>
+      <path fill="#f45b25" d="M812.04,572.64c2.02-23.94,23.06-41.7,47-39.68,23.94,2.02,41.7,23.06,39.68,47l-86.68-7.32Z"/>
+      <path fill="#f45b25" d="M724.44,576.16c2.02-23.94,23.06-41.7,47-39.68,23.94,2.02,41.7,23.06,39.68,47l-86.68-7.32Z"/>
+      <path fill="#f45b25" d="M636.85,579.68c2.02-23.94,23.06-41.7,47-39.68,23.94,2.02,41.7,23.06,39.68,47l-86.68-7.32Z"/>
+      <path fill="#f45b25" d="M549.25,583.19c2.02-23.94,23.06-41.7,47-39.68,23.94,2.02,41.7,23.06,39.68,47l-86.68-7.32Z"/>
+      <path fill="#f45b25" d="M461.65,586.71c2.02-23.94,23.06-41.7,47-39.68,23.94,2.02,41.7,23.06,39.68,47l-86.68-7.32Z"/>
+      <path fill="#f45b25" d="M374.05,590.23c2.02-23.94,23.06-41.7,47-39.68,23.94,2.02,41.7,23.06,39.68,47l-86.68-7.32Z"/>
+    </g>
+  </svg>
+</div>
+
+<div class="controls">
+  <button class="ctrl" id="theme-btn">Light</button>
+  <button class="ctrl accent" id="replay-btn">Replay</button>
+</div>
+
+<script>
+  const SPRING  = 'cubic-bezier(0.34, 1.4, 0.64, 1)';
+  const EASE_OUT = 'ease-out';
+
+  function setStart(el, tx, ty) {
+    el.style.transition = 'none';
+    el.style.opacity    = '0';
+    el.style.transform  = `translate(${tx}px, ${ty}px)`;
+  }
+
+  function arrive(el, delay, dur) {
+    setTimeout(() => {
+      el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur * 1.1}ms ${SPRING}`;
+      el.style.opacity    = '1';
+      el.style.transform  = 'translate(0, 0)';
+    }, delay);
+  }
+
+  function reset() {
+    const body       = document.getElementById('logo-body');
+    const bottomArcs = Array.from(document.querySelectorAll('#logo-arcs-bottom path'));
+    const topArcs    = Array.from(document.querySelectorAll('#logo-arcs-top path'));
+    [body, ...bottomArcs, ...topArcs].forEach(el => {
+      el.style.transition = 'none';
+      el.style.opacity    = '1';
+      el.style.transform  = 'translate(0, 0)';
+    });
+  }
+
+  function animate() {
+    const body       = document.getElementById('logo-body');
+    const bottomArcs = Array.from(document.querySelectorAll('#logo-arcs-bottom path'));
+    const topArcs    = Array.from(document.querySelectorAll('#logo-arcs-top path'));
+
+    // Set starting positions — all hidden and offset
+    setStart(body, 0, 28);
+    bottomArcs.forEach(p => setStart(p, -22, 0));
+    topArcs.forEach(p    => setStart(p,  22, 0));
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      // Body rises from below
+      arrive(body, 60, 860);
+
+      // Bottom arcs sweep in from the left, L→R stagger
+      bottomArcs.forEach((p, i) => arrive(p, 110 + i * 62, 680));
+
+      // Top arcs sweep in from the right, R→L stagger (offset 80ms behind bottom)
+      topArcs.forEach((p, i)    => arrive(p, 190 + i * 62, 680));
+    }));
+  }
+
+  // Light / dark toggle
+  let isLight = false;
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    isLight = !isLight;
+    const showcase = document.getElementById('showcase');
+    document.body.style.background = isLight ? '#eeede9' : '#0d0d0d';
+    showcase.classList.toggle('light', isLight);
+    document.getElementById('theme-btn').textContent = isLight ? 'Dark' : 'Light';
+  });
+
+  document.getElementById('replay-btn').addEventListener('click', () => {
+    reset();
+    setTimeout(animate, 80);
+  });
+
+  window.addEventListener('load', animate);
+</script>
+</body>
+</html>

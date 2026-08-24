@@ -8,3 +8,19 @@ Video/
 *.mp4
 *.mov
 *.webm
+.vercel
+.env*.local
+
+# Separate Next.js app with its own git repo — do not nest it here
+Quotation/
+
+# Design source files — 21GB, excluded from deploy via .vercelignore
+Projects/
+Assets/Psd/
+*.psd
+*.ai
+*.zip
+
+# Dependencies and build output
+node_modules/
+.next/

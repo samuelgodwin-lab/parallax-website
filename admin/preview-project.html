@@ -758,6 +758,7 @@
           'axel-fleet-status':  { label: 'Fleet Status — Axel Dashboard',   path: '../widgets/axel-fleet-status-widget.html',   width: 360, height: 490, capGap: '28px' },
           'axel-fuel-mileage':  { label: 'Fuel & Mileage — Axel Dashboard', path: '../widgets/axel-fuel-mileage-widget.html',   width: 420, height: 490, capGap: '28px' },
           'axel-current-trip':  { label: 'Current Trip — Axel Dashboard',   path: '../widgets/axel-current-trip-widget.html',   width: 400, height: 490 },
+          'bmw-vehicle-overview': { label: 'Vehicle Overview — BMW Dashboard', path: '../widgets/bmw-vehicle-overview-widget.html', width: 480, height: 540 },
         };
         const widgets = Array.isArray(p.brand_widgets) ? p.brand_widgets : [];
         function renderWidgets() {
@@ -817,13 +818,16 @@
             items.push(digTile(p.img_digital_desktop, 'dig-tile dig--lead', p.img_digital_desktop_tag || 'Desktop'));
           }
 
-          const phones = ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03'];
-          const phoneTags = ['img_digital_phone_01_tag','img_digital_phone_02_tag','img_digital_phone_03_tag'];
-          const phoneDefs = ['Phone 01','Phone 02','Phone 03'];
+          const phones = ['img_digital_phone_01','img_digital_phone_02','img_digital_phone_03','img_digital_phone_04','img_digital_phone_05','img_digital_phone_06'];
+          const phoneTags = ['img_digital_phone_01_tag','img_digital_phone_02_tag','img_digital_phone_03_tag','img_digital_phone_04_tag','img_digital_phone_05_tag','img_digital_phone_06_tag'];
+          const phoneDefs = ['Phone 01','Phone 02','Phone 03','Phone 04','Phone 05','Phone 06'];
           phones.forEach((k,i) => { if (p[k]) items.push(digTile(p[k], 'dig-tile dig--p4', p[phoneTags[i]] || phoneDefs[i])); });
           if (p.img_digital_desktop_02) items.push(digTile(p.img_digital_desktop_02, 'dig-tile dig--w6', p.img_digital_desktop_02_tag || 'Desktop 02'));
           if (p.img_digital_desktop_03) items.push(digTile(p.img_digital_desktop_03, 'dig-tile dig--w6', p.img_digital_desktop_03_tag || 'Desktop 03'));
           if (p.img_digital_laptop) items.push(digTile(p.img_digital_laptop, 'dig-tile dig--lead', p.img_digital_laptop_tag || 'Desktop'));
+          if (p.img_digital_desktop_04) items.push(digTile(p.img_digital_desktop_04, 'dig-tile dig--w6', p.img_digital_desktop_04_tag || 'Desktop 05'));
+          if (p.img_digital_desktop_05) items.push(digTile(p.img_digital_desktop_05, 'dig-tile dig--w6', p.img_digital_desktop_05_tag || 'Desktop 06'));
+          if (p.img_digital_desktop_06) items.push(digTile(p.img_digital_desktop_06, 'dig-tile dig--lead', p.img_digital_desktop_06_tag || 'Desktop'));
           if (!items.length) return '<p style="font-family:var(--font-m);font-size:10px;color:var(--text-3);margin-top:16px;">No digital images or video uploaded yet.</p>';
           return `<div class="dig-bento">${items.join('')}</div>`;
         }
@@ -890,7 +894,7 @@
           </section>` : ''}
 
           <!-- Identity -->
-          ${p.show_brand_system !== false ? `
+          ${p.show_identity !== false ? `
           <section class="sec--branding">
             <div class="w">
               <div class="sec__hdr">
@@ -898,6 +902,7 @@
                 <h2 class="sh">${hl(p.heading_identity || 'A mark built to *endure.*')}</h2>
               </div>
               ${p.brand_mark_svg ? `<div class="mark-showcase" id="mark-showcase">${p.brand_mark_svg.replace(/<\?xml[^?]*\?>/i, '').trim()}</div>` : ''}
+              ${p.show_mark_only ? '' : `
               <div class="brand-marks-row">
                 ${[['img_identity_mark_02','Stacked'],['img_identity_mark_03','Monogram']].map(([slot, label]) => `
                 <div class="brand-mark">
@@ -919,7 +924,7 @@
                 <div class="brand-variant brand-variant--accent">
                   ${p.img_identity_variant_accent ? `<img src="${p.img_identity_variant_accent}" alt="Accent"><span class="brand-variant__label">On Accent</span>` : `<div class="slot-empty" style="color:oklch(1 0 0/0.3);">Accent</div>`}
                 </div>
-              </div>
+              </div>`}
             </div>
           </section>` : ''}
 
@@ -997,20 +1002,6 @@
             </div>
           </section>` : ''}
 
-          <!-- Quote -->
-          ${p.quote_text ? `
-          <section class="proj-quote">
-            <div class="w">
-              <div class="proj-quote__inner">
-                <span class="proj-quote__mark">&ldquo;</span>
-                <p class="proj-quote__text">${hl(p.quote_text)}</p>
-                <div class="proj-quote__byline">
-                  <span class="proj-quote__author"><strong>${p.quote_attribution_name || ''}</strong>${p.quote_attribution_role ? ' &mdash; ' + p.quote_attribution_role : ''}</span>
-                </div>
-              </div>
-            </div>
-          </section>` : ''}
-
           <!-- Outcomes -->
           ${outcomes.length ? `
           <section class="proj-outcome">
@@ -1026,6 +1017,20 @@
                       <p class="proj-outcome__card-n">${o.title}</p>
                       <p class="proj-outcome__card-sub">${o.desc}</p>
                     </div>`).join('')}
+                </div>
+              </div>
+            </div>
+          </section>` : ''}
+
+          <!-- Quote -->
+          ${p.quote_text ? `
+          <section class="proj-quote">
+            <div class="w">
+              <div class="proj-quote__inner">
+                <span class="proj-quote__mark">&ldquo;</span>
+                <p class="proj-quote__text">${hl(p.quote_text)}</p>
+                <div class="proj-quote__byline">
+                  <span class="proj-quote__author"><strong>${p.quote_attribution_name || ''}</strong>${p.quote_attribution_role ? ' &mdash; ' + p.quote_attribution_role : ''}</span>
                 </div>
               </div>
             </div>

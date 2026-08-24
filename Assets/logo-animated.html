@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Animation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+    font-family: -apple-system, sans-serif;
+  }
+
+  .mark-showcase {
+    position: relative;
+    overflow: hidden;
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 48px;
+    min-height: 280px;
+    width: 480px;
+  }
+
+  .mark-showcase::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .mark-showcase svg {
+    position: relative;
+    z-index: 1;
+    max-width: 160px;
+    width: 100%;
+    height: auto;
+  }
+
+  .replay-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .replay-btn:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="mark-showcase" id="mark-showcase">
+  <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 93.8 116.52">
+    <defs>
+      <style>
+        .cls-1 { fill: #f2430e; }
+      </style>
+    </defs>
+    <g id="Layer_1-2" data-name="Layer 1">
+      <path class="cls-1" d="M85.99,38.56l-19.62,19.66c10.37,10.4,11.04,27.68.5,38.27l-19.95,20.04-20.19-20.33c-10.35-10.42-9.56-27.59.72-37.93L7.72,38.44C-2.81,27.86-2.45,10.5,8.11,0l19.29,19.28c10.85,10.68,10.91,28.2.17,38.97,10.67,10.68,28.01,10.69,38.7.02-10.91-10.92-10.67-28.7.5-39.34L85.7,0c10.6,10.53,10.9,27.93.29,38.56Z"/>
+    </g>
+  </svg>
+</div>
+
+<button class="replay-btn" id="replay-btn">Replay</button>
+
+<script>
+  function animateMarkSVG(wrapper) {
+    const svg = wrapper.querySelector('svg');
+    if (!svg) return;
+    const paths = Array.from(svg.querySelectorAll('path'));
+    const textEls = Array.from(svg.querySelectorAll('text'));
+    if (!paths.length) return;
+
+    function resolveF(el) {
+      const a = el.getAttribute('fill');
+      if (a && a !== 'none') return a;
+      const cls = (el.getAttribute('class') || '').split(/\s+/)[0];
+      if (cls) {
+        const st = svg.querySelector('style');
+        if (st) {
+          const m = st.textContent.match(new RegExp('\\.' + cls + '\\s*\\{([^}]+)\\}'));
+          if (m) { const fm = m[1].match(/fill\s*:\s*([^;}\n]+)/); if (fm) return fm[1].trim(); }
+        }
+      }
+      return '#f2430e';
+    }
+
+    const lengths = paths.map(p => { try { return p.getTotalLength(); } catch(e) { return 0; } });
+    const maxLen = Math.max(...lengths);
+    const mainIdx = lengths.indexOf(maxLen);
+
+    paths.forEach((p, i) => {
+      const fill = resolveF(p);
+      p._origFill = fill;
+      p._isGrad = fill.startsWith('url(');
+      p.style.fill = 'none';
+      p.style.stroke = fill;
+      p.style.strokeWidth = i === mainIdx ? '2.5' : '1.5';
+      p.style.strokeLinecap = 'round';
+      p.style.strokeLinejoin = 'round';
+      p.style.strokeDasharray = lengths[i];
+      p.style.strokeDashoffset = lengths[i];
+      p.style.transition = 'none';
+    });
+    textEls.forEach(t => { t.style.opacity = '0'; });
+
+    const DRAW_MAIN = 2000, DRAW_DEC = 600, STAGGER = 60;
+
+    function animatePath(p, drawDuration, startMs) {
+      setTimeout(() => {
+        p.style.transition = `stroke-dashoffset ${drawDuration}ms cubic-bezier(0.4,0,0.2,1)`;
+        p.style.strokeDashoffset = '0';
+      }, startMs);
+      setTimeout(() => {
+        p.style.fill = p._origFill;
+        if (p._isGrad) {
+          p.style.transition = 'stroke-width 350ms ease';
+          p.style.strokeWidth = '0';
+        } else {
+          p.style.transition = 'fill 400ms ease, stroke 400ms ease';
+          p.style.stroke = 'transparent';
+        }
+      }, startMs + drawDuration - 60);
+    }
+
+    animatePath(paths[mainIdx], DRAW_MAIN, 150);
+    const decPaths = paths.filter((_, i) => i !== mainIdx);
+    decPaths.forEach((p, i) => animatePath(p, DRAW_DEC, 500 + i * STAGGER));
+
+    const textStart = Math.max(DRAW_MAIN + 400, 500 + decPaths.length * STAGGER + DRAW_DEC + 200);
+    textEls.forEach(t => {
+      setTimeout(() => {
+        t.style.transition = 'opacity 0.8s ease';
+        t.style.opacity = '1';
+      }, textStart);
+    });
+  }
+
+  function resetAndPlay() {
+    const wrapper = document.getElementById('mark-showcase');
+    const paths = wrapper.querySelectorAll('path');
+    paths.forEach(p => {
+      p.style.transition = 'none';
+      p.style.fill = 'none';
+      p.style.stroke = '';
+      p.style.strokeDasharray = '';
+      p.style.strokeDashoffset = '';
+    });
+    // Small delay to let reset paint before re-animating
+    setTimeout(() => animateMarkSVG(wrapper), 50);
+  }
+
+  // Auto-play on load
+  window.addEventListener('load', () => {
+    animateMarkSVG(document.getElementById('mark-showcase'));
+  });
+
+  document.getElementById('replay-btn').addEventListener('click', resetAndPlay);
+</script>
+</body>
+</html>

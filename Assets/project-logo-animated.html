@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Animation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+    font-family: -apple-system, sans-serif;
+    transition: background 0.4s ease;
+  }
+
+  .mark-showcase {
+    position: relative;
+    overflow: hidden;
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px 64px;
+    min-height: 280px;
+    width: 560px;
+    transition: background 0.4s ease, border-color 0.4s ease;
+  }
+
+  .mark-showcase.dark {
+    background: #0d0d0d;
+    border-color: #1e1e1e;
+  }
+
+  .mark-showcase::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .mark-showcase.dark::before {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  }
+
+  .mark-showcase svg {
+    position: relative;
+    z-index: 1;
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+  }
+
+  .controls {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .ctrl {
+    background: rgba(0,0,0,0.06);
+    color: rgba(0,0,0,0.55);
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 9px 18px;
+    border-radius: 5px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: -apple-system, sans-serif;
+    transition: background 0.2s, color 0.2s;
+  }
+  .ctrl:hover { background: rgba(0,0,0,0.1); color: #000; }
+  .ctrl.accent { background: #21255b; color: #fff; border-color: #21255b; }
+</style>
+</head>
+<body>
+
+<div class="mark-showcase" id="mark-showcase">
+  <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.85 140.64">
+    <defs>
+      <style>.cls-1 { fill: #21255b; }</style>
+    </defs>
+    <g id="Layer_1-2" data-name="Layer 1">
+      <g>
+        <path class="cls-1" d="M21.25,139.58c-2.83-2.12-5.14-5.66-4.78-9.21,2.3-18.94,5.49-33.46,9.38-56.47.18-.53-.35-1.06-1.06-.53C13.81,81.87.19,68.95,0,56.56c-.18-6.2,2.83-25.31,12.04-16.64,6.73,6.37-1.06,12.57-1.06,19.47,0,1.59,1.95,3.19,4.43,2.48,13.63-4.07,15.22-21.95,18.94-33.28,1.06-3.01,5.31-3.72,7.61-1.77,1.06.89,1.42,1.95,2.12,2.83,2.65,3.54,1.59,7.26.18,10.97-3.89,9.56-9.74,53.28-11.51,64.43-1.59,10.8-3.72,21.77-5.13,32.75-.35,3.18-3.89,3.54-6.37,1.77"/>
+        <path class="cls-1" d="M65.15,89.83c-11.15-8.5-11.33-24.61-10.98-37.88,0-4.6,1.06-20.53,3.36-21.6,2.65-.89,5.84,1.59,7.43,3.89,1.95,3.36,1.24,6.9.88,10.27-2.12,10.27-1.59,20.89.35,30.98,0,1.42,1.77,1.77,2.66.35,4.6-7.97,6.9-17.35,10.44-25.84,5.13-11.86,10.27-23.72,18.06-33.99,3.54-4.96,12.39,4.78,9.56,9.56-5.31,7.97-10.09,16.46-14.16,25.14-4.07,8.5-6.9,17.35-10.09,25.84-2.12,5.31-6.73,15.76-12.57,15.05-1.77-.35-3.36-.53-4.96-1.77"/>
+        <path class="cls-1" d="M145.52,39.03c-3.01.36-6.37.53-9.91,1.59-.53,0-.89.53-1.06,1.06-.88,15.75-4.78,29.92-7.79,44.79-.18,1.77-3.36,3.54-6.02,1.59-2.66-1.77-4.78-4.96-4.25-7.97,2.12-10.8,6.37-31.51,6.73-36.46,0-.53-.53-.89-1.06-.89-1.77,0-6.2,1.77-7.08,3.72-.71,1.42-1.77,2.3-3.01,2.3h-.18c-3.54-.18-7.26-5.31-6.9-8.67.35-2.65,2.48-4.42,4.78-5.49,5.49-2.65,7.79-3.54,14.52-4.25.71-.18,1.24-.71,1.42-1.24,1.06-6.02,3.36-19.3,3.54-20.71,1.59-15.58,13.98-6.02,11.86.89-1.41,4.96-3.01,13.81-3.89,17.88,0,.53.53,1.06,1.24,1.06,3.36.35,8.14-.88,11.15,1.24,2.48,1.59,3.36,6.37,2.66,7.44-1.24,2.48-3.9,1.77-6.73,2.12"/>
+        <path class="cls-1" d="M159.76,84.72c-11.64-.12-11.64-11.64,0-11.76,11.64.12,11.64,11.64,0,11.76"/>
+        <path class="cls-1" d="M195.26,84.17c-25.49-5.31-13.63-37-4.25-52.22,3.72-6.02,8.68-12.74,16.11-13.63,5.31-.53,12.57,2.48,13.28,8.5.35,3.01-2.48,3.72-4.96,3.01-12.57-3.19-23.54,25.67-24.6,39.47-.18,2.3,1.77,4.25,4.07,4.07,8.32-.53,16.11-7.26,21.95-13.1.89-.88,1.59-1.95,1.95-3.01,1.42-5.13,3.89-9.91,7.43-13.99.71-.89,1.06-1.95,1.06-3.01,0-7.97,11.15-3.72,15.93.18.71.53,1.59,1.06,2.65,1.06,7.08,0,14.69-2.83,21.6-1.95,1.95.35,3.72,1.42,5.13,2.83,8.67,9.38-10.09,8.85-18.23,9.56-.71,0-1.24.88-.89,1.6,9.56,19.82-19.12,40.71-33.28,22.48-.36-.53-1.24-.53-1.59-.18-5.84,5.84-14.87,10.09-23.37,8.32M228.36,67.88c0,.71.35,2.3.35,3.36,0,.53.53.88,1.06.88,9.21,0,18.06-11.15,13.28-20-.18-.35-.71-.71-1.24-.71-.35,0-1.24-.36-1.95-.36-.35,0-.88.18-1.06.71-1.6,5.84-5.67,10.62-9.74,15.05-.35.35-.71.71-.71,1.06"/>
+        <path class="cls-1" d="M169.03,59.4c0,5.19-4.2,9.39-9.39,9.39s-9.39-4.21-9.39-9.39,4.2-9.39,9.39-9.39,9.39,4.2,9.39,9.39"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<div class="controls">
+  <button class="ctrl" id="theme-btn">Dark</button>
+  <button class="ctrl accent" id="replay-btn">Replay</button>
+</div>
+
+<script>
+  function animateMarkSVG(wrapper) {
+    const svg = wrapper.querySelector('svg');
+    if (!svg) return;
+    const paths  = Array.from(svg.querySelectorAll('path'));
+    const textEls = Array.from(svg.querySelectorAll('text'));
+    if (!paths.length) return;
+
+    function resolveF(el) {
+      const a = el.getAttribute('fill');
+      if (a && a !== 'none') return a;
+      const cls = (el.getAttribute('class') || '').split(/\s+/)[0];
+      if (cls) {
+        const st = svg.querySelector('style');
+        if (st) {
+          const m = st.textContent.match(new RegExp('\\.' + cls + '\\s*\\{([^}]+)\\}'));
+          if (m) { const fm = m[1].match(/fill\s*:\s*([^;}\n]+)/); if (fm) return fm[1].trim(); }
+        }
+      }
+      return '#21255b';
+    }
+
+    const lengths = paths.map(p => { try { return p.getTotalLength(); } catch(e) { return 0; } });
+    const maxLen  = Math.max(...lengths);
+    const mainIdx = lengths.indexOf(maxLen);
+
+    paths.forEach((p, i) => {
+      const fill = resolveF(p);
+      p._origFill = fill;
+      p._isGrad   = fill.startsWith('url(');
+      p.style.fill            = 'none';
+      p.style.stroke          = fill;
+      p.style.strokeWidth     = i === mainIdx ? '2.5' : '1.5';
+      p.style.strokeLinecap   = 'round';
+      p.style.strokeLinejoin  = 'round';
+      p.style.strokeDasharray = lengths[i];
+      p.style.strokeDashoffset = lengths[i];
+      p.style.transition      = 'none';
+    });
+    textEls.forEach(t => { t.style.opacity = '0'; });
+
+    const DRAW_MAIN = 1800, DRAW_DEC = 550, STAGGER = 55;
+
+    function animatePath(p, drawDuration, startMs) {
+      setTimeout(() => {
+        p.style.transition = `stroke-dashoffset ${drawDuration}ms cubic-bezier(0.4,0,0.2,1)`;
+        p.style.strokeDashoffset = '0';
+      }, startMs);
+      setTimeout(() => {
+        p.style.fill = p._origFill;
+        if (p._isGrad) {
+          p.style.transition  = 'stroke-width 350ms ease';
+          p.style.strokeWidth = '0';
+        } else {
+          p.style.transition = 'fill 400ms ease, stroke 400ms ease';
+          p.style.stroke     = 'transparent';
+        }
+      }, startMs + drawDuration - 60);
+    }
+
+    animatePath(paths[mainIdx], DRAW_MAIN, 100);
+    const decPaths = paths.filter((_, i) => i !== mainIdx);
+    decPaths.forEach((p, i) => animatePath(p, DRAW_DEC, 420 + i * STAGGER));
+
+    const textStart = Math.max(DRAW_MAIN + 400, 420 + decPaths.length * STAGGER + DRAW_DEC + 200);
+    textEls.forEach(t => {
+      setTimeout(() => {
+        t.style.transition = 'opacity 0.8s ease';
+        t.style.opacity    = '1';
+      }, textStart);
+    });
+  }
+
+  function resetAndPlay() {
+    const wrapper = document.getElementById('mark-showcase');
+    wrapper.querySelectorAll('path').forEach(p => {
+      p.style.transition       = 'none';
+      p.style.fill             = '';
+      p.style.stroke           = '';
+      p.style.strokeDasharray  = '';
+      p.style.strokeDashoffset = '';
+    });
+    setTimeout(() => animateMarkSVG(wrapper), 50);
+  }
+
+  // Theme toggle
+  let dark = false;
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    dark = !dark;
+    const sc = document.getElementById('mark-showcase');
+    document.body.style.background = dark ? '#0d0d0d' : '#f8f8f8';
+    sc.classList.toggle('dark', dark);
+    document.getElementById('theme-btn').textContent = dark ? 'Light' : 'Dark';
+  });
+
+  document.getElementById('replay-btn').addEventListener('click', resetAndPlay);
+
+  window.addEventListener('load', () => {
+    animateMarkSVG(document.getElementById('mark-showcase'));
+  });
+</script>
+</body>
+</html>
