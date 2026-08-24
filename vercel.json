@@ -1,6 +1,9 @@
 {
+  "redirects": [
+    { "source": "/parallax-landing.html", "destination": "/", "permanent": true },
+    { "source": "/parallax-landing", "destination": "/", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/project.html", "destination": "/api/project" }
   ]
 }
-

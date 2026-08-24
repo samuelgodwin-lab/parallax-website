@@ -1101,6 +1101,8 @@
       overflow: hidden;
       border-bottom: none !important;
     }
+    /* Hidden until the CMS supplies real quotes. Never ship placeholders. */
+    .testi.testi--empty { display: none; }
 
     /* Testimonials video background — contained to section */
     .testi__video {
@@ -2460,7 +2462,7 @@
   <!-- ============================================================
        TESTIMONIALS
   ============================================================ -->
-  <section class="testi" id="clients">
+  <section class="testi testi--empty" id="clients">
     <div class="testi__brand-img" aria-hidden="true">
       <img src="Assets/Services/Brand.png" alt="">
     </div>
@@ -2472,42 +2474,13 @@
 
       <div class="testi__clip reveal">
         <div class="testi__track" id="ttrack">
-
-          <div class="tslide">
-            <em class="tslide__mark">&ldquo;</em>
-            <blockquote class="tslide__q">Parallax didn't just redesign our product — they rebuilt how our team thinks about design. Three months after launch, activation went from 31% to 58%.</blockquote>
-            <div class="tslide__attr">
-              <p class="tslide__name">Miriam Osei-Bonsu</p>
-              <p class="tslide__role">Head of Product &mdash; Mondra</p>
-            </div>
-          </div>
-
-          <div class="tslide">
-            <em class="tslide__mark">&ldquo;</em>
-            <blockquote class="tslide__q">I've worked with a dozen design studios. Parallax is the first that pushed back when our idea was wrong — and they were right every single time.</blockquote>
-            <div class="tslide__attr">
-              <p class="tslide__name">Th&eacute;o Calvino</p>
-              <p class="tslide__role">Founder &mdash; Velt Studio</p>
-            </div>
-          </div>
-
-          <div class="tslide">
-            <em class="tslide__mark">&ldquo;</em>
-            <blockquote class="tslide__q">Our data platform went from something engineers tolerated to something customers pay extra for. Parallax did that in 14 weeks.</blockquote>
-            <div class="tslide__attr">
-              <p class="tslide__name">Priya Nambiar</p>
-              <p class="tslide__role">VP Engineering &mdash; Helix Systems</p>
-            </div>
-          </div>
+          <!-- populated from Supabase -->
 
         </div>
 
         <div class="testi__nav">
           <button class="testi__btn" id="tprev" aria-label="Previous">&#8592;</button>
           <div class="testi__dots" id="tdots">
-            <button class="tdot on" aria-label="Slide 1"></button>
-            <button class="tdot"    aria-label="Slide 2"></button>
-            <button class="tdot"    aria-label="Slide 3"></button>
           </div>
           <button class="testi__btn" id="tnext" aria-label="Next">&#8594;</button>
         </div>
@@ -3168,6 +3141,9 @@
       wrap.onmouseleave = restart;
       restart();
     }
+    /* Exposed so the CMS loader in the later script block can init the
+       slider once the quotes have been injected into the empty track. */
+    window.initTestiSlider = initTestiSlider;
     initTestiSlider();
 
     /* MAGNETIC SPOTLIGHT — tracks cursor inside project + pricing cards */
@@ -3513,7 +3489,7 @@
         .order('sort_order', { ascending: true, nullsFirst: false });
 
       const quotes = (raw || []).filter(q => q.quote_text && q.quote_text.trim());
-      if (!quotes.length) return;
+      if (!quotes.length) return;   // section stays hidden — no placeholders
 
       const track = document.getElementById('ttrack');
       if (!track) return;
@@ -3531,7 +3507,8 @@
           </div>
         </div>`).join('');
 
-      initTestiSlider();
+      document.getElementById('clients').classList.remove('testi--empty');
+      window.initTestiSlider();
     })();
 
     /* ── Blog: load latest 3 published articles from CMS ── */
