@@ -5,10 +5,11 @@
   <link rel="icon" type="image/png" href="/images/Favicon.png">
   <link rel="apple-touch-icon" href="/images/Favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- CMS: <title>{project.client} — {project.title} | Parallax</title> -->
-  <title>BMW — Redefining the Digital Showroom | Parallax</title>
-  <!-- CMS page: these are FALLBACK tags for crawlers, which do not run JS.
-       Per-item cards must be injected server-side (see api/project.js). -->
+  <!-- CMS page: these are FALLBACK tags, used only when no project id
+       resolves. Per-item tags are injected server-side by api/project.js,
+       which serves this file at /project.html. Keep title tags out of
+       comments in this head — the injector matches them by pattern. -->
+  <title>Selected Work — Parallax</title>
   <meta name="description" content="A case study from Parallax — a design and engineering studio working across brand, product and interface.">
   <link rel="canonical" href="https://www.parallaxorg.com/project.html">
   <meta name="robots" content="index, follow, max-image-preview:large">

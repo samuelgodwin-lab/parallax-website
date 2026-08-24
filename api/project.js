@@ -9,7 +9,7 @@ function esc(str) {
 }
 
 module.exports = async (req, res) => {
-  const html = fs.readFileSync(path.join(process.cwd(), 'project.html'), 'utf8');
+  const html = fs.readFileSync(path.join(process.cwd(), 'project-template.html'), 'utf8');
   const id   = req.query.id;
 
   if (!id) {
@@ -43,6 +43,7 @@ module.exports = async (req, res) => {
       `  <meta property="og:title" content="${titleStr}">`,
       `  <meta property="og:description" content="${descStr}">`,
       imageStr ? `  <meta property="og:image" content="${imageStr}">` : '',
+      `  <link rel="canonical" href="${pageUrl}">`,
       `  <meta property="og:url" content="${pageUrl}">`,
       `  <meta name="twitter:card" content="summary_large_image">`,
       `  <meta name="twitter:title" content="${titleStr}">`,
@@ -51,7 +52,9 @@ module.exports = async (req, res) => {
     ].filter(Boolean).join('\n');
 
     const modified = html
-      .replace(/<title>[^<]*<\/title>/, '')
+      .replace(/<title>[\s\S]*?<\/title>/gi, '')
+      .replace(/<link rel="canonical"[^>]*>/gi, '')
+      .replace(/<meta (?:property="og:[^"]*"|name="twitter:[^"]*")[^>]*>/gi, '')
       .replace('</head>', ogTags + '\n</head>');
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');

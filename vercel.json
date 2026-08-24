@@ -5,9 +5,16 @@
     { "source": "/project-v2.html", "destination": "/work.html", "permanent": true },
     { "source": "/project-v2", "destination": "/work.html", "permanent": true },
     { "source": "/project-v3.html", "destination": "/work.html", "permanent": true },
-    { "source": "/project-v3", "destination": "/work.html", "permanent": true }
+    { "source": "/project-v3", "destination": "/work.html", "permanent": true },
+    { "source": "/project-template.html", "destination": "/work.html", "permanent": true },
+    { "source": "/project-template", "destination": "/work.html", "permanent": true }
   ],
   "rewrites": [
     { "source": "/project.html", "destination": "/api/project" }
-  ]
+  ],
+  "functions": {
+    "api/project.js": {
+      "includeFiles": "project-template.html"
+    }
+  }
 }
