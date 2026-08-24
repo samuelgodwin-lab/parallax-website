@@ -3554,5 +3554,69 @@
       grid.classList.add('in');
     })();
   </script>
+
+  <!-- ============================================================
+       CROSS-PAGE DEEP LINKS  (e.g. index.html#contact from a CTA)
+       html{scroll-behavior:smooth} turns the browser's own hash jump
+       into an animation. On a page this tall, arriving mid-load, that
+       animation routinely never completes and the visitor is left at
+       the top. Land the arrival instantly instead, then hold position
+       while late content settles the layout. In-page anchor clicks
+       keep their smooth scroll — this only runs for a hash that is
+       already in the URL at load.
+  ============================================================ -->
+  <script>
+    (function () {
+      var hash = window.location.hash;
+      if (!hash || hash.length < 2) return;
+
+      var target;
+      try { target = document.querySelector(hash); } catch (e) { return; }
+      if (!target) return;
+
+      var root   = document.documentElement;
+      var nav    = document.getElementById('main-nav');
+      var handed = false, tries = 0, last = -1;
+
+      function handOver() {
+        handed = true;
+        window.removeEventListener('wheel', handOver);
+        window.removeEventListener('touchmove', handOver);
+        window.removeEventListener('keydown', onKey);
+        document.removeEventListener('click', handOver, true);
+      }
+      function onKey(e) {
+        var k = e.key || '';
+        if (k.indexOf('Arrow') === 0 || k === 'PageUp' || k === 'PageDown' ||
+            k === 'Home' || k === 'End' || k === ' ') handOver();
+      }
+      window.addEventListener('wheel', handOver, { passive: true });
+      window.addEventListener('touchmove', handOver, { passive: true });
+      window.addEventListener('keydown', onKey);
+      document.addEventListener('click', handOver, true);
+
+      function align() {
+        if (handed) return;
+        var offset = nav && getComputedStyle(nav).position === 'fixed' ? nav.offsetHeight : 0;
+        var top    = Math.max(0, Math.round(target.getBoundingClientRect().top + window.pageYOffset - offset));
+
+        var prev = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';   // bypass the CSS smooth animation
+        window.scrollTo(0, top);
+        root.style.scrollBehavior = prev;
+
+        if (top === last || ++tries > 16) { handOver(); return; }
+        last = top;
+        setTimeout(align, 150);
+      }
+
+      align();
+      window.addEventListener('load', function () {
+        if (handed) return;
+        tries = 0; last = -1; align();
+      }, { once: true });
+    })();
+  </script>
+
 </body>
 </html>
