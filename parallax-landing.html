@@ -2556,7 +2556,7 @@
           <div class="contact__dl">
             <div class="contact__row">
               <span class="contact__k">Email</span>
-              <span class="contact__v"><a href="mailto:studio@parallax.design">studio@parallax.design</a></span>
+              <span class="contact__v"><a href="mailto:projects@parallaxorg.com">projects@parallaxorg.com</a></span>
             </div>
             <div class="contact__row">
               <span class="contact__k">Location</span>
@@ -2588,13 +2588,14 @@
               <span class="fg__e">A valid email is required.</span>
             </div>
             <div class="fg">
-              <label for="fb">Budget Range</label>
-              <select id="fb" name="budget">
-                <option value="" disabled selected>Select a range</option>
-                <option value="25-50k">$25K &ndash; $50K</option>
-                <option value="50-100k">$50K &ndash; $100K</option>
-                <option value="100-250k">$100K &ndash; $250K</option>
-                <option value="250k+">$250K+</option>
+              <label for="fb">Service</label>
+              <select id="fb" name="service">
+                <option value="" disabled selected>Select a service</option>
+                <option value="brand-systems">Brand Systems</option>
+                <option value="digital-strategy">Digital Strategy</option>
+                <option value="interface-design">Interface Design</option>
+                <option value="motion-interaction">Motion &amp; Interaction</option>
+                <option value="not-sure">Not sure yet</option>
               </select>
             </div>
             <div class="fg" id="fg-m">
@@ -2602,9 +2603,14 @@
               <textarea id="fm" name="message" placeholder="What are you building? What problem needs solving?"></textarea>
               <span class="fg__e">Please describe your project (min. 10 chars).</span>
             </div>
+            <div class="fg" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+              <label for="fw">Website</label>
+              <input type="text" id="fw" name="website" tabindex="-1" autocomplete="off">
+            </div>
             <button type="submit" class="form__sub" id="fsub">
               <span id="fsubl">Send Enquiry</span>
             </button>
+            <p class="form__err" id="ferr" role="alert" hidden style="margin:12px 0 0;font-size:.8125rem;color:oklch(0.62 0.18 25)"></p>
             <div class="form__ok" id="fok">
               <h3>Message received.</h3>
               <p>We reply within 1&ndash;2 business days.</p>
@@ -3110,7 +3116,7 @@
       document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
     })();
 
-    /* CONTACT FORM — validation + simulated send */
+    /* CONTACT FORM — validation + send to projects@parallaxorg.com */
     (function () {
       const form = document.getElementById('cf');
       const btn  = document.getElementById('fsub');
@@ -3144,15 +3150,44 @@
         setErr('fg-m', document.getElementById('fm').value.trim().length < 10);
       });
 
-      form.addEventListener('submit', e => {
+      const errBox = document.getElementById('ferr');
+
+      function showError(msg) {
+        if (!errBox) return;
+        errBox.textContent = msg;
+        errBox.hidden = false;
+      }
+
+      form.addEventListener('submit', async e => {
         e.preventDefault();
+        if (errBox) errBox.hidden = true;
         if (!validate()) return;
         btn.disabled = true;
         lbl.textContent = 'Sending\u2026';
-        setTimeout(() => {
+
+        const payload = Object.fromEntries(new FormData(form).entries());
+
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) {
+            let detail = '';
+            try { detail = (await res.json()).error || ''; } catch (_) {}
+            throw new Error(detail);
+          }
+
           form.style.display = 'none';
           ok.classList.add('show');
-        }, 1500);
+        } catch (err) {
+          btn.disabled = false;
+          lbl.textContent = 'Send Enquiry';
+          showError((err && err.message) ||
+            'Something went wrong. Please email projects@parallaxorg.com directly.');
+        }
       });
     })();
 
