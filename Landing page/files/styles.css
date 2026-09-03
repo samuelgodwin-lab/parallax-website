@@ -1,0 +1,842 @@
+/* ============================================================
+   PARALLAX — Northeast India landing page
+
+   REQUIRES tokens.css, linked BEFORE this file:
+     <link rel="stylesheet" href="tokens.css">
+     <link rel="stylesheet" href="styles.css">
+   Linked rather than @import-ed on purpose: @import serialises the
+   download behind this file and caches under its own URL, so a token
+   change cannot be cache-busted from here.
+
+   Colour and spacing are consumed as tokens only. Values that
+   exist on the live parallaxorg.com build but fall off the 4pt
+   scale are named once in the component-metric layer below and
+   never repeated as literals at the point of use.
+   ============================================================ */
+
+:root {
+  /* ── Component metrics — mirrored from live parallaxorg.com ── */
+  --btn-py:       14px;   /* live .btn padding block  */
+  --btn-px:       26px;   /* live .btn padding inline */
+  --btn-gap:      9px;    /* live .btn gap            */
+  --btn-lift:     1.5px;  /* live .btn hover translate */
+  --btn-shadow:   3px;    /* live .btn hover offset shadow */
+  --slabel-rule:  22px;   /* live .slabel::before width */
+  --slabel-hero-rule: 28px; /* live .hero__eye::before width */
+  --slabel-hero-gap:  14px; /* live .hero__eye gap */
+  --nav-py:       20px;   /* live .nav padding block  */
+  --nav-h:        88px;   /* designed, not emergent — the hero subtracts it */
+  --grid-cell:    48px;   /* guidelines §09 grid texture */
+  --grid-ink:     4%;     /* guidelines §09 — 3–5%    */
+  --rule:         1px;    /* hairline                 */
+  --stagger-step: 55ms;   /* guidelines §06           */
+  /* Grid texture image. Substituted lazily, so color-mix resolves against
+     the element's own --text and the texture inverts for free. */
+  --grid-img:
+    linear-gradient(color-mix(in oklch, var(--text) var(--grid-ink), transparent) var(--rule), transparent var(--rule)),
+    linear-gradient(90deg, color-mix(in oklch, var(--text) var(--grid-ink), transparent) var(--rule), transparent var(--rule));
+  --focus-ring:   2px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+img, picture, svg, video { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* Guidelines §12 — no radius on structural elements */
+button, input, select, textarea, img, picture, video,
+fieldset, table, dialog { border-radius: 0; }
+
+/* ── Base ── */
+body {
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent-muted); }
+
+/* ── Focus — visible on every interactive element ── */
+:focus-visible {
+  outline: var(--focus-ring) solid var(--accent);
+  outline-offset: var(--s1);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+.skip-link {
+  position: absolute;
+  left: var(--s4);
+  top: var(--s4);
+  z-index: 300;
+  transform: translateY(-200%);
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+.skip-link:focus-visible { transform: none; }
+
+.vh {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* <main> takes focus from the skip link; it is a scroll target, not a control,
+   so it should not paint a focus ring of its own. */
+main:focus { outline: none; }
+main:focus-visible { outline: none; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+
+/* Container — matches live .w */
+.w {
+  max-width: var(--w-max);
+  margin: 0 auto;
+  padding: 0 var(--w-padding);
+}
+
+.section {
+  padding: var(--section-pad) 0;
+  border-top: var(--rule) solid var(--border);
+}
+.section--flush { padding-top: 0; }
+.section--surface { background: var(--surface); }
+.section--raised  { background: var(--surface-raised); }
+
+/* ============================================================
+   TYPE
+   ============================================================ */
+
+.wordmark {
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  text-decoration: none;
+}
+.wordmark span { color: var(--accent); }   /* the full stop — part of the mark */
+
+/* Section heading — matches live .sh */
+.sh {
+  font-size: clamp(32px, 4vw, 58px);
+  font-weight: 700;
+  letter-spacing: -0.042em;
+  line-height: 1;
+  font-feature-settings: 'ss01' 1, 'kern' 1;
+  text-wrap: balance;
+  text-align: left;
+}
+
+/* Hero scale — guidelines §04 display */
+.sh--hero {
+  font-size: clamp(32px, 4.7vw, 70px);   /* live .hero__h1 */
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 0.92;
+}
+
+/* Closing CTA heading — live .contact__h */
+.sh--cta {
+  font-size: clamp(40px, 5.5vw, 76px);
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 0.93;
+}
+/* Tile heading — live .bpost__title / .pc__name idiom */
+.sh--sub  { font-size: clamp(18px, 1.9vw, 24px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; }
+/* Step heading — live .form__ok h3 / .tslide__name idiom (600, looser tracking) */
+.sh--step { font-size: clamp(17px, 1.6vw, 20px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+
+/* Exactly one accent word per heading */
+.sh em, h1 em, h2 em, h3 em, h4 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.lede {
+  font-size: clamp(16px, 1.7vw, 19px);   /* live .hero__p */
+  color: var(--text-2);
+  line-height: 1.72;
+}
+.body-c { font-size: 15px; color: var(--text-2); line-height: 1.72; }
+
+/* ============================================================
+   .slabel — section label
+   Guidelines §09 + live build: accent, not --text-3.
+   ============================================================ */
+.slabel {
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-bottom: var(--s6);
+}
+.slabel::before {
+  content: '';
+  width: var(--slabel-rule);
+  height: var(--rule);
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Hero eyebrow runs a touch larger with a longer rule — live .hero__eye */
+.slabel--hero { font-size: 10.5px; gap: var(--slabel-hero-gap); }
+.slabel--hero::before { width: var(--slabel-hero-rule); }
+
+/* ============================================================
+   .btn — live names (.btn-p / .btn-g) with spec aliases
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  font-family: var(--font-m);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  padding: var(--btn-py) var(--btn-px);
+  border-radius: 0;
+  background: none;
+  border: var(--rule) solid transparent;
+  transition:
+    background   var(--dur-micro) var(--ease-out),
+    color        var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out),
+    box-shadow   var(--dur-micro) var(--ease-out),
+    transform    var(--dur-micro) var(--ease-out);
+}
+
+.btn-p, .btn--primary {
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+}
+.btn-g, .btn--ghost {
+  color: var(--text-2);
+  background: transparent;
+  border-color: var(--border-strong);
+}
+
+/* Hover — guidelines §09: 3px offset accent shadow. Pointer devices only. */
+@media (hover: hover) and (pointer: fine) {
+  .btn-p:hover, .btn--primary:hover,
+  .btn-p.is-hover, .btn--primary.is-hover {
+    border-color: var(--accent);
+    box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 var(--accent);
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+  }
+  .btn-g:hover, .btn--ghost:hover,
+  .btn-g.is-hover, .btn--ghost.is-hover {
+    color: var(--text);
+    border-color: var(--accent);
+    box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 var(--accent);
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+  }
+}
+
+.btn:active { transform: scale(0.97); box-shadow: none; }
+
+.btn[disabled], .btn.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Sheet-only forced focus mirror */
+.btn.is-focus {
+  outline: var(--focus-ring) solid var(--accent);
+  outline-offset: var(--s1);
+}
+
+/* ============================================================
+   .meta-band — 4-column metadata strip
+   Hairlines via 1px grid gap so they survive every column count.
+   ============================================================ */
+.meta-band {
+  border-top: var(--rule) solid var(--border);
+  border-bottom: var(--rule) solid var(--border);
+  background: var(--border);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--rule);
+}
+.meta-band__cell {
+  background: var(--bg);
+  padding: var(--s6) var(--s4);
+}
+.meta-band__k {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: var(--s2);
+}
+.meta-band__v {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+@media (max-width: 768px) { .meta-band { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .meta-band { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   Small parts
+   ============================================================ */
+
+/* Capability tag — 1px border, no radius */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  color: var(--text-2);
+  border: var(--rule) solid var(--border);
+  padding: var(--s2) var(--s3);
+}
+
+/* Status badge — the ONLY pill permitted (guidelines §09) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: var(--s1) var(--s3);
+  border: var(--rule) solid var(--border);
+  border-radius: 999px;
+  color: var(--text-2);
+}
+.badge--accent { color: var(--accent); border-color: var(--accent-muted); background: var(--accent-soft); }
+
+/* Datum block — dashed top rule, figure in accent */
+.datum { border-top: var(--rule) dashed var(--border-strong); padding-top: var(--s3); margin-top: var(--s4); }
+/* "We build" label above the deliverables that close each sector tile */
+.datum__k {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: var(--s3);
+}
+.datum__fig {
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+.datum__cap { font-family: var(--font-m); font-size: 10px; line-height: 1.5; color: var(--text-3); margin-top: var(--s1); }
+
+/* ============================================================
+   Grid texture — hero + statistics band only
+   Ink derives from --text, so it inverts with the band.
+   ============================================================ */
+.tex {
+  background-image: var(--grid-img);
+  background-size: var(--grid-cell) var(--grid-cell);
+}
+
+/* Self-layering variant for simple bands */
+.grid-tex { position: relative; }
+.grid-tex > * { position: relative; z-index: 1; }
+.grid-tex::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--grid-img);
+  background-size: var(--grid-cell) var(--grid-cell);
+}
+
+/* ============================================================
+   Scroll reveal — .js gate so content is never hidden without JS
+   ============================================================ */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity   var(--dur-standard) var(--ease-out),
+    transform var(--dur-standard) var(--ease-out);
+}
+.js .reveal.in { opacity: 1; transform: none; }
+
+.js .stagger > * {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity   var(--dur-standard) var(--ease-out),
+    transform var(--dur-standard) var(--ease-out);
+}
+.js .stagger.in > * { opacity: 1; transform: none; }
+.js .stagger.in > *:nth-child(1) { transition-delay: calc(0 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(2) { transition-delay: calc(1 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(3) { transition-delay: calc(2 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(4) { transition-delay: calc(3 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(5) { transition-delay: calc(4 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(6) { transition-delay: calc(5 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(n+7) { transition-delay: calc(6 * var(--stagger-step)); }
+
+/* ============================================================
+   Image placeholders — swapped for <picture> at handoff
+   ============================================================ */
+.ph {
+  background: var(--surface-raised);
+  border: var(--rule) solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.ph__key {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  text-align: center;
+  padding: var(--s3);
+}
+
+/* ============================================================
+   Reduced motion — content always visible, no movement
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal, .js .stagger > * { opacity: 1 !important; transform: none !important; }
+  /* The hero entrance is an animation, not a transition: it relies on running
+     to completion to become visible. Cancel it outright rather than trusting a
+     0.01ms duration to land, so the hero can never be stuck at opacity 0. */
+  .js .hero__in > * { animation: none !important; opacity: 1 !important; transform: none !important; }
+  /* tokens.css collapses animation-duration but not delay — without this,
+     staggered hero entrances would stay invisible for their delay window. */
+  *, *::before, *::after { animation-delay: 0ms !important; transition-delay: 0ms !important; }
+  .btn:active { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-p:hover, .btn--primary:hover, .btn-g:hover, .btn--ghost:hover { transform: none; }
+  }
+}
+
+/* ============================================================
+   SECTION 01 — NAV
+   Spec: sticky, 1px bottom rule, --bg at 85% behind blur(12px).
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: color-mix(in oklch, var(--bg) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: var(--rule) solid var(--border);
+}
+.nav__in { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--s4); }
+.nav__logo { font-size: 17px; }
+.nav__right { display: flex; align-items: center; gap: var(--s6); }
+.nav__label {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+/* Below 768px the label drops, the button stays */
+@media (max-width: 768px) {
+  .nav__label { display: none; }
+  .nav__right { gap: var(--s3); }
+}
+@media (max-width: 600px) {
+  :root { --nav-h: 72px; }
+}
+/* Tighten the CTA on the narrowest screens so the bar never wraps */
+@media (max-width: 400px) {
+  .nav .btn { padding: var(--s3) var(--s4); font-size: 10px; }
+}
+
+/* ============================================================
+   SECTION 02 — HERO
+   Explicit layer order: media 0 · scrim 1 · texture 2 · content 3
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: calc(100svh - var(--nav-h));
+  display: flex;
+  align-items: flex-end;
+  padding: var(--s24) 0 var(--s16);
+  overflow: hidden;
+  border-bottom: var(--rule) solid var(--border);
+}
+.hero__bg { position: absolute; inset: 0; z-index: 0; }
+.hero__bg .ph, .hero__bg img { width: 100%; height: 100%; object-fit: cover; border: 0; }
+.hero__bg .ph { align-items: flex-start; padding-top: var(--s12); }
+
+.hero__scrim { position: absolute; inset: 0; z-index: 1; background: var(--scrim); pointer-events: none; }
+.hero__tex   { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.hero__in    { position: relative; z-index: 3; width: 100%; }
+
+.hero__lede { max-width: 52ch; margin-top: var(--s6); }
+.hero__cta  { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s8); }
+
+/* Credibility numbers sit in the hero foot, as on live parallaxorg.com */
+.hero__stats { display: flex; flex-wrap: wrap; gap: clamp(24px, 5vw, 64px); margin-top: var(--s16); }
+.hero__sn {
+  display: block;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.hero__sn-plus { color: var(--accent); }
+.hero__sl {
+  display: block;
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-top: var(--s1);
+}
+
+/* Cinematic entrance — no scroll trigger, hero is above the fold */
+@keyframes heroUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.js .hero__in > * { animation: heroUp var(--dur-cinematic) var(--ease-out) both; }
+.js .hero__in > *:nth-child(1) { animation-delay: calc(0 * var(--stagger-step)); }
+.js .hero__in > *:nth-child(2) { animation-delay: calc(2 * var(--stagger-step)); }
+.js .hero__in > *:nth-child(3) { animation-delay: calc(4 * var(--stagger-step)); }
+.js .hero__in > *:nth-child(4) { animation-delay: calc(6 * var(--stagger-step)); }
+.js .hero__in > *:nth-child(5) { animation-delay: calc(8 * var(--stagger-step)); }
+
+/* ============================================================
+   SECTION 03 — META BAND
+   Sits directly under the hero, no padding above.
+   ============================================================ */
+.meta-band--flush { border-top: 0; }
+
+/* ============================================================
+   SECTION 04 — THE GAP
+   12 columns: heading spans 1–5, body spans 7–12.
+   ============================================================ */
+.gap__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--s8);
+  align-items: start;
+}
+.gap__head { grid-column: 1 / span 5; }
+.gap__body { grid-column: 7 / span 6; max-width: 46ch; }
+.gap__body p + p { margin-top: var(--s6); }
+.gap__body p:last-child {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 880px) {
+  .gap__grid { grid-template-columns: 1fr; gap: var(--s8); }
+  .gap__head, .gap__body { grid-column: 1 / -1; }
+}
+
+.svcs__lede { margin-top: var(--s6); max-width: 62ch; }
+
+/* ============================================================
+   SECTION 04 — CLIENT STRIP
+   Slim light strip, mirroring the live logos-strip idiom rather than a
+   full dark band — the numbers it used to carry now live in the hero.
+   ============================================================ */
+.clients {
+  padding: var(--s8) 0;
+  border-top: var(--rule) solid var(--border);
+}
+.clients__in {
+  display: flex;
+  align-items: center;
+  gap: var(--s6) var(--s12);
+  flex-wrap: wrap;
+}
+.clients__label {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+.clients__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  font-family: var(--font-m);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.clients__sep { color: var(--accent); }
+
+@media (max-width: 640px) { .clients__in { gap: var(--s4); } }
+
+/* ============================================================
+   SECTION 06 — SECTORS BENTO
+   12-column asymmetric: 7 / 5 over 5 / 7. Never four equal cards.
+   ============================================================ */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--s3);
+  margin-top: var(--s12);
+}
+.sector {
+  grid-column: span 12;
+  border: var(--rule) solid var(--border);
+  padding: var(--s6);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  transition: background var(--dur-micro) var(--ease-out),
+              border-color var(--dur-micro) var(--ease-out);
+}
+.sector--01 { grid-column: span 7; }
+.sector--02 { grid-column: span 5; }
+.sector--03 { grid-column: span 5; }
+.sector--04 { grid-column: span 7; }
+
+@media (hover: hover) and (pointer: fine) {
+  .sector:hover { background: var(--accent-soft); border-color: var(--accent-muted); }
+}
+
+.sector__media { margin-bottom: var(--s6); }
+.sector__media .ph { height: 100%; }
+.sector__media img { width: 100%; height: 100%; object-fit: cover; }
+.sector__body {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-top: var(--s3);
+  /* Floor for the gap above the datum rule. The datum uses margin-top:auto to
+     pin to the tile bottom; when content fills the tile that auto collapses to
+     zero and the last line would sit on the dashed border. */
+  margin-bottom: var(--s6);
+}
+.sector__tags { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.sector .datum { margin-top: auto; }
+
+@media (max-width: 1024px) {
+  .sector--01, .sector--02, .sector--03, .sector--04 { grid-column: span 6; }
+}
+@media (max-width: 640px) {
+  .sector--01, .sector--02, .sector--03, .sector--04 { grid-column: span 12; }
+}
+
+/* ============================================================
+   SECTION 07 — GOVERNMENT
+   ============================================================ */
+.gov__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--s8);
+  align-items: start;
+}
+.gov__head { grid-column: 1 / span 5; }
+.gov__lede { margin-top: var(--s6); max-width: 46ch; }
+.gov__tiles {
+  grid-column: 7 / span 6;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s3);
+}
+.gov__tile {
+  border: var(--rule) solid var(--border);
+  padding: var(--s6);
+  font-family: var(--font-m);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  color: var(--text-2);
+  transition: border-color var(--dur-micro) var(--ease-out),
+              color var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .gov__tile:hover { border-color: var(--accent); color: var(--text); }
+}
+
+@media (max-width: 880px) {
+  .gov__grid { grid-template-columns: 1fr; }
+  .gov__head, .gov__tiles { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) { .gov__tiles { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   SECTION 08 — SERVICES
+   Rows 1–3 carry the accent treatment; 4–6 are plain.
+   ============================================================ */
+.svcs { margin-top: var(--s12); border-top: var(--rule) solid var(--border); }
+.svc-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1.45fr;
+  gap: var(--s6);
+  align-items: start;
+  padding: var(--s8) 0;
+  border-bottom: var(--rule) solid var(--border);
+  border-left: 2px solid transparent;
+  transition: border-left-color var(--dur-micro) var(--ease-out),
+              padding-left var(--dur-micro) var(--ease-out);
+}
+.svc-row__n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  padding-top: var(--s1);
+}
+.svc-row__t {
+  font-size: clamp(18px, 2vw, 26px);   /* live .svc__name */
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: var(--text);
+  text-align: left;
+}
+.svc-row--accent .svc-row__t { color: var(--accent); }
+.svc-row__b { font-size: 13.5px; color: var(--text-2); line-height: 1.65; max-width: 58ch; }
+
+@media (hover: hover) and (pointer: fine) {
+  .svc-row--accent:hover { border-left-color: var(--accent); padding-left: var(--s3); }
+}
+
+@media (max-width: 880px) {
+  .svc-row { grid-template-columns: 1fr; gap: var(--s3); }
+  .svc-row__n { padding-top: 0; }
+}
+
+/* ============================================================
+   SECTION 09 — DESIGNER NETWORK
+   Steps form a single ruled block: 1px hairline gaps over a
+   --border ground, --bg cells. Not three floating cards.
+   ============================================================ */
+.dn__head { max-width: 62ch; }
+.dn__lede { margin-top: var(--s6); max-width: 62ch; }
+
+.dn__media { margin-top: var(--s12); }
+
+.dn__steps {
+  margin-top: var(--s12);
+  border: var(--rule) solid var(--border);
+  background: var(--border);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--rule);
+}
+.dn__step {
+  background: var(--bg);
+  padding: var(--s8);
+  display: flex;
+  flex-direction: column;
+}
+.dn__step-n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s4);
+}
+.dn__step-b { font-size: 13.5px; color: var(--text-2); line-height: 1.65; margin-top: var(--s3); }
+
+.dn__terms {
+  margin-top: var(--s8);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+.dn__term {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  border: var(--rule) solid var(--accent);
+  padding: var(--s3) var(--s4);
+}
+.dn__cta { margin-top: var(--s8); }
+
+@media (max-width: 880px) { .dn__steps { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   SECTION 10 — CTA
+   Left-aligned like everything else. Never centred.
+   ============================================================ */
+.cta__h { max-width: 18ch; }
+.cta__lede { margin-top: var(--s6); max-width: 54ch; }
+.cta__btns { margin-top: var(--s8); display: flex; flex-wrap: wrap; gap: var(--s3); }
+
+/* ============================================================
+   SECTION 11 — FOOTER
+   Guidelines §03/§12 forbid accent as a large background fill,
+   so this does NOT reproduce the live site's accent footer.
+   ============================================================ */
+/* Accent ground, matching live parallaxorg.com. This is the one place the
+   accent is used as a large fill; the brand guidelines forbid it, the live
+   build does it, and matching the site was the explicit call. Because --accent
+   was darkened to 0.53 for the contrast pass, white-on-accent here clears AA
+   (5.16:1) where the live site's own footer does not (3.90:1). */
+.footer {
+  background: var(--accent);
+  padding: var(--s8) 0;
+}
+.footer__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s6);
+  flex-wrap: wrap;
+}
+.footer__left { display: flex; align-items: baseline; gap: var(--s4); flex-wrap: wrap; }
+.footer__logo { font-size: 15px; letter-spacing: -0.04em; color: var(--bg); }
+/* Live renders the whole mark solid white on the accent ground — the full stop
+   is not tinted here, since accent-on-accent would erase it. */
+.footer__logo span { color: var(--bg); }
+.footer__copy {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--bg);
+}
+.footer__states {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bg);
+  text-align: right;
+  line-height: 1.9;
+}
+
+@media (max-width: 640px) {
+  .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s4); }
+  .footer__states { text-align: left; }
+}

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" class="js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallax — Component Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Bump ?v= on every deploy that changes a token or a rule. Without a build step
+     there is no content hashing, and browsers cache these hard. -->
+<link rel="stylesheet" href="tokens.css?v=1">
+<link rel="stylesheet" href="styles.css?v=1">
+<style>
+  /* Sheet chrome only — never ships. */
+  .sheet-head { padding: var(--s24) 0 var(--s12); }
+  .spec { padding: var(--s12) 0; border-top: var(--rule) solid var(--border); }
+  .spec__hd { display: flex; align-items: baseline; gap: var(--s4); margin-bottom: var(--s8); flex-wrap: wrap; }
+  .spec__n { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .spec__t { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; }
+  .spec__note { font-family: var(--font-m); font-size: 10.5px; color: var(--text-3); line-height: 1.7; max-width: 74ch; margin-top: var(--s2); }
+  .row { display: flex; flex-wrap: wrap; gap: var(--s6); align-items: center; margin-bottom: var(--s6); }
+  .cell { display: flex; flex-direction: column; gap: var(--s3); align-items: flex-start; }
+  .cell__l { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+  .stack { display: flex; flex-direction: column; gap: var(--s6); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--rule); background: var(--border); border: var(--rule) solid var(--border); }
+  .sw { background: var(--bg); }
+  .sw__chip { height: 64px; border-bottom: var(--rule) solid var(--border); }
+  .sw__m { padding: var(--s3); font-family: var(--font-m); font-size: 9.5px; color: var(--text-3); line-height: 1.7; }
+  .sw__m b { display: block; color: var(--text); font-weight: 500; }
+  .scale-row { display: grid; grid-template-columns: 64px 1fr 56px; align-items: center; gap: var(--s4); padding: var(--s2) 0; }
+  .scale-row__n, .scale-row__v { font-family: var(--font-m); font-size: 10.5px; color: var(--text-3); }
+  .scale-row__n { color: var(--accent); }
+  .scale-row__v { text-align: right; }
+  .scale-row__bar { height: 14px; background: var(--accent-muted); border-left: 2px solid var(--accent); }
+  .a11y { border: var(--rule) solid var(--border); padding: var(--s6); }
+  .a11y table { width: 100%; border-collapse: collapse; font-family: var(--font-m); font-size: 10.5px; }
+  .a11y th, .a11y td { text-align: left; padding: var(--s2) var(--s3); border-bottom: var(--rule) solid var(--border); }
+  .a11y th { color: var(--text-3); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
+  .a11y td:last-child, .a11y th:last-child { text-align: right; }
+  .pass { color: var(--text-2); }
+  .fail { color: var(--danger); font-weight: 600; }
+  .panel-dark { padding: var(--s12) var(--s8); }
+  .demo-box { border: var(--rule) dashed var(--border-strong); padding: var(--s6); }
+</style>
+</head>
+<body>
+
+<div class="w">
+
+  <header class="sheet-head">
+    <div class="slabel">Phase 1 — Component Sheet</div>
+    <h1 class="sh sh--hero">Parallax<span style="color:var(--accent)">.</span> shared <em>components.</em></h1>
+    <p class="lede" style="max-width:60ch;margin-top:var(--s6)">
+      Every shared component in every state. Rendered from the production <code>styles.css</code> —
+      no styles are redefined here, so what you see is what the sections will inherit.
+      Hover and focus states are mirrored via <code>.is-hover</code> / <code>.is-focus</code> so
+      they are visible in a static sheet; the real <code>:hover</code> / <code>:focus-visible</code>
+      rules are the same declarations.
+    </p>
+  </header>
+
+  <!-- 01 — Wordmark -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">01</span>
+      <span class="spec__t">Wordmark</span>
+      <p class="spec__note">Bricolage 800, letter-spacing −0.045em. The full stop is set in --accent and is a required part of the mark.</p>
+    </div>
+    <div class="row">
+      <div class="cell"><span class="cell__l">Nav scale — 17px</span>
+        <a href="#" class="wordmark" style="font-size:17px">Parallax<span>.</span></a></div>
+      <div class="cell"><span class="cell__l">Display scale — 44px</span>
+        <span class="wordmark" style="font-size:44px">Parallax<span>.</span></span></div>
+    </div>
+  </section>
+
+  <!-- 02 — Slabel -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">02</span>
+      <span class="spec__t">.slabel</span>
+      <p class="spec__note">Mono 10px, 0.20em tracking, uppercase, --accent, with a 22px accent rule before the text. Always immediately precedes a heading — never appears alone.</p>
+    </div>
+    <div class="stack">
+      <div class="demo-box">
+        <div class="slabel">Northeast India</div>
+        <h2 class="sh">Most software here was never designed. It was just <em>built.</em></h2>
+      </div>
+      <div class="demo-box">
+        <div class="slabel slabel--hero">Northeast India</div>
+        <span class="cell__l" style="display:block;margin-top:var(--s2)">.slabel--hero — 10.5px, 28px rule, 14px gap · matches live .hero__eye</span>
+      </div>
+      <div class="demo-box">
+        <div class="slabel">The Gap</div>
+        <h2 class="sh sh--sub">Crores of inventory, sold over <em>WhatsApp.</em></h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Headings -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">03</span>
+      <span class="spec__t">Headings &amp; accent word</span>
+      <p class="spec__note">Exactly one &lt;em&gt; per heading, --accent, font-style: normal. Left-aligned at every size, no exceptions.</p>
+    </div>
+    <div class="stack">
+      <div class="cell"><span class="cell__l">.sh.sh--hero — clamp(32px, 4.7vw, 70px) / 800 / −0.048em / lh 0.92 · matches live .hero__h1</span>
+        <h2 class="sh sh--hero">Six disciplines. One <em>standard.</em></h2></div>
+      <div class="cell"><span class="cell__l">.sh — clamp(32px, 4vw, 58px) / 700 / −0.042em · matches live .sh</span>
+        <h2 class="sh">Citizens don't get to choose another <em>portal.</em></h2></div>
+      <div class="cell"><span class="cell__l">.sh.sh--cta — clamp(40px, 5.5vw, 76px) / 800 / −0.048em / lh 0.93 · matches live .contact__h</span>
+        <h2 class="sh sh--cta">Tell us what you're <em>building.</em></h2></div>
+      <div class="cell"><span class="cell__l">.sh.sh--sub — clamp(18px, 1.9vw, 24px) / 700 / −0.03em · live card-title idiom</span>
+        <h3 class="sh sh--sub">Ten thousand students, one admissions portal, zero <em>design.</em></h3></div>
+      <div class="cell"><span class="cell__l">.sh.sh--step — clamp(17px, 1.6vw, 20px) / 600 / −0.02em · live .form__ok h3 idiom</span>
+        <h4 class="sh sh--step">You bring the <em>lead.</em></h4></div>
+      <div class="cell" style="max-width:52ch"><span class="cell__l">.lede</span>
+        <p class="lede">Talent is not the constraint in the Northeast. Access is.</p></div>
+      <div class="cell" style="max-width:52ch"><span class="cell__l">.body-c</span>
+        <p class="body-c">We don't redesign. We rearchitect.</p></div>
+    </div>
+  </section>
+
+  <!-- 04 — Buttons -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">04</span>
+      <span class="spec__t">.btn — primary &amp; ghost</span>
+      <p class="spec__note">Live class names .btn-p / .btn-g, with .btn--primary / .btn--ghost aliased to the same declarations so both the spec's and the live site's naming resolve. Mono 11px, uppercase, 0.11em, radius 0. Hover: 3px offset accent shadow + 1.5px lift, pointer devices only. Active: scale(0.97).</p>
+    </div>
+
+    <span class="cell__l" style="display:block;margin-bottom:var(--s4)">Primary — .btn.btn-p</span>
+    <div class="row">
+      <div class="cell"><span class="cell__l">Default</span><a href="#" class="btn btn-p">Start a project</a></div>
+      <div class="cell"><span class="cell__l">Hover</span><a href="#" class="btn btn-p is-hover">Start a project</a></div>
+      <div class="cell"><span class="cell__l">Focus-visible</span><a href="#" class="btn btn-p is-focus">Start a project</a></div>
+      <div class="cell"><span class="cell__l">Disabled</span><button class="btn btn-p" disabled>Start a project</button></div>
+    </div>
+
+    <span class="cell__l" style="display:block;margin:var(--s8) 0 var(--s4)">Ghost — .btn.btn-g</span>
+    <div class="row">
+      <div class="cell"><span class="cell__l">Default</span><a href="#" class="btn btn-g">See the work</a></div>
+      <div class="cell"><span class="cell__l">Hover</span><a href="#" class="btn btn-g is-hover">See the work</a></div>
+      <div class="cell"><span class="cell__l">Focus-visible</span><a href="#" class="btn btn-g is-focus">See the work</a></div>
+      <div class="cell"><span class="cell__l">Disabled</span><button class="btn btn-g" disabled>See the work</button></div>
+    </div>
+
+    <span class="cell__l" style="display:block;margin:var(--s8) 0 var(--s4)">Pair, as used in the hero and CTA</span>
+    <div class="row" style="gap:var(--s3)">
+      <a href="#" class="btn btn-p">Start a project</a>
+      <a href="#" class="btn btn-g">For designers in the region</a>
+    </div>
+    <p class="spec__note">Tab through this sheet to confirm the real focus ring — every interactive element takes a 2px --accent outline at --s1 offset.</p>
+  </section>
+
+  <!-- 05 — Meta band -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">05</span>
+      <span class="spec__t">.meta-band</span>
+      <p class="spec__note">Four cells, 1px top and bottom rule. Hairlines are produced by a 1px grid gap over a --border ground, so dividers stay correct at 4, 2 and 1 columns. Collapses at 768px and 480px — narrow the window to check.</p>
+    </div>
+    <div class="meta-band">
+      <div class="meta-band__cell"><div class="meta-band__k">Region</div><div class="meta-band__v">Northeast India · 8 states</div></div>
+      <div class="meta-band__cell"><div class="meta-band__k">Practice</div><div class="meta-band__v">Interface Design · Design Systems</div></div>
+      <div class="meta-band__cell"><div class="meta-band__k">Sectors</div><div class="meta-band__v">Real Estate · Hospitality · Pharma · Education</div></div>
+      <div class="meta-band__cell"><div class="meta-band__k">Studio</div><div class="meta-band__v">Bengaluru · Munich · Dubai · Denver</div></div>
+    </div>
+  </section>
+
+  <!-- 06 — Small parts -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">06</span>
+      <span class="spec__t">Tags, badges, datum</span>
+      <p class="spec__note">The datum block closes every sector tile with the concrete software we deliver for that sector — it replaced the market-sizing figures in the v2 repositioning. The status badge is the only element in the system permitted a pill radius.</p>
+    </div>
+    <div class="row">
+      <div class="cell"><span class="cell__l">.tag</span>
+        <div class="row" style="gap:var(--s2);margin:0">
+          <span class="tag">Inventory dashboards</span>
+          <span class="tag">Channel partner portals</span>
+          <span class="tag">Booking &amp; payment flows</span>
+        </div></div>
+    </div>
+    <div class="row">
+      <div class="cell"><span class="cell__l">.badge — pill permitted here only</span>
+        <div class="row" style="gap:var(--s2);margin:0">
+          <span class="badge">Draft</span>
+          <span class="badge badge--accent">Featured</span>
+        </div></div>
+      <div class="cell" style="min-width:300px"><span class="cell__l">.datum — closes every sector tile</span>
+        <div class="datum" style="width:100%">
+          <div class="datum__k">We build</div>
+          <div class="sector__tags">
+            <span class="tag">Inventory dashboards</span>
+            <span class="tag">Channel partner portals</span>
+            <span class="tag">Booking &amp; payment flows</span>
+          </div>
+        </div></div>
+    </div>
+  </section>
+
+  <!-- 07 — Grid texture + invert -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">07</span>
+      <span class="spec__t">Grid texture &amp; .invert</span>
+      <p class="spec__note">48px grid at 4% ink. The ink is derived from --text via color-mix, so the texture inverts automatically inside .invert — no second token, no second rule. Used on the hero and statistics band only.</p>
+    </div>
+    <div class="invert grid-tex panel-dark">
+      <div class="slabel">By the Numbers</div>
+      <h2 class="sh" style="margin-bottom:var(--s8)">Fifteen years, four <em>studios.</em></h2>
+      <div class="row" style="gap:var(--s16);margin:0">
+        <div><div style="font-size:clamp(40px,6vw,88px);font-weight:800;letter-spacing:-0.04em;line-height:1">100+</div>
+             <div class="meta-band__k" style="margin-top:var(--s2)">Projects shipped</div></div>
+        <div><div style="font-size:clamp(40px,6vw,88px);font-weight:800;letter-spacing:-0.04em;line-height:1">3M+</div>
+             <div class="meta-band__k" style="margin-top:var(--s2)">Users reached</div></div>
+      </div>
+      <div class="row" style="margin:var(--s12) 0 0;gap:var(--s3)">
+        <a href="#" class="btn btn-p">Start a project</a>
+        <a href="#" class="btn btn-g">See the work</a>
+      </div>
+    </div>
+    <p class="spec__note">Note the buttons above: .btn-p and .btn-g re-point through the inverted tokens with no variant classes.</p>
+  </section>
+
+  <!-- 08 — Placeholders -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">08</span>
+      <span class="spec__t">Image placeholders</span>
+      <p class="spec__note">Every slot renders at its final aspect ratio with the slot key printed on it. The real &lt;picture&gt; markup sits commented out beneath each one — swapping in finals is a one-line change.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--s3)">
+      <div class="ph" style="aspect-ratio:16/7"><span class="ph__key">img_sector_realestate<br>16 / 7</span></div>
+      <div class="ph" style="aspect-ratio:4/5"><span class="ph__key">img_sector_hospitality<br>4 / 5</span></div>
+      <div class="ph" style="aspect-ratio:1/1"><span class="ph__key">img_sector_pharma<br>1 / 1</span></div>
+      <div class="ph" style="aspect-ratio:3/2"><span class="ph__key">img_sector_education<br>3 / 2</span></div>
+    </div>
+  </section>
+
+  <!-- 09 — Reveal -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">09</span>
+      <span class="spec__t">.reveal / .stagger</span>
+      <p class="spec__note">opacity 0→1 plus translateY, --dur-standard with --ease-out, children staggered 55ms. IntersectionObserver, unobserved after firing. Both are gated behind an .js class on &lt;html&gt;, so content is never invisible if the script fails. Fully disabled under prefers-reduced-motion.</p>
+    </div>
+    <button class="btn btn-g" id="replay" type="button">Replay reveal</button>
+    <div class="stagger" id="demo" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--s3);margin-top:var(--s6)">
+      <div class="demo-box"><span class="cell__l">Child 01</span></div>
+      <div class="demo-box"><span class="cell__l">Child 02</span></div>
+      <div class="demo-box"><span class="cell__l">Child 03</span></div>
+      <div class="demo-box"><span class="cell__l">Child 04</span></div>
+      <div class="demo-box"><span class="cell__l">Child 05</span></div>
+      <div class="demo-box"><span class="cell__l">Child 06</span></div>
+    </div>
+  </section>
+
+  <!-- 10 — Tokens -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">10</span>
+      <span class="spec__t">Tokens in use</span>
+      <p class="spec__note">Read live from tokens.css. Nothing in styles.css restates a colour; there are zero hex literals in the stylesheet.</p>
+    </div>
+    <div class="swatches">
+      <div class="sw"><div class="sw__chip" style="background:var(--bg)"></div><div class="sw__m"><b>--bg</b>oklch(1 0 0)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--surface)"></div><div class="sw__m"><b>--surface</b>oklch(0.98 0.001 0)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--surface-raised)"></div><div class="sw__m"><b>--surface-raised</b>oklch(0.96 0.001 0)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--text)"></div><div class="sw__m"><b>--text</b>oklch(0 0 0)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--text-2)"></div><div class="sw__m"><b>--text-2</b>oklch(0.40 0.005 0)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--text-3)"></div><div class="sw__m"><b>--text-3</b>oklch(0.55 0.005 0)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--accent)"></div><div class="sw__m"><b>--accent</b>oklch(0.53 0.18 249)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--accent-hi)"></div><div class="sw__m"><b>--accent-hi</b>oklch(0.70 0.14 249)</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--accent-muted)"></div><div class="sw__m"><b>--accent-muted</b>0.14 alpha</div></div>
+      <div class="sw"><div class="sw__chip" style="background:var(--accent-soft)"></div><div class="sw__m"><b>--accent-soft</b>0.06 alpha</div></div>
+    </div>
+
+    <div style="margin-top:var(--s8)">
+      <span class="cell__l" style="display:block;margin-bottom:var(--s3)">Spacing scale</span>
+      <div class="scale-row"><span class="scale-row__n">--s1</span><span class="scale-row__bar" style="width:var(--s1)"></span><span class="scale-row__v">4px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s2</span><span class="scale-row__bar" style="width:var(--s2)"></span><span class="scale-row__v">8px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s3</span><span class="scale-row__bar" style="width:var(--s3)"></span><span class="scale-row__v">12px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s4</span><span class="scale-row__bar" style="width:var(--s4)"></span><span class="scale-row__v">16px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s6</span><span class="scale-row__bar" style="width:var(--s6)"></span><span class="scale-row__v">24px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s8</span><span class="scale-row__bar" style="width:var(--s8)"></span><span class="scale-row__v">32px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s12</span><span class="scale-row__bar" style="width:var(--s12)"></span><span class="scale-row__v">48px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s16</span><span class="scale-row__bar" style="width:var(--s16)"></span><span class="scale-row__v">64px</span></div>
+      <div class="scale-row"><span class="scale-row__n">--s24</span><span class="scale-row__bar" style="width:var(--s24)"></span><span class="scale-row__v">96px</span></div>
+    </div>
+  </section>
+
+  <!-- 11 — Contrast -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">11</span>
+      <span class="spec__t">Measured contrast</span>
+      <p class="spec__note">Computed from the real token values after the Phase 4/5 accessibility pass. Every text/background pair on the page was measured against its actually-painted ground — 147 elements, minimum ratio 4.58:1, zero failures.</p>
+    </div>
+    <div class="a11y">
+      <table>
+        <thead><tr><th>Pair</th><th>Use</th><th>Required</th><th>Ratio</th></tr></thead>
+        <tbody>
+          <tr><td>--accent on --bg</td><td>.slabel, 10px</td><td>4.5</td><td class="pass">5.16 — pass</td></tr>
+          <tr><td>--accent on --surface</td><td>.slabel, government band</td><td>4.5</td><td class="pass">4.87 — pass</td></tr>
+          <tr><td>--accent on --surface-raised</td><td>.slabel, designer network</td><td>4.5</td><td class="pass">4.58 — pass</td></tr>
+          <tr><td>--accent on --bg</td><td>Heading &lt;em&gt;, large</td><td>3.0</td><td class="pass">5.16 — pass</td></tr>
+          <tr><td>--text-2 on --bg</td><td>Body copy</td><td>4.5</td><td class="pass">9.20 — pass</td></tr>
+          <tr><td>--text-3 on --bg</td><td>Meta labels</td><td>4.5</td><td class="pass">4.89 — pass</td></tr>
+          <tr><td>--accent-hi on invert --bg</td><td>.slabel in stats band</td><td>4.5</td><td class="pass">7.84 — pass</td></tr>
+          <tr><td>--text-2 on invert --bg</td><td>Inverted body</td><td>4.5</td><td class="pass">8.41 — pass</td></tr>
+          <tr><td>--text-3 on invert --bg</td><td>Stat captions, 10px</td><td>4.5</td><td class="pass">4.64 — pass</td></tr>
+          <tr><td>Focus ring on --bg</td><td>:focus-visible outline</td><td>3.0</td><td class="pass">5.16 — pass</td></tr>
+          <tr><td>Focus ring on invert --bg</td><td>:focus-visible in hero</td><td>3.0</td><td class="pass">7.84 — pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 12 — Footer -->
+  <section class="spec">
+    <div class="spec__hd">
+      <span class="spec__n">12</span>
+      <span class="spec__t">Footer</span>
+      <p class="spec__note">Accent ground, matching live parallaxorg.com. The only place the accent is used as a large fill — the brand guidelines forbid it, the live build does it, and matching the site was the explicit call. White-on-accent measures 5.16:1 here versus 3.90:1 on the live site, because --accent was darkened during the contrast pass. The full stop is not tinted on this ground, since accent-on-accent would erase it.</p>
+    </div>
+    <div class="footer">
+      <div class="footer__in" style="padding:0 var(--s6)">
+        <div class="footer__left">
+          <span class="wordmark footer__logo">Parallax<span aria-hidden="true">.</span></span>
+          <span class="footer__copy">&copy; 2026 Parallax Studio</span>
+        </div>
+        <div class="footer__states">Assam · Meghalaya · Nagaland · Manipur · Mizoram · Tripura · Arunachal · Sikkim</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="spec" style="padding-bottom:var(--s24)">
+    <p class="spec__note">Phase 1 — scaffold, tokens, fonts, shared components. Sections begin at Phase 2.</p>
+  </footer>
+
+</div>
+
+<script src="main.js"></script>
+<script>
+  document.getElementById('replay').addEventListener('click', function () {
+    var d = document.getElementById('demo');
+    d.classList.remove('in');
+    void d.offsetWidth;
+    d.classList.add('in');
+  });
+</script>
+</body>
+</html>

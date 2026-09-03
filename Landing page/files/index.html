@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallax — Interface Design &amp; Design Systems for Northeast India</title>
+<meta name="description" content="Parallax designs interfaces and design systems for the companies running real software across the eight states of Northeast India — property platforms, booking engines, distributor portals, student records.">
+
+<script>document.documentElement.classList.replace('no-js','js');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Bump ?v= on every deploy that changes a token or a rule. Without a build step
+     there is no content hashing, and browsers cache these hard. -->
+<link rel="stylesheet" href="tokens.css?v=1">
+<link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+
+<a class="skip-link btn btn-g" href="#main">Skip to content</a>
+
+<!-- ============================================================
+     01 — NAV
+     ============================================================ -->
+<header class="nav">
+  <nav class="w nav__in" aria-label="Primary">
+    <a href="https://www.parallaxorg.com" class="wordmark nav__logo">Parallax<span aria-hidden="true">.</span></a>
+    <div class="nav__right">
+      <span class="nav__label">Northeast India</span>
+      <a href="#cta" class="btn btn-g">Start a project</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- ============================================================
+       02 — HERO
+       ============================================================ -->
+  <section class="hero invert" aria-labelledby="hero-h">
+
+    <div class="hero__bg">
+      <div class="ph" aria-hidden="true"><span class="ph__key">img_ne_hero<br>16 / 9</span></div>
+      <!-- Final image — swap the placeholder above for this block:
+      <picture>
+        <source type="image/webp" srcset="images/ne-hero-2400.webp 2400w, images/ne-hero-1600.webp 1600w" sizes="100vw">
+        <img src="images/ne-hero-2400.jpg" width="2400" height="1350"
+             alt="A contemporary commercial building in Guwahati at dusk, lit windows across a long horizontal facade."
+             fetchpriority="high" decoding="async" style="object-position: 75% 40%;">
+      </picture>
+      -->
+    </div>
+
+    <div class="hero__scrim"></div>
+    <div class="hero__tex tex"></div>
+
+    <div class="w hero__in">
+      <div class="slabel slabel--hero">Northeast India</div>
+      <h1 class="sh sh--hero" id="hero-h">We design and build the software Northeast India <em>runs</em> on.</h1>
+      <p class="lede hero__lede">Interface design, design systems and frontend engineering — for property platforms, booking engines, distributor portals and student records. Precision over decoration. Logic over assumption.</p>
+      <div class="hero__cta">
+        <a class="btn btn-p" href="#cta">Start a project</a>
+        <a class="btn btn-g" href="#designers">For designers in the region</a>
+      </div>
+
+      <div class="hero__stats">
+        <div><span class="hero__sn">100<span class="hero__sn-plus">+</span></span><span class="hero__sl">Projects shipped</span></div>
+        <div><span class="hero__sn">3M<span class="hero__sn-plus">+</span></span><span class="hero__sl">Users reached</span></div>
+        <div><span class="hero__sn">15<span class="hero__sn-plus">+</span></span><span class="hero__sl">Years in practice</span></div>
+        <div><span class="hero__sn">4</span><span class="hero__sl">Studios worldwide</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       03 — META BAND
+       ============================================================ -->
+  <section class="meta-band meta-band--flush stagger" aria-label="Studio at a glance">
+    <div class="meta-band__cell">
+      <div class="meta-band__k">Region</div>
+      <div class="meta-band__v">Northeast India · 8 states</div>
+    </div>
+    <div class="meta-band__cell">
+      <div class="meta-band__k">Practice</div>
+      <div class="meta-band__v">Interface Design · Design Systems · Frontend</div>
+    </div>
+    <div class="meta-band__cell">
+      <div class="meta-band__k">Sectors</div>
+      <div class="meta-band__v">Real Estate · Hospitality · Pharma · Education</div>
+    </div>
+    <div class="meta-band__cell">
+      <div class="meta-band__k">Studio</div>
+      <div class="meta-band__v">Bengaluru · Munich · Dubai · Denver</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       04 — CLIENT STRIP
+       The five names already published on parallaxorg.com's logos strip.
+       Accenture is deliberately absent — it appears nowhere on the live site.
+       ============================================================ -->
+  <section class="clients" aria-label="Selected clients">
+    <div class="w clients__in reveal">
+      <div class="clients__label">Selected clients</div>
+      <div class="clients__row">
+        <span>Biblica</span><span class="clients__sep" aria-hidden="true">·</span>
+        <span>BMW</span><span class="clients__sep" aria-hidden="true">·</span>
+        <span>Vestas</span><span class="clients__sep" aria-hidden="true">·</span>
+        <span>Nissan</span><span class="clients__sep" aria-hidden="true">·</span>
+        <span>Sportradar</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       05 — SERVICES  (the offer)
+       ============================================================ -->
+  <section class="section" aria-labelledby="svcs-h">
+    <div class="w">
+      <div class="reveal">
+        <div class="slabel">What We Build</div>
+        <h2 class="sh" id="svcs-h">Six disciplines. One <em>standard.</em></h2>
+        <p class="lede svcs__lede">UX, UI, frontend engineering and the design systems that hold them together. We take a product from research to shipped code, and hand back something your team can run without us.</p>
+      </div>
+
+      <div class="svcs">
+        <div class="svc-row svc-row--accent reveal">
+          <div class="svc-row__n">01</div>
+          <h3 class="svc-row__t">Interface Design</h3>
+          <p class="svc-row__b">Screens that think. Every state, every edge case, every micro-interaction resolved before a line of code is written.</p>
+        </div>
+        <div class="svc-row svc-row--accent reveal">
+          <div class="svc-row__n">02</div>
+          <h3 class="svc-row__t">Design Systems</h3>
+          <p class="svc-row__b">Components, tokens and governance your team runs without calling us. The system is the deliverable, not the screens.</p>
+        </div>
+        <div class="svc-row svc-row--accent reveal">
+          <div class="svc-row__n">03</div>
+          <h3 class="svc-row__t">Frontend Engineering</h3>
+          <p class="svc-row__b">We write production code. React, Next.js, TypeScript &mdash; built for performance, built for teams, built to last past the handoff.</p>
+        </div>
+        <div class="svc-row reveal">
+          <div class="svc-row__n">04</div>
+          <h3 class="svc-row__t">Digital Strategy</h3>
+          <p class="svc-row__b">We map the distance between where your product is and where it needs to be &mdash; research, positioning, architecture &mdash; then build the roadmap to close it.</p>
+        </div>
+        <div class="svc-row reveal">
+          <div class="svc-row__n">05</div>
+          <h3 class="svc-row__t">Brand Systems</h3>
+          <p class="svc-row__b">Identity, voice and design language built as a complete system. Not how you look, but how you hold together across every surface.</p>
+        </div>
+        <div class="svc-row reveal">
+          <div class="svc-row__n">06</div>
+          <h3 class="svc-row__t">Motion &amp; Interaction</h3>
+          <p class="svc-row__b">The gap between software that works and software people trust is how it moves. Choreographed with precision timing and physics-based motion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       06 — SECTORS BENTO
+       ============================================================ -->
+  <section class="section" aria-labelledby="sectors-h">
+    <div class="w">
+      <div class="reveal">
+        <div class="slabel">Where We Work</div>
+        <h2 class="sh" id="sectors-h">The software we build, by <em>sector.</em></h2>
+      </div>
+
+      <div class="bento">
+
+        <article class="sector sector--01 reveal">
+          <div class="sector__media">
+            <div class="ph" aria-hidden="true" style="aspect-ratio:16/7"><span class="ph__key">img_sector_realestate<br>16 / 7</span></div>
+            <!-- Final image — swap the placeholder above for this block:
+            <picture>
+              <source type="image/webp" srcset="images/sector-realestate-1600.webp" sizes="(max-width:640px) 100vw, 58vw">
+              <img src="images/sector-realestate-1600.jpg" width="1600" height="700"
+                   alt="A residential tower under construction, concrete frame and scaffolding against an overcast sky."
+                   loading="lazy" decoding="async">
+            </picture>
+            -->
+          </div>
+          <div class="slabel">S&mdash;01 · Real estate</div>
+          <h3 class="sh sh--sub">Inventory that sells <em>online.</em></h3>
+          <p class="sector__body">High-value inventory still moves through PDF brochures and message threads. We build the portal that replaces them &mdash; browsable stock, live availability, and a payment flow that closes without a phone call.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Inventory dashboards</span>
+            <span class="tag">Channel partner portals</span>
+            <span class="tag">Booking &amp; payment flows</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="sector sector--02 reveal">
+          <div class="sector__media">
+            <div class="ph" aria-hidden="true" style="aspect-ratio:4/5"><span class="ph__key">img_sector_hospitality<br>4 / 5</span></div>
+            <!-- Final image — swap the placeholder above for this block:
+            <picture>
+              <source type="image/webp" srcset="images/sector-hospitality-1600.webp" sizes="(max-width:640px) 100vw, 40vw">
+              <img src="images/sector-hospitality-1600.jpg" width="1280" height="1600"
+                   alt="An empty double-height hotel reception, hard architectural lines under controlled cool light."
+                   loading="lazy" decoding="async">
+            </picture>
+            -->
+          </div>
+          <div class="slabel">S&mdash;02 · Hospitality</div>
+          <h3 class="sh sh--sub">Direct bookings that keep your <em>margin.</em></h3>
+          <p class="sector__body">Aggregators take a fifth of every booking because the property's own flow is unusable. We build a direct engine that guests finish &mdash; and a management interface your front desk can actually run.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Direct booking engines</span>
+            <span class="tag">Property management UI</span>
+            <span class="tag">Guest apps</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="sector sector--03 reveal">
+          <div class="sector__media">
+            <div class="ph" aria-hidden="true" style="aspect-ratio:1/1"><span class="ph__key">img_sector_pharma<br>1 / 1</span></div>
+            <!-- Final image — swap the placeholder above for this block:
+            <picture>
+              <source type="image/webp" srcset="images/sector-pharma-1600.webp" sizes="(max-width:640px) 100vw, 40vw">
+              <img src="images/sector-pharma-1600.jpg" width="1600" height="1600"
+                   alt="A stainless steel blister packaging line in a pharmaceutical cleanroom under cool clinical lighting."
+                   loading="lazy" decoding="async">
+            </picture>
+            -->
+          </div>
+          <div class="slabel">S&mdash;03 · Pharma</div>
+          <h3 class="sh sh--sub">Compliance systems people can <em>use.</em></h3>
+          <p class="sector__body">Sikkim holds one of the densest manufacturing clusters in the country, running batch records and distributor systems built to satisfy an audit rather than a person. We build the interfaces the floor and the field actually work in.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Compliance dashboards</span>
+            <span class="tag">Distributor portals</span>
+            <span class="tag">Field-force apps</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="sector sector--04 reveal">
+          <div class="sector__media">
+            <div class="ph" aria-hidden="true" style="aspect-ratio:3/2"><span class="ph__key">img_sector_education<br>3 / 2</span></div>
+            <!-- Final image — swap the placeholder above for this block:
+            <picture>
+              <source type="image/webp" srcset="images/sector-education-1600.webp" sizes="(max-width:640px) 100vw, 58vw">
+              <img src="images/sector-education-1600.jpg" width="1600" height="1067"
+                   alt="An empty university lecture theatre seen from the rear, tiered seating in repeating rhythm."
+                   loading="lazy" decoding="async">
+            </picture>
+            -->
+          </div>
+          <div class="slabel">S&mdash;04 · Education</div>
+          <h3 class="sh sh--sub">Admissions students don't <em>fight.</em></h3>
+          <p class="sector__body">Admissions, records and learning systems carry the highest volume and the highest friction of any software in the region. We build the portals and dashboards that carry ten thousand students without a helpdesk queue.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Admissions portals</span>
+            <span class="tag">Student dashboards</span>
+            <span class="tag">Learning platforms</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       07 — GOVERNMENT
+       ============================================================ -->
+  <section class="section section--surface" aria-labelledby="gov-h">
+    <div class="w">
+      <div class="gov__grid">
+
+        <div class="gov__head reveal">
+          <div class="slabel">Public Sector</div>
+          <h2 class="sh" id="gov-h">Citizens don't get to choose another <em>portal.</em></h2>
+          <p class="lede gov__lede">Which is precisely why public software should be held to a higher standard than private, not a lower one. We work with state departments, boards and missions on the systems citizens are required to use, and we hand back a design system the next vendor can build on.</p>
+        </div>
+
+        <div class="gov__tiles stagger">
+          <div class="gov__tile">Citizen service portals</div>
+          <div class="gov__tile">Tourism &amp; permit systems</div>
+          <div class="gov__tile">Scheme &amp; benefit tracking</div>
+          <div class="gov__tile">Internal dashboards</div>
+          <div class="gov__tile">Accessibility audits</div>
+          <div class="gov__tile">Design system handover</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       08 — DESIGN HUB
+       ============================================================ -->
+  <section class="section section--raised" id="designers" aria-labelledby="dn-h">
+    <div class="w">
+
+      <div class="dn__head reveal">
+        <div class="slabel">For Designers in the Region</div>
+        <h2 class="sh" id="dn-h">We're building a design hub in the <em>Northeast.</em></h2>
+        <p class="lede dn__lede">Talent is not the constraint in the Northeast. Access is. We're building the network, the standard and the body of work that keeps designers here &mdash; on real products, paid properly, credited publicly. Three ways in.</p>
+      </div>
+
+      <div class="dn__media reveal">
+        <div class="ph" aria-hidden="true" style="aspect-ratio:16/7"><span class="ph__key">img_designers_workspace<br>16 / 7</span></div>
+        <!-- Final image — swap the placeholder above for this block:
+        <picture>
+          <source type="image/webp" srcset="images/designers-workspace-1600.webp" sizes="100vw">
+          <img src="images/designers-workspace-1600.jpg" width="1600" height="700"
+               alt="A designer's desk from above, two monitors showing wireframes and a component library beside a notebook."
+               loading="lazy" decoding="async">
+        </picture>
+        -->
+      </div>
+
+      <div class="dn__steps stagger">
+        <div class="dn__step">
+          <div class="dn__step-n">Route 01</div>
+          <h3 class="sh sh--step">Join a project</h3>
+          <p class="dn__step-b">Staffed on live client work at an agreed rate, alongside our team. Reviewed, credited, paid on delivery.</p>
+        </div>
+        <div class="dn__step">
+          <div class="dn__step-n">Route 02</div>
+          <h3 class="sh sh--step">Bring work in</h3>
+          <p class="dn__step-b">Introduce a business that needs design. We take scoping, proposal, pricing, contract and collection. If it closes, you are on the project team.</p>
+        </div>
+        <div class="dn__step">
+          <div class="dn__step-n">Route 03</div>
+          <h3 class="sh sh--step">Build the standard</h3>
+          <p class="dn__step-b">Portfolio reviews, mentorship and published work &mdash; so the bar is set here rather than imported from Bangalore.</p>
+        </div>
+      </div>
+
+      <div class="dn__terms reveal">
+        <span class="dn__term">No exclusivity</span>
+        <span class="dn__term">No joining fee</span>
+        <span class="dn__term">Paid for work, not for leads</span>
+        <span class="dn__term">Publicly credited</span>
+      </div>
+
+      <div class="dn__cta reveal">
+        <a class="btn btn-p" href="mailto:projects@parallaxorg.com?subject=Designer%20network%20%E2%80%94%20Northeast%20India">Join the network</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       09 — CTA
+       ============================================================ -->
+  <section class="section" id="cta" aria-labelledby="cta-h">
+    <div class="w">
+      <div class="reveal">
+        <div class="slabel">Next</div>
+        <h2 class="sh sh--cta cta__h" id="cta-h">Tell us what you're <em>building.</em></h2>
+        <p class="lede cta__lede">We start by questioning the brief. One call, a lot of questions, no deck. If we're not the right studio for it, we'll say so and point you at someone who is.</p>
+        <div class="cta__btns">
+          <a class="btn btn-p" href="mailto:projects@parallaxorg.com">projects@parallaxorg.com</a>
+          <a class="btn btn-g" href="https://www.parallaxorg.com/work.html">See the work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     10 — FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="w footer__in">
+    <div class="footer__left">
+      <span class="wordmark footer__logo">Parallax<span aria-hidden="true">.</span></span>
+      <span class="footer__copy">&copy; 2026 Parallax Studio</span>
+    </div>
+    <div class="footer__states">Assam · Meghalaya · Nagaland · Manipur · Mizoram · Tripura · Arunachal · Sikkim</div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
