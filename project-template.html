@@ -52,8 +52,9 @@
       --text:           oklch(0 0 0);
       --text-2:         oklch(0.40 0.005 0);
       --text-3:         oklch(0.55 0.005 0);
-      --accent:         oklch(0.60 0.18 249);
+      --accent:         oklch(0.53 0.18 249);
       --accent-hi:      oklch(0.70 0.14 249);
+      --accent-on-dark: oklch(0.70 0.14 249);
       --accent-muted:   oklch(0.60 0.18 249 / 0.14);
       --accent-soft:    oklch(0.60 0.18 249 / 0.06);
       --border:         oklch(0 0 0 / 0.15);
@@ -1588,6 +1589,17 @@
         padding-left: 24px; padding-right: 24px;
       }
       .bsys-token { flex: 0 0 160px; scroll-snap-align: start; min-height: 120px; }
+    }
+  
+    /* ── Accent on dark grounds ──────────────────────────────────────────
+       --accent is tuned for light backgrounds (4.77:1 on white). On a dark
+       ground the same value drops to ~4.26:1, so dark sections re-point the
+       token to the lighter --accent-on-dark (7.67:1 on near-black).
+       Descendants pick it up automatically via inheritance. */
+    .services, .pricing, .prc, .process, .team, .afeat__inner,
+    .proj-hero, .proj-stats, .dig-system, .brand-variant--dark,
+    .dsys-comp__demo--dark, .nav__overlay-right {
+      --accent: var(--accent-on-dark);
     }
   </style>
   <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>

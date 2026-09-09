@@ -10,8 +10,8 @@
 
   <style>
     /* ============================================================
-       PARALLAX — Brand Guidelines v2.0
-       Updated to reflect live website design system (2026)
+       PARALLAX — Brand Guidelines v3.0
+       One system: shared foundations, applied to web and to product (2026)
     ============================================================ */
 
     :root {
@@ -36,7 +36,7 @@
       --site-surface: oklch(0.98 0.001 0);
       --site-text:    oklch(0 0 0);
       --site-text-2:  oklch(0.40 0.005 0);
-      --site-text-3:  oklch(0.55 0.005 0);
+      --site-text-3:  oklch(0.51 0.005 0);
       --site-border:  oklch(0 0 0 / 0.15);
 
       /* Semantic */
@@ -332,7 +332,7 @@
     .demo-meta { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; }
     .demo-meta__item { padding: 16px 20px; border-right: 1px solid oklch(0 0 0 / 0.12); }
     .demo-meta__item:last-child { border-right: none; }
-    .demo-meta__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.55 0.005 0); margin-bottom: 4px; }
+    .demo-meta__label { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.51 0.005 0); margin-bottom: 4px; }
     .demo-meta__val { font-size: 13px; font-weight: 600; letter-spacing: -0.02em; color: oklch(0 0 0); }
 
     /* Mini overview */
@@ -395,6 +395,78 @@
       .demo-stats { grid-template-columns: repeat(2, 1fr); }
       .demo-brand-row { grid-template-columns: repeat(2, 1fr); }
     }
+    /* ── System divider (Foundations / Web / Product / Build) ── */
+    .sys-divider { padding: 110px 0 0; border-top: 1px solid var(--doc-border-s); }
+    .sys-divider__eyebrow {
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.20em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+    }
+    .sys-divider__eyebrow::before { content:''; width:40px; height:1px; background:var(--accent); }
+    .sys-divider__title {
+      font-size: clamp(30px, 5vw, 60px); font-weight: 800;
+      letter-spacing: -0.048em; line-height: 0.98; margin-bottom: 18px;
+    }
+    .sys-divider__title em { font-style: normal; color: var(--accent); }
+    .sys-divider__desc { font-size: 17px; color: var(--doc-text-2); max-width: 660px; line-height: 1.75; }
+    .sys-divider + .section { border-top: none; padding-top: 64px; }
+
+    .motion-table-wrap { overflow-x: auto; }
+
+    /* ── Contrast ratios ── */
+    .ratio { font-family: var(--font-m); font-size: 11px; }
+    .ratio--pass { color: var(--success); }
+    .ratio--fail { color: var(--danger); }
+
+    /* ── Status system table ── */
+    .status-grid { border: 1px solid var(--doc-border); background: var(--doc-surface); overflow-x: auto; }
+    .status-row {
+      display: grid; grid-template-columns: 160px 1fr 128px 128px;
+      gap: 20px; align-items: center; padding: 14px 24px;
+      border-bottom: 1px solid var(--doc-border); min-width: 660px;
+    }
+    .status-row:last-child { border-bottom: none; }
+    .status-row--head {
+      background: var(--doc-raised); font-family: var(--font-m); font-size: 9px;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--doc-text-3);
+    }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px;
+      border-radius: 999px; font-family: var(--font-m); font-size: 10px;
+      font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+    }
+    .status-pill__dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .status-row__val { font-family: var(--font-m); font-size: 11px; color: var(--doc-text-2); }
+
+    /* ── Surface scale ── */
+    .surface-scale { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px,1fr)); gap:1px; background: var(--doc-border); }
+    .surface-cell { background: var(--doc-surface); }
+    .surface-cell__chip { height: 84px; border-bottom: 1px solid var(--doc-border); }
+    .surface-cell__info { padding: 14px 16px; }
+    .surface-cell__name { font-size: 12px; font-weight: 600; margin-bottom: 7px; }
+    .surface-cell__val { font-family: var(--font-m); font-size: 10px; color: var(--doc-text-3); line-height:1.75; display:block; }
+
+    /* ── Avatar palette ── */
+    .avatar-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .avatar-chip {
+      width: 40px; height: 40px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600;
+    }
+
+    /* ── Product UI demo — a light app surface shown inside the dark document ── */
+    .app-demo { background: #fff; border: 1px solid var(--doc-border); overflow: hidden; }
+    .app-demo__bar { display:flex; align-items:center; justify-content:space-between; padding: 13px 18px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .app-demo__title { font-size: 14px; font-weight: 700; letter-spacing: -0.03em; color: #000; }
+    .app-demo__chip { font-family: var(--font-m); font-size: 9px; letter-spacing:0.1em; text-transform:uppercase; color:#696566; border:1px solid rgba(0,0,0,0.15); padding: 3px 9px; }
+    .app-demo__row { display:grid; grid-template-columns: 1.6fr 1fr 0.7fr 1fr; gap: 14px; align-items:center; padding: 11px 18px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .app-demo__row:last-child { border-bottom: none; }
+    .app-demo__head { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #696566; }
+    .app-demo__cell { font-size: 12px; color: #4a4747; }
+    .app-demo__cell--name { font-size: 12px; font-weight: 500; color: #000; }
+    .app-demo__cell--accent { font-family: var(--font-m); font-size: 12px; color: #006dcd; }
+    .app-demo__btn { display:inline-flex; align-items:center; gap:6px; background:#006dcd; color:#fff; border:1px solid #006dcd; padding: 8px 16px; font-size: 11px; font-weight:500; letter-spacing: 0.06em; text-transform: uppercase; }
+    .app-demo__btn--ghost { background:transparent; color:#4a4747; border-color: rgba(0,0,0,0.15); }
+
   </style>
 </head>
 <body>
@@ -402,18 +474,30 @@
 
   <!-- ==================== COVER ==================== -->
   <section class="cover">
-    <div class="cover__label">Brand Guidelines — v2.0</div>
+    <div class="cover__label">Brand Guidelines — v3.0</div>
     <h1 class="cover__title">Parallax<br><em>Studio.</em></h1>
     <p class="cover__desc">
-      The definitive guide to the Parallax visual identity, voice, and design system.
+      One system for the Parallax identity, the marketing site, and the products we
+      ship. Shared foundations first, then how they apply on web and in product.
       Built on precision. Documented for scale.
     </p>
     <div class="cover__meta">
-      <span>Version 2.0</span>
-      <span>May 2026</span>
+      <span>Version 3.0</span>
+      <span>September 2026</span>
       <span>Confidential</span>
       <span>parallax.studio</span>
     </div>
+  </section>
+
+  <!-- ==================== DIVIDER — FOUNDATIONS ==================== -->
+  <section class="sys-divider" style="border-top:none;padding-top:0;">
+    <div class="sys-divider__eyebrow">Part One</div>
+    <h2 class="sys-divider__title">The <em>Foundations</em>.</h2>
+    <p class="sys-divider__desc">
+      Identity, colour, type, spacing, motion and voice. These are shared — they do not
+      change between a landing page and an application screen. Everything after this
+      section is an application of what is defined here.
+    </p>
   </section>
 
   <!-- ==================== 01. BRAND OVERVIEW ==================== -->
@@ -520,14 +604,14 @@
       <div>
         <h2 class="section__title">Colour <em>System</em></h2>
         <p class="section__desc">
-          A light-first palette for the website. Pure white backgrounds, high-contrast black text,
-          and a single blue accent in OKLCH. The accent is the signal — use it for labels,
-          highlights, hover states, and CTAs. Not as fill.
+          One light-first palette for everything we ship. Pure white backgrounds, high-contrast
+          black text, and a single blue accent in OKLCH. The accent is the signal — labels,
+          highlights, hover states, CTAs. Never a fill.
         </p>
       </div>
     </div>
 
-    <div class="sub-label" style="margin-top:0;">Website Core Palette</div>
+    <div class="sub-label" style="margin-top:0;">Core Palette</div>
     <div class="color-grid" style="margin-bottom:1px;">
       <div class="swatch">
         <div class="swatch__chip" style="background:oklch(1 0 0);border-bottom:1px solid rgba(0,0,0,0.1);"></div>
@@ -557,7 +641,7 @@
         <div class="swatch__chip" style="background:oklch(0 0 0);"></div>
         <div class="swatch__info">
           <div class="swatch__name">Text</div>
-          <div class="swatch__values"><span>oklch(0 0 0)</span><span>#000000</span></div>
+          <div class="swatch__values"><span>oklch(0 0 0)</span><span>#000000</span><span class="ratio ratio--pass">21:1</span></div>
           <span class="swatch__tag">--text</span>
         </div>
       </div>
@@ -565,36 +649,71 @@
         <div class="swatch__chip" style="background:oklch(0.40 0.005 0);"></div>
         <div class="swatch__info">
           <div class="swatch__name">Text Secondary</div>
-          <div class="swatch__values"><span>oklch(0.40 0.005 0)</span><span>~#666</span></div>
+          <div class="swatch__values"><span>oklch(0.40 0.005 0)</span><span>#4a4747</span><span class="ratio ratio--pass">9.20:1 on white</span></div>
           <span class="swatch__tag">--text-2</span>
         </div>
       </div>
       <div class="swatch">
-        <div class="swatch__chip" style="background:oklch(0.55 0.005 0);"></div>
+        <div class="swatch__chip" style="background:oklch(0.51 0.005 0);"></div>
         <div class="swatch__info">
           <div class="swatch__name">Text Tertiary</div>
-          <div class="swatch__values"><span>oklch(0.55 0.005 0)</span><span>~#888</span></div>
+          <div class="swatch__values"><span>oklch(0.51 0.005 0)</span><span>#696566</span><span class="ratio ratio--pass">5.75:1 on white</span></div>
           <span class="swatch__tag">--text-3</span>
         </div>
       </div>
     </div>
 
     <div class="sub-label">Brand Accent</div>
+    <p class="section__desc" style="margin:-8px 0 24px;font-size:15px;">
+      Parallax Blue is one value. It sits at <strong style="color:var(--doc-text);">oklch(0.53 0.18 249)</strong>,
+      which clears WCAG AA both as text on white and beneath white text on an accent fill —
+      5.16:1 on white, and still 4.87:1 on <code style="font-family:var(--font-m);font-size:12px;color:var(--accent);">--surface</code>
+      and 4.58:1 on <code style="font-family:var(--font-m);font-size:12px;color:var(--accent);">--surface-raised</code>.
+      It is set at 0.53 rather than 0.55 for exactly that reason: 0.55 passes on pure white
+      but lands at 4.4993:1 on <code style="font-family:var(--font-m);font-size:12px;color:var(--accent);">--surface</code>,
+      which is where most section labels actually sit. The lighter <strong style="color:var(--doc-text);">--accent-display</strong>
+      is reserved for large type, dots and rules, where the 3:1 large-text threshold applies.
+      It must never carry small text.
+    </p>
+    <p class="section__desc" style="margin:-8px 0 24px;font-size:15px;">
+      Accent lightness moves with the ground it sits on. On dark surfaces — hero scrims,
+      stat bands, this document — the accent runs <em style="font-style:normal;color:var(--doc-text);">lighter</em>,
+      not darker: 0.55 manages only 4.26:1 on near-black, while 0.70 reaches 7.67:1.
+      Pick the value for the surface, never by habit.
+    </p>
     <div class="color-grid" style="margin-bottom:1px;">
       <div class="swatch">
-        <div class="swatch__chip" style="background:oklch(0.60 0.18 249);"></div>
+        <div class="swatch__chip" style="background:oklch(0.53 0.18 249);"></div>
         <div class="swatch__info">
           <div class="swatch__name">Parallax Blue</div>
-          <div class="swatch__values"><span>oklch(0.60 0.18 249)</span><span>~#4f6ef7</span></div>
+          <div class="swatch__values"><span>oklch(0.53 0.18 249)</span><span>#006dcd</span><span class="ratio ratio--pass">5.16:1 — AA on every light surface</span></div>
           <span class="swatch__tag">--accent — Primary</span>
         </div>
       </div>
       <div class="swatch">
-        <div class="swatch__chip" style="background:oklch(0.70 0.14 249);"></div>
+        <div class="swatch__chip" style="background:oklch(0.47 0.18 249);"></div>
         <div class="swatch__info">
-          <div class="swatch__name">Accent Hi</div>
-          <div class="swatch__values"><span>oklch(0.70 0.14 249)</span><span>~#7f9af9</span></div>
-          <span class="swatch__tag">--accent-hi — Hover</span>
+          <div class="swatch__name">Accent Hover</div>
+          <div class="swatch__values"><span>oklch(0.47 0.18 249)</span><span>#005ab9</span><span class="ratio ratio--pass">6.64:1 — AAA</span></div>
+          <span class="swatch__tag">--accent-hover — Hover / press</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:oklch(0.60 0.18 249);"></div>
+        <div class="swatch__info">
+          <div class="swatch__name">Accent Display</div>
+          <div class="swatch__values"><span>oklch(0.60 0.18 249)</span><span>#0083e5</span><span class="ratio ratio--fail">3.90:1 — large only</span></div>
+          <span class="swatch__tag">--accent-display — 24px+ / dots / rules</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:#0d0d14;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:var(--font-m);font-size:12px;color:oklch(0.70 0.14 249);letter-spacing:0.14em;">ON DARK</span>
+        </div>
+        <div class="swatch__info">
+          <div class="swatch__name">Accent on Dark</div>
+          <div class="swatch__values"><span>oklch(0.70 0.14 249)</span><span>#50a4f1</span><span class="ratio ratio--pass">7.67:1 on #05050a</span></div>
+          <span class="swatch__tag">--accent-on-dark — Dark bands, overlays</span>
         </div>
       </div>
       <div class="swatch">
@@ -659,16 +778,18 @@
           <li>Keep large surfaces white or near-white — the accent earns attention through contrast</li>
           <li>Use oklch() values in code — they're perceptually uniform and future-safe</li>
           <li>Apply --accent-muted as background tints behind accent text</li>
-          <li>Always maintain WCAG AA contrast (4.5:1) for body text</li>
+          <li>Check contrast against the <em style="font-style:normal;color:var(--doc-text);">darkest surface a colour will sit on</em>, not against white — a value that passes on white can fail on a card</li>
+          <li>Maintain WCAG AA: 4.5:1 for text under 24px, 3:1 for larger</li>
         </ul>
       </div>
       <div class="usage-card usage-card--dont">
         <div class="usage-card__label">Avoid</div>
         <ul>
           <li>Large blocks of accent blue as background fills</li>
+          <li>--accent-display on anything under 24px — it reads 3.90:1 and fails AA</li>
+          <li>Drawing a label's text and its background tint from the same value — that pattern caps contrast around 4:1. Darken the text ~15%</li>
           <li>Introducing additional hues not in this system</li>
           <li>Using opacity-based text colours not defined as tokens</li>
-          <li>Placing accent text on coloured backgrounds (contrast risk)</li>
           <li>Hex values directly in code — always use the token names</li>
         </ul>
       </div>
@@ -926,6 +1047,17 @@
     </div>
   </section>
 
+  <!-- ==================== DIVIDER — WEB ==================== -->
+  <section class="sys-divider">
+    <div class="sys-divider__eyebrow">Part Two</div>
+    <h2 class="sys-divider__title">The <em>Web</em> System.</h2>
+    <p class="sys-divider__desc">
+      How the foundations apply to parallaxorg.com and any marketing surface. Editorial
+      density, full-viewport heroes, bento grids, and scroll-revealed sections. Content is
+      the subject; the interface gets out of its way.
+    </p>
+  </section>
+
   <!-- ==================== 08. LAYOUT PATTERNS ==================== -->
   <section class="section">
     <div class="section__header">
@@ -1166,16 +1298,330 @@
     </div>
   </section>
 
-  <!-- ==================== 11. CSS TOKENS ==================== -->
+  <!-- ==================== DIVIDER — PRODUCT ==================== -->
+  <section class="sys-divider">
+    <div class="sys-divider__eyebrow">Part Three</div>
+    <h2 class="sys-divider__title">The <em>Product</em> System.</h2>
+    <p class="sys-divider__desc">
+      How the same foundations apply to application interfaces — the Project Tracker and
+      anything built after it. Denser than the web: more surfaces, smaller type, persistent
+      chrome, and state that has to be legible at a glance. The palette does not change;
+      the density does.
+    </p>
+  </section>
+
+  <!-- ==================== 11. SURFACES ==================== -->
   <section class="section">
     <div class="section__header">
-      <div class="section__num">11 // Tokens</div>
+      <div class="section__num">11 // Surfaces</div>
+      <div>
+        <h2 class="section__title">Surface <em>Scale</em></h2>
+        <p class="section__desc">
+          Marketing pages need two or three surfaces. An application needs six — canvas,
+          chrome, input, hover, raised, pressed. All are near-white and separated by roughly
+          0.015–0.025 in OKLCH lightness: enough to read as distinct layers, never enough to
+          look grey.
+        </p>
+      </div>
+    </div>
+
+    <div class="sub-label" style="margin-top:0;">Application Surfaces</div>
+    <div class="surface-scale" style="margin-bottom:56px;">
+      <div class="surface-cell">
+        <div class="surface-cell__chip" style="background:#ffffff;"></div>
+        <div class="surface-cell__info">
+          <div class="surface-cell__name">Primary</div>
+          <span class="surface-cell__val">--bg-primary</span>
+          <span class="surface-cell__val">oklch(1 0 0)</span>
+          <span class="surface-cell__val" style="color:var(--doc-text-2);">App canvas</span>
+        </div>
+      </div>
+      <div class="surface-cell">
+        <div class="surface-cell__chip" style="background:#fbfafa;"></div>
+        <div class="surface-cell__info">
+          <div class="surface-cell__name">Secondary</div>
+          <span class="surface-cell__val">--bg-secondary</span>
+          <span class="surface-cell__val">oklch(0.985 0.001 0)</span>
+          <span class="surface-cell__val" style="color:var(--doc-text-2);">Sidebar, panels, modals</span>
+        </div>
+      </div>
+      <div class="surface-cell">
+        <div class="surface-cell__chip" style="background:#f6f5f5;"></div>
+        <div class="surface-cell__info">
+          <div class="surface-cell__name">Tertiary</div>
+          <span class="surface-cell__val">--bg-tertiary</span>
+          <span class="surface-cell__val">oklch(0.97 0.001 0)</span>
+          <span class="surface-cell__val" style="color:var(--doc-text-2);">Inputs, chips, cards</span>
+        </div>
+      </div>
+      <div class="surface-cell">
+        <div class="surface-cell__chip" style="background:#f2f1f2;"></div>
+        <div class="surface-cell__info">
+          <div class="surface-cell__name">Hover</div>
+          <span class="surface-cell__val">--bg-hover</span>
+          <span class="surface-cell__val">oklch(0.96 0.001 0)</span>
+          <span class="surface-cell__val" style="color:var(--doc-text-2);">Row and nav hover</span>
+        </div>
+      </div>
+      <div class="surface-cell">
+        <div class="surface-cell__chip" style="background:#f1f0f0;"></div>
+        <div class="surface-cell__info">
+          <div class="surface-cell__name">Elevated</div>
+          <span class="surface-cell__val">--bg-elevated</span>
+          <span class="surface-cell__val">oklch(0.955 0.001 0)</span>
+          <span class="surface-cell__val" style="color:var(--doc-text-2);">Raised cards</span>
+        </div>
+      </div>
+      <div class="surface-cell">
+        <div class="surface-cell__chip" style="background:#e8e7e8;"></div>
+        <div class="surface-cell__info">
+          <div class="surface-cell__name">Active</div>
+          <span class="surface-cell__val">--bg-active</span>
+          <span class="surface-cell__val">oklch(0.93 0.001 0)</span>
+          <span class="surface-cell__val" style="color:var(--doc-text-2);">Pressed / selected</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Borders</div>
+    <div class="motion-table-wrap">
+      <table class="motion-table">
+        <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+        <tr><td>--border-subtle</td><td><code>oklch(0 0 0 / 0.08)</code></td><td>Row separators, internal hairlines</td></tr>
+        <tr><td>--border-default</td><td><code>oklch(0 0 0 / 0.15)</code></td><td>Cards, inputs, panels, chrome edges</td></tr>
+        <tr><td>--border-strong</td><td><code>oklch(0 0 0 / 0.30)</code></td><td>Emphasis, ghost buttons</td></tr>
+      </table>
+    </div>
+
+    <div class="usage-grid" style="margin-top:56px;">
+      <div class="usage-card usage-card--do">
+        <div class="usage-card__label">Surface Rules</div>
+        <ul>
+          <li>Elevation is a surface step plus a border — not a shadow</li>
+          <li>Hover lifts a row toward white; it never darkens it</li>
+          <li>Shadows only where something genuinely floats: modals, drawers, popovers</li>
+          <li>Keep --text-3 at 0.51 — it holds 4.66:1 even on --bg-active</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--dont">
+        <div class="usage-card__label">Avoid</div>
+        <ul>
+          <li>Stacking more than two surface steps in one component</li>
+          <li>Dark panels or inverted sections inside the app — the whole product is light</li>
+          <li>Ambient drop shadows to fake depth on static cards</li>
+          <li>Introducing a seventh surface because two look similar — adjust spacing instead</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 12. STATUS ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">12 // Status</div>
+      <div>
+        <h2 class="section__title">Status <em>System</em></h2>
+        <p class="section__desc">
+          Seven states, each a hue held at roughly 5:1 on white. Status is the one place the
+          system permits a pill and the one place colour carries meaning — so every badge
+          pairs its colour with a dot and a written label. Colour is never the only signal.
+        </p>
+      </div>
+    </div>
+
+    <div class="sub-label" style="margin-top:0;">Project Status</div>
+    <div class="status-grid" style="margin-bottom:56px;">
+      <div class="status-row status-row--head">
+        <div>Badge</div><div>Token</div><div>Value</div><div>On white</div>
+      </div>
+      <div class="status-row">
+        <div><span class="status-pill" style="color:#7c3aed;background:rgba(124,58,237,0.10);"><span class="status-pill__dot" style="background:#7c3aed"></span>Planning</span></div>
+        <div class="status-row__val">--status-planning</div>
+        <div class="status-row__val">#7c3aed</div>
+        <div class="ratio ratio--pass">5.70:1</div>
+      </div>
+      <div class="status-row">
+        <div><span class="status-pill" style="color:#0f766e;background:rgba(15,118,110,0.10);"><span class="status-pill__dot" style="background:#0f766e"></span>Active</span></div>
+        <div class="status-row__val">--status-active</div>
+        <div class="status-row__val">#0f766e</div>
+        <div class="ratio ratio--pass">5.47:1</div>
+      </div>
+      <div class="status-row">
+        <div><span class="status-pill" style="color:#b45309;background:rgba(180,83,9,0.10);"><span class="status-pill__dot" style="background:#b45309"></span>In Review</span></div>
+        <div class="status-row__val">--status-in-review</div>
+        <div class="status-row__val">#b45309</div>
+        <div class="ratio ratio--pass">5.02:1</div>
+      </div>
+      <div class="status-row">
+        <div><span class="status-pill" style="color:#c2410c;background:rgba(194,65,12,0.10);"><span class="status-pill__dot" style="background:#c2410c"></span>On Hold</span></div>
+        <div class="status-row__val">--status-on-hold</div>
+        <div class="status-row__val">#c2410c</div>
+        <div class="ratio ratio--pass">5.18:1</div>
+      </div>
+      <div class="status-row">
+        <div><span class="status-pill" style="color:#15803d;background:rgba(21,128,61,0.10);"><span class="status-pill__dot" style="background:#15803d"></span>Completed</span></div>
+        <div class="status-row__val">--status-completed</div>
+        <div class="status-row__val">#15803d</div>
+        <div class="ratio ratio--pass">5.02:1</div>
+      </div>
+      <div class="status-row">
+        <div><span class="status-pill" style="color:#a16207;background:rgba(161,98,7,0.10);"><span class="status-pill__dot" style="background:#a16207"></span>Paid</span></div>
+        <div class="status-row__val">--status-paid</div>
+        <div class="status-row__val">#a16207</div>
+        <div class="ratio ratio--pass">4.92:1</div>
+      </div>
+      <div class="status-row">
+        <div><span class="status-pill" style="color:#dc2626;background:rgba(220,38,38,0.10);"><span class="status-pill__dot" style="background:#dc2626"></span>Cancelled</span></div>
+        <div class="status-row__val">--status-cancelled</div>
+        <div class="status-row__val">#dc2626</div>
+        <div class="ratio ratio--pass">4.83:1</div>
+      </div>
+    </div>
+
+    <div class="sub-label">Anatomy</div>
+    <div class="motion-table-wrap">
+      <table class="motion-table">
+        <tr><th>Property</th><th>Value</th><th>Note</th></tr>
+        <tr><td>Shape</td><td><code>border-radius: 999px</code></td><td>The only permitted pill in the system</td></tr>
+        <tr><td>Padding</td><td><code>3px 12px</code></td><td>Wider sides so the label clears the curve</td></tr>
+        <tr><td>Type</td><td><code>JetBrains Mono 10px / 0.08em / uppercase</code></td><td>Same as every other label</td></tr>
+        <tr><td>Dot</td><td><code>7px, border-radius 50%</code></td><td>Solid status colour, always present</td></tr>
+        <tr><td>Background</td><td><code>status colour @ 10%</code></td><td>Tint only — never a solid fill</td></tr>
+      </table>
+    </div>
+
+    <div class="usage-grid" style="margin-top:56px;">
+      <div class="usage-card usage-card--dont">
+        <div class="usage-card__label">The tint trap</div>
+        <ul>
+          <li>A badge that draws its text and its 10% background from the same value caps out near 4:1 — it passes on white and fails on a card</li>
+          <li>When a badge sits on a surface rather than on white, darken the label ~15% and keep the tint at the original colour</li>
+          <li>Example: <code style="color:var(--accent);">#006dcd</code> label becomes <code style="color:var(--accent);">#005dae</code>; the tint stays <code style="color:var(--accent);">#006dcd</code> @ 10%</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--do">
+        <div class="usage-card__label">Identity Colours</div>
+        <ul>
+          <li>Twelve fixed colours, assigned by hashing the person's name so it stays stable</li>
+          <li>All hold 4.6:1 or better beneath white initials</li>
+          <li>Circular — avatars and dots are the only circles in the system</li>
+          <li>Stacks overlap at -6px with a 2px canvas-coloured ring</li>
+        </ul>
+        <div class="avatar-row" style="margin-top:20px;"><div class="avatar-chip" style="background:#4f46e5">A</div><div class="avatar-chip" style="background:#7c3aed">B</div><div class="avatar-chip" style="background:#9333ea">C</div><div class="avatar-chip" style="background:#db2777">D</div><div class="avatar-chip" style="background:#e11d48">E</div><div class="avatar-chip" style="background:#c2410c">F</div><div class="avatar-chip" style="background:#a16207">G</div><div class="avatar-chip" style="background:#15803d">H</div><div class="avatar-chip" style="background:#0f766e">I</div><div class="avatar-chip" style="background:#0e7490">J</div><div class="avatar-chip" style="background:#1d4ed8">K</div><div class="avatar-chip" style="background:#1e40af">L</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 13. APPLICATION COMPONENTS ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">13 // App Components</div>
+      <div>
+        <h2 class="section__title">Application <em>Components</em></h2>
+        <p class="section__desc">
+          Product chrome runs tighter than the web: 13px body, 10px mono labels, 8–12px
+          padding. Sharp corners throughout, exactly as on the web — the density changes,
+          the geometry does not.
+        </p>
+      </div>
+    </div>
+
+    <div class="sub-label" style="margin-top:0;">Data Table</div>
+    <div class="app-demo" style="margin-bottom:56px;">
+      <div class="app-demo__bar">
+        <div class="app-demo__title">All Projects</div>
+        <div class="app-demo__chip">20 Projects</div>
+      </div>
+      <div class="app-demo__row">
+        <div class="app-demo__head">Project</div><div class="app-demo__head">Client</div>
+        <div class="app-demo__head">Tithe</div><div class="app-demo__head">Status</div>
+      </div>
+      <div class="app-demo__row">
+        <div class="app-demo__cell--name">Touchdown</div><div class="app-demo__cell">Sportradar</div>
+        <div class="app-demo__cell--accent">&euro;50</div>
+        <div><span class="status-pill" style="color:#0f766e;background:rgba(15,118,110,0.10);"><span class="status-pill__dot" style="background:#0f766e"></span>Active</span></div>
+      </div>
+      <div class="app-demo__row">
+        <div class="app-demo__cell--name">Branding</div><div class="app-demo__cell">Taarai</div>
+        <div class="app-demo__cell--accent">&euro;5</div>
+        <div><span class="status-pill" style="color:#a16207;background:rgba(161,98,7,0.10);"><span class="status-pill__dot" style="background:#a16207"></span>Paid</span></div>
+      </div>
+      <div class="app-demo__row">
+        <div class="app-demo__cell--name">Cricket Roulette</div><div class="app-demo__cell">Sportradar</div>
+        <div class="app-demo__cell--accent">&euro;10</div>
+        <div><span class="status-pill" style="color:#15803d;background:rgba(21,128,61,0.10);"><span class="status-pill__dot" style="background:#15803d"></span>Completed</span></div>
+      </div>
+    </div>
+
+    <div class="sub-label">Buttons — Product</div>
+    <div class="component-grid" style="margin-bottom:56px;">
+      <div class="component-card" style="background:#fff;">
+        <div class="component-card__label" style="color:#696566;">Primary &amp; Secondary</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <span class="app-demo__btn">New Project</span>
+          <span class="app-demo__btn app-demo__btn--ghost">Cancel</span>
+        </div>
+        <div style="font-size:13px;color:#4a4747;line-height:1.7;">
+          Solid --accent with white text at 5.16:1. Hover darkens to --accent-hover rather
+          than lightening — on a light ground, depth reads as darker.
+        </div>
+      </div>
+      <div class="component-card">
+        <div class="component-card__label">Density Scale</div>
+        <div class="swatch__values" style="font-size:11.5px;line-height:2;">
+          <span>Body — 13px / 1.5</span>
+          <span>Labels — JetBrains Mono 10px / 0.12em</span>
+          <span>Section title — 16px / 700 / -0.03em</span>
+          <span>Numeric — JetBrains Mono, tabular</span>
+          <span>Row padding — 12px 24px</span>
+          <span>Control padding — 8px 12px</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="usage-grid">
+      <div class="usage-card usage-card--do">
+        <div class="usage-card__label">Product Rules</div>
+        <ul>
+          <li>Money, dates, counts and IDs set in JetBrains Mono — aligned columns beat prose</li>
+          <li>Accent reserved for derived and interactive values, not every number</li>
+          <li>Row hover reveals actions; they stay hidden until then</li>
+          <li>One accent action per view — the rest are ghost or plain</li>
+          <li>Circles only for status dots and avatars</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--dont">
+        <div class="usage-card__label">Avoid</div>
+        <ul>
+          <li>Rounded corners on cards, inputs, modals or buttons — status pills only</li>
+          <li>Colour as the sole carrier of meaning — always pair with a label</li>
+          <li>Web spacing inside the app; --s24 sections belong on marketing pages</li>
+          <li>A second accent hue to distinguish product from marketing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER — BUILD ==================== -->
+  <section class="sys-divider">
+    <div class="sys-divider__eyebrow">Part Four</div>
+    <h2 class="sys-divider__title">The <em>Build</em>.</h2>
+    <p class="sys-divider__desc">
+      Every token in one block, and the conventions that keep the system coherent as more
+      surfaces are added. If a value is not here, it does not exist.
+    </p>
+  </section>
+
+  <!-- ==================== 14. CSS TOKENS ==================== -->
+  <section class="section">
+    <div class="section__header">
+      <div class="section__num">14 // Tokens</div>
       <div>
         <h2 class="section__title">Design <em>Tokens</em></h2>
         <p class="section__desc">
-          Copy-paste ready CSS custom properties. Single source of truth for all
-          Parallax implementations — website, apps, CMS, and partner builds.
-          All colour values use OKLCH for perceptual consistency.
+          Copy-paste ready CSS custom properties — the single source of truth for every
+          Parallax implementation. Foundation tokens are shared by web and product; the
+          product block adds surfaces and status on top. All colour in OKLCH.
         </p>
       </div>
     </div>
@@ -1183,19 +1629,25 @@
     <div class="token-block">
       <div class="type-specimen__label" style="font-family:var(--font-m);font-size:10px;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:24px;">CSS Custom Properties — Copy-Paste Ready</div>
 <pre style="white-space:pre-wrap;margin:0;font-family:var(--font-m);font-size:12.5px;line-height:2.1;">
+<span style="color:var(--doc-text-3);">/* ══ FOUNDATION — shared by web and product ══ */</span>
+
 <span style="color:var(--doc-text-3);">/* ── Colour ── */</span>
-<span class="token-name">--bg:</span>             <span class="token-val">oklch(1 0 0);</span>
-<span class="token-name">--surface:</span>        <span class="token-val">oklch(0.98 0.001 0);</span>
-<span class="token-name">--surface-raised:</span> <span class="token-val">oklch(0.96 0.001 0);</span>
-<span class="token-name">--text:</span>           <span class="token-val">oklch(0 0 0);</span>
-<span class="token-name">--text-2:</span>         <span class="token-val">oklch(0.40 0.005 0);</span>
-<span class="token-name">--text-3:</span>         <span class="token-val">oklch(0.55 0.005 0);</span>
-<span class="token-name">--accent:</span>         <span class="token-val">oklch(0.60 0.18 249);</span>
-<span class="token-name">--accent-hi:</span>      <span class="token-val">oklch(0.70 0.14 249);</span>
-<span class="token-name">--accent-muted:</span>   <span class="token-val">oklch(0.60 0.18 249 / 0.14);</span>
-<span class="token-name">--accent-soft:</span>    <span class="token-val">oklch(0.60 0.18 249 / 0.06);</span>
-<span class="token-name">--border:</span>         <span class="token-val">oklch(0 0 0 / 0.15);</span>
-<span class="token-name">--border-strong:</span>  <span class="token-val">oklch(0 0 0 / 0.30);</span>
+<span class="token-name">--bg:</span>              <span class="token-val">oklch(1 0 0);</span>
+<span class="token-name">--surface:</span>         <span class="token-val">oklch(0.98 0.001 0);</span>
+<span class="token-name">--surface-raised:</span>  <span class="token-val">oklch(0.96 0.001 0);</span>
+<span class="token-name">--text:</span>            <span class="token-val">oklch(0 0 0);</span>          <span style="color:var(--doc-text-3);">/* 21:1   */</span>
+<span class="token-name">--text-2:</span>          <span class="token-val">oklch(0.40 0.005 0);</span>  <span style="color:var(--doc-text-3);">/* 9.20:1 */</span>
+<span class="token-name">--text-3:</span>          <span class="token-val">oklch(0.51 0.005 0);</span>  <span style="color:var(--doc-text-3);">/* 5.75:1 — holds on every surface */</span>
+<span class="token-name">--accent:</span>          <span class="token-val">oklch(0.53 0.18 249);</span> <span style="color:var(--doc-text-3);">/* 5.16:1 white / 4.87:1 surface */</span>
+<span class="token-name">--accent-hover:</span>    <span class="token-val">oklch(0.47 0.18 249);</span> <span style="color:var(--doc-text-3);">/* 6.64:1 */</span>
+<span class="token-name">--accent-display:</span>  <span class="token-val">oklch(0.60 0.18 249);</span> <span style="color:var(--doc-text-3);">/* 3.90:1 on white — 24px+ only */</span>
+<span class="token-name">--accent-on-dark:</span>  <span class="token-val">oklch(0.70 0.14 249);</span> <span style="color:var(--doc-text-3);">/* 7.67:1 on near-black       */</span>
+<span class="token-name">--accent-muted:</span>    <span class="token-val">oklch(0.60 0.18 249 / 0.14);</span>
+<span class="token-name">--accent-soft:</span>     <span class="token-val">oklch(0.60 0.18 249 / 0.06);</span>
+<span class="token-name">--border:</span>          <span class="token-val">oklch(0 0 0 / 0.15);</span>
+<span class="token-name">--border-strong:</span>   <span class="token-val">oklch(0 0 0 / 0.30);</span>
+<span class="token-name">--success:</span>         <span class="token-val">#15803d;</span>
+<span class="token-name">--danger:</span>          <span class="token-val">#dc2626;</span>
 
 <span style="color:var(--doc-text-3);">/* ── Typography ── */</span>
 <span class="token-name">--font-d:</span>  <span class="token-val">'Bricolage Grotesque', system-ui, sans-serif;</span>
@@ -1216,23 +1668,51 @@
 <span class="token-name">--ease-out:</span>    <span class="token-val">cubic-bezier(0.23, 1, 0.32, 1);</span>
 <span class="token-name">--ease-inout:</span>  <span class="token-val">cubic-bezier(0.77, 0, 0.175, 1);</span>
 
-<span style="color:var(--doc-text-3);">/* ── Layout ── */</span>
+<span style="color:var(--doc-text-3);">/* ── Radius ── */</span>
+<span class="token-name">--radius:</span>       <span class="token-val">0;</span>       <span style="color:var(--doc-text-3);">/* everything structural */</span>
+<span class="token-name">--radius-pill:</span>  <span class="token-val">999px;</span>  <span style="color:var(--doc-text-3);">/* status badges only  */</span>
+<span class="token-name">--radius-full:</span>  <span class="token-val">50%;</span>    <span style="color:var(--doc-text-3);">/* dots and avatars    */</span>
+
+<span style="color:var(--doc-text-3);">/* ══ WEB — marketing surfaces ══ */</span>
 <span class="token-name">--w-max:</span>        <span class="token-val">1400px;</span>
 <span class="token-name">--w-padding:</span>    <span class="token-val">clamp(24px, 5vw, 80px);</span>
 <span class="token-name">--section-pad:</span>  <span class="token-val">var(--s24);</span>  <span style="color:var(--doc-text-3);">/* 96px top + bottom */</span>
+
+<span style="color:var(--doc-text-3);">/* ══ PRODUCT — application surfaces ══ */</span>
+<span class="token-name">--bg-primary:</span>     <span class="token-val">oklch(1 0 0);</span>
+<span class="token-name">--bg-secondary:</span>   <span class="token-val">oklch(0.985 0.001 0);</span>
+<span class="token-name">--bg-tertiary:</span>    <span class="token-val">oklch(0.97 0.001 0);</span>
+<span class="token-name">--bg-hover:</span>       <span class="token-val">oklch(0.96 0.001 0);</span>
+<span class="token-name">--bg-elevated:</span>    <span class="token-val">oklch(0.955 0.001 0);</span>
+<span class="token-name">--bg-active:</span>      <span class="token-val">oklch(0.93 0.001 0);</span>
+<span class="token-name">--border-subtle:</span>  <span class="token-val">oklch(0 0 0 / 0.08);</span>
+
+<span style="color:var(--doc-text-3);">/* Status — colour plus a 10% tint. Always pair with a dot and a label. */</span>
+<span class="token-name">--status-planning:</span>   <span class="token-val">#7c3aed;</span>
+<span class="token-name">--status-active:</span>     <span class="token-val">#0f766e;</span>
+<span class="token-name">--status-in-review:</span>  <span class="token-val">#b45309;</span>
+<span class="token-name">--status-on-hold:</span>    <span class="token-val">#c2410c;</span>
+<span class="token-name">--status-completed:</span>  <span class="token-val">#15803d;</span>
+<span class="token-name">--status-paid:</span>       <span class="token-val">#a16207;</span>
+<span class="token-name">--status-cancelled:</span>  <span class="token-val">#dc2626;</span>
+
+<span style="color:var(--doc-text-3);">/* Product density */</span>
+<span class="token-name">--sidebar-width:</span>  <span class="token-val">240px;</span>
+<span class="token-name">--detail-width:</span>   <span class="token-val">380px;</span>
+<span class="token-name">--topbar-height:</span>  <span class="token-val">56px;</span>
 </pre>
     </div>
   </section>
 
-  <!-- ==================== 12. IMPLEMENTATION NOTES ==================== -->
+  <!-- ==================== 15. IMPLEMENTATION NOTES ==================== -->
   <section class="section">
     <div class="section__header">
-      <div class="section__num">12 // Implementation</div>
+      <div class="section__num">15 // Implementation</div>
       <div>
         <h2 class="section__title">Build <em>Notes</em></h2>
         <p class="section__desc">
-          Rules and patterns for engineers and developers building on top of the Parallax system.
-          These are the conventions that keep the system coherent as it scales.
+          Rules and patterns for engineers building on the Parallax system, on web or in
+          product. These are the conventions that keep it coherent as more surfaces are added.
         </p>
       </div>
     </div>
@@ -1247,6 +1727,8 @@
           <li>Use <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">clamp()</code> for fluid type and spacing — no fixed breakpoints for copy</li>
           <li>Left-align all headings — centred headings only for pull quotes</li>
           <li>Add <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">-webkit-font-smoothing: antialiased</code> to body</li>
+          <li>Verify contrast against the darkest surface a colour lands on, not against white</li>
+          <li>Define every token a module references — an undefined <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">var()</code> silently falls back and can ship the wrong theme</li>
         </ul>
       </div>
       <div class="usage-card usage-card--dont">
@@ -1258,6 +1740,8 @@
           <li>Centre-align hero or section headings</li>
           <li>Use hardcoded hex values — always go through the token system</li>
           <li>Use the accent colour as a large background fill</li>
+          <li>Put <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">var()</code> in an SVG presentation attribute — <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">stroke</code> and <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">fill</code> do not resolve custom properties. Use <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">currentColor</code> or a literal</li>
+          <li>Build a colour by string-concatenating an alpha suffix onto a token</li>
         </ul>
       </div>
     </div>
@@ -1274,14 +1758,13 @@
         </ul>
       </div>
       <div class="usage-card usage-card--do" style="border-top-color:var(--accent);">
-        <div class="usage-card__label" style="color:var(--accent);">Image Slot Keys (CMS)</div>
+        <div class="usage-card__label" style="color:var(--accent);">Web / Product Parity</div>
         <ul>
-          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_hero</code> — Full-viewport hero background</li>
-          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_identity_mark_01/02/03</code> — Cycling logo marks</li>
-          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_identity_construction</code> — Logo construction</li>
-          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_identity_variant_light/dark/accent</code></li>
-          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_app_*</code> — Applications bento slots</li>
-          <li><code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">img_digital_*</code> — Digital section slots</li>
+          <li>Identical: palette, typefaces, easing, zero radius, left-aligned headings</li>
+          <li>Different: density only — web runs <code style="font-family:var(--font-m);font-size:11px;color:var(--accent);">--s24</code> sections and fluid display type; product runs 13px body and 8–12px control padding</li>
+          <li>Product adds surfaces and status on top of the foundation — it never redefines it</li>
+          <li>A second accent hue for product is never the answer; adjust density or surface instead</li>
+          <li>CMS headings mark the accent word with *asterisks*; product headings take no accent word</li>
         </ul>
       </div>
     </div>
@@ -1291,8 +1774,8 @@
   <footer class="guidelines-footer">
     <div class="guidelines-footer__brand">Parallax<span>.</span></div>
     <div class="guidelines-footer__meta">
-      Brand Guidelines v2.0<br>
-      May 2026 — Confidential<br>
+      Brand Guidelines v3.0<br>
+      September 2026 — Confidential<br>
       parallax.studio
     </div>
   </footer>
