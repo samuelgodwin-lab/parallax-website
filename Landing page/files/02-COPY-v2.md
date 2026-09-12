@@ -30,21 +30,35 @@ hero → clients → services → sectors → government → hub → CTA.
 
 **Slabel:** `NORTHEAST INDIA` — [KEPT]
 
-**H1:** [NEW]
-We design and build the software Northeast India *runs* on.
+**H1:** [EDITED — v3]
+We build the brands and apps Northeast India *runs* on.
 
 > v1 was `Most software here was never designed. It was just built.` — a diagnosis of the
-> reader's market. v2 states the offer instead. The problem is now implied, not lectured.
+> reader's market. v2 stated the offer instead. v3 names both artefacts — brands and apps —
+> in nine words against v2's ten, one clause instead of two. "Brands" first, matching the
+> service order.
 
-**Lede:** [EDITED]
-Interface design, design systems and frontend engineering — for property platforms,
-booking engines, distributor portals and student records. Precision over decoration.
-Logic over assumption.
+**Lede:** [EDITED — v3]
+Brand systems, interface design and frontend engineering — one studio, from identity to
+shipped code. For property platforms, booking engines, distributor portals and student
+records.
 
-> Sector list and the two closing lines are v1 verbatim. The opening clause now names the
-> three disciplines instead of describing the regional situation.
+> Names the three lead services in service order, then states the differentiator: one studio
+> covering identity through shipped code. `Precision over decoration. Logic over assumption.`
+> is cut from the hero — good voice, but studio-inward at the point of conversion. The sector
+> list is v1 verbatim.
 
-**Buttons:** `Start a project` (primary) · `For designers in the region` (ghost → #designers) — [KEPT]
+**Buttons:** [EDITED — v3]
+`Start a project` (primary → #cta) · `See the work` (ghost → parallaxorg.com/work.html)
+
+> Both hero buttons are now client-facing. The designer route was a conversion leak in the
+> hero — the secondary action sent a prospective client into a recruitment section.
+
+**Note line:** [NEW — v3]
+One call, a lot of questions, no deck. · *Designer in the region?* (→ #designers)
+
+> Friction-reducer borrowed from the section 09 lede, and it carries the designer route so
+> nothing is lost by reclaiming the second button.
 
 **Hero stats** — [MOVED from the retired statistics band, values [KEPT]]
 `100+` Projects shipped · `3M+` Users reached · `15+` Years in practice · `4` Studios worldwide
@@ -54,56 +68,86 @@ Logic over assumption.
 
 ---
 
-## 03 — Meta band
+## Meta band — [REMOVED — v3]  *(was 03)*
 
-| Label | Value | |
-|---|---|---|
-| Region | Northeast India · 8 states | [KEPT] |
-| Practice | Interface Design · Design Systems · Frontend | [EDITED — added Frontend] |
-| Sectors | Real Estate · Hospitality · Pharma · Education | [KEPT] |
-| Studio | Bengaluru · Munich · Dubai · Denver | [KEPT] |
+The four-cell band under the hero is cut. `Region` and `Practice` were already said, better,
+in the hero slabel and lede; `Sectors` is the whole of section 05; `Studio` was the only cell
+carrying anything new, and it now lives in the footer.
 
----
-
-## 04 — Client strip
-
-**Label:** `SELECTED CLIENTS` — [NEW]
-
-**Names:** Biblica · BMW · Vestas · Nissan · Sportradar — [RESOLVED]
-
-> These are exactly the five on the live site's logos strip, so they are already public and
-> need no further clearance. **Accenture is deliberately dropped** — it appears nowhere on
-> parallaxorg.com and exists only in BRAND-GUIDELINES.html. The live marquee additionally
-> carries Strato, Suka, Sopra, YVT, Re'flekt, BuildDeli and Sinnerschrader if you ever want
-> a longer row.
+> The `.meta-band` component itself stays in `components.html` and in `styles.css` — it is a
+> library component, not a landing-page-only one.
 
 ---
 
-## 05 — Services  *(moved up from 08 — this is the offer)*
+## 03 — Services marquee — [NEW — v3]
+
+Lifted verbatim from parallaxorg.com, where it occupies the identical slot: an accent band
+straight after the hero. Six items, printed twice in the track, translating -50% over 28s.
+
+`Brand Systems · Interface Design · Frontend Engineering · Design Systems ·
+Digital Strategy · Motion & Interaction`
+
+> Treatment is the live one verbatim; the **names are this page's**, in section 04's order.
+> The live marquee reads Brand Identity · Interface Design · Motion Engineering · Frontend
+> Architecture · Design Systems · Creative Direction — four of those conflict with the
+> service rows two sections below, so the marquee was aligned to the page rather than the
+> other way round. **If parallaxorg.com is ever renamed to match, this is the line to
+> revisit.**
+
+---
+
+## 04 — Services  *(moved up from 08 — this is the offer)*
 
 **Slabel:** `WHAT WE BUILD` — [EDITED, was `WHAT WE DO`]
 
 **H2:** Six disciplines. One *standard.* — [KEPT] *(also the live site's exact heading)*
 
-**Lede:** [NEW]
-UX, UI, frontend engineering and the design systems that hold them together. We take a
-product from research to shipped code, and hand back something your team can run without us.
+**Lede:** [EDITED — v3]
+Brand systems, UX, UI and the frontend engineering that ships them. We take a product from
+identity to shipped code, and hand back something your team can run without us.
 
 > Added because the section previously opened straight into the list. This is the line that
-> says explicitly what we build.
+> says explicitly what we build. v3 opens on brand systems and runs the arc from identity —
+> not research — to shipped code.
 
-**The six rows — all [KEPT] verbatim from v1:**
+**The six rows — bodies all [KEPT] verbatim from v1; order [EDITED — v3]:**
 
 | # | Title | Body |
 |---|---|---|
-| 01 | Interface Design | Screens that think. Every state, every edge case, every micro-interaction resolved before a line of code is written. |
-| 02 | Design Systems | Components, tokens and governance your team runs without calling us. The system is the deliverable, not the screens. |
+| 01 | Brand Systems | Identity, voice and design language built as a complete system. Not how you look, but how you hold together across every surface. |
+| 02 | Interface Design | Screens that think. Every state, every edge case, every micro-interaction resolved before a line of code is written. |
 | 03 | Frontend Engineering | We write production code. React, Next.js, TypeScript — built for performance, built for teams, built to last past the handoff. |
-| 04 | Digital Strategy | We map the distance between where your product is and where it needs to be — research, positioning, architecture — then build the roadmap to close it. |
-| 05 | Brand Systems | Identity, voice and design language built as a complete system. Not how you look, but how you hold together across every surface. |
+| 04 | Design Systems | Components, tokens and governance your team runs without calling us. The system is the deliverable, not the screens. |
+| 05 | Digital Strategy | We map the distance between where your product is and where it needs to be — research, positioning, architecture — then build the roadmap to close it. |
 | 06 | Motion & Interaction | The gap between software that works and software people trust is how it moves. Choreographed with precision timing and physics-based motion. |
 
-Rows 1–3 keep the accent treatment — they are exactly the disciplines to lead with.
+Rows 1–3 keep the accent treatment. The order now runs the sequence a client buys in —
+identity, then screens, then shipped code — with the supporting disciplines behind it.
+
+---
+
+## 05 — Client logos — [REPLACED — v3]  *(was 03, text-only)*
+
+The live `.logos-strip` copied verbatim — accent ground, five inline SVG marks at 72%
+opacity, hairline separators — and moved to sit after the services section.
+
+**Label:** `SELECTED CLIENTS` — [EDITED from the live `MUCH MORE`]
+
+> On parallaxorg.com this strip follows testimonials, where "Much More" reads as *more
+> clients*. Here it follows the services section, where it would read as *more services*.
+
+**Marks:** Biblica · BMW · **Accenture** · Nissan · Sportradar
+
+> The live source comments the third mark `<!-- Vestas -->`, but the SVG it wraps is the
+> **Accenture** wordmark. v2 of this doc dropped Accenture on the belief it "appears nowhere
+> on parallaxorg.com" — that was wrong; it was reading the mislabelled comment. Vestas is not
+> among the logo marks at all, only in the mobile name list below. **Confirmed kept**: the
+> mark is already public on the live site, so it carries no clearance the live site doesn't.
+
+**Mobile (<768px):** the marks are replaced by the live name-marquee —
+Strato · Suka · Sopra · Vestas · YVT · Re'flekt · BMW · BuildDeli · Sinnerschrader · Sportradar
+
+> Ten names, seven of which appear nowhere else on this page.
 
 ---
 
@@ -122,7 +166,11 @@ market-sizing figures. Headlines are outcome-led rather than problem-led.
 ### S—01 · Real estate — [KEPT slabel]
 
 **H3:** [NEW] Inventory that sells *online.*
-**Body:** [EDITED] High-value inventory still moves through PDF brochures and message threads. We build the portal that replaces them — browsable stock, live availability, and a payment flow that closes without a phone call.
+**Body:** [EDITED — v4] High-value inventory still moves through PDF brochures, shared spreadsheets and message threads. We build the portal that replaces all three — browsable stock, live availability, partner-level pricing, and a payment flow that closes without a single phone call.
+
+> Six words longer than v3, to bring this tile's body to three lines so it ends level
+> with S—02 beside it. `partner-level pricing` earns its place — it is the feature behind
+> the `Channel partner portals` tag already in this tile.
 **We build:** `Inventory dashboards` · `Channel partner portals` · `Booking & payment flows` — [KEPT]
 
 ### S—02 · Hospitality — [KEPT slabel]
@@ -134,7 +182,11 @@ market-sizing figures. Headlines are outcome-led rather than problem-led.
 ### S—03 · Pharma — [KEPT slabel]
 
 **H3:** [NEW] Compliance systems people can *use.*
-**Body:** [EDITED] Sikkim holds one of the densest manufacturing clusters in the country, running batch records and distributor systems built to satisfy an audit rather than a person. We build the interfaces the floor and the field actually work in.
+**Body:** [EDITED — v4] Sikkim runs one of the country's densest manufacturing clusters on batch records and distributor systems built for an audit rather than a person. We build what the floor and field actually use.
+
+> Cut from four lines to three so this tile ends level with S—04. The tag row was the
+> other half of that mismatch — three tags overflowed the narrower span-5 tile by ~2px
+> and wrapped; `.tag` padding was tightened to `--s2` / `0.10em` to fit them on one row.
 **We build:** `Compliance dashboards` · `Distributor portals` · `Field-force apps` — [KEPT]
 
 ### S—04 · Education — [KEPT slabel]
@@ -205,9 +257,19 @@ not the right studio for it, we'll say so and point you at someone who is.
 
 ---
 
-## 10 — Footer
+## 10 — Footer — [EDITED — v3]
 
-Unchanged. — [KEPT]
+Left: wordmark · `© 2026 Parallax Studio` — [KEPT]
+
+Right, now two labelled rows:
+
+| Key | Value | |
+|---|---|---|
+| Studios | Bengaluru · Munich · Dubai · Denver | [MOVED from the retired meta band] |
+| Region | Assam · Meghalaya · Nagaland · Manipur · Mizoram · Tripura · Arunachal · Sikkim | [KEPT, now labelled] |
+
+> The region list was previously unlabelled. With a second place-list beside it the label
+> became necessary — otherwise the two read as one run-on list of locations.
 
 ---
 

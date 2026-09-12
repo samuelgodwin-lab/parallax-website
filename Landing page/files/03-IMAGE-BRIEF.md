@@ -9,6 +9,30 @@ or generated separately.
 
 ---
 
+## Status — 2026-09-09
+
+| Slot | Ratio | Shipped | File |
+|---|---|---|---|
+| `img_ne_hero` | 16/9 | ⏳ **placeholder** — a video is replacing this slot | — |
+| `img_sector_realestate` | 16/7 | ✅ 1600×700 | `images/sector-realestate-1600.{webp,jpg}` |
+| `img_sector_hospitality` | 4/5 | ✅ 1280×1600 | `images/sector-hospitality-1600.{webp,jpg}` |
+| `img_sector_pharma` | 1/1 | ✅ 1600×1600 | `images/sector-pharma-1600.{webp,jpg}` |
+| `img_sector_education` | 3/2 | ✅ 1600×1067 | `images/sector-education-1600.{webp,jpg}` |
+| `img_designers_workspace` | 16/7 | ✅ 1600×700 | `images/designers-workspace-1600.{webp,jpg}` |
+
+Generated with `nano_banana_pro` at 2k from the prompts below, plus a shared style clause
+drawn from **Direction** so the five hold together as one set. Centre-cropped to the exact
+slot ratio, then resampled — so `object-fit: cover` never actually crops and
+`object-position` stays at its default. WebP at q80 alongside a q82 JPEG fallback; WebP is
+62–75% smaller and is what every current browser will take.
+
+> The brief's "run the hero first, lock a style reference off it" sequence could not be
+> followed — the hero is becoming a video, so there is no approved still to anchor from.
+> The shared style clause substitutes for it. **If the hero video's grade differs from these
+> five, this set is the one to re-run**, not the video.
+
+---
+
 ## Direction
 
 The whole set should read as one shoot: cool daylight, hard structure, deep space, restrained

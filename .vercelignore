@@ -10,3 +10,8 @@ Psd/
 
 # Confidential — distributed as a private artifact, not from the public site
 BRAND-GUIDELINES.html
+
+# Working copy of the Northeast India page — the published one is /northeast-india/.
+# Without this, the next deploy would serve a second copy at /Landing page/files/
+# and the two would compete as duplicate content.
+Landing page/
