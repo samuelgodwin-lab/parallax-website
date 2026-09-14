@@ -66,10 +66,65 @@
 <!-- Bump ?v= on every deploy that changes a token, a rule, or main.js. Without a
      build step there is no content hashing, and browsers cache these hard.
      main.js is versioned too — it was not, and shipped stale behaviour. -->
-<link rel="stylesheet" href="tokens.css?v=36">
-<link rel="stylesheet" href="styles.css?v=36">
+<link rel="stylesheet" href="tokens.css?v=37">
+<link rel="stylesheet" href="styles.css?v=37">
 </head>
 <body>
+<!-- ============================================================
+     00 — PRELOADER
+     Same as parallaxorg.com's home page: near-black, wordmark in, a mono
+     status that scrambles into the region label, a 2s hold, then it lifts
+     away on window load. Capped at 6s so a slow third-party iframe (the
+     hero video) can never hold the page. The hero entrance is paused until
+     html.loaded so it plays after the loader, not behind it. Hidden under
+     .no-js; under reduced motion it exits as soon as the page has loaded.
+     ============================================================ -->
+<div class="plx" id="plx-loader" aria-hidden="true">
+  <div class="plx__center">
+    <div class="plx__mark" id="plxMark">Parallax<span class="plx__dot">.</span></div>
+    <div class="plx__status" id="plxStatus"></div>
+  </div>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var loader = document.getElementById('plx-loader');
+  var mark = document.getElementById('plxMark');
+  var status = document.getElementById('plxStatus');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MIN = reduced ? 0 : 2000, MAX = 6000, start = Date.now(), done = false;
+
+  if (reduced) { mark.classList.add('plx--vis'); status.textContent = 'NORTHEAST INDIA'; status.classList.add('plx--vis'); }
+  else {
+    setTimeout(function () { mark.classList.add('plx--vis'); }, 380);
+    var POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', FINAL = 'NORTHEAST INDIA', frame = 0;
+    setTimeout(function () {
+      status.classList.add('plx--vis');
+      var iv = setInterval(function () {
+        frame++;
+        if (frame > 16) { status.textContent = FINAL; clearInterval(iv); return; }
+        status.textContent = FINAL.split('').map(function (ch, k) {
+          if (ch === ' ') return ' ';
+          return (frame / 16 > k / FINAL.length) ? ch : POOL[Math.floor(Math.random() * POOL.length)];
+        }).join('');
+      }, 55);
+    }, 720);
+  }
+
+  function exit() {
+    if (done) return; done = true;
+    var wait = Math.max(0, MIN - (Date.now() - start));
+    setTimeout(function () {
+      root.classList.add('loaded');
+      loader.classList.add('plx--out');
+      setTimeout(function () { loader.remove(); }, reduced ? 0 : 650);
+    }, wait);
+  }
+  if (document.readyState === 'complete') exit();
+  else window.addEventListener('load', exit, { once: true });
+  setTimeout(exit, MAX);
+})();
+</script>
 
 <a class="skip-link btn btn-g" href="#main">Skip to content</a>
 
@@ -870,6 +925,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=36"></script>
+<script src="main.js?v=37"></script>
 </body>
 </html>

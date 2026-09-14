@@ -703,6 +703,52 @@ main:focus-visible { outline: none; }
   margin-top: var(--s1);
 }
 
+/* ============================================================
+   PRELOADER — see the markup comment in index.html.
+   ============================================================ */
+.plx {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: oklch(0.08 0.004 260);   /* the .invert ground */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--dur-cinematic) var(--ease-inout), transform var(--dur-cinematic) var(--ease-inout);
+}
+.plx.plx--out { opacity: 0; transform: translateY(-16px); pointer-events: none; }
+.no-js .plx { display: none; }
+.plx__center { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.plx__mark {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(38px, 5.5vw, 72px);
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: oklch(1 0 0);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.plx__mark.plx--vis { opacity: 1; transform: none; }
+.plx__dot { color: var(--accent-hi); }   /* the dark-ground accent, as in .invert */
+.plx__status {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-hi);
+  opacity: 0;
+  height: 14px;
+  min-width: 150px;
+  text-align: center;
+  transition: opacity 400ms ease;
+}
+.plx__status.plx--vis { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .plx, .plx__mark, .plx__status { transition: none; }
+}
+
 /* Cinematic entrance — no scroll trigger, hero is above the fold */
 @keyframes heroUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 /* Delays are per element now, not nth-child — .hero__in holds two children
@@ -710,6 +756,10 @@ main:focus-visible { outline: none; }
 .js .hero__body > *,
 .js .hero__stats,
 .js .hero__scroll { animation: heroUp var(--dur-cinematic) var(--ease-out) both; }
+/* Hold the entrance until the preloader has lifted, so it plays in view. */
+.js:not(.loaded) .hero__body > *,
+.js:not(.loaded) .hero__stats,
+.js:not(.loaded) .hero__scroll { animation-play-state: paused; }
 .js .slabel--hero { animation-delay: 200ms; }
 .js .sh--hero     { animation-delay: 340ms; }
 .js .hero__lede   { animation-delay: 500ms; }
