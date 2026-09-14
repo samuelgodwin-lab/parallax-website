@@ -84,18 +84,15 @@ them — the same systems we run for developers in India, built for German law
 and German tenants.
 **We build:** `Inventory & viewing portals` · `Tenant apps` · `Property-management UI`
 
-## 07 — Accessibility band (replaces NE "Government"; bilingual)
-**Slabel:** `ACCESSIBILITY · BARRIEREFREIHEIT`
+## 07 — Accessibility band (replaces NE "Government")
+**Slabel:** `ACCESSIBILITY`
 **H2:** Accessible is no longer a *choice.*
-**Lede (EN):** Since 28 June 2025 the Barrierefreiheitsstärkungsgesetz requires
+**Lede:** Since 28 June 2025 the Barrierefreiheitsstärkungsgesetz requires
 every consumer website, app, shop and banking service to meet WCAG 2.1 AA.
 Fines run to €100,000 — and a competitor can send the Abmahnung before the
 regulator ever looks. We measure every page we ship against AA. We can do the
 same for the ones you already have.
-**Lede (DE):** Seit dem 28. Juni 2025 gilt das BFSG: Websites, Apps, Shops und
-Banking-Dienste für Verbraucher müssen WCAG 2.1 AA erfüllen. Bußgelder bis
-100.000 € — und die Abmahnung kommt oft vom Wettbewerber. Wir prüfen jede
-Seite, die wir ausliefern, auf AA. Ihre bestehenden auch.
+**Lede (DE):** [REMOVED — v3] English-only page; German is the `/de/` page.
 **Tiles:** `Accessibility audits` · `Remediation` · `Accessible design systems` ·
 `Compliance handover` · `Accessible documents & PDFs` · `Ongoing monitoring`
 
