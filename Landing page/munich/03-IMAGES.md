@@ -18,4 +18,4 @@ centre-cropped to the slot ratio and resampled. WebP q80 + JPEG q82.
 | A–04 1/1 | `bfsg-handover-1200` | Bound report handed across a table, tablet checklist |
 | A–05 4/3 | `bfsg-documents-800` | Printed statements beside a tablet document |
 | A–06 4/3 | `bfsg-monitoring-800` | Wall dashboard in a dim office |
-| Network 16/7 | `network-room-1600` | Designer presenting to two clients, Munich skyline through the glass (Rathaus and Frauenkirche towers — the one deliberate landmark) |
+| Network 16/7 | `network-room-1600` | Young designers in motion in a glass studio — sticky-note wall, a walker, a sketcher, two laughing — Rathaus and Frauenkirche through the glass (the one deliberate landmark). v1 was a presentation to clients with a wireframe wall screen; too corporate for a designer network. |
