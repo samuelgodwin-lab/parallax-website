@@ -16,15 +16,16 @@ Label: `MUNICH` · Button: `Start a project` (warm-up scroll to #cta, as on NE)
 
 ## 02 — Hero
 **Slabel:** `MUNICH`
-**H1 (two lines):**
+**H1 (three lines, like the Northeast):**
 We build the brands and apps
-Munich's next companies *run* on.
+Munich's next companies
+*run* on.
 > v1 was "…apps Munich *runs* on." — a status claim with one reference logo
 > behind it; "next companies" makes it intent and names the buyer. See the
 > hero research note in 00-RESEARCH.md §6.
 
-**German lede** (lede size, above the English, `lang="de"`):
-Markensystem, Produkt-UI und Frontend — ein Studio, von der Identität bis zum Code.
+**German lede** — [REMOVED — v3]. Two ledes stacked over the CTAs read as
+crowded. German lives in the BFSG band; a `/de/` page is the real answer.
 
 **Lede:**
 Brand systems, interface design and frontend engineering — one studio, from
