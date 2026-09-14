@@ -7,11 +7,11 @@ centre-cropped to the slot ratio and resampled. WebP q80 + JPEG q82.
 
 | Slot | File | Subject |
 |---|---|---|
-| Hero 16/9 | `muc-hero-1920` | High-key overcast exterior, pale concrete and glass, empty sky on the left for the text. A dusk take was tried first and was too dark for the page's black-text hero; the page uses `.hero--veil`, a left-weighted white gradient, so the lede and the mono lines hold AA (measured worst-pixel 8.2 / 4.7 / 4.9 : 1). A video replaces this slot when there is one. |
+| Hero 16/9 | `muc-hero-1920` | High-key overcast exterior, pale concrete and glass, empty sky on the left for the text. A dusk take was tried first and was too dark for the page's black-text hero; the page uses `.hero--veil`, a left-weighted white gradient, so the lede and the mono lines hold AA (measured worst-pixel 8.2 / 4.7 / 4.9 : 1). Replaced 14 Sep by the Vimeo hero (1226635583); `muc-hero-poster` is its first frame. Light enough (mean 232/255) that the veil is off. |
 | S–01 3/2 | `sector-startups-1600` | Startup floor in a converted brick hall, people from behind |
 | S–02 4/5 | `sector-mobility-1600` | Technician at an HMI on an automated line, robots behind |
 | S–03 1/1 | `sector-insurance-1600` | Corporate glass atrium, figures for scale |
-| S–04 3/2 | `sector-realestate-1600` | Apartment block under construction, crane, grey sky |
+| S–04 3/2 | `sector-realestate-1600` | Munich Altbau street — plaster facades, bay windows, iron balconies. (First take was a raw concrete block under construction; read as Eastern-bloc, not German.) |
 | A–01 4/3 | `bfsg-audit-800` | Hand on trackpad, contrast-check overlay on screen |
 | A–02 4/3 | `bfsg-remediation-800` | Developer, code and rendered UI |
 | A–03 1/1 | `bfsg-system-1200` | Component wall with a designer in front |

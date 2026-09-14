@@ -16,14 +16,14 @@
 <meta property="og:url" content="https://www.parallaxorg.com/munich/">
 <meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Munich">
 <meta property="og:description" content="Parallax builds the brands and apps Munich runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
-<meta property="og:image" content="https://www.parallaxorg.com/munich/images/muc-hero-1920.jpg">
+<meta property="og:image" content="https://www.parallaxorg.com/munich/images/muc-hero-poster.jpg">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1080">
 <meta property="og:image:alt" content="Parallax — brand systems and apps for Munich">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Munich">
 <meta name="twitter:description" content="Parallax builds the brands and apps Munich runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
-<meta name="twitter:image" content="https://www.parallaxorg.com/munich/images/muc-hero-1920.jpg">
+<meta name="twitter:image" content="https://www.parallaxorg.com/munich/images/muc-hero-poster.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -44,8 +44,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=11">
-<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="tokens.css?v=12">
+<link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
 <!-- ============================================================
@@ -124,18 +124,27 @@
   <!-- ============================================================
        02 — HERO
        ============================================================ -->
-  <section class="hero hero--veil" aria-labelledby="hero-h">
+  <section class="hero" aria-labelledby="hero-h">
 
     <div class="hero__bg">
       <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
            frame while the player boots and is all that shows under reduced motion. -->
-      <!-- Still until Munich footage exists; the video slot drops in exactly as on the
-           Northeast page (poster + Vimeo background iframe). -->
+      <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
+           frame while the player boots and is all that shows under reduced motion. -->
       <picture>
-        <source type="image/webp" srcset="images/muc-hero-1920.webp">
-        <img class="hero__poster" src="images/muc-hero-1920.jpg" width="1920" height="1080"
+        <source type="image/webp" srcset="images/muc-hero-poster.webp">
+        <img class="hero__poster" src="images/muc-hero-poster.jpg" width="1920" height="1080"
              alt="" aria-hidden="true" fetchpriority="high" decoding="async">
       </picture>
+      <!-- background=1 gives Vimeo's chromeless loop: autoplay, muted, looped, no
+           controls. dnt=1 opts out of Vimeo's tracking cookies. -->
+      <div class="hero__video" aria-hidden="true">
+        <iframe
+          src="https://player.vimeo.com/video/1226635583?background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;autopause=0&amp;dnt=1"
+          title="Munich hero" frameborder="0" tabindex="-1"
+          allow="autoplay; fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
     </div>
     <!-- Cursor colour-reveal, copied from parallaxorg.com: an accent radial that
          tracks the pointer via --hx / --hy. Desktop pointers only. -->
@@ -462,7 +471,7 @@
             <picture>
                 <source type="image/webp" srcset="images/sector-realestate-1600.webp">
                 <img src="images/sector-realestate-1600.jpg" width="1600" height="1067"
-                     alt="A new apartment block under construction in Munich, repeated balconies, scaffolding on one side and a tower crane above, grey sky."
+                     alt="A row of Munich Altbau apartment houses with pale plaster facades, bay windows and wrought-iron balconies, bare street trees and parked bicycles in front."
                      loading="lazy" decoding="async">
               </picture>
           </div>
@@ -898,6 +907,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=11"></script>
+<script src="main.js?v=12"></script>
 </body>
 </html>
