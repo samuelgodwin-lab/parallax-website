@@ -16,12 +16,14 @@ Label: `MUNICH` · Button: `Start a project` (warm-up scroll to #cta, as on NE)
 
 ## 02 — Hero
 **Slabel:** `MUNICH`
-**H1 (three lines):**
-We build the brands and
-apps Munich
-*runs* on.
+**H1 (two lines):**
+We build the brands and apps
+Munich's next companies *run* on.
+> v1 was "…apps Munich *runs* on." — a status claim with one reference logo
+> behind it; "next companies" makes it intent and names the buyer. See the
+> hero research note in 00-RESEARCH.md §6.
 
-**German line** (mono, under the H1, before the lede):
+**German lede** (lede size, above the English, `lang="de"`):
 Markensystem, Produkt-UI und Frontend — ein Studio, von der Identität bis zum Code.
 
 **Lede:**
@@ -31,6 +33,7 @@ product that was built but never designed, and the insurer whose website is
 now required by law to work for everyone.
 
 **Buttons:** `Start a project` (mailto) · `See the work` (→ /work.html)
+**Proof line** (under the CTAs): BMW · Accenture · Nissan · Sportradar — and a founder who trained in Munich.
 **Note line:** One call, a lot of questions, no deck. · *Designer in Munich?* (→ #network)
 **Stats:** 100+ projects shipped · 3M+ users reached · 15+ years in practice · 5 markets
 

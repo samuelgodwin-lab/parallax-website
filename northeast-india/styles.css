@@ -647,14 +647,20 @@ main:focus-visible { outline: none; }
 }
 @media (max-width: 768px) { .hero__scroll { display: none; } }
 
-.hero__de {
+/* Munich hero: the German lede sits above the English one, same size; the
+   English drops its top margin so the pair reads as one block. */
+.hero__lede--de { color: var(--text); }
+.hero__lede--de + .hero__lede { margin-top: var(--s3); }
+/* Proof adjacent to the CTA — German B2B buyers want it there, not five
+   sections down. Same measure and colour rules as .hero__note. */
+.hero__proof {
   font-family: var(--font-m);
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--text-2);
-  margin-top: var(--s4);
-  max-width: 60ch;
+  margin-top: var(--s6);
 }
+.hero__proof + .hero__note { margin-top: var(--s2); }
 .gov__lede--de { margin-top: var(--s4); font-size: clamp(14px, 1.4vw, 16px); }
 .hero__lede { max-width: 52ch; margin-top: var(--s8); }   /* live .hero__h1 margin-bottom */
 .hero__cta  { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s12); }  /* live .hero__p margin-bottom */
