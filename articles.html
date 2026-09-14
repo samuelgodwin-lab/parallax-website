@@ -89,9 +89,21 @@
     .nav__logo { font-size: 17px; font-weight: 800; letter-spacing: -0.045em; color: var(--text); text-decoration: none; position: relative; z-index: 210; transition: color 300ms var(--ease-out); }
     .nav__logo span { color: var(--accent); }
     .menu-open .nav__logo { color: white; }
-    .nav__burger { position: relative; z-index: 210; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--border-strong); cursor: pointer; flex-direction: column; gap: 5px; padding: 0; transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out); }
-    @media (hover:hover) and (pointer:fine) { .nav__burger:hover { border-color: var(--accent); } }
-    .nav__burger:active { transform: scale(0.95); }
+    .nav__burger { position: relative; z-index: 210; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--border-strong); cursor: pointer; flex-direction: column; gap: 5px; padding: 0; transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 150ms var(--ease-out); }
+    /* Hover is the site's hard offset shadow (3px, lift 1.5px) — black on the
+       page, white once the menu is open and the button sits over the dark panel. */
+    @media (hover:hover) and (pointer:fine) {
+      .nav__burger:hover {
+        border-color: var(--text);
+        box-shadow: 3px 3px 0 0 var(--text);
+        transform: translate(-1.5px, -1.5px);
+      }
+      .menu-open .nav__burger:hover {
+        border-color: white;
+        box-shadow: 3px 3px 0 0 white;
+      }
+    }
+    .nav__burger:active { transform: scale(0.95); box-shadow: none; }
     .nav__burger-line { display: block; width: 18px; height: 1.5px; background: var(--text); transform-origin: center; transition: transform 360ms var(--ease-out), opacity 200ms var(--ease-out), width 300ms var(--ease-out), background 200ms var(--ease-out); }
     .menu-open .nav__burger-line { background: white; }
     .menu-open .nav__burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }

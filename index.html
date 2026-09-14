@@ -214,12 +214,22 @@
       flex-direction: column;
       gap: 5px;
       padding: 0;
-      transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out);
+      transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
+    /* Hover is the site's hard offset shadow (3px, lift 1.5px) — black on the
+       page, white once the menu is open and the button sits over the dark panel. */
     @media (hover:hover) and (pointer:fine) {
-      .nav__burger:hover { border-color: var(--accent); }
+      .nav__burger:hover {
+        border-color: var(--text);
+        box-shadow: 3px 3px 0 0 var(--text);
+        transform: translate(-1.5px, -1.5px);
+      }
+      .menu-open .nav__burger:hover {
+        border-color: white;
+        box-shadow: 3px 3px 0 0 white;
+      }
     }
-    .nav__burger:active { transform: scale(0.95); }
+    .nav__burger:active { transform: scale(0.95); box-shadow: none; }
 
     .nav__burger-line {
       display: block;
@@ -1444,19 +1454,27 @@
       padding: var(--s6) var(--s8) 0;
       z-index: 10;
     }
+    /* Solid black square; hover is the white offset shadow, same as the
+       network drawer on /northeast-india/. */
     .prc-drawer__close-btn {
       width: 40px; height: 40px;
-      background: oklch(0 0 0 / 0.12);
-      border: 1px solid oklch(0 0 0 / 0.18);
-      color: oklch(0.97 0.002 35);
-      font-size: 18px;
+      background: #000000;
+      border: 1px solid #000000;
+      color: white;
+      font-size: 16px;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 180ms var(--ease-out);
+      transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
     @media (hover:hover) and (pointer:fine) {
-      .prc-drawer__close-btn:hover { background: oklch(0 0 0 / 0.22); }
+      .prc-drawer__close-btn:hover {
+        border-color: white;
+        box-shadow: 3px 3px 0 0 white;
+        transform: translate(-1.5px, -1.5px);
+      }
     }
+    .prc-drawer__close-btn:active { transform: scale(0.95); box-shadow: none; }
+    .prc-drawer__close-btn:focus-visible { outline: 2px solid white; outline-offset: 2px; }
 
     .prc-drawer__body {
       padding: var(--s4) var(--s8) var(--s16);
