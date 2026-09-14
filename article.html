@@ -632,6 +632,9 @@
        WHERE WE WORK — shared with the regional landing pages
     ============================================================ */
     .markets { border-top: 1px solid var(--border); padding: var(--s24) 0; }
+    /* Sits above Work With Us, which never carried its own rule (it used to
+       follow a tinted section), so the seam between two white sections is drawn here. */
+    .markets + section { border-top: 1px solid var(--border); }
     .markets__head { max-width: 62ch; }
     .mk__lede { margin-top: var(--s6); max-width: 54ch; font-size: clamp(16px, 1.7vw, 19px); color: var(--text-2); line-height: 1.72; }
 

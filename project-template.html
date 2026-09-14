@@ -1352,6 +1352,9 @@
        WHERE WE WORK — shared with the regional landing pages
     ============================================================ */
     .markets { border-top: 1px solid var(--border); padding: var(--s24) 0; }
+    /* Sits above Work With Us, which never carried its own rule (it used to
+       follow a tinted section), so the seam between two white sections is drawn here. */
+    .markets + section { border-top: 1px solid var(--border); }
     .markets__head { max-width: 62ch; }
     .mk__lede { margin-top: var(--s6); max-width: 54ch; font-size: clamp(16px, 1.7vw, 19px); color: var(--text-2); line-height: 1.72; }
 
@@ -2233,22 +2236,6 @@
           </div>
         </section>` : ''}
 
-        <section class="cta-band" id="cta-band">
-          <div class="cta-band__cursor-fx" aria-hidden="true"></div>
-          <div class="w">
-            <div class="cta-band__inner reveal">
-              <div class="cta-band__text">
-                <h2>Let's build something<br><em>worth</em> building.</h2>
-                <p>We're selective about the projects we take on.<br>That's by design.</p>
-              </div>
-              <div class="cta-band__btns">
-                <a href="index.html#contact" class="btn btn-p">Start a Project &#8594;</a>
-                <a href="work.html" class="btn btn-g">See Our Work</a>
-              </div>
-            </div>
-          </div>
-        </section>
-
   <!-- ============================================================
        WHERE WE WORK — markets, not offices. One shared component with the
        regional landing pages. Live markets are anchors so the links are in
@@ -2309,6 +2296,22 @@
       </ul>
     </div>
   </section>
+
+        <section class="cta-band" id="cta-band">
+          <div class="cta-band__cursor-fx" aria-hidden="true"></div>
+          <div class="w">
+            <div class="cta-band__inner reveal">
+              <div class="cta-band__text">
+                <h2>Let's build something<br><em>worth</em> building.</h2>
+                <p>We're selective about the projects we take on.<br>That's by design.</p>
+              </div>
+              <div class="cta-band__btns">
+                <a href="index.html#contact" class="btn btn-p">Start a Project &#8594;</a>
+                <a href="work.html" class="btn btn-g">See Our Work</a>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <footer class="footer">
           <div class="w">

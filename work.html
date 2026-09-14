@@ -886,6 +886,9 @@
        WHERE WE WORK — shared with the regional landing pages
     ============================================================ */
     .markets { border-top: 1px solid var(--border); padding: var(--s24) 0; }
+    /* Sits above Work With Us, which never carried its own rule (it used to
+       follow a tinted section), so the seam between two white sections is drawn here. */
+    .markets + section { border-top: 1px solid var(--border); }
     .markets__head { max-width: 62ch; }
     .mk__lede { margin-top: var(--s6); max-width: 54ch; font-size: clamp(16px, 1.7vw, 19px); color: var(--text-2); line-height: 1.72; }
 
@@ -1363,25 +1366,6 @@
   <!-- hidden backup removed — grid is now dynamic -->
 
   <!-- ============================================================
-       CTA BAND
-  ============================================================ -->
-  <section class="cta-band" id="cta-band">
-    <div class="cta-band__cursor-fx" aria-hidden="true"></div>
-    <div class="w">
-      <div class="cta-band__inner reveal">
-        <div class="cta-band__text">
-          <h2>See something<br>you <em>like?</em></h2>
-          <p>We take on a small number of new projects each year. Let's talk about yours.</p>
-        </div>
-        <div class="cta-band__btns">
-          <a href="index.html#contact" class="btn btn-p">Start a Project &#8594;</a>
-          <a href="about.html" class="btn btn-g">Learn About Us</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
        WHERE WE WORK — markets, not offices. One shared component with the
        regional landing pages. Live markets are anchors so the links are in
        the HTML for crawlers; planned ones are spans. The list below carries
@@ -1439,6 +1423,25 @@
           </a>
         </li>
       </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BAND
+  ============================================================ -->
+  <section class="cta-band" id="cta-band">
+    <div class="cta-band__cursor-fx" aria-hidden="true"></div>
+    <div class="w">
+      <div class="cta-band__inner reveal">
+        <div class="cta-band__text">
+          <h2>See something<br>you <em>like?</em></h2>
+          <p>We take on a small number of new projects each year. Let's talk about yours.</p>
+        </div>
+        <div class="cta-band__btns">
+          <a href="index.html#contact" class="btn btn-p">Start a Project &#8594;</a>
+          <a href="about.html" class="btn btn-g">Learn About Us</a>
+        </div>
+      </div>
     </div>
   </section>
 
