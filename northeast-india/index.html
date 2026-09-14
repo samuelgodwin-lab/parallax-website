@@ -63,8 +63,8 @@
 <!-- Bump ?v= on every deploy that changes a token, a rule, or main.js. Without a
      build step there is no content hashing, and browsers cache these hard.
      main.js is versioned too — it was not, and shipped stale behaviour. -->
-<link rel="stylesheet" href="tokens.css?v=18">
-<link rel="stylesheet" href="styles.css?v=18">
+<link rel="stylesheet" href="tokens.css?v=31">
+<link rel="stylesheet" href="styles.css?v=31">
 </head>
 <body>
 
@@ -75,7 +75,7 @@
      ============================================================ -->
 <header class="nav">
   <nav class="w nav__in" aria-label="Primary">
-    <a href="/" class="wordmark nav__logo">Parallax<span aria-hidden="true">.</span></a>
+    <a href="https://www.parallaxorg.com" class="wordmark nav__logo">Parallax<span aria-hidden="true">.</span></a>
     <div class="nav__right">
       <span class="nav__label">Northeast India</span>
       <a href="#cta" class="btn btn-g">Start a project</a>
@@ -126,7 +126,7 @@
         <p class="lede hero__lede">Brand systems, interface design and frontend engineering — one studio, from identity to shipped code. For property platforms, booking engines, distributor portals and student records.</p>
         <div class="hero__cta">
           <a class="btn btn-p" href="mailto:projects@parallaxorg.com?subject=New%20project%20%E2%80%94%20Northeast%20India">Start a project</a>
-          <a class="btn btn-g" href="/work.html">See the work</a>
+          <a class="btn btn-g" href="https://www.parallaxorg.com/work.html">See the work</a>
         </div>
         <p class="hero__note">One call, a lot of questions, no deck.<span class="hero__note-sep" aria-hidden="true"> &nbsp;·&nbsp; </span><a href="#designers">Designer in the region?</a></p>
       </div>
@@ -188,7 +188,7 @@
           <p class="slabel">What We Build</p>
           <h2 class="sh" id="svcs-h">Six disciplines.<br>One <em>standard.</em></h2>
           <p class="svcs__desc">Brand systems, UX, UI and the frontend engineering that ships them &mdash; identity to shipped code, handed back so your team can run it without us.</p>
-          <a href="/services.html" class="btn btn-p svcs__cta">Explore services</a>
+          <a href="https://www.parallaxorg.com/services.html" class="btn btn-p svcs__cta">Explore services</a>
         </div>
 
         <div class="svcs__list stagger">
@@ -618,7 +618,73 @@
   </section>
 
   <!-- ============================================================
-       09 — CTA
+       09 — WHERE WE WORK
+       Markets, not offices. Live markets are anchors so the links are in
+       the HTML for crawlers; planned ones are spans. The list below carries
+       the same links for anyone not clicking a map.
+       ============================================================ -->
+  <section class="markets" aria-labelledby="mk-h">
+    <div class="w">
+      <div class="markets__head">
+        <p class="slabel">Where We Work</p>
+        <h2 class="sh" id="mk-h">One studio, five <em>markets.</em></h2>
+        <p class="lede mk__lede">Bengaluru and Northeast India each have their own page &mdash; the work we've done there, the people, and how to reach us. Pick a market. Denver, Dubai and Munich are next.</p>
+      </div>
+
+      <!-- Vector world map, supplied as stock art (rawpixel.com / Freepik) and
+           re-emitted: curves flattened, simplified at 0.25 viewBox units and
+           cropped to the artwork's own bounds, 420KB -> 92KB / 31KB gzipped.
+           The artwork is a Miller projection (fitted against Natural Earth
+           coastlines, IoU 0.70); each pin is then locally registered to the
+           art's own coastline, because stylised continents drift a few degrees
+           off true. The artwork's own mesh nodes are decorative vertices, not
+           cities (nearest one to Denver is ~9 deg out), so pins are not snapped. -->
+      <div class="mk__map" role="presentation">
+        <img class="mk__geo" src="images/world-map.svg" alt="" width="871" height="462" loading="lazy" decoding="async">
+        <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:67.96%;--y:58.58%;--d:0s" href="/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Bengaluru <span aria-hidden="true">&rarr;</span></span></a>
+        <span class="mk__pin" style="--x:19.61%;--y:40.75%;--d:0.6s" data-tz="America/Denver"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Denver</span></span>
+        <span class="mk__pin mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai</span></span>
+        <span class="mk__pin" style="--x:48.33%;--y:37.98%;--d:1.8s" data-tz="Europe/Berlin"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Munich</span></span>
+        <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:72.14%;--y:51.15%;--d:2.4s" href="/northeast-india/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Northeast India <span aria-hidden="true">&rarr;</span></span></a>
+      </div>
+
+      <ul class="mk__list">
+            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/">
+                <span class="mk__name">Bengaluru</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Kolkata">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
+            </li>
+            <li class="mk__row">
+              <span class="mk__cell">
+                <span class="mk__name">Denver</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="America/Denver">--:--</span><span class="mk__soon">Soon</span></span>
+              </span>
+            </li>
+            <li class="mk__row">
+              <span class="mk__cell">
+                <span class="mk__name">Dubai</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Dubai">--:--</span><span class="mk__soon">Soon</span></span>
+              </span>
+            </li>
+            <li class="mk__row">
+              <span class="mk__cell">
+                <span class="mk__name">Munich</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Europe/Berlin">--:--</span><span class="mk__soon">Soon</span></span>
+              </span>
+            </li>
+            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/northeast-india/">
+                <span class="mk__name">Northeast India</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Kolkata">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
+            </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       10 — CTA
        ============================================================ -->
   <section class="section contact" id="cta" aria-labelledby="cta-h">
     <!-- Cursor FX copied from parallaxorg.com's "Work With Us": the grid is
@@ -632,7 +698,7 @@
         <p class="lede cta__lede">We start by questioning the brief. One call, a lot of questions, no deck. If we're not the right studio for it, we'll say so and point you at someone who is.</p>
         <div class="cta__btns">
           <a class="btn btn-p" href="mailto:projects@parallaxorg.com">projects@parallaxorg.com</a>
-          <a class="btn btn-g" href="/work.html">See the work</a>
+          <a class="btn btn-g" href="https://www.parallaxorg.com/work.html">See the work</a>
         </div>
       </div>
     </div>
@@ -640,38 +706,6 @@
 
 </main>
 
-<!-- ============================================================
-     10 — GLOBAL PRESENCE
-     Copied from parallaxorg.com: live clocks for the four studios.
-     main.js ticks them; the times render server-agnostic from the
-     visitor's own clock via toLocaleTimeString + timeZone.
-     ============================================================ -->
-<div class="clocks">
-  <div class="w">
-    <div class="clocks__inner">
-      <span class="clocks__label">Global Presence</span>
-      <div class="clock">
-        <span class="clock__city">Munich</span>
-        <span class="clock__time" id="clock-de">--:--:--</span>
-      </div>
-      <div class="clock__sep" aria-hidden="true"></div>
-      <div class="clock">
-        <span class="clock__city">Dubai</span>
-        <span class="clock__time" id="clock-ae">--:--:--</span>
-      </div>
-      <div class="clock__sep" aria-hidden="true"></div>
-      <div class="clock">
-        <span class="clock__city">Bengaluru</span>
-        <span class="clock__time" id="clock-in">--:--:--</span>
-      </div>
-      <div class="clock__sep" aria-hidden="true"></div>
-      <div class="clock">
-        <span class="clock__city">Denver</span>
-        <span class="clock__time" id="clock-us">--:--:--</span>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ============================================================
      11 — FOOTER
@@ -695,6 +729,6 @@
   </div>
 </footer>
 
-<script src="main.js?v=18"></script>
+<script src="main.js?v=31"></script>
 </body>
 </html>

@@ -1171,44 +1171,195 @@ main:focus-visible { outline: none; }
 .cta__btns { margin-top: var(--s8); display: flex; flex-wrap: wrap; gap: var(--s3); }
 
 /* ============================================================
-   GLOBAL PRESENCE
-   Copied from parallaxorg.com's clocks band.
+   WHERE WE WORK — markets map
+   Replaces the Global Presence clocks. Adding a market is one pin plus
+   one list row; --x/--y come straight from the projection, so nothing
+   here needs recalculating as the set grows.
    ============================================================ */
-.clocks { border-top: var(--rule) solid var(--border); padding: var(--s8) 0; }
-.clocks__inner {
-  display: flex;
-  align-items: center;
-  /* One row, distributed. The live rule is nowrap with a 6vw gap and an
-     auto-margin label, which overflows the viewport between ~769 and 1315px;
-     wrapping avoided the scrollbar but dropped Denver onto a second line.
-     space-between gives the identical desktop rhythm (≈89px at 1440, against
-     live's 86.4) and simply tightens instead of overflowing or wrapping. */
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  gap: var(--s4);
+.markets { border-top: var(--rule) solid var(--border); padding: var(--section-pad) 0; }
+.markets__head { max-width: 62ch; }
+.mk__lede { margin-top: var(--s6); max-width: 54ch; }
+
+.mk__map {
+  position: relative;
+  margin-top: var(--s12);
+  aspect-ratio: 871 / 462;     /* the artwork's own cropped bounds */
+  width: 100%;
 }
-.clocks__label {
-  font-family: var(--font-m);
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-3);
+.mk__geo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* A fixed, centred hit box. The label is taken out of flow deliberately: when
+   it was a flex sibling, translate(-50%,-50%) centred the dot+label row rather
+   than the dot, pushing every marker sideways by half a label width. */
+.mk__pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+}
+
+.mk__dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  /* Planned markets are light blue, not grey — grey disappeared into the map. */
+  background: var(--accent-hi);
+  border: 1.5px solid var(--accent-hi);
+  transition: background var(--dur-micro) var(--ease-out),
+              border-color var(--dur-micro) var(--ease-out),
+              transform var(--dur-micro) var(--ease-out);
+}
+.mk__pin--live .mk__dot { background: var(--accent); border-color: var(--accent); }
+
+/* Name shows on hover only. opacity rather than display:none, so the text is
+   still the link's accessible name and still crawlable. */
+.mk__pin-label {
+  position: absolute;
+  left: calc(100% - 4px);
+  top: 50%;
   white-space: nowrap;
-  /* was margin-right:auto — an auto margin eats all the free space and would
-     cancel out space-between. */
-}
-.clock { display: flex; align-items: baseline; gap: var(--s3); flex-shrink: 0; }
-.clock__city {
   font-family: var(--font-m);
-  font-size: 9px;
+  font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-3);
-  min-width: 52px;
+  color: var(--text);
+  background: oklch(1 0 0 / 0.88);
+  padding: 3px 6px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%) translateX(-4px);
+  transition: opacity var(--dur-micro) var(--ease-out),
+              transform var(--dur-micro) var(--ease-out);
 }
-.clock__time {
+/* Pins past ~60% would run their label off the right edge, so it flips left. */
+.mk__pin--flip .mk__pin-label {
+  left: auto;
+  right: calc(100% - 4px);
+  transform: translateY(-50%) translateX(4px);
+}
+.mk__pin:hover .mk__pin-label,
+.mk__pin:focus-visible .mk__pin-label {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mk__pin-label { transition: opacity var(--dur-micro) linear; transform: translateY(-50%); }
+}
+
+/* Every marker pings, so the whole set reads as live. Offset delays keep them
+   from pulsing in unison, which looks mechanical. */
+@keyframes mkPing {
+  0%   { transform: scale(0.55); opacity: 0.65; }
+  70%  { transform: scale(2.6);  opacity: 0; }
+  100% { transform: scale(2.6);  opacity: 0; }
+}
+.mk__dot::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  background: currentColor;
+  color: var(--accent-hi);
+  animation: mkPing 3s var(--ease-out) infinite;
+  /* Stagger comes from the pin's own --d. nth-of-type counted <span> and <a>
+     separately, so two pairs of markers were pinging in unison. */
+  animation-delay: var(--d, 0s);
+  pointer-events: none;
+}
+.mk__pin--live .mk__dot::after { color: var(--accent); }
+
+/* A live pin also carries a static ring, so what is clickable still reads
+   when the ping is off. */
+.mk__pin--live .mk__dot::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 1px solid var(--accent-muted);
+  border-radius: 50%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mk__dot::after { animation: none; opacity: 0.28; transform: scale(1.9); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .mk__pin--live:hover .mk__dot { transform: scale(1.35); }
+  .mk__pin--live:hover .mk__pin-label { color: var(--accent); }
+}
+.mk__pin--live:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* ── The list. Same links as the map, for anyone not clicking pins,
+      and the only version that shows below 760px. ── */
+.mk__list {
+  list-style: none;
+  margin-top: var(--s12);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--rule);
+  border: var(--rule) solid var(--border);
+}
+/* Wherever the map shows, the five markets stay on one row. A cell that gets
+   too narrow stacks its time under the name (container query below) rather
+   than the list breaking to a second row. */
+@media (min-width: 761px) {
+  .mk__list { grid-template-columns: repeat(5, 1fr); }
+}
+/* Hairlines are drawn by each cell, not by a grey list background showing
+   through the gap — so a leftover slot below 760px is white, not grey. */
+.mk__row {
+  background: var(--bg);
+  box-shadow: 0 0 0 var(--rule) var(--border);
+  container-type: inline-size;
+}
+.mk__cell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s1) var(--s2);
+  padding: var(--s4);
+  text-decoration: none;
+  transition: background var(--dur-micro) var(--ease-out);
+}
+.mk__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  margin-left: auto;
+}
+.mk__name {
   font-family: var(--font-m);
-  font-size: 13px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  flex: 1 1 auto;
+  white-space: nowrap;
+}
+.mk__row:not(.mk__row--live) .mk__name { color: var(--text-2); }
+/* a11y: --accent is 5.16:1 on --bg, so the blue holds AA at this size. */
+.mk__row--live .mk__name { color: var(--accent); }
+/* 240px is where "Northeast India · 16:30 · Visit →" stops fitting on one
+   line. Every cell in the row is the same width, so they all stack together. */
+@container (max-width: 240px) {
+  .mk__meta { flex-basis: 100%; margin-left: 0; }
+}
+@container (max-width: 150px) {
+  .mk__name { white-space: normal; }
+}
+.mk__time {
+  font-family: var(--font-m);
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.04em;
   color: var(--text-2);
@@ -1216,16 +1367,30 @@ main:focus-visible { outline: none; }
   font-feature-settings: 'tnum' 1;
   transition: color 800ms linear;
 }
-.clock__time.tick { color: var(--accent); }
-.clock__sep { width: 1px; height: 20px; background: var(--border); align-self: center; }
+.mk__time.tick { color: var(--accent); }
+.mk__go {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.mk__soon {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+@media (hover: hover) and (pointer: fine) {
+  .mk__row--live .mk__cell:hover { background: var(--accent-soft); }
+}
 
-/* 820, not the live 768: the row needs ~745px of content plus minimum gaps, so
-   between 769 and ~790 it was still overflowing. The grid takes over before the
-   flex row runs out of room. */
-@media (max-width: 820px) {
-  .clocks__inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
-  .clocks__label { grid-column: span 2; width: 100%; }
-  .clock__sep { display: none; }
+/* Below this even the live labels crowd; the list carries everything. */
+@media (max-width: 760px) {
+  .mk__map { display: none; }
+  .mk__list { margin-top: var(--s8); }
 }
 
 /* ============================================================

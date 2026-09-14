@@ -104,36 +104,31 @@
     });
   }
 
-  /* ── World clocks ──
-     Copied from parallaxorg.com. Times come from the visitor's own clock via
-     toLocaleTimeString + timeZone, so there is nothing server-side to keep in
-     sync. Each changed digit pulses accent for 700ms. */
+  /* ── Market clocks ──
+     Every element carrying data-tz gets its local time, so the map pins and
+     the list stay in sync and a new market needs no JS change at all. Times
+     come from the visitor's own clock via toLocaleTimeString + timeZone. */
   function initClocks() {
-    var zones = [
-      { id: 'clock-de', tz: 'Europe/Berlin'  },
-      { id: 'clock-ae', tz: 'Asia/Dubai'     },
-      { id: 'clock-in', tz: 'Asia/Kolkata'   },
-      { id: 'clock-us', tz: 'America/Denver' }
-    ];
-    if (!document.getElementById(zones[0].id)) return;
+    var els = document.querySelectorAll('[data-tz]');
+    if (!els.length) return;
 
     function fmt(tz) {
       return new Date().toLocaleTimeString('en-GB', {
         timeZone: tz,
-        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour: '2-digit', minute: '2-digit',
         hour12: false
       });
     }
 
     function tick() {
-      zones.forEach(function (z) {
-        var el = document.getElementById(z.id);
-        if (!el) return;
-        var t = fmt(z.tz);
-        if (el.textContent !== t) {
-          el.textContent = t;
-          el.classList.add('tick');
-          setTimeout(function () { el.classList.remove('tick'); }, 700);
+      els.forEach(function (el) {
+        var out = el.matches('.mk__time') ? el : el.querySelector('.mk__time');
+        if (!out) return;
+        var t = fmt(el.getAttribute('data-tz'));
+        if (out.textContent !== t) {
+          out.textContent = t;
+          out.classList.add('tick');
+          setTimeout(function () { out.classList.remove('tick'); }, 700);
         }
       });
     }
