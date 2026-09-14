@@ -1274,7 +1274,8 @@ main:focus-visible { outline: none; }
   margin-bottom: var(--s4);
 }
 /* ── Perks accordion. Same mechanics as .svc, on the accent ground. ── */
-.net-acc { border-top: var(--rule) solid var(--on-rule); }
+/* Hairlines only between rows — the section rules above and below the block
+   already frame it, so the list carries no outer border of its own. */
 .net-acc__row {
   display: grid;
   grid-template-columns: 1fr 24px;
@@ -1283,6 +1284,8 @@ main:focus-visible { outline: none; }
   border-bottom: var(--rule) solid var(--on-rule);
   cursor: pointer;
 }
+.net-acc__row:last-child { border-bottom: 0; }
+.net-acc__row:first-child { padding-top: 0; }
 .net-acc__h {
   font-size: clamp(17px, 2vw, 20px);
   font-weight: 600;
