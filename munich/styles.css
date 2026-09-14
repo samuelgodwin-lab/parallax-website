@@ -1659,8 +1659,8 @@ main:focus-visible { outline: none; }
   .mk__dot::after { animation: none; opacity: 0.28; transform: scale(1.9); }
 }
 @media (hover: hover) and (pointer: fine) {
-  .mk__pin--live:hover .mk__dot { transform: scale(1.35); }
-  .mk__pin--live:hover .mk__pin-label { color: var(--accent); }
+  .mk__pin--live:not(.mk__pin--here):hover .mk__dot { transform: scale(1.35); }
+  .mk__pin--live:not(.mk__pin--here):hover .mk__pin-label { color: var(--accent); }
 }
 .mk__pin--live:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
@@ -1741,12 +1741,14 @@ main:focus-visible { outline: none; }
   color: var(--accent);
   white-space: nowrap;
 }
-.mk__soon {
+.mk__soon,
+.mk__here {
   font-family: var(--font-m);
   font-size: 9px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-3);
+  white-space: nowrap;
 }
 @media (hover: hover) and (pointer: fine) {
   .mk__row--live .mk__cell:hover { background: var(--accent-soft); }
