@@ -647,6 +647,15 @@ main:focus-visible { outline: none; }
 }
 @media (max-width: 768px) { .hero__scroll { display: none; } }
 
+.hero__de {
+  font-family: var(--font-m);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-2);
+  margin-top: var(--s4);
+  max-width: 60ch;
+}
+.gov__lede--de { margin-top: var(--s4); font-size: clamp(14px, 1.4vw, 16px); }
 .hero__lede { max-width: 52ch; margin-top: var(--s8); }   /* live .hero__h1 margin-bottom */
 .hero__cta  { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s12); }  /* live .hero__p margin-bottom */
 

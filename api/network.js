@@ -7,7 +7,8 @@ const TO_EMAIL   = process.env.CONTACT_TO_EMAIL   || 'projects@parallaxorg.com';
 const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'Parallax Website <website@parallaxorg.com>';
 
 const RE_MAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const DISCIPLINES = ['Brand', 'UI / Product', 'Frontend', 'Motion', 'More than one'];
+const DISCIPLINES = ['Brand', 'UI / Product', 'Frontend', 'Motion', 'Design leadership', 'More than one'];
+const MARKETS = ['Northeast India', 'Munich'];
 
 function esc(str) {
   return String(str || '')
@@ -51,6 +52,7 @@ module.exports = async (req, res) => {
   const discipline = DISCIPLINES.includes(body.discipline) ? body.discipline : '';
   const portfolio  = normaliseUrl(body.portfolio);
   const note       = clip(body.note, 1000);
+  const market     = MARKETS.includes(body.market) ? body.market : 'Northeast India';
 
   if (!name || !RE_MAIL.test(email) || !city || !discipline || !portfolio) {
     return res.status(400).json({ error: 'Please complete all required fields.' });
@@ -70,7 +72,7 @@ module.exports = async (req, res) => {
   ].map(([k, v]) => `<tr><td style="padding:4px 16px 4px 0;color:#666">${esc(k)}</td><td style="padding:4px 0"><strong>${k === 'Portfolio' ? v : esc(v)}</strong></td></tr>`).join('');
 
   const html =
-    `<h2 style="margin:0 0 16px;font:600 18px system-ui,sans-serif">Designer network application — Northeast India</h2>` +
+    `<h2 style="margin:0 0 16px;font:600 18px system-ui,sans-serif">Designer network application — ${esc(market)}</h2>` +
     `<table style="font:14px system-ui,sans-serif;border-collapse:collapse">${rows}</table>` +
     (note
       ? `<h3 style="margin:24px 0 8px;font:600 14px system-ui,sans-serif">What they want to do more of</h3>` +
@@ -78,7 +80,7 @@ module.exports = async (req, res) => {
       : '');
 
   const text =
-    `Designer network application — Northeast India\n\n` +
+    `Designer network application — ${market}\n\n` +
     `Name: ${name}\nEmail: ${email}\nCity: ${city}\nDiscipline: ${discipline}\nPortfolio: ${portfolio}\n` +
     (note ? `\nWhat they want to do more of:\n${note}\n` : '');
 
@@ -93,7 +95,7 @@ module.exports = async (req, res) => {
         from: FROM_EMAIL,
         to: [TO_EMAIL],
         reply_to: email,
-        subject: `Network application — ${name} (${city}, ${discipline})`,
+        subject: `Network application (${market}) — ${name} (${city}, ${discipline})`,
         html,
         text,
       }),
