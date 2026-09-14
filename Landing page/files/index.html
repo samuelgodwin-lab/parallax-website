@@ -17,8 +17,8 @@
 <!-- Bump ?v= on every deploy that changes a token, a rule, or main.js. Without a
      build step there is no content hashing, and browsers cache these hard.
      main.js is versioned too — it was not, and shipped stale behaviour. -->
-<link rel="stylesheet" href="tokens.css?v=39">
-<link rel="stylesheet" href="styles.css?v=39">
+<link rel="stylesheet" href="tokens.css?v=40">
+<link rel="stylesheet" href="styles.css?v=40">
 </head>
 <body>
 <!-- ============================================================
@@ -639,7 +639,7 @@
       <div class="markets__head">
         <p class="slabel">Where We Work</p>
         <h2 class="sh" id="mk-h">One studio, five <em>markets.</em></h2>
-        <p class="lede mk__lede">Bengaluru and Northeast India each have their own page &mdash; the work we've done there, the people, and how to reach us. Pick a market. Denver, Dubai and Munich are next.</p>
+        <p class="lede mk__lede">Bengaluru, Northeast India and Munich each have their own page &mdash; the work we've done there, the people, and how to reach us. Pick a market. Denver and Dubai are next.</p>
       </div>
 
       <!-- Vector world map, supplied as stock art (rawpixel.com / Freepik) and
@@ -655,7 +655,7 @@
         <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:67.96%;--y:58.58%;--d:0s" href="/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Bengaluru <span aria-hidden="true">&rarr;</span></span></a>
         <span class="mk__pin" style="--x:19.61%;--y:40.75%;--d:0.6s" data-tz="America/Denver"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Denver</span></span>
         <span class="mk__pin mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai</span></span>
-        <span class="mk__pin" style="--x:48.33%;--y:37.98%;--d:1.8s" data-tz="Europe/Berlin"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Munich</span></span>
+        <a class="mk__pin mk__pin--live" style="--x:48.33%;--y:37.98%;--d:1.8s" href="/munich/" data-tz="Europe/Berlin"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Munich <span aria-hidden="true">&rarr;</span></span></a>
         <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:72.14%;--y:51.15%;--d:2.4s" href="/northeast-india/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Northeast India <span aria-hidden="true">&rarr;</span></span></a>
       </div>
 
@@ -678,11 +678,11 @@
                 <span class="mk__meta"><span class="mk__time" data-tz="Asia/Dubai">--:--</span><span class="mk__soon">Soon</span></span>
               </span>
             </li>
-            <li class="mk__row">
-              <span class="mk__cell">
+            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/munich/">
                 <span class="mk__name">Munich</span>
-                <span class="mk__meta"><span class="mk__time" data-tz="Europe/Berlin">--:--</span><span class="mk__soon">Soon</span></span>
-              </span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Europe/Berlin">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
             </li>
             <li class="mk__row mk__row--live">
               <a class="mk__cell" href="/northeast-india/">
@@ -876,6 +876,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=39"></script>
+<script src="main.js?v=40"></script>
 </body>
 </html>
