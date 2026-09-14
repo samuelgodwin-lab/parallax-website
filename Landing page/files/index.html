@@ -17,14 +17,14 @@
 <!-- Bump ?v= on every deploy that changes a token, a rule, or main.js. Without a
      build step there is no content hashing, and browsers cache these hard.
      main.js is versioned too — it was not, and shipped stale behaviour. -->
-<link rel="stylesheet" href="tokens.css?v=37">
-<link rel="stylesheet" href="styles.css?v=37">
+<link rel="stylesheet" href="tokens.css?v=38">
+<link rel="stylesheet" href="styles.css?v=38">
 </head>
 <body>
 <!-- ============================================================
      00 — PRELOADER
      Same as parallaxorg.com's home page: near-black, wordmark in, a mono
-     status that scrambles into the region label, a 2s hold, then it lifts
+     status that scrambles into the region label, a 1.2s hold, then it lifts
      away on window load. Capped at 6s so a slow third-party iframe (the
      hero video) can never hold the page. The hero entrance is paused until
      html.loaded so it plays after the loader, not behind it. Hidden under
@@ -43,11 +43,11 @@
   var mark = document.getElementById('plxMark');
   var status = document.getElementById('plxStatus');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var MIN = reduced ? 0 : 2000, MAX = 6000, start = Date.now(), done = false;
+  var MIN = reduced ? 0 : 1200, MAX = 6000, start = Date.now(), done = false;
 
   if (reduced) { mark.classList.add('plx--vis'); status.textContent = 'NORTHEAST INDIA'; status.classList.add('plx--vis'); }
   else {
-    setTimeout(function () { mark.classList.add('plx--vis'); }, 380);
+    setTimeout(function () { mark.classList.add('plx--vis'); }, 120);
     var POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', FINAL = 'NORTHEAST INDIA', frame = 0;
     setTimeout(function () {
       status.classList.add('plx--vis');
@@ -59,7 +59,7 @@
           return (frame / 16 > k / FINAL.length) ? ch : POOL[Math.floor(Math.random() * POOL.length)];
         }).join('');
       }, 55);
-    }, 720);
+    }, 300);
   }
 
   function exit() {
@@ -876,6 +876,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=37"></script>
+<script src="main.js?v=38"></script>
 </body>
 </html>
