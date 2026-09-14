@@ -538,6 +538,16 @@ main:focus-visible { outline: none; }
 /* Poster sits under the player: visible while the iframe boots, and the only
    layer under reduced motion. */
 .hero__poster { position: absolute; inset: 0; object-position: 50% 45%; }
+/* A still hero on a light image: a left-weighted white veil under the text
+   column so the lede and the mono lines keep AA whatever the image does there.
+   The inverse of the brand's dark scrim, used only where the text is dark. */
+.hero--veil .hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, oklch(1 0 0 / 0.93) 0%, oklch(1 0 0 / 0.93) 55%, oklch(1 0 0 / 0) 80%);
+  pointer-events: none;
+}
 
 /* An iframe cannot object-fit, so the player is oversized past whichever axis
    binds and centred — the CSS equivalent of cover. overflow:hidden on .hero clips it. */

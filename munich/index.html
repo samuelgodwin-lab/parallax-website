@@ -16,9 +16,14 @@
 <meta property="og:url" content="https://www.parallaxorg.com/munich/">
 <meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Munich">
 <meta property="og:description" content="Parallax builds the brands and apps Munich runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta property="og:image" content="https://www.parallaxorg.com/munich/images/muc-hero-1920.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Parallax — brand systems and apps for Munich">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Munich">
 <meta name="twitter:description" content="Parallax builds the brands and apps Munich runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta name="twitter:image" content="https://www.parallaxorg.com/munich/images/muc-hero-1920.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,8 +44,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=5">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="tokens.css?v=11">
+<link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
 <!-- ============================================================
@@ -119,14 +124,18 @@
   <!-- ============================================================
        02 — HERO
        ============================================================ -->
-  <section class="hero" aria-labelledby="hero-h">
+  <section class="hero hero--veil" aria-labelledby="hero-h">
 
     <div class="hero__bg">
       <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
            frame while the player boots and is all that shows under reduced motion. -->
-      <!-- Placeholder until Munich footage exists: slot img_muc_hero, 16:9. -->
-      <img class="hero__poster" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201920%201080%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2748%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_hero%20%C2%B7%201920%C3%971080%3C/text%3E%3C/svg%3E" width="1920" height="1080"
-           alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+      <!-- Still until Munich footage exists; the video slot drops in exactly as on the
+           Northeast page (poster + Vimeo background iframe). -->
+      <picture>
+        <source type="image/webp" srcset="images/muc-hero-1920.webp">
+        <img class="hero__poster" src="images/muc-hero-1920.jpg" width="1920" height="1080"
+             alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+      </picture>
     </div>
     <!-- Cursor colour-reveal, copied from parallaxorg.com: an accent radial that
          tracks the pointer via --hx / --hy. Desktop pointers only. -->
@@ -383,7 +392,12 @@
 
         <article class="sector sector--01 reveal">
           <div class="sector__media">
-            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%201067%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_s01%20%C2%B7%201600%C3%971067%3C/text%3E%3C/svg%3E" width="1600" height="1067" alt="" loading="lazy" decoding="async">
+            <picture>
+                <source type="image/webp" srcset="images/sector-startups-1600.webp">
+                <img src="images/sector-startups-1600.jpg" width="1600" height="1067"
+                     alt="A startup team at long shared desks in a converted brick industrial hall in Munich, seen from behind, monitors showing product interfaces."
+                     loading="lazy" decoding="async">
+              </picture>
           </div>
           <div class="slabel">S&mdash;01 · Startups &amp; scale-ups</div>
           <h3 class="sh sh--sub">Shipped before the next <em>round.</em></h3>
@@ -401,7 +415,12 @@
 
         <article class="sector sector--02 reveal">
           <div class="sector__media">
-            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201280%201600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_s02%20%C2%B7%201280%C3%971600%3C/text%3E%3C/svg%3E" width="1280" height="1600" alt="" loading="lazy" decoding="async">
+            <picture>
+                <source type="image/webp" srcset="images/sector-mobility-1600.webp">
+                <img src="images/sector-mobility-1600.jpg" width="1280" height="1600"
+                     alt="A technician in a grey work jacket at a touchscreen control panel on an automated production line, robotic arms and car body panels behind."
+                     loading="lazy" decoding="async">
+              </picture>
           </div>
           <div class="slabel">S&mdash;02 · Mobility &amp; industrial</div>
           <h3 class="sh sh--sub">Software that was built, never <em>designed.</em></h3>
@@ -418,7 +437,12 @@
 
         <article class="sector sector--03 reveal">
           <div class="sector__media">
-            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%201600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_s03%20%C2%B7%201600%C3%971600%3C/text%3E%3C/svg%3E" width="1600" height="1600" alt="" loading="lazy" decoding="async">
+            <picture>
+                <source type="image/webp" srcset="images/sector-insurance-1600.webp">
+                <img src="images/sector-insurance-1600.jpg" width="1600" height="1600"
+                     alt="The glass atrium of a corporate headquarters, walkways and stairs crossing the void, a few people at a distance for scale."
+                     loading="lazy" decoding="async">
+              </picture>
           </div>
           <div class="slabel">S&mdash;03 · Insurance &amp; finance</div>
           <h3 class="sh sh--sub">Onboarding people <em>finish.</em></h3>
@@ -435,7 +459,12 @@
 
         <article class="sector sector--04 reveal">
           <div class="sector__media">
-            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%201067%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_s04%20%C2%B7%201600%C3%971067%3C/text%3E%3C/svg%3E" width="1600" height="1067" alt="" loading="lazy" decoding="async">
+            <picture>
+                <source type="image/webp" srcset="images/sector-realestate-1600.webp">
+                <img src="images/sector-realestate-1600.jpg" width="1600" height="1067"
+                     alt="A new apartment block under construction in Munich, repeated balconies, scaffolding on one side and a tower crane above, grey sky."
+                     loading="lazy" decoding="async">
+              </picture>
           </div>
           <div class="slabel">S&mdash;04 · Real estate &amp; proptech</div>
           <h3 class="sh sh--sub">Inventory that sells <em>online.</em></h3>
@@ -470,7 +499,12 @@
         <div class="gov__tiles stagger">
           <article class="gov__tile">
             <div class="gov__tile-media">
-              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_a01%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+              <picture>
+                <source type="image/webp" srcset="images/bfsg-audit-800.webp">
+                <img src="images/bfsg-audit-800.jpg" width="800" height="600"
+                     alt="A hand on a trackpad in front of a monitor showing a web page with an accessibility contrast-check overlay."
+                     loading="lazy" decoding="async">
+              </picture>
             </div>
             <div class="gov__tile-body">
               <p class="gov__tile-tag">Audit</p>
@@ -480,7 +514,12 @@
           </article>
           <article class="gov__tile">
             <div class="gov__tile-media">
-              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_a02%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+              <picture>
+                <source type="image/webp" srcset="images/bfsg-remediation-800.webp">
+                <img src="images/bfsg-remediation-800.jpg" width="800" height="600"
+                     alt="A developer at two monitors, code on one and the interface it renders on the other, seen from behind."
+                     loading="lazy" decoding="async">
+              </picture>
             </div>
             <div class="gov__tile-body">
               <p class="gov__tile-tag">Fix</p>
@@ -490,7 +529,12 @@
           </article>
           <article class="gov__tile gov__tile--wide">
             <div class="gov__tile-media">
-              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201200%201200%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2730%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_a03%20%C2%B7%201200%C3%971200%3C/text%3E%3C/svg%3E" width="1200" height="1200" alt="" loading="lazy" decoding="async">
+              <picture>
+                <source type="image/webp" srcset="images/bfsg-system-1200.webp">
+                <img src="images/bfsg-system-1200.jpg" width="1200" height="1200"
+                     alt="A designer standing in front of a wall display showing a grid of interface components and colour swatches."
+                     loading="lazy" decoding="async">
+              </picture>
             </div>
             <div class="gov__tile-body">
               <p class="gov__tile-tag">System</p>
@@ -500,7 +544,12 @@
           </article>
           <article class="gov__tile gov__tile--wide">
             <div class="gov__tile-media">
-              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201200%201200%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2730%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_a04%20%C2%B7%201200%C3%971200%3C/text%3E%3C/svg%3E" width="1200" height="1200" alt="" loading="lazy" decoding="async">
+              <picture>
+                <source type="image/webp" srcset="images/bfsg-handover-1200.webp">
+                <img src="images/bfsg-handover-1200.jpg" width="1200" height="1200"
+                     alt="Two pairs of hands passing a bound report across a meeting table beside a tablet showing a checklist."
+                     loading="lazy" decoding="async">
+              </picture>
             </div>
             <div class="gov__tile-body">
               <p class="gov__tile-tag">Handover</p>
@@ -510,7 +559,12 @@
           </article>
           <article class="gov__tile">
             <div class="gov__tile-media">
-              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_a05%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+              <picture>
+                <source type="image/webp" srcset="images/bfsg-documents-800.webp">
+                <img src="images/bfsg-documents-800.jpg" width="800" height="600"
+                     alt="A stack of printed statements and contracts beside a tablet showing a structured, navigable document."
+                     loading="lazy" decoding="async">
+              </picture>
             </div>
             <div class="gov__tile-body">
               <p class="gov__tile-tag">Documents</p>
@@ -520,7 +574,12 @@
           </article>
           <article class="gov__tile">
             <div class="gov__tile-media">
-              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_a06%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+              <picture>
+                <source type="image/webp" srcset="images/bfsg-monitoring-800.webp">
+                <img src="images/bfsg-monitoring-800.jpg" width="800" height="600"
+                     alt="A wall-mounted monitoring dashboard glowing in a dim office at night, empty desks in the foreground."
+                     loading="lazy" decoding="async">
+              </picture>
             </div>
             <div class="gov__tile-body">
               <p class="gov__tile-tag">Ongoing</p>
@@ -547,7 +606,12 @@
       </div>
 
       <div class="dn__media reveal">
-        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%20700%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_muc_network%20%C2%B7%201600%C3%97700%3C/text%3E%3C/svg%3E" width="1600" height="700" alt="" loading="lazy" decoding="async">
+        <picture>
+                <source type="image/webp" srcset="images/network-room-1600.webp">
+                <img src="images/network-room-1600.jpg" width="1600" height="700"
+                     alt="A designer presenting an interface on a wall screen to two clients in a glass-walled meeting room, the Munich skyline outside."
+                     loading="lazy" decoding="async">
+              </picture>
       </div>
 
       <div class="dn__steps stagger">
@@ -834,6 +898,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=5"></script>
+<script src="main.js?v=11"></script>
 </body>
 </html>
