@@ -1160,6 +1160,243 @@ main:focus-visible { outline: none; }
 }
 .dn__cta { margin-top: var(--s8); }
 
+/* ============================================================
+   NETWORK DRAWER
+   Lifted from the pricing drawer on parallaxorg.com: fixed, right, accent
+   ground, black title with a white second line, black button. Scrim and
+   drawer are siblings so the scrim can fade independently of the slide.
+   ============================================================ */
+.net-scrim {
+  position: fixed;
+  inset: 0;
+  background: oklch(0 0 0 / 0.5);
+  z-index: 499;
+  opacity: 0;
+  transition: opacity var(--dur-standard) var(--ease-out);
+}
+.net-scrim.is-open { opacity: 1; }
+.net-scrim[hidden] { display: none; }
+
+.net-drawer {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(560px, 100vw);
+  background: var(--accent);
+  color: oklch(1 0 0);
+  z-index: 500;
+  transform: translateX(100%);
+  transition: transform var(--dur-cinematic) var(--ease-inout);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  /* a11y on the accent ground: white is 5.16:1; white at any alpha below 1
+     drops under 4.5 (0.9 = 4.48), so all running text is full white and the
+     hierarchy comes from size, weight and the mono face, not from tint.
+     Black is 4.07:1 — large text only (the title, the sent state). */
+  --on: oklch(1 0 0);
+  --on-2: oklch(1 0 0);
+  --on-rule: oklch(0 0 0 / 0.18);
+}
+.net-drawer.is-open { transform: translateX(0); }
+.net-drawer[aria-hidden="true"] { visibility: hidden; }
+.net-drawer.is-open,
+.no-js .net-drawer { visibility: visible; }
+@media (prefers-reduced-motion: reduce) {
+  .net-drawer, .net-scrim { transition: none; }
+}
+/* No JS: the drawer is a normal block at the end of the page. */
+.no-js .net-drawer { position: static; transform: none; width: 100%; }
+.no-js .net-drawer__top, .no-js .net-scrim { display: none; }
+
+.net-drawer__top {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--s6) var(--s8) 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.net-drawer__close {
+  pointer-events: auto;
+  width: 40px; height: 40px;
+  /* Solid, because it's sticky and the copy scrolls beneath it. */
+  background: oklch(0 0 0);
+  border: var(--rule) solid oklch(0 0 0);
+  color: var(--on);
+  font-size: 16px;
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: background var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .net-drawer__close:hover { border-color: oklch(1 0 0); box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 oklch(1 0 0); }
+}
+.net-drawer__close:focus-visible { outline: 2px solid var(--on); outline-offset: 2px; }
+
+.net-drawer__body { padding: var(--s2) var(--s8) var(--s16); flex: 1; }
+@media (max-width: 480px) {
+  .net-drawer__top { padding: var(--s4) var(--s4) 0; }
+  .net-drawer__body { padding: 0 var(--s4) var(--s12); }
+}
+
+.net-drawer__tag {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-2);
+  margin-bottom: var(--s4);
+}
+.net-drawer__h {
+  font-size: clamp(30px, 4.6vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  color: oklch(0 0 0);
+}
+.net-drawer__h span { display: block; color: var(--on); }
+.net-drawer__sub {
+  margin-top: var(--s4);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--on-2);
+  max-width: 40ch;
+}
+.net-drawer__rule { border: 0; height: var(--rule); background: var(--on-rule); margin: var(--s6) 0; }
+.net-drawer__label {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-2);
+  margin-bottom: var(--s4);
+}
+.net-drawer__list, .net-drawer__steps { list-style: none; display: flex; flex-direction: column; gap: var(--s3); }
+.net-drawer__list li, .net-drawer__steps li {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--on-2);
+}
+/* The arrow is absolutely placed so <strong> and the text stay one inline run —
+   a flex row would split them into columns. */
+.net-drawer__list li { position: relative; padding-left: 22px; }
+.net-drawer__list li::before {
+  content: '\2192';
+  position: absolute;
+  left: 0; top: 3px;
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--on);
+}
+.net-drawer__steps li { display: flex; align-items: flex-start; gap: 10px; }
+.net-drawer__list strong, .net-drawer__steps strong { color: var(--on); font-weight: 600; }
+.net-drawer__list em { font-style: italic; }
+.net-drawer__n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--on);
+  flex-shrink: 0;
+  margin-top: 4px;
+  min-width: 22px;
+}
+.net-drawer__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s6); }
+@media (max-width: 480px) { .net-drawer__cols { grid-template-columns: 1fr; } }
+.net-drawer__p { font-size: 13.5px; line-height: 1.6; color: var(--on-2); }
+.net-drawer__note { font-size: 12.5px; line-height: 1.6; color: var(--on-2); }
+
+/* ── The form. White fields on the accent ground, black text. ── */
+.net-form { margin-top: var(--s8); }
+.net-form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
+.net-form__g--wide { grid-column: 1 / -1; }
+@media (max-width: 480px) { .net-form__grid { grid-template-columns: 1fr; } }
+.net-form__lbl {
+  display: block;
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-2);
+  margin-bottom: var(--s1);
+}
+.net-form__lbl span { text-transform: none; letter-spacing: 0.04em; }
+.net-form__in {
+  width: 100%;
+  font: inherit;
+  font-size: 14px;
+  color: oklch(0 0 0);
+  background: oklch(1 0 0 / 0.96);
+  border: var(--rule) solid oklch(1 0 0 / 0.96);
+  border-radius: 0;
+  padding: 11px 12px;
+  transition: box-shadow var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+}
+.net-form__in::placeholder { color: oklch(0.55 0.005 0); }
+.net-form__in:focus { outline: none; border-color: oklch(0 0 0); box-shadow: 3px 3px 0 0 oklch(0 0 0); }
+.net-form__sel {
+  appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+.net-form__sel:invalid { color: oklch(0.55 0.005 0); }
+.net-form__ta { resize: vertical; min-height: 64px; }
+.net-form__g.err .net-form__in { border-color: oklch(0 0 0); box-shadow: inset 3px 0 0 0 oklch(0 0 0); }
+.net-form__g.err .net-form__lbl::after { content: ' \2014 required'; text-transform: none; letter-spacing: 0.04em; }
+.net-form__hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.net-form__err {
+  margin-top: var(--s3);
+  font-size: 13px;
+  line-height: 1.5;
+  color: oklch(0 0 0);
+  background: oklch(1 0 0 / 0.9);
+  padding: var(--s2) var(--s3);
+}
+.net-form__err[hidden] { display: none; }
+.net-drawer__btn {
+  margin-top: var(--s4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  font-family: var(--font-m);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(1 0 0);
+  background: oklch(0 0 0);
+  border: var(--rule) solid oklch(0 0 0);
+  padding: 15px 26px;
+  cursor: pointer;
+  transition: box-shadow var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .net-drawer__btn:hover {
+    border-color: oklch(1 0 0);
+    box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 oklch(1 0 0);
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+  }
+}
+.net-drawer__btn:active { transform: scale(0.97); box-shadow: none; }
+.net-drawer__btn:focus-visible { outline: 2px solid oklch(1 0 0); outline-offset: 3px; }
+.net-drawer__btn[disabled] { opacity: 0.55; cursor: progress; box-shadow: none; transform: none; }
+.net-form__fine { margin-top: var(--s3); font-size: 12px; line-height: 1.5; color: var(--on-2); }
+.net-form__ok { margin-top: var(--s8); }
+.net-form__ok[hidden] { display: none; }
+.net-form__ok-h {
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: oklch(0 0 0);
+  margin-bottom: var(--s3);
+}
+
 @media (max-width: 880px) { .dn__steps { grid-template-columns: 1fr; } }
 
 /* ============================================================

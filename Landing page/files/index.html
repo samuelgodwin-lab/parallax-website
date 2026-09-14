@@ -15,8 +15,8 @@
 <!-- Bump ?v= on every deploy that changes a token, a rule, or main.js. Without a
      build step there is no content hashing, and browsers cache these hard.
      main.js is versioned too — it was not, and shipped stale behaviour. -->
-<link rel="stylesheet" href="tokens.css?v=31">
-<link rel="stylesheet" href="styles.css?v=31">
+<link rel="stylesheet" href="tokens.css?v=32">
+<link rel="stylesheet" href="styles.css?v=32">
 </head>
 <body>
 
@@ -563,7 +563,9 @@
       </div>
 
       <div class="dn__cta reveal">
-        <a class="btn btn-p" href="mailto:projects@parallaxorg.com?subject=Designer%20network%20%E2%80%94%20Northeast%20India">Join the network</a>
+        <!-- Opens the network drawer. The href is the no-JS fallback: without
+             scripts the drawer renders inline at the end of the page. -->
+        <a class="btn btn-p" href="#network" id="net-open" aria-haspopup="dialog" aria-controls="network">Join the network</a>
       </div>
 
     </div>
@@ -681,6 +683,107 @@
   </div>
 </footer>
 
-<script src="main.js?v=31"></script>
+<!-- ============================================================
+     NETWORK DRAWER
+     Same pattern as the pricing drawer on parallaxorg.com: slides in from
+     the right over a scrim, accent ground, black title / white second line.
+     Static markup rather than JS-templated so the copy is crawlable. Under
+     .no-js the drawer renders inline at the end of the page instead.
+     ============================================================ -->
+<div class="net-scrim" id="net-scrim" hidden></div>
+<aside class="net-drawer" id="network" role="dialog" aria-modal="true" aria-labelledby="net-h" aria-hidden="true">
+  <div class="net-drawer__top">
+    <button class="net-drawer__close" id="net-close" type="button" aria-label="Close">&#x2715;</button>
+  </div>
+  <div class="net-drawer__body">
+    <p class="net-drawer__tag">For Designers in the Region</p>
+    <h2 class="net-drawer__h" id="net-h">The work you'd move for.<span>Without moving.</span></h2>
+    <p class="net-drawer__sub">Brand systems, product interfaces and shipped software &mdash; with a studio team, from wherever in the Northeast you are.</p>
+
+    <hr class="net-drawer__rule">
+    <p class="net-drawer__label">What you get</p>
+    <ul class="net-drawer__list">
+      <li><strong>Paid properly.</strong> Rate agreed in writing before you start. Invoiced on delivery, paid within 15 days. No exposure, no &ldquo;let&rsquo;s see how it goes.&rdquo;</li>
+      <li><strong>Your name on the work.</strong> Public credit on every project &mdash; our site, the case study, the client&rsquo;s launch. You can show it, and we&rsquo;ll say you did it.</li>
+      <li><strong>A senior on every deliverable.</strong> Nothing goes to a client without a lead reviewing it with you. That&rsquo;s the fastest way anyone gets better.</li>
+      <li><strong>Real products in your portfolio.</strong> Government platforms, booking engines, brand systems. Not spec work, not Dribbble shots.</li>
+      <li><strong>A finder&rsquo;s share when you bring work in.</strong> Introduce a client, we scope and close it, you&rsquo;re on the team <em>and</em> you&rsquo;re paid a share of the project fee.</li>
+      <li><strong>First look at roles.</strong> When we hire, we hire from the network first.</li>
+      <li><strong>Studio tools while you&rsquo;re on.</strong> Figma seats, our design system and libraries, for the length of the project.</li>
+    </ul>
+
+    <hr class="net-drawer__rule">
+    <p class="net-drawer__label">How it works</p>
+    <ol class="net-drawer__steps">
+      <li><span class="net-drawer__n">01</span><div><strong>Show us the work.</strong> A portfolio link and the three pieces you&rsquo;d defend. Tell us what you want to do more of.</div></li>
+      <li><span class="net-drawer__n">02</span><div><strong>One conversation.</strong> Thirty minutes with a lead. Where you&rsquo;re strong, where you want to get stronger, what kind of projects fit.</div></li>
+      <li><span class="net-drawer__n">03</span><div><strong>You&rsquo;re on the roster.</strong> We match by fit, not by who&rsquo;s cheapest. Your first project inside ninety days &mdash; or we tell you honestly why not.</div></li>
+    </ol>
+
+    <hr class="net-drawer__rule">
+    <div class="net-drawer__cols">
+      <div>
+        <p class="net-drawer__label">Who it&rsquo;s for</p>
+        <p class="net-drawer__p">Brand, UI, frontend, motion. A year of work behind you, or a portfolio that argues otherwise. Based in the eight states &mdash; or from here and looking for a reason to come back.</p>
+      </div>
+      <div>
+        <p class="net-drawer__label">What we ask</p>
+        <p class="net-drawer__p">Show up when you said you would. Take a review as a review. Nothing else &mdash; no exclusivity, no fee, no minimum hours. Keep your own clients.</p>
+      </div>
+    </div>
+
+    <hr class="net-drawer__rule">
+    <p class="net-drawer__note">We add five to eight designers a quarter. Small on purpose &mdash; everyone on the roster gets work.</p>
+
+    <form class="net-form" id="net-form" action="/api/network" method="post" novalidate>
+      <p class="net-drawer__label" id="net-form-l">Apply to the network</p>
+      <div class="net-form__grid">
+        <div class="net-form__g" id="ng-name">
+          <label class="net-form__lbl" for="nf-name">Name</label>
+          <input class="net-form__in" id="nf-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="net-form__g" id="ng-city">
+          <label class="net-form__lbl" for="nf-city">City</label>
+          <input class="net-form__in" id="nf-city" name="city" type="text" autocomplete="address-level2" placeholder="Guwahati, Shillong, Imphal&hellip;" required>
+        </div>
+        <div class="net-form__g" id="ng-email">
+          <label class="net-form__lbl" for="nf-email">Email</label>
+          <input class="net-form__in" id="nf-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+        </div>
+        <div class="net-form__g" id="ng-disc">
+          <label class="net-form__lbl" for="nf-disc">Discipline</label>
+          <select class="net-form__in net-form__sel" id="nf-disc" name="discipline" required>
+            <option value="" selected disabled>Pick one</option>
+            <option>Brand</option>
+            <option>UI / Product</option>
+            <option>Frontend</option>
+            <option>Motion</option>
+            <option>More than one</option>
+          </select>
+        </div>
+        <div class="net-form__g net-form__g--wide" id="ng-port">
+          <label class="net-form__lbl" for="nf-port">Portfolio link</label>
+          <input class="net-form__in" id="nf-port" name="portfolio" type="url" inputmode="url" autocomplete="url" placeholder="behance.net/you, a site, a Figma file&hellip;" required>
+        </div>
+        <div class="net-form__g net-form__g--wide" id="ng-note">
+          <label class="net-form__lbl" for="nf-note">What do you want to do more of? <span>optional</span></label>
+          <textarea class="net-form__in net-form__ta" id="nf-note" name="note" rows="2" maxlength="1000"></textarea>
+        </div>
+        <!-- Honeypot: hidden from people, filled by bots, and the API drops the message. -->
+        <div class="net-form__hp" aria-hidden="true"><label for="nf-web">Website</label><input id="nf-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      </div>
+      <p class="net-form__err" id="net-err" role="alert" hidden></p>
+      <button class="net-drawer__btn" id="net-submit" type="submit"><span id="net-submit-l">Apply to the network</span> <span aria-hidden="true">&#8599;</span></button>
+      <p class="net-form__fine">Goes to a lead, not a form queue. We reply to everyone, usually within a week.</p>
+    </form>
+    <div class="net-form__ok" id="net-ok" hidden>
+      <p class="net-drawer__label">Sent</p>
+      <h3 class="net-form__ok-h">We&rsquo;ve got it.</h3>
+      <p class="net-drawer__p">A lead will look at your work and reply within the week. If we think it&rsquo;s a fit, the next step is the thirty-minute conversation.</p>
+    </div>
+  </div>
+</aside>
+
+<script src="main.js?v=32"></script>
 </body>
 </html>
