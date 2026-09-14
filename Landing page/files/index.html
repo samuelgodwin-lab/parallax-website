@@ -15,8 +15,8 @@
 <!-- Bump ?v= on every deploy that changes a token, a rule, or main.js. Without a
      build step there is no content hashing, and browsers cache these hard.
      main.js is versioned too — it was not, and shipped stale behaviour. -->
-<link rel="stylesheet" href="tokens.css?v=32">
-<link rel="stylesheet" href="styles.css?v=32">
+<link rel="stylesheet" href="tokens.css?v=33">
+<link rel="stylesheet" href="styles.css?v=33">
 </head>
 <body>
 
@@ -702,33 +702,68 @@
 
     <hr class="net-drawer__rule">
     <p class="net-drawer__label">What you get</p>
-    <ul class="net-drawer__list">
-      <li><strong>Paid properly.</strong> Rate agreed in writing before you start. Invoiced on delivery, paid within 15 days. No exposure, no &ldquo;let&rsquo;s see how it goes.&rdquo;</li>
-      <li><strong>Your name on the work.</strong> Public credit on every project &mdash; our site, the case study, the client&rsquo;s launch. You can show it, and we&rsquo;ll say you did it.</li>
-      <li><strong>A senior on every deliverable.</strong> Nothing goes to a client without a lead reviewing it with you. That&rsquo;s the fastest way anyone gets better.</li>
-      <li><strong>Real products in your portfolio.</strong> Government platforms, booking engines, brand systems. Not spec work, not Dribbble shots.</li>
-      <li><strong>A finder&rsquo;s share when you bring work in.</strong> Introduce a client, we scope and close it, you&rsquo;re on the team <em>and</em> you&rsquo;re paid a share of the project fee.</li>
-      <li><strong>First look at roles.</strong> When we hire, we hire from the network first.</li>
-      <li><strong>Studio tools while you&rsquo;re on.</strong> Figma seats, our design system and libraries, for the length of the project.</li>
-    </ul>
+    <!-- Same accordion as What We Build (main.js initAccordion): heading rows,
+         one open at a time, first open so the list doesn't read as empty. -->
+    <div class="net-acc">
+      <div class="net-acc__row open" data-perk role="button" tabindex="0" aria-expanded="true">
+        <div class="net-acc__h">Paid properly</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Rate agreed in writing before you start. Invoiced on delivery, paid within 15 days. No exposure, no &ldquo;let&rsquo;s see how it goes.&rdquo;</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">Your name on the work</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Public credit on every project &mdash; our site, the case study, the client&rsquo;s launch. You can show it, and we&rsquo;ll say you did it.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">A senior on every deliverable</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Nothing goes to a client without a lead reviewing it with you. That&rsquo;s the fastest way anyone gets better.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">Real products in your portfolio</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Government platforms, booking engines, brand systems. Not spec work, not Dribbble shots.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">A finder&rsquo;s share when you bring work in</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Introduce a client, we scope and close it. You&rsquo;re on the team, and you&rsquo;re paid a share of the project fee.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">First look at roles</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">When we hire, we hire from the network first.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">Studio tools while you&rsquo;re on</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Figma seats, our design system and libraries, for the length of the project.</p></div></div>
+      </div>
+    </div>
 
     <hr class="net-drawer__rule">
     <p class="net-drawer__label">How it works</p>
     <ol class="net-drawer__steps">
-      <li><span class="net-drawer__n">01</span><div><strong>Show us the work.</strong> A portfolio link and the three pieces you&rsquo;d defend. Tell us what you want to do more of.</div></li>
-      <li><span class="net-drawer__n">02</span><div><strong>One conversation.</strong> Thirty minutes with a lead. Where you&rsquo;re strong, where you want to get stronger, what kind of projects fit.</div></li>
-      <li><span class="net-drawer__n">03</span><div><strong>You&rsquo;re on the roster.</strong> We match by fit, not by who&rsquo;s cheapest. Your first project inside ninety days &mdash; or we tell you honestly why not.</div></li>
+      <li><span class="net-drawer__n">01</span><div><strong>Show us the work</strong><span>A portfolio link and three pieces you&rsquo;d defend</span></div></li>
+      <li><span class="net-drawer__n">02</span><div><strong>One conversation</strong><span>Thirty minutes with a lead</span></div></li>
+      <li><span class="net-drawer__n">03</span><div><strong>You&rsquo;re on the roster</strong><span>First project inside ninety days, or an honest why not</span></div></li>
     </ol>
 
     <hr class="net-drawer__rule">
-    <div class="net-drawer__cols">
-      <div>
-        <p class="net-drawer__label">Who it&rsquo;s for</p>
-        <p class="net-drawer__p">Brand, UI, frontend, motion. A year of work behind you, or a portfolio that argues otherwise. Based in the eight states &mdash; or from here and looking for a reason to come back.</p>
+    <div class="net-drawer__chipset">
+      <p class="net-drawer__label">Who it&rsquo;s for</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">Brand</span><span class="net-chip">UI</span><span class="net-chip">Frontend</span><span class="net-chip">Motion</span>
+        <span class="net-chip">1+ year, or a portfolio that argues otherwise</span>
+        <span class="net-chip">The eight states &mdash; or coming back</span>
       </div>
-      <div>
-        <p class="net-drawer__label">What we ask</p>
-        <p class="net-drawer__p">Show up when you said you would. Take a review as a review. Nothing else &mdash; no exclusivity, no fee, no minimum hours. Keep your own clients.</p>
+    </div>
+    <div class="net-drawer__chipset">
+      <p class="net-drawer__label">What we ask</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">Show up when you said</span><span class="net-chip">Take a review as a review</span>
+        <span class="net-chip">No exclusivity</span><span class="net-chip">No fee</span><span class="net-chip">No minimum hours</span><span class="net-chip">Keep your own clients</span>
       </div>
     </div>
 
@@ -784,6 +819,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=32"></script>
+<script src="main.js?v=33"></script>
 </body>
 </html>

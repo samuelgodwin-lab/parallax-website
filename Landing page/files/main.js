@@ -56,8 +56,10 @@
      Copied from parallaxorg.com: one item open at a time, height animated by
      grid-template-rows. The live rows are click-only divs; these also answer
      Enter/Space and keep aria-expanded in sync. */
-  function initServices() {
-    var items = document.querySelectorAll('[data-svc]');
+  /* Accordion: one open at a time within a group. Used by What We Build
+     ([data-svc]) and the perks list in the network drawer ([data-perk]). */
+  function initAccordion(selector) {
+    var items = document.querySelectorAll(selector);
     if (!items.length) return;
 
     function toggle(item) {
@@ -286,7 +288,7 @@
     });
   }
 
-  function init() { initReveal(); initHeroCursor(); initServices(); initCtaCursor(); initClocks(); initNav(); initNetwork(); }
+  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initCtaCursor(); initClocks(); initNav(); initNetwork(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
