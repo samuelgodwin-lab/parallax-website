@@ -1715,5 +1715,26 @@
     })();
   </script>
 
+  <script>
+    /* MARQUEE FILL — the track is two copies animated to -50%, seamless only
+       while one copy is wider than the viewport. Double the copies until the
+       track is at least twice the viewport; scale the duration to keep speed. */
+    (function () {
+      document.querySelectorAll('.marquee__t').forEach(function (t) {
+        var base = parseFloat(getComputedStyle(t).animationDuration) || 28;
+        var copies = 2;
+        function fill() {
+          var guard = 0;
+          while (t.scrollWidth < window.innerWidth * 2 && guard++ < 6) {
+            Array.prototype.slice.call(t.children).forEach(function (c) { t.appendChild(c.cloneNode(true)); });
+            copies *= 2;
+          }
+          t.style.animationDuration = (base * copies / 2) + 's';
+        }
+        fill();
+        window.addEventListener('resize', fill, { passive: true });
+      });
+    })();
+  </script>
 </body>
 </html>

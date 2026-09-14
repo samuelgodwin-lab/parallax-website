@@ -288,7 +288,32 @@
     });
   }
 
-  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initCtaCursor(); initClocks(); initNav(); initNetwork(); }
+  /* ── Marquee fill ──
+     The track is authored as two copies of the items and animated to -50%,
+     which is only seamless while one copy is wider than the viewport. On a
+     wide screen it isn't, and the band runs empty until the loop restarts.
+     Double the copies until the track is at least twice the viewport, and
+     scale the duration so the speed stays what it was at two copies. */
+  function initMarquee() {
+    var tracks = document.querySelectorAll('.marquee__t');
+    if (!tracks.length) return;
+    tracks.forEach(function (t) {
+      var base = parseFloat(getComputedStyle(t).animationDuration) || 28;
+      t.dataset.copies = t.dataset.copies || '2';
+      function fill() {
+        var guard = 0;
+        while (t.scrollWidth < window.innerWidth * 2 && guard++ < 6) {
+          Array.prototype.slice.call(t.children).forEach(function (c) { t.appendChild(c.cloneNode(true)); });
+          t.dataset.copies = String(Number(t.dataset.copies) * 2);
+        }
+        t.style.animationDuration = (base * Number(t.dataset.copies) / 2) + 's';
+      }
+      fill();
+      window.addEventListener('resize', fill, { passive: true });
+    });
+  }
+
+  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
