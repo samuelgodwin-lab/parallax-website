@@ -8,7 +8,7 @@ const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'Parallax Website <website@
 
 const RE_MAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DISCIPLINES = ['Brand', 'UI / Product', 'Frontend', 'Motion', 'Design leadership', 'More than one'];
-const MARKETS = ['Northeast India', 'Munich'];
+const MARKETS = ['Northeast India', 'Munich', 'Dubai'];
 
 function esc(str) {
   return String(str || '')

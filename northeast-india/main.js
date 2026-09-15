@@ -57,7 +57,8 @@
      grid-template-rows. The live rows are click-only divs; these also answer
      Enter/Space and keep aria-expanded in sync. */
   /* Accordion: one open at a time within a group. Used by What We Build
-     ([data-svc]) and the perks list in the network drawer ([data-perk]). */
+     ([data-svc]), the perks list in the network drawer ([data-perk]) and
+     the plan inclusions on the Dubai pricing band ([data-plan]). */
   function initAccordion(selector) {
     var items = document.querySelectorAll(selector);
     if (!items.length) return;
@@ -313,7 +314,7 @@
     });
   }
 
-  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); }
+  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initAccordion('[data-plan]'); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

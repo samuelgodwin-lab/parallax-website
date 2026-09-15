@@ -1185,6 +1185,107 @@ main:focus-visible { outline: none; }
 }
 
 /* ============================================================
+   SECTION 10 — PRICING (Dubai)
+   Dark band like Services; the three plans form one ruled block on the
+   Network-steps pattern, not three floating cards. "What's included" is
+   the same one-open-at-a-time accordion as What We Build ([data-plan]),
+   with the included items as chips rather than a list.
+   ============================================================ */
+.pricing { padding: var(--section-pad) 0; border-top: var(--rule) solid var(--border); }
+.pricing__head { max-width: 62ch; }
+.pricing__lede { margin-top: var(--s6); max-width: 62ch; }
+.pricing__plans {
+  margin-top: var(--s12);
+  border: var(--rule) solid var(--border);
+  background: var(--border);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--rule);
+}
+.plan {
+  background: var(--bg);
+  padding: var(--s8);
+  display: flex;
+  flex-direction: column;
+}
+.plan__tag {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.plan--featured .plan__tag { color: var(--accent); }
+.plan__name {
+  margin-top: var(--s3);
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+.plan__price {
+  margin-top: var(--s6);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.plan__price small {
+  display: block;
+  margin-top: var(--s2);
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+}
+.plan__price sup { font-size: 0.5em; vertical-align: super; font-weight: 500; margin-right: 0.15em; color: var(--text-2); }
+.plan__desc { margin-top: var(--s4); font-size: 13.5px; line-height: 1.65; color: var(--text-2); max-width: 36ch; }
+.plan__inc {
+  margin-top: var(--s6);
+  padding-top: var(--s4);
+  border-top: var(--rule) solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 24px;
+  column-gap: var(--s3);
+  cursor: pointer;
+}
+.plan__inc-h {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  padding-top: 3px;
+  transition: color 200ms var(--ease-out);
+}
+.plan__inc-t {
+  font-family: var(--font-m);
+  font-size: 15px;
+  color: var(--text-3);
+  justify-self: end;
+  user-select: none;
+  transition: transform 320ms var(--ease-out), color 200ms var(--ease-out);
+}
+.plan__inc.open .plan__inc-t { transform: rotate(45deg); color: var(--accent); }
+.plan__inc-shell { grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; transition: grid-template-rows 400ms var(--ease-out); }
+.plan__inc.open .plan__inc-shell { grid-template-rows: 1fr; }
+.plan__inc-inner { overflow: hidden; min-height: 0; }
+.plan__chips { display: flex; flex-wrap: wrap; gap: var(--s2); padding: var(--s4) 0 var(--s2); }
+.plan__note { font-family: var(--font-m); font-size: 10px; line-height: 1.5; color: var(--text-3); padding: var(--s2) 0 var(--s1); }
+.plan__inc:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .plan__inc:hover .plan__inc-h { color: var(--accent); }
+}
+.plan__cta { margin-top: auto; padding-top: var(--s8); }
+.plan__cta .btn { width: 100%; justify-content: center; }
+@media (max-width: 960px) {
+  .pricing__plans { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
    SECTION 09 — DESIGNER NETWORK
    Steps form a single ruled block: 1px hairline gaps over a
    --border ground, --bg cells. Not three floating cards.

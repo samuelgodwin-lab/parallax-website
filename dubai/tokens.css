@@ -1,0 +1,105 @@
+/* ============================================================
+   PARALLAX — Design Tokens
+   Source: Brand Guidelines v2.0, May 2026
+   Single source of truth. Never hardcode past this file.
+   ============================================================ */
+
+:root {
+  /* ── Colour ── */
+  --bg:             oklch(1 0 0);
+  --surface:        oklch(0.98 0.001 0);
+  --surface-raised: oklch(0.96 0.001 0);
+
+  --text:           oklch(0 0 0);
+  --text-2:         oklch(0.40 0.005 0);
+  --text-3:         oklch(0.55 0.005 0);
+
+  --accent:         oklch(0.53 0.18 249);   /* a11y: 5.16:1 on --bg, 4.87 on --surface, 4.58 on --surface-raised */
+  --accent-hi:      oklch(0.70 0.14 249);
+  --accent-muted:   oklch(0.53 0.18 249 / 0.14);
+  --accent-soft:    oklch(0.53 0.18 249 / 0.06);
+
+  /* ── Scrim ──
+     Guidelines §10: every hero image ships with this gradient so the
+     title stays legible whatever the photograph does. Deliberately NOT
+     re-pointed by .invert — the scrim is always black. */
+  --scrim: linear-gradient(to bottom, oklch(0 0 0 / 0) 30%, oklch(0 0 0 / 0.75) 100%);
+
+  --border:         oklch(0 0 0 / 0.15);
+  --border-strong:  oklch(0 0 0 / 0.30);
+
+  --success:        #22c55e;
+  --danger:         #dc2626;
+  --warning:        #f59e0b;
+
+  /* ── Typography ── */
+  --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  /* ── Spacing (4px base, --s{n} where n = px / 4) ── */
+  --s1:  4px;
+  --s2:  8px;
+  --s3:  12px;
+  --s4:  16px;
+  --s6:  24px;
+  --s8:  32px;
+  --s12: 48px;
+  --s16: 64px;
+  --s24: 96px;
+
+  /* ── Motion ── */
+  --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --dur-micro:     150ms;  /* hover, focus, button press */
+  --dur-standard:  340ms;  /* section reveals, card transitions */
+  --dur-cinematic: 620ms;  /* hero entrance, page transitions */
+
+  /* ── Layout ── */
+  --w-max:       1400px;
+  --w-padding:   clamp(24px, 5vw, 80px);
+  --section-pad: var(--s24);
+}
+
+/* ── Dark band inversion ──
+   Applied to the statistics band and any other inverted section.
+   Re-points the same token names rather than introducing new ones. */
+.invert {
+  --bg:            oklch(0.08 0.004 260);
+  --surface:       oklch(0.12 0.005 260);
+  --surface-raised: oklch(0.16 0.005 260); /* completes the set — was left light, so
+                                              placeholders/tiles stayed white in dark bands */
+  --text:          oklch(1 0 0);
+  --text-2:        oklch(0.72 0.005 260);
+  --text-3:        oklch(0.57 0.005 260);  /* a11y: 4.64:1 on inverted --bg (was 0.55 = 4.30) */
+  --border:        oklch(1 0 0 / 0.14);
+  --border-strong: oklch(1 0 0 / 0.28);
+  --accent:        oklch(0.70 0.14 249);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+  /* The nav is fixed now, so an anchor target would otherwise land underneath
+     it. Keeps #cta / #designers / #main clear of the bar. */
+  scroll-padding-top: calc(var(--nav-h) + var(--s4));
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-d);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

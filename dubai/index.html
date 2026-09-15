@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="/images/Favicon.png">
+<link rel="apple-touch-icon" href="/images/Favicon.png">
+<title>Parallax — Brand, Product &amp; Frontend Studio for Dubai</title>
+<meta name="description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code. Bilingual and PDPL-ready by default.">
+<!-- Pre-launch: not indexed until the page is signed off. Remove with the sitemap entry. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://www.parallaxorg.com/dubai/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Parallax">
+<meta property="og:locale" content="en_AE">
+<meta property="og:url" content="https://www.parallaxorg.com/dubai/">
+<meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
+<meta property="og:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
+<meta name="twitter:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Parallax",
+  "url": "https://www.parallaxorg.com/dubai/",
+  "logo": "https://www.parallaxorg.com/images/Favicon.png",
+  "parentOrganization": { "@type": "Organization", "name": "Parallax", "url": "https://www.parallaxorg.com/" },
+  "sameAs": ["https://www.parallaxorg.com/", "https://www.linkedin.com/company/parallaxorg", "https://www.instagram.com/parallaxdsign/"],
+  "description": "Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.",
+  "email": "projects@parallaxorg.com",
+  "areaServed": [{ "@type": "City", "name": "Dubai" }, { "@type": "Country", "name": "United Arab Emirates" }],
+  "availableLanguage": ["en", "ar"],
+  "priceRange": "AED 50,000 – 120,000+",
+  "knowsAbout": ["Brand Systems","Interface Design","Frontend Engineering","Design Systems","Bilingual Arabic–English Design","Accessibility (WCAG 2.1 AA)","Digital Strategy","Motion & Interaction"]
+}
+</script>
+<script>document.documentElement.classList.replace('no-js','js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=1">
+<link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+<!-- ============================================================
+     00 — PRELOADER
+     Same as parallaxorg.com's home page: near-black, wordmark in, a mono
+     status that scrambles into the region label, a 1.2s hold, then it lifts
+     away on window load. Capped at 6s so a slow third-party iframe (the
+     hero video) can never hold the page. The hero entrance is paused until
+     html.loaded so it plays after the loader, not behind it. Hidden under
+     .no-js; under reduced motion it exits as soon as the page has loaded.
+     ============================================================ -->
+<div class="plx" id="plx-loader" aria-hidden="true">
+  <div class="plx__center">
+    <div class="plx__mark" id="plxMark">Parallax<span class="plx__dot">.</span></div>
+    <div class="plx__status" id="plxStatus"></div>
+  </div>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var loader = document.getElementById('plx-loader');
+  var mark = document.getElementById('plxMark');
+  var status = document.getElementById('plxStatus');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MIN = reduced ? 0 : 1200, MAX = 6000, start = Date.now(), done = false;
+
+  if (reduced) { mark.classList.add('plx--vis'); status.textContent = 'DUBAI'; status.classList.add('plx--vis'); }
+  else {
+    setTimeout(function () { mark.classList.add('plx--vis'); }, 120);
+    var POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', FINAL = 'DUBAI', frame = 0;
+    setTimeout(function () {
+      status.classList.add('plx--vis');
+      var iv = setInterval(function () {
+        frame++;
+        if (frame > 16) { status.textContent = FINAL; clearInterval(iv); return; }
+        status.textContent = FINAL.split('').map(function (ch, k) {
+          if (ch === ' ') return ' ';
+          return (frame / 16 > k / FINAL.length) ? ch : POOL[Math.floor(Math.random() * POOL.length)];
+        }).join('');
+      }, 55);
+    }, 300);
+  }
+
+  function exit() {
+    if (done) return; done = true;
+    var wait = Math.max(0, MIN - (Date.now() - start));
+    setTimeout(function () {
+      root.classList.add('loaded');
+      loader.classList.add('plx--out');
+      setTimeout(function () { loader.remove(); }, reduced ? 0 : 650);
+    }, wait);
+  }
+  if (document.readyState === 'complete') exit();
+  else window.addEventListener('load', exit, { once: true });
+  setTimeout(exit, MAX);
+})();
+</script>
+
+<a class="skip-link btn btn-g" href="#main">Skip to content</a>
+
+<!-- ============================================================
+     01 — NAV
+     ============================================================ -->
+<header class="nav">
+  <nav class="w nav__in" aria-label="Primary">
+    <a href="https://www.parallaxorg.com" class="wordmark nav__logo">Parallax<span aria-hidden="true">.</span></a>
+    <div class="nav__right">
+      <span class="nav__label">Dubai</span>
+      <a href="#cta" class="btn btn-g">Start a project</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- ============================================================
+       02 — HERO
+       ============================================================ -->
+  <section class="hero hero--veil" aria-labelledby="hero-h">
+
+    <div class="hero__bg">
+      <!-- Placeholder until Dubai footage exists: slot img_dxb_hero, 16:9.
+           A still hero carries .hero--veil so the headline stays legible. -->
+      <img class="hero__poster" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201920%201080%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2748%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_hero%20%C2%B7%201920%C3%971080%3C/text%3E%3C/svg%3E" width="1920" height="1080"
+           alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+    </div>
+    <!-- Cursor colour-reveal, copied from parallaxorg.com: an accent radial that
+         tracks the pointer via --hx / --hy. Desktop pointers only. -->
+    <div class="hero__cursor-fx" aria-hidden="true"></div>
+
+    <div class="w hero__in">
+
+      <!-- Body is vertically centred in the space between nav and foot; the
+           stats pin to the bottom. Same split as parallaxorg.com's hero. -->
+      <div class="hero__body">
+        <div class="slabel slabel--hero">Dubai</div>
+        <h1 class="sh sh--hero" id="hero-h">We build the brands and apps<br>
+          Dubai&rsquo;s next companies<br>
+          <em>run</em> on.</h1>
+        <p class="lede hero__lede">Brand systems, interface design and frontend engineering &mdash; one studio, from identity to shipped code, in English and Arabic from the first screen. For the founder setting up in a free zone, the developer launching off-plan, and the DIFC firm whose onboarding now has to pass the PDPL.</p>
+        <div class="hero__cta">
+          <a class="btn btn-p" href="mailto:projects@parallaxorg.com?subject=New%20project%20%E2%80%94%20Dubai">Start a project</a>
+          <a class="btn btn-g" href="/work.html">See the work</a>
+        </div>
+        <p class="hero__proof">YVT &middot; BMW &middot; Accenture &middot; Nissan &middot; Sportradar &mdash; and two of our own already in Dubai.</p>
+        <p class="hero__note">One call, a lot of questions, no deck.<span class="hero__note-sep" aria-hidden="true"> &nbsp;·&nbsp; </span><a href="#designers">Designer in Dubai?</a></p>
+      </div>
+
+      <div class="hero__foot">
+        <div class="hero__stats">
+          <div><span class="hero__sn">100<span class="hero__sn-plus">+</span></span><span class="hero__sl">Projects shipped</span></div>
+          <div><span class="hero__sn">3M<span class="hero__sn-plus">+</span></span><span class="hero__sl">Users reached</span></div>
+          <div><span class="hero__sn">15<span class="hero__sn-plus">+</span></span><span class="hero__sl">Years in practice</span></div>
+          <div><span class="hero__sn">5</span><span class="hero__sl">Markets</span></div>
+        </div>
+
+        <div class="hero__scroll" aria-hidden="true">
+          <span class="hero__scroll-line"></span>
+          Scroll
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       03 — SERVICES MARQUEE
+       Copied verbatim from parallaxorg.com, where it sits in the same
+       position: directly after the hero, before the next section.
+       ============================================================ -->
+  <div class="marquee" aria-hidden="true">
+      <div class="marquee__t">
+      <span class="marquee__i">Brand Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Interface Design</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Frontend Engineering</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Design Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Digital Strategy</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Motion &amp; Interaction</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Brand Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Interface Design</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Frontend Engineering</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Design Systems</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Digital Strategy</span><span class="marquee__sep">&middot;</span>
+      <span class="marquee__i">Motion &amp; Interaction</span><span class="marquee__sep">&middot;</span>
+    </div>
+    </div>
+  
+    <!-- ============================================================
+         WORK — 3×3 asymmetric bento
+    ============================================================ -->
+
+  <!-- ============================================================
+       04 — SERVICES  (the offer)
+       Copied from parallaxorg.com's "What We Do": dark band, sticky
+       two-column split, one-at-a-time accordion.
+       ============================================================ -->
+  <section class="services invert" id="services" aria-labelledby="svcs-h">
+    <div class="w">
+      <div class="svcs__wrap">
+
+        <div class="svcs__left reveal">
+          <p class="slabel">What We Build</p>
+          <h2 class="sh" id="svcs-h">Six disciplines.<br>One <em>standard.</em></h2>
+          <p class="svcs__desc">Everything a product needs to leave the building, from one team &mdash; Arabic and English, at a rate a founder&rsquo;s budget can carry.</p>
+          <a href="/services.html" class="btn btn-p svcs__cta">Explore services</a>
+        </div>
+
+        <div class="svcs__list stagger">
+          <div class="svc" data-svc role="button" tabindex="0" aria-expanded="false">
+            <span class="svc__n">01</span>
+            <div>
+              <div class="svc__name">Brand Systems</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">Identity, voice and design language built as a complete system. Not how you look, but how you hold together across every surface.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="svc" data-svc role="button" tabindex="0" aria-expanded="false">
+            <span class="svc__n">02</span>
+            <div>
+              <div class="svc__name">Interface Design</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">Screens that think. Every state, every edge case, every micro-interaction resolved before a line of code is written.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="svc" data-svc role="button" tabindex="0" aria-expanded="false">
+            <span class="svc__n">03</span>
+            <div>
+              <div class="svc__name">Frontend Engineering</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">We write production code. React, Next.js, TypeScript &mdash; built for performance, built for teams, built to last past the handoff.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="svc" data-svc role="button" tabindex="0" aria-expanded="false">
+            <span class="svc__n">04</span>
+            <div>
+              <div class="svc__name">Design Systems</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">Components, tokens and governance your team runs without calling us. The system is the deliverable, not the screens.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="svc" data-svc role="button" tabindex="0" aria-expanded="false">
+            <span class="svc__n">05</span>
+            <div>
+              <div class="svc__name">Digital Strategy</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">We map the distance between where your product is and where it needs to be &mdash; research, positioning, architecture &mdash; then build the roadmap to close it.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="svc" data-svc role="button" tabindex="0" aria-expanded="false">
+            <span class="svc__n">06</span>
+            <div>
+              <div class="svc__name">Motion &amp; Interaction</div>
+              <div class="svc__shell"><div class="svc__inner">
+                <p class="svc__body">The gap between software that works and software people trust is how it moves. Choreographed with precision timing and physics-based motion.</p>
+              </div></div>
+            </div>
+            <span class="svc__toggle" aria-hidden="true">+</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       05 — CLIENT LOGOS
+       Copied verbatim from parallaxorg.com, including the inline SVG
+       marks and the mobile name-marquee that replaces them under 768px.
+       ============================================================ -->
+  <div class="logos-strip">
+      <div class="w">
+        <div class="logos-strip__inner">
+          <span class="logos-strip__label">Selected clients</span>
+  
+          <!-- YVT -->
+          <div class="logo-mark">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.85 140.64" style="height: 24px; width: auto;" role="img" aria-label="YVT">
+              <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+              <g><path class="logo-cls-1" d="M21.25,139.58c-2.83-2.12-5.14-5.66-4.78-9.21,2.3-18.94,5.49-33.46,9.38-56.47.18-.53-.35-1.06-1.06-.53C13.81,81.87.19,68.95,0,56.56c-.18-6.2,2.83-25.31,12.04-16.64,6.73,6.37-1.06,12.57-1.06,19.47,0,1.59,1.95,3.19,4.43,2.48,13.63-4.07,15.22-21.95,18.94-33.28,1.06-3.01,5.31-3.72,7.61-1.77,1.06.89,1.42,1.95,2.12,2.83,2.65,3.54,1.59,7.26.18,10.97-3.89,9.56-9.74,53.28-11.51,64.43-1.59,10.8-3.72,21.77-5.13,32.75-.35,3.18-3.89,3.54-6.37,1.77"/><path class="logo-cls-1" d="M65.15,89.83c-11.15-8.5-11.33-24.61-10.98-37.88,0-4.6,1.06-20.53,3.36-21.6,2.65-.89,5.84,1.59,7.43,3.89,1.95,3.36,1.24,6.9.88,10.27-2.12,10.27-1.59,20.89.35,30.98,0,1.42,1.77,1.77,2.66.35,4.6-7.97,6.9-17.35,10.44-25.84,5.13-11.86,10.27-23.72,18.06-33.99,3.54-4.96,12.39,4.78,9.56,9.56-5.31,7.97-10.09,16.46-14.16,25.14-4.07,8.5-6.9,17.35-10.09,25.84-2.12,5.31-6.73,15.76-12.57,15.05-1.77-.35-3.36-.53-4.96-1.77"/><path class="logo-cls-1" d="M145.52,39.03c-3.01.36-6.37.53-9.91,1.59-.53,0-.89.53-1.06,1.06-.88,15.75-4.78,29.92-7.79,44.79-.18,1.77-3.36,3.54-6.02,1.59-2.66-1.77-4.78-4.96-4.25-7.97,2.12-10.8,6.37-31.51,6.73-36.46,0-.53-.53-.89-1.06-.89-1.77,0-6.2,1.77-7.08,3.72-.71,1.42-1.77,2.3-3.01,2.3h-.18c-3.54-.18-7.26-5.31-6.9-8.67.35-2.65,2.48-4.42,4.78-5.49,5.49-2.65,7.79-3.54,14.52-4.25.71-.18,1.24-.71,1.42-1.24,1.06-6.02,3.36-19.3,3.54-20.71,1.59-15.58,13.98-6.02,11.86.89-1.41,4.96-3.01,13.81-3.89,17.88,0,.53.53,1.06,1.24,1.06,3.36.35,8.14-.88,11.15,1.24,2.48,1.59,3.36,6.37,2.66,7.44-1.24,2.48-3.9,1.77-6.73,2.12"/><path class="logo-cls-1" d="M159.76,84.72c-11.64-.12-11.64-11.64,0-11.76,11.64.12,11.64,11.64,0,11.76"/><path class="logo-cls-1" d="M195.26,84.17c-25.49-5.31-13.63-37-4.25-52.22,3.72-6.02,8.68-12.74,16.11-13.63,5.31-.53,12.57,2.48,13.28,8.5.35,3.01-2.48,3.72-4.96,3.01-12.57-3.19-23.54,25.67-24.6,39.47-.18,2.3,1.77,4.25,4.07,4.07,8.32-.53,16.11-7.26,21.95-13.1.89-.88,1.59-1.95,1.95-3.01,1.42-5.13,3.89-9.91,7.43-13.99.71-.89,1.06-1.95,1.06-3.01,0-7.97,11.15-3.72,15.93.18.71.53,1.59,1.06,2.65,1.06,7.08,0,14.69-2.83,21.6-1.95,1.95.35,3.72,1.42,5.13,2.83,8.67,9.38-10.09,8.85-18.23,9.56-.71,0-1.24.88-.89,1.6,9.56,19.82-19.12,40.71-33.28,22.48-.36-.53-1.24-.53-1.59-.18-5.84,5.84-14.87,10.09-23.37,8.32M228.36,67.88c0,.71.35,2.3.35,3.36,0,.53.53.88,1.06.88,9.21,0,18.06-11.15,13.28-20-.18-.35-.71-.71-1.24-.71-.35,0-1.24-.36-1.95-.36-.35,0-.88.18-1.06.71-1.6,5.84-5.67,10.62-9.74,15.05-.35.35-.71.71-.71,1.06"/><path class="logo-cls-1" d="M169.03,59.4c0,5.19-4.2,9.39-9.39,9.39s-9.39-4.21-9.39-9.39,4.2-9.39,9.39-9.39,9.39,4.2,9.39,9.39"/></g>
+            </svg>
+          </div>
+  
+          <div class="logo-sep"></div>
+  
+          <!-- BMW -->
+          <div class="logo-mark">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.39 71.82" style="height: 22.96875px; width: auto;">
+              <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+              <g id="Layer_1-2" data-name="Layer 1"><g><path class="logo-cls-1" d="M36.19,0C16.2,0,0,16.08,0,35.91s16.2,35.91,36.19,35.91,36.19-16.08,36.19-35.91S56.18,0,36.19,0ZM70.03,35.91c0,18.54-15.15,33.58-33.84,33.58S2.35,54.45,2.35,35.91,17.5,2.33,36.19,2.33s33.84,15.03,33.84,33.58Z"/><path class="logo-cls-1" d="M53.74,20.67c.49.52,1.2,1.37,1.6,1.88l7.33-4.62c-.37-.48-.95-1.2-1.38-1.71l-4.64,3.05-.32.27.24-.34,2.05-4.06-1.45-1.44-4.09,2.03-.34.23.27-.31,3.07-4.6c-.54-.46-1.06-.87-1.72-1.38l-4.65,7.26c.59.45,1.37,1.11,1.86,1.56l4.38-2.26.28-.2-.21.28-2.27,4.35h0ZM37.11,11.47l2-4.45.13-.39-.04.41.21,5.95c.7.07,1.43.16,2.14.28l-.33-8.81c-1-.11-2-.19-2.99-.23l-1.97,4.86-.07.36-.07-.36-1.97-4.86c-1,.04-1.99.12-2.99.23l-.33,8.81c.72-.12,1.44-.21,2.14-.28l.21-5.95-.04-.41.13.39,2,4.45s1.82,0,1.82,0ZM20.91,18.49c1.16-1.21,1.81-2.61.66-3.94-.63-.72-1.69-.88-2.57-.53l-.09.03.03-.08c.13-.34.21-1.44-.73-2.2-.46-.37-1.04-.51-1.62-.45-1.09.11-1.92.85-4.2,3.37-.69.76-1.69,1.96-2.29,2.74l6.25,5.89c2.07-2.28,2.92-3.12,4.55-4.83ZM12.75,17.05c1.26-1.53,2.6-2.92,3.2-3.47.19-.17.4-.35.65-.41.41-.11.84.18.93.6.1.42-.17.82-.47,1.15-.67.75-3.11,3.28-3.11,3.28l-1.21-1.15h0ZM15.2,19.35s2.38-2.5,3.16-3.29c.31-.32.51-.51.72-.61.27-.13.57-.16.84.02.26.18.39.48.32.78-.08.36-.37.7-.61.96l-3.15,3.35s-1.27-1.19-1.27-1.19Z"/><path class="logo-cls-1" d="M57.66,35.91h-21.46V14.61c11.86,0,21.46,9.53,21.46,21.3ZM36.19,35.91v21.3c-11.86,0-21.46-9.53-21.46-21.3,0,0,21.46,0,21.46,0Z"/></g></g>
+            </svg>
+          </div>
+  
+          <div class="logo-sep"></div>
+  
+          <!-- Accenture (the live source mislabels this mark "Vestas") -->
+          <div class="logo-mark">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310.99 81.84" style="height: 13.125px; width: auto;">
+              <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+              <g id="Layer_1-2" data-name="Layer 1"><g><polygon class="logo-cls-1" points="181 22.84 198.89 16.18 181 9.33 181 0 211.64 12.37 211.64 19.98 181 32.36 181 22.84"/><path class="logo-cls-1" d="M11.8,81.84c-6.47,0-11.8-3.24-11.8-10.47v-.38c0-8.75,7.61-11.8,16.94-11.8h4.38v-1.71c0-3.62-1.52-5.71-5.33-5.71-3.43,0-5.14,1.9-5.33,4.57H1.14c.76-7.99,7.04-11.8,15.42-11.8s14.85,3.62,14.85,12.56v23.98h-9.71v-4.19c-1.9,2.66-5.14,4.95-9.9,4.95ZM21.32,69.28v-3.43h-4c-4.95,0-7.42,1.33-7.42,4.57v.38c0,2.47,1.52,4.19,4.95,4.19,3.43-.19,6.47-2.09,6.47-5.71ZM54.05,81.84c-9.9,0-17.13-6.09-17.13-18.27v-.57c0-12.18,7.61-18.65,17.13-18.65,8.18,0,14.85,4.19,15.61,13.51h-9.52c-.57-3.43-2.47-5.71-5.9-5.71-4.19,0-7.23,3.43-7.23,10.47v1.14c0,7.23,2.66,10.47,7.23,10.47,3.43,0,5.9-2.47,6.47-6.47h9.14c-.57,8.37-6.09,14.08-15.8,14.08ZM91.36,81.84c-9.9,0-17.13-6.09-17.13-18.27v-.57c0-12.18,7.61-18.65,17.13-18.65,8.18,0,14.85,4.19,15.61,13.51h-9.52c-.57-3.43-2.47-5.71-5.9-5.71-4.19,0-7.23,3.43-7.23,10.47v1.14c0,7.23,2.66,10.47,7.23,10.47,3.43,0,5.9-2.47,6.47-6.47h9.14c-.57,8.37-6.09,14.08-15.8,14.08ZM128.85,81.84c-10.28,0-17.32-6.09-17.32-18.08v-.76c0-11.99,7.42-18.65,17.13-18.65,8.95,0,16.37,4.95,16.37,16.94v4.38h-23.41c.38,6.47,3.24,8.95,7.42,8.95,3.81,0,5.9-2.09,6.66-4.57h9.33c-1.14,6.66-6.85,11.8-16.18,11.8ZM121.81,59h13.32c-.19-5.33-2.66-7.61-6.66-7.61-3.05.19-5.9,1.9-6.66,7.61ZM151.12,45.3h10.09v5.33c1.71-3.43,5.33-6.09,10.85-6.09,6.47,0,10.85,4,10.85,12.56v23.98h-10.09v-22.46c0-4.19-1.71-6.09-5.33-6.09-3.43,0-6.28,2.09-6.28,6.66v21.89h-10.09v-35.78h0ZM201.36,34.45v10.85h6.85v7.42h-6.85v16.94c0,2.66,1.14,4,3.62,4,1.52,0,2.47-.19,3.43-.57v7.8c-1.14.38-3.24.76-5.71.76-7.8,0-11.42-3.62-11.42-10.85v-18.08h-4.19v-7.42h4.19v-6.66l10.09-4.19ZM245.9,81.08h-9.9v-5.33c-1.71,3.43-5.14,6.09-10.47,6.09-6.47,0-11.23-4-11.23-12.37v-24.17h10.09v22.84c0,4.19,1.71,6.09,5.14,6.09s6.28-2.28,6.28-6.66v-22.27h10.09v35.78ZM253.32,45.3h10.09v6.66c2.09-4.76,5.52-7.04,10.85-7.04v9.9c-6.85,0-10.85,2.09-10.85,7.99v18.46h-10.09v-35.97ZM294.62,81.84c-10.28,0-17.32-6.09-17.32-18.08v-.76c0-11.99,7.42-18.65,17.13-18.65,8.95,0,16.37,4.95,16.37,16.94v4.38h-23.22c.38,6.47,3.24,8.95,7.42,8.95,3.81,0,5.9-2.09,6.66-4.57h9.33c-1.52,6.66-7.04,11.8-16.37,11.8ZM287.39,59h13.51c-.19-5.33-2.66-7.61-6.66-7.61-3.05.19-5.9,1.9-6.85,7.61Z"/></g></g>
+            </svg>
+          </div>
+  
+          <div class="logo-sep"></div>
+  
+          <!-- Nissan -->
+          <div class="logo-mark">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 421.7" style="height: 22.96875px; width: auto;">
+              <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+              <g id="Layer_1-2" data-name="Layer 1"><g id="Layer_1-3" data-name="Layer 1"><g id="Nissan_Badge" data-name="Nissan Badge"><g><path class="logo-cls-1" d="M293.7,227.7c-.4.1-2,.1-2.7.1h-51.6v12h52.5c.4,0,3.5,0,4.1-.1,10.7-1,15.6-9.9,15.6-17.7s-5.1-16.6-14.8-17.5c-1.9-.2-3.5-.2-4.2-.2h-34.3c-1.5,0-3.2-.1-3.8-.3-2.7-.7-3.7-3.1-3.7-5.1,0-1.8,1-4.2,3.8-5,.8-.2,1.7-.3,3.6-.3h49.5v-11.8h-50.3c-2.1,0-3.7.1-5,.3-8.6,1.2-14.6,8.1-14.6,16.9,0,7.2,4.5,15.6,14.4,17,1.8.2,4.3.2,5.4.2h33.4c.6,0,2.1,0,2.4.1,3.8.5,5.1,3.3,5.1,5.8s-1.5,5-4.8,5.6Z"/><path class="logo-cls-1" d="M195.9,227.7c-.4.1-2,.1-2.6.1h-51.7v12h52.5c.4,0,3.5,0,4.1-.1,10.7-1,15.6-9.9,15.6-17.7s-5.1-16.6-14.8-17.5c-1.9-.2-3.5-.2-4.2-.2h-34.3c-1.5,0-3.2-.1-3.8-.3-2.7-.7-3.7-3.1-3.7-5.1,0-1.8,1-4.2,3.8-5,.8-.2,1.7-.3,3.6-.3h49.5v-11.8h-50.3c-2.1,0-3.7.1-5,.3-8.6,1.2-14.6,8.1-14.6,16.9,0,7.2,4.5,15.6,14.4,17,1.8.2,4.3.2,5.4.2h33.4c.6,0,2.1,0,2.4.1,3.8.5,5.1,3.3,5.1,5.8,0,2.4-1.4,5-4.8,5.6Z"/><rect class="logo-cls-1" x="101.7" y="181.4" width="13" height="58.7"/><polygon class="logo-cls-1" points="73 240.1 73 181.4 60 181.4 60 225.2 16.7 181.4 0 181.4 0 240.1 13 240.1 13 196.1 56.6 240.1 73 240.1"/><polygon class="logo-cls-1" points="491.1 181.4 491.1 225.2 447.8 181.4 431.1 181.4 431.1 240.1 444.1 240.1 444.1 196.1 487.6 240.1 504 240.1 504 181.4 491.1 181.4"/><path class="logo-cls-1" d="M363.4,181.4l-36.6,58.7h15.8l6.5-10.5h42.7l6.5,10.5h15.7l-36.6-58.7h-14ZM385.1,218.5h-29.3l14.7-23.6,14.6,23.6Z"/><path class="logo-cls-1" d="M72.3,148.1C98.5,71.6,170.7,20.2,252.1,20.2s153.7,51.4,179.8,127.9l.2.6h57.3v-6.9l-23.8-2.8c-14.7-1.7-17.8-8.2-21.8-16.4l-1-2C408.4,47.4,333.5,0,252.1,0S95.8,47.4,61.4,120.8l-1,2c-4,8.2-7.1,14.7-21.8,16.4l-23.8,2.8v6.9h57.2l.3-.8Z"/><path class="logo-cls-1" d="M432.1,272.9l-.2.6c-26.2,76.5-98.4,127.8-179.8,127.8h0c-81.4,0-153.7-51.4-179.8-127.9l-.2-.6H14.9v6.9l23.8,2.8c14.7,1.7,17.8,8.2,21.8,16.4l1,2c34.4,73.4,109.3,120.8,190.7,120.8h0c81.4,0,156.3-47.4,190.7-120.7l1-2c4-8.2,7.1-14.7,21.8-16.4l23.8-2.8v-6.9h-57.4Z"/></g></g></g></g>
+            </svg>
+          </div>
+  
+          <div class="logo-sep"></div>
+  
+          <!-- Sportradar -->
+          <div class="logo-mark">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 399.99 49.23" style="height: 13px; width: auto;">
+              <defs><style>.logo-cls-1 {fill: #fff;}</style></defs>
+              <g id="Layer_1-2" data-name="Layer 1"><g id="Layer_2-2" data-name="Layer 2"><g id="Ebene_1" data-name="Ebene 1"><path class="logo-cls-1" d="M0,29.91h4.38v1.37c0,3.44,1.8,4.85,6.62,4.85h10.06c7.05,0,9.29-.27,9.29-4.41v-.23c0-2.67-.77-4.11-6.38-4.11h-14.51c-6.62-.03-9.06-2.17-9.06-7.45v-1.6c0-4.55,2.57-7.05,14.14-7.05h7.19c10.59,0,12.07,3.04,12.07,6.99v1.47h-4.38v-.27c0-4.28-2.84-4.38-7.95-4.38h-8.19c-6.72.03-8.19.67-8.19,3.81v1.04c0,2.31.77,3.61,5.68,3.61h12.37c7.05,0,11.86.7,11.86,8.22v.1c.03,7.82-7.19,8.09-12.9,8.09h-8.66c-6.92,0-13.44,0-13.44-8.39v-1.64Z"/><path class="logo-cls-1" d="M41.38,11.66h4.38v4.41h.1c1.37-3.38,5.18-4.85,9.32-4.85h8.92c6.65,0,12.87,2.14,12.87,11.73v4.91c0,8.99-3.98,12.07-13.64,12.07h-8.92c-4.98,0-7.19-1.24-8.19-4.11h-.1v13.4h-4.75V11.66ZM72.26,23.03c0-5.41-1.74-7.95-8.36-7.95h-9.32c-6.18,0-8.52,3.21-8.52,8.02v5.31c0,6.65,4.11,7.75,9.12,7.75h8.36c5.48,0,8.72-1.2,8.72-7.65v-5.48Z"/><path class="logo-cls-1" d="M136.46,11.66h4.38v4.04h.1c1.74-3.61,5.31-4.48,8.52-4.48h4.41c8.79,0,11.66,2.84,11.66,9.66v3.34h-4.34v-1.2c0-6.85-1.44-7.95-9.76-7.95h-2.91c-4.98,0-7.35,3.18-7.35,6.75v17.68h-4.68l-.03-27.84Z"/><path class="logo-cls-1" d="M175.06,15.51h-6.12v-3.84h6.12v-6.58h4.68v6.58h18.65v3.81h-18.62v13.87c0,5.18,1.8,6.78,6.92,6.78h1.47c6.22,0,7.22-1.3,7.22-7.15v-2.07h3.81v3.04c0,5.58-.53,9.99-10.7,9.99h-2.57c-8.82,0-10.86-4.24-10.86-8.79v-15.64Z"/><path class="logo-cls-1" d="M205.18,11.66h9.83v5.28h.1c1.2-4.41,5.45-5.75,10.19-5.75,7.65,0,10.63,3.28,10.63,11,0,.7-.07,1.47-.1,2.47h-9.06c0-3.54-.84-5.25-5.01-5.25-3.61,0-6.12,1.37-6.12,4.68v15.41h-10.46V11.66Z"/><path class="logo-cls-1" d="M239.84,29.75c0-7.55,5.25-8.02,15.41-8.02,5.75,0,8.92.17,10.93,2.24v-2.47c0-2.74-.8-3.71-4.91-3.71h-6.18c-3.04,0-3.91.27-4.04,2.24h-10.16c0-7.55,3.71-8.79,12.57-8.79h12.17c7.19,0,11.03,3.44,11.03,9.99v18.28h-9.93v-3.14c-2.91,3.01-3.98,3.61-9.22,3.61h-7.15c-6.38.07-10.46-1.37-10.46-7.92v-2.31h-.03ZM258.52,33.39c7.22,0,7.85-1.1,7.85-2.94,0-2.07-.6-2.84-6.38-2.84h-4.61c-4.41,0-5.35.97-5.35,3.28,0,1.8,1.44,2.51,5.48,2.51h3.01Z"/><path class="logo-cls-1" d="M281.91,23.09c0-7.09,1.64-11.83,14.91-11.83h3.11c4.31,0,8.72,1.2,9.39,5.58h.1V0h10.46v39.5h-9.83v-5.15h-.1c-1.14,3.44-3.78,5.58-10.09,5.58h-3.04c-13.27,0-14.91-4.75-14.91-11.83v-5.01ZM292.07,27.21c0,3.11.5,4.85,5.48,4.85h6.18c4.11,0,6.32-.94,6.32-5.11v-2.74c0-4.21-2.17-5.11-6.32-5.11h-6.18c-5.01,0-5.48,1.74-5.48,4.85v3.28Z"/><path class="logo-cls-1" d="M325.73,29.75c0-7.55,5.25-8.02,15.41-8.02,5.72,0,8.92.17,10.93,2.24v-2.47c0-2.74-.8-3.71-4.91-3.71h-6.18c-3.07,0-3.94.27-4.04,2.24h-10.13c0-7.55,3.71-8.79,12.57-8.79h12.17c7.22,0,11.03,3.44,11.03,9.99v18.28h-9.93v-3.14c-2.87,3.01-3.98,3.61-9.22,3.61h-7.19c-6.38.07-10.49-1.37-10.49-7.92v-2.31ZM344.41,33.39c7.19,0,7.85-1.1,7.85-2.94,0-2.07-.6-2.84-6.38-2.84h-4.65c-4.41,0-5.35.97-5.35,3.28,0,1.8,1.44,2.51,5.48,2.51h3.04Z"/><path class="logo-cls-1" d="M369.21,11.66h9.83v5.28h.1c1.2-4.41,5.45-5.75,10.19-5.75,7.65,0,10.66,3.28,10.66,11,0,.7-.07,1.47-.1,2.47h-9.06c0-3.54-.8-5.25-5.01-5.25-3.61,0-6.12,1.37-6.12,4.68v15.41h-10.49V11.66Z"/><path class="logo-cls-1" d="M111.19,15.01h-9.59c-5.48,0-9.29,1.24-9.29,7.75v5.58c0,6.48,3.81,7.75,9.29,7.75h9.59c5.45,0,9.29-1.27,9.29-7.75v-5.58c-.03-6.52-3.84-7.75-9.29-7.75Z"/><path class="logo-cls-1" d="M110.69,7.19h-8.59c-11.36,0-19.69,2.74-19.69,14.44v7.82c0,11.73,8.32,14.4,19.69,14.4h8.59c11.36,0,19.69-2.74,19.69-14.4v-7.82c0-11.73-8.29-14.44-19.69-14.44ZM125.17,28.61c0,9.16-6.48,11.3-15.41,11.3h-6.72c-8.92,0-15.41-2.14-15.41-11.3v-6.12c0-9.16,6.52-11.3,15.41-11.3h6.72c8.92,0,15.41,2.14,15.41,11.3v6.12Z"/></g></g></g>
+            </svg>
+          </div>
+  
+        </div>
+  
+        <div class="logos-mobile-marquee">
+          <div class="marquee__t">
+            <span class="marquee__i">Strato</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Suka</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Sopra</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Vestas</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">YVT</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Re'flekt</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">BMW</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">BuildDeli</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Sinnerschrader</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Sportradar</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Strato</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Suka</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Sopra</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Vestas</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">YVT</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Re'flekt</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">BMW</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">BuildDeli</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Sinnerschrader</span><span class="marquee__sep">&middot;</span>
+            <span class="marquee__i">Sportradar</span><span class="marquee__sep">&middot;</span>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  <!-- ============================================================
+       06 — SECTORS BENTO
+       ============================================================ -->
+  <section class="section" aria-labelledby="sectors-h">
+    <div class="w">
+      <div class="reveal">
+        <div class="slabel">Where We Work</div>
+        <h2 class="sh" id="sectors-h">The software we build, by <em>sector.</em></h2>
+      </div>
+
+      <div class="bento">
+
+        <article class="sector sector--01 reveal">
+          <div class="sector__media">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%201067%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_s01%20%C2%B7%201600%C3%971067%3C/text%3E%3C/svg%3E" width="1600" height="1067" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="slabel">S&mdash;01 · Real estate &amp; proptech</div>
+          <h3 class="sh sh--sub">Sold before it&rsquo;s <em>built.</em></h3>
+          <p class="sector__body">Two hundred and seventy thousand transactions last year, most of them off-plan &mdash; sold on a launch site, a broker's phone and a configurator. We build the launch sites, broker and buyer apps, and owner and tenant portals that carry a project from first release to handover &mdash; the same systems we run for developers in India, built for DLD and REES.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Off-plan launch sites</span>
+              <span class="tag">Broker &amp; buyer apps</span>
+              <span class="tag">Owner &amp; tenant portals</span>
+              <span class="tag">Property-management UI</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="sector sector--02 reveal">
+          <div class="sector__media">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201280%201600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_s02%20%C2%B7%201280%C3%971600%3C/text%3E%3C/svg%3E" width="1280" height="1600" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="slabel">S&mdash;02 · Hospitality &amp; tourism</div>
+          <h3 class="sh sh--sub">Bookings that skip the <em>middleman.</em></h3>
+          <p class="sector__body">Nearly twenty million visitors, 827 hotels, and most rooms sold through a channel that keeps a fifth of the rate. We build direct booking engines, guest apps and F&amp;B ordering that keep the guest &mdash; and the margin &mdash; with the property.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Direct booking engines</span>
+              <span class="tag">Guest apps</span>
+              <span class="tag">F&amp;B ordering</span>
+              <span class="tag">Property UI</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="sector sector--03 reveal">
+          <div class="sector__media">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%201600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_s03%20%C2%B7%201600%C3%971600%3C/text%3E%3C/svg%3E" width="1600" height="1600" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="slabel">S&mdash;03 · Fintech &amp; financial services</div>
+          <h3 class="sh sh--sub">Onboarding people <em>finish.</em></h3>
+          <p class="sector__body">Finance is Dubai's fastest-growing sector, and its products are still sold through flows most customers abandon at the document upload. We build the onboarding, KYC, payments and advisor tools that get finished &mdash; and, under the PDPL, that handle the data the way the regulator expects.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Onboarding &amp; KYC flows</span>
+              <span class="tag">Payments UI</span>
+              <span class="tag">Advisor dashboards</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="sector sector--04 reveal">
+          <div class="sector__media">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%201067%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_s04%20%C2%B7%201600%C3%971067%3C/text%3E%3C/svg%3E" width="1600" height="1067" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="slabel">S&mdash;04 · Founders &amp; trade</div>
+          <h3 class="sh sh--sub">Open before the licence <em>dries.</em></h3>
+          <p class="sector__body">Twenty-two thousand Indian businesses set up here in six months, and most needed a brand, a storefront and an ordering portal before the first customer walked in. One team for the lot, from the studio the Bengaluru founders in Dubai already know &mdash; a lead in the room by lunch.</p>
+          <div class="datum">
+            <div class="datum__k">We build</div>
+            <div class="sector__tags">
+              <span class="tag">Brand systems</span>
+              <span class="tag">Storefronts</span>
+              <span class="tag">B2B ordering portals</span>
+              <span class="tag">Marketing sites</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       07 — BILINGUAL &amp; ACCESSIBLE
+       ============================================================ -->
+  <section class="section section--surface" aria-labelledby="gov-h">
+    <div class="w">
+      <div class="gov__grid">
+
+        <div class="gov__head reveal">
+          <div class="slabel">Bilingual &amp; Accessible</div>
+          <h2 class="sh" id="gov-h">Two languages. One <em>system.</em></h2>
+          <p class="lede gov__lede">Every product in Dubai is two products &mdash; Arabic and English, right-to-left and left-to-right. For government it's law; for everyone else it's expected, and usually bolted on last. We design bilingual from the first screen: mirrored, not flipped, with Arabic typography done properly, every page measured against WCAG 2.1 AA, data flows that have read the PDPL, and UAE Pass where it belongs.</p>
+        </div>
+
+        <div class="gov__tiles stagger">
+          <article class="gov__tile">
+            <div class="gov__tile-media">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_a01%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+            </div>
+            <div class="gov__tile-body">
+              <p class="gov__tile-tag">Systems</p>
+              <h3 class="gov__tile-head">Bilingual design systems</h3>
+              <p class="gov__tile-desc">One component library, two directions. Layouts mirror rather than flip, so the Arabic product is designed, not translated.</p>
+            </div>
+          </article>
+          <article class="gov__tile">
+            <div class="gov__tile-media">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_a02%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+            </div>
+            <div class="gov__tile-body">
+              <p class="gov__tile-tag">Type</p>
+              <h3 class="gov__tile-head">Arabic typography &amp; RTL</h3>
+              <p class="gov__tile-desc">Arabic faces chosen and set to sit with the Latin, numerals, dates and forms handled properly, right-to-left tested on real devices.</p>
+            </div>
+          </article>
+          <article class="gov__tile gov__tile--wide">
+            <div class="gov__tile-media">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201200%201200%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2730%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_a03%20%C2%B7%201200%C3%971200%3C/text%3E%3C/svg%3E" width="1200" height="1200" alt="" loading="lazy" decoding="async">
+            </div>
+            <div class="gov__tile-body">
+              <p class="gov__tile-tag">Audit</p>
+              <h3 class="gov__tile-head">Accessibility audits (WCAG 2.1 AA)</h3>
+              <p class="gov__tile-desc">Measured page by page against the TDRA policy and the Dubai Universal Design Code, every failure specified as a fix rather than a finding.</p>
+            </div>
+          </article>
+          <article class="gov__tile gov__tile--wide">
+            <div class="gov__tile-media">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201200%201200%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2730%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_a04%20%C2%B7%201200%C3%971200%3C/text%3E%3C/svg%3E" width="1200" height="1200" alt="" loading="lazy" decoding="async">
+            </div>
+            <div class="gov__tile-body">
+              <p class="gov__tile-tag">Integration</p>
+              <h3 class="gov__tile-head">UAE Pass &amp; Dubai Now integration</h3>
+              <p class="gov__tile-desc">Sign-in, identity and government services wired the way Digital Dubai expects, on the front end your customer actually sees.</p>
+            </div>
+          </article>
+          <article class="gov__tile">
+            <div class="gov__tile-media">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_a05%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+            </div>
+            <div class="gov__tile-body">
+              <p class="gov__tile-tag">Data</p>
+              <h3 class="gov__tile-head">PDPL-ready data flows</h3>
+              <p class="gov__tile-desc">Consent, records of processing and breach paths designed into the product before the executive regulations make them a fine.</p>
+            </div>
+          </article>
+          <article class="gov__tile">
+            <div class="gov__tile-media">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2720%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_a06%20%C2%B7%20800%C3%97600%3C/text%3E%3C/svg%3E" width="800" height="600" alt="" loading="lazy" decoding="async">
+            </div>
+            <div class="gov__tile-body">
+              <p class="gov__tile-tag">Handover</p>
+              <h3 class="gov__tile-head">Handover to the next vendor</h3>
+              <p class="gov__tile-desc">Documentation, tokens and test evidence that let another team pick it up &mdash; a supplier requirement for most government and enterprise work.</p>
+            </div>
+          </article>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       08 — THE NETWORK
+       ============================================================ -->
+  <section class="section section--raised" id="designers" aria-labelledby="dn-h">
+    <div class="w">
+
+      <div class="dn__head reveal">
+        <div class="slabel">For Designers in Dubai</div>
+        <h2 class="sh" id="dn-h">Lead it here. We'll <em>build it.</em></h2>
+        <p class="lede dn__lede">Two of us are already in Dubai. We're looking for more: senior designers and design leads who can sit across the table &mdash; run discovery, present the work, own the relationship &mdash; and Arabic-speaking designers who can make the Arabic side of a product as good as the English. Paid a day rate for your time, ten percent of what you bring in. No exclusivity. Three ways in.</p>
+      </div>
+
+      <div class="dn__media reveal">
+        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201600%20700%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2740%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_network%20%C2%B7%201600%C3%97700%3C/text%3E%3C/svg%3E" width="1600" height="700" alt="" loading="lazy" decoding="async">
+      </div>
+
+      <div class="dn__steps stagger">
+        <div class="dn__step">
+          <div class="dn__step-n">Route 01</div>
+          <h3 class="sh sh--step">Lead a project</h3>
+          <p class="dn__step-b">Discovery, workshops and presentations, in the room, in Dubai. Day rate agreed before you start.</p>
+        </div>
+        <div class="dn__step">
+          <div class="dn__step-n">Route 02</div>
+          <h3 class="sh sh--step">Bring work in</h3>
+          <p class="dn__step-b">Introduce a company. We scope, price and close; you lead it, and take 10% of the fee.</p>
+        </div>
+        <div class="dn__step">
+          <div class="dn__step-n">Route 03</div>
+          <h3 class="sh sh--step">Localise it</h3>
+          <p class="dn__step-b">Arabic typography, RTL layout and copy for the products we build. Paid per project, credited by name.</p>
+        </div>
+      </div>
+
+      <div class="dn__terms reveal">
+        <span class="dn__term">No exclusivity</span>
+        <span class="dn__term">Day rate, not commission</span>
+        <span class="dn__term">10% on work you bring</span>
+        <span class="dn__term">Publicly credited</span>
+      </div>
+
+      <div class="dn__cta reveal">
+        <!-- Opens the network drawer. The href is the no-JS fallback: without
+             scripts the drawer renders inline at the end of the page. -->
+        <a class="btn btn-p" href="#network" id="net-open" aria-haspopup="dialog" aria-controls="network">Join the network</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       09 — WHERE WE WORK
+       Markets, not offices. Live markets are anchors so the links are in
+       the HTML for crawlers; planned ones are spans. The list below carries
+       the same links for anyone not clicking a map.
+       ============================================================ -->
+  <section class="markets" aria-labelledby="mk-h">
+    <div class="w">
+      <div class="markets__head">
+        <p class="slabel">Where We Work</p>
+        <h2 class="sh" id="mk-h">One studio, five <em>markets.</em></h2>
+        <p class="lede mk__lede">Bengaluru, Northeast India and Munich each have their own page &mdash; the work we've done there, the people, and how to reach us. Pick a market. Denver is next.</p>
+      </div>
+
+      <!-- Vector world map, supplied as stock art (rawpixel.com / Freepik) and
+           re-emitted: curves flattened, simplified at 0.25 viewBox units and
+           cropped to the artwork's own bounds, 420KB -> 92KB / 31KB gzipped.
+           The artwork is a Miller projection (fitted against Natural Earth
+           coastlines, IoU 0.70); each pin is then locally registered to the
+           art's own coastline, because stylised continents drift a few degrees
+           off true. The artwork's own mesh nodes are decorative vertices, not
+           cities (nearest one to Denver is ~9 deg out), so pins are not snapped. -->
+      <div class="mk__map" role="presentation">
+        <img class="mk__geo" src="images/world-map.svg" alt="" width="871" height="462" loading="lazy" decoding="async">
+        <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:67.96%;--y:58.58%;--d:0s" href="/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Bengaluru <span aria-hidden="true">&rarr;</span></span></a>
+        <span class="mk__pin" style="--x:19.61%;--y:40.75%;--d:0.6s" data-tz="America/Denver"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Denver</span></span>
+        <span class="mk__pin mk__pin--live mk__pin--here mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai</span></span>
+        <a class="mk__pin mk__pin--live" style="--x:48.33%;--y:37.98%;--d:1.8s" href="/munich/" data-tz="Europe/Berlin"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Munich <span aria-hidden="true">&rarr;</span></span></a>
+        <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:72.14%;--y:51.15%;--d:2.4s" href="/northeast-india/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Northeast India <span aria-hidden="true">&rarr;</span></span></a>
+      </div>
+
+      <ul class="mk__list">
+            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/">
+                <span class="mk__name">Bengaluru</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Kolkata">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
+            </li>
+            <li class="mk__row">
+              <span class="mk__cell">
+                <span class="mk__name">Denver</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="America/Denver">--:--</span><span class="mk__soon">Soon</span></span>
+              </span>
+            </li>
+            <li class="mk__row mk__row--live mk__row--here">
+              <span class="mk__cell">
+                <span class="mk__name">Dubai</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Dubai">--:--</span><span class="mk__here">You're here</span></span>
+              </span>
+            </li>
+            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/munich/">
+                <span class="mk__name">Munich</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Europe/Berlin">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
+            </li>
+            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/northeast-india/">
+                <span class="mk__name">Northeast India</span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Kolkata">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
+            </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       10 — PRICING
+       Dubai publishes prices, so the tiers sit on the page in AED: the
+       main site's euro tiers at ~4.30 AED/EUR, rounded down to the 10k
+       (01-COPY.md §10, option A). Inclusions are the main site's lists.
+       ============================================================ -->
+  <section class="pricing invert" id="pricing" aria-labelledby="pricing-h">
+    <div class="w">
+      <div class="pricing__head reveal">
+        <div class="slabel">Pricing</div>
+        <h2 class="sh" id="pricing-h">Transparent pricing. No <em>surprises.</em></h2>
+        <p class="lede pricing__lede">Dubai publishes its prices. So do we &mdash; three ways to work with us, in dirhams, with what&rsquo;s included on one page.</p>
+      </div>
+      <div class="pricing__plans stagger">
+        <article class="plan" data-plan-id="starter">
+          <p class="plan__tag">Starter</p>
+          <h3 class="plan__name">Foundation</h3>
+          <p class="plan__price"><sup>AED</sup>50,000<small>from, per project</small></p>
+          <p class="plan__desc">Brand identity + single digital touchpoint. Ideal for early-stage companies that need to move fast without sacrificing quality.</p>
+          <div class="plan__inc" data-plan role="button" tabindex="0" aria-expanded="false">
+            <span class="plan__inc-h">What&rsquo;s included</span>
+            <span class="plan__inc-t" aria-hidden="true">+</span>
+            <div class="plan__inc-shell"><div class="plan__inc-inner">
+              <div class="plan__chips">
+                <span class="tag">Brand strategy workshop (half-day)</span>
+                <span class="tag">Logo mark + full identity system</span>
+                <span class="tag">Typography + colour token set</span>
+                <span class="tag">One digital touchpoint (landing page or app screen set)</span>
+                <span class="tag">Brand guidelines document (PDF + Figma)</span>
+                <span class="tag">Two rounds of revisions</span>
+              </div>
+              <p class="plan__note">Typical turnaround: 4&ndash;6 weeks. 50% upfront, 50% on delivery. Arabic scope priced on top.</p>
+            </div></div>
+          </div>
+          <div class="plan__cta"><a class="btn btn-p" href="#cta">Start a project</a></div>
+        </article>
+        <article class="plan plan--featured" data-plan-id="studio">
+          <p class="plan__tag">Most popular</p>
+          <h3 class="plan__name">Studio</h3>
+          <p class="plan__price"><sup>AED</sup>120,000<small>from, per project</small></p>
+          <p class="plan__desc">Complete brand system, product UI, and build-ready design specifications. Our most requested engagement.</p>
+          <div class="plan__inc" data-plan role="button" tabindex="0" aria-expanded="false">
+            <span class="plan__inc-h">What&rsquo;s included</span>
+            <span class="plan__inc-t" aria-hidden="true">+</span>
+            <div class="plan__inc-shell"><div class="plan__inc-inner">
+              <div class="plan__chips">
+                <span class="tag">Everything in Foundation</span>
+                <span class="tag">Full product UI design (up to 40 screens)</span>
+                <span class="tag">Component library in Figma (design system)</span>
+                <span class="tag">Interaction &amp; motion specifications</span>
+                <span class="tag">Developer handoff package</span>
+                <span class="tag">Frontend build (React / Next.js)</span>
+                <span class="tag">Three rounds of revisions</span>
+                <span class="tag">Two weeks post-launch support</span>
+              </div>
+              <p class="plan__note">Typical turnaround: 8&ndash;12 weeks. 40% upfront, 40% at mid-point, 20% on delivery. Bilingual UI priced on top.</p>
+            </div></div>
+          </div>
+          <div class="plan__cta"><a class="btn btn-p" href="#cta">Start a project</a></div>
+        </article>
+        <article class="plan" data-plan-id="custom">
+          <p class="plan__tag">Enterprise</p>
+          <h3 class="plan__name">Custom</h3>
+          <p class="plan__price">Let&rsquo;s talk<small>scoped to the engagement</small></p>
+          <p class="plan__desc">Multi-phase engagements, embedded design teams, and long-term partnerships. Scoped to your exact needs.</p>
+          <div class="plan__inc" data-plan role="button" tabindex="0" aria-expanded="false">
+            <span class="plan__inc-h">What&rsquo;s included</span>
+            <span class="plan__inc-t" aria-hidden="true">+</span>
+            <div class="plan__inc-shell"><div class="plan__inc-inner">
+              <div class="plan__chips">
+                <span class="tag">Multi-phase brand + product engagements</span>
+                <span class="tag">Embedded design team (2&ndash;4 designers)</span>
+                <span class="tag">Ongoing retainer or milestone-based billing</span>
+                <span class="tag">Direct access to the founding team</span>
+                <span class="tag">Priority scheduling &amp; response</span>
+                <span class="tag">White-label options available</span>
+              </div>
+              <p class="plan__note">We take on one or two custom engagements a quarter. Reach out early.</p>
+            </div></div>
+          </div>
+          <div class="plan__cta"><a class="btn btn-p" href="#cta">Start a project</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       11 — CTA
+       ============================================================ -->
+  <section class="section contact" id="cta" aria-labelledby="cta-h">
+    <!-- Cursor FX copied from parallaxorg.com's "Work With Us": the grid is
+         revealed by a radial mask that tracks the pointer, with an accent
+         radial over it. --cx / --cy come from main.js. -->
+    <div class="contact__cursor-fx" aria-hidden="true"></div>
+    <div class="w">
+      <div class="reveal">
+        <div class="slabel">Next</div>
+        <h2 class="sh sh--cta cta__h" id="cta-h">Tell us what you're <em>building.</em></h2>
+        <p class="lede cta__lede">We start by questioning the brief. One call &mdash; or a WhatsApp thread &mdash; a lot of questions, no deck. Someone from the studio can be in a room in Dubai within the week. If we're not the right studio for it, we'll say so and point you at someone who is.</p>
+        <div class="cta__btns">
+          <a class="btn btn-p" href="mailto:projects@parallaxorg.com">projects@parallaxorg.com</a>
+          <a class="btn btn-g" href="#pricing">See pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ============================================================
+     12 — FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="w footer__in">
+    <div class="footer__left">
+      <span class="wordmark footer__logo">Parallax<span aria-hidden="true">.</span></span>
+      <span class="footer__copy">&copy; 2026 Parallax Studio</span>
+    </div>
+
+    <div class="footer__mid">
+      <span class="footer__k">Region</span>
+      <span class="footer__v">Dubai &middot; UAE &middot; GCC</span>
+    </div>
+
+    <ul class="footer__links">
+      <li><a href="https://www.linkedin.com/company/parallaxorg" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://www.instagram.com/parallaxdsign/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- ============================================================
+     NETWORK DRAWER
+     Same pattern as the pricing drawer on parallaxorg.com: slides in from
+     the right over a scrim, accent ground, black title / white second line.
+     Static markup rather than JS-templated so the copy is crawlable. Under
+     .no-js the drawer renders inline at the end of the page instead.
+     ============================================================ -->
+<div class="net-scrim" id="net-scrim" hidden></div>
+<aside class="net-drawer" id="network" role="dialog" aria-modal="true" aria-labelledby="net-h" aria-hidden="true">
+  <div class="net-drawer__top">
+    <button class="net-drawer__close" id="net-close" type="button" aria-label="Close">&#x2715;</button>
+  </div>
+  <div class="net-drawer__body">
+    <p class="net-drawer__tag">For Designers in Dubai</p>
+    <h2 class="net-drawer__h" id="net-h">The studio behind you.<span>The room in front.</span></h2>
+    <p class="net-drawer__sub">A delivery team of designers and engineers &mdash; and a Dubai lead who runs the room. That could be you.</p>
+
+    <hr class="net-drawer__rule">
+    <p class="net-drawer__label">What you get</p>
+    <!-- Same accordion as What We Build (main.js initAccordion): heading rows,
+         one open at a time, first open so the list doesn't read as empty. -->
+    <div class="net-acc">
+      <div class="net-acc__row open" data-perk role="button" tabindex="0" aria-expanded="true">
+        <div class="net-acc__h">A day rate, paid on time</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Agreed in writing before you start. Invoiced on delivery, paid within 15 days. Your rate, not a commission.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">Your name on the work</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Public credit on every project &mdash; our site, the case study, the client&rsquo;s launch. You can show it, and we&rsquo;ll say you did it.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">A full team behind you</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Brand, product and frontend, delivered by the studio while you own the relationship. You present it; we make sure it&rsquo;s worth presenting.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">Real products in your portfolio</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Launch sites, booking engines, onboarding flows, brand systems. Work you led, with a client who&rsquo;ll say so.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">10% of what you bring in</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Introduce a company, we scope, price and close it. You lead the project, and you&rsquo;re paid 10% of the fee on top of your days.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">First look at roles</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">When we open a Dubai role, the network hears first.</p></div></div>
+      </div>
+      <div class="net-acc__row" data-perk role="button" tabindex="0" aria-expanded="false">
+        <div class="net-acc__h">Studio tools while you&rsquo;re on</div>
+        <span class="net-acc__t" aria-hidden="true">+</span>
+        <div class="net-acc__shell"><div class="net-acc__inner"><p class="net-acc__b">Figma seats, our design system and libraries, and a team in your working hours &mdash; 09:00 in Dubai is 10:30 in Bengaluru.</p></div></div>
+      </div>
+    </div>
+
+    <hr class="net-drawer__rule">
+    <p class="net-drawer__label">How it works</p>
+    <ol class="net-drawer__steps">
+      <li><span class="net-drawer__n">01</span><div><strong>Show us the work</strong><span>A portfolio link and three projects you led</span></div></li>
+      <li><span class="net-drawer__n">02</span><div><strong>One conversation</strong><span>Thirty minutes with the founder, on a call or over WhatsApp</span></div></li>
+      <li><span class="net-drawer__n">03</span><div><strong>You&rsquo;re on the roster</strong><span>First engagement inside ninety days, or an honest why not</span></div></li>
+    </ol>
+
+    <hr class="net-drawer__rule">
+    <div class="net-drawer__chipset">
+      <p class="net-drawer__label">Who it&rsquo;s for</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">Brand</span><span class="net-chip">Product</span><span class="net-chip">Design leadership</span>
+        <span class="net-chip">Arabic-speaking, for localisation</span><span class="net-chip">5+ years, or a portfolio that argues otherwise</span>
+        <span class="net-chip">In Dubai or the Northern Emirates</span>
+      </div>
+    </div>
+    <div class="net-drawer__chipset">
+      <p class="net-drawer__label">What we ask</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">Show up when you said</span><span class="net-chip">Take a review as a review</span>
+        <span class="net-chip">No exclusivity</span><span class="net-chip">No fee</span><span class="net-chip">No minimum hours</span><span class="net-chip">Keep your own clients</span>
+      </div>
+    </div>
+
+    <hr class="net-drawer__rule">
+    <p class="net-drawer__note">Two of us are already in Dubai; we're adding leads and Arabic-speaking designers, not a roster. Small on purpose &mdash; whoever joins first shapes how it works.</p>
+
+    <form class="net-form" id="net-form" action="/api/network" method="post" novalidate>
+      <p class="net-drawer__label" id="net-form-l">Apply to the network</p>
+      <div class="net-form__grid">
+        <div class="net-form__g" id="ng-name">
+          <label class="net-form__lbl" for="nf-name">Name</label>
+          <input class="net-form__in" id="nf-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="net-form__g" id="ng-city">
+          <label class="net-form__lbl" for="nf-city">City</label>
+          <input class="net-form__in" id="nf-city" name="city" type="text" autocomplete="address-level2" placeholder="Dubai, Sharjah, Abu Dhabi&hellip;" required>
+        </div>
+        <div class="net-form__g" id="ng-email">
+          <label class="net-form__lbl" for="nf-email">Email</label>
+          <input class="net-form__in" id="nf-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+        </div>
+        <div class="net-form__g" id="ng-disc">
+          <label class="net-form__lbl" for="nf-disc">Discipline</label>
+          <select class="net-form__in net-form__sel" id="nf-disc" name="discipline" required>
+            <option value="" selected disabled>Pick one</option>
+            <option>Brand</option>
+            <option>UI / Product</option>
+            <option>Frontend</option>
+            <option>Motion</option>
+            <option>Design leadership</option>
+            <option>Arabic localisation</option>
+            <option>More than one</option>
+          </select>
+        </div>
+        <div class="net-form__g net-form__g--wide" id="ng-port">
+          <label class="net-form__lbl" for="nf-port">Portfolio link</label>
+          <input class="net-form__in" id="nf-port" name="portfolio" type="url" inputmode="url" autocomplete="url" placeholder="behance.net/you, a site, a Figma file&hellip;" required>
+        </div>
+        <div class="net-form__g net-form__g--wide" id="ng-note">
+          <label class="net-form__lbl" for="nf-note">What do you want to lead? <span>optional</span></label>
+          <textarea class="net-form__in net-form__ta" id="nf-note" name="note" rows="2" maxlength="1000"></textarea>
+        </div>
+        <input type="hidden" name="market" value="Dubai">
+        <!-- Honeypot: hidden from people, filled by bots, and the API drops the message. -->
+        <div class="net-form__hp" aria-hidden="true"><label for="nf-web">Website</label><input id="nf-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      </div>
+      <p class="net-form__err" id="net-err" role="alert" hidden></p>
+      <button class="net-drawer__btn" id="net-submit" type="submit"><span id="net-submit-l">Apply to the network</span> <span aria-hidden="true">&#8599;</span></button>
+      <p class="net-form__fine">Goes to a lead, not a form queue. We reply to everyone, usually within a week.</p>
+    </form>
+    <div class="net-form__ok" id="net-ok" hidden>
+      <p class="net-drawer__label">Sent</p>
+      <h3 class="net-form__ok-h">We&rsquo;ve got it.</h3>
+      <p class="net-drawer__p">A lead will look at your work and reply within the week. If we think it&rsquo;s a fit, the next step is the thirty-minute conversation.</p>
+    </div>
+  </div>
+</aside>
+
+<script src="main.js?v=1"></script>
+</body>
+</html>
