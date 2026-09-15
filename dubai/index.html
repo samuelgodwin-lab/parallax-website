@@ -40,8 +40,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=1">
-<link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="tokens.css?v=2">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 <!-- ============================================================
@@ -662,73 +662,32 @@
         <p class="lede pricing__lede">Dubai publishes its prices. So do we &mdash; three ways to work with us, in dirhams, with what&rsquo;s included on one page.</p>
       </div>
       <div class="pricing__plans stagger">
-        <article class="plan" data-plan-id="starter">
+        <article class="plan" data-plan="starter" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="plans">
           <p class="plan__tag">Starter</p>
           <h3 class="plan__name">Foundation</h3>
           <p class="plan__price"><sup>AED</sup>50,000<small>from, per project</small></p>
           <p class="plan__desc">Brand identity + single digital touchpoint. Ideal for early-stage companies that need to move fast without sacrificing quality.</p>
-          <div class="plan__inc" data-plan role="button" tabindex="0" aria-expanded="false">
-            <span class="plan__inc-h">What&rsquo;s included</span>
-            <span class="plan__inc-t" aria-hidden="true">+</span>
-            <div class="plan__inc-shell"><div class="plan__inc-inner">
-              <div class="plan__chips">
-                <span class="tag">Brand strategy workshop (half-day)</span>
-                <span class="tag">Logo mark + full identity system</span>
-                <span class="tag">Typography + colour token set</span>
-                <span class="tag">One digital touchpoint (landing page or app screen set)</span>
-                <span class="tag">Brand guidelines document (PDF + Figma)</span>
-                <span class="tag">Two rounds of revisions</span>
-              </div>
-              <p class="plan__note">Typical turnaround: 4&ndash;6 weeks. 50% upfront, 50% on delivery. Arabic scope priced on top.</p>
-            </div></div>
-          </div>
-          <div class="plan__cta"><a class="btn btn-p" href="#cta">Start a project</a></div>
+          <p class="plan__more">View what&rsquo;s included <span aria-hidden="true">&nearr;</span></p>
+          <div class="plan__line" aria-hidden="true"></div>
+          <span class="plan__arrow" aria-hidden="true">&nearr;</span>
         </article>
-        <article class="plan plan--featured" data-plan-id="studio">
+        <article class="plan plan--featured" data-plan="studio" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="plans">
           <p class="plan__tag">Most popular</p>
           <h3 class="plan__name">Studio</h3>
           <p class="plan__price"><sup>AED</sup>120,000<small>from, per project</small></p>
           <p class="plan__desc">Complete brand system, product UI, and build-ready design specifications. Our most requested engagement.</p>
-          <div class="plan__inc" data-plan role="button" tabindex="0" aria-expanded="false">
-            <span class="plan__inc-h">What&rsquo;s included</span>
-            <span class="plan__inc-t" aria-hidden="true">+</span>
-            <div class="plan__inc-shell"><div class="plan__inc-inner">
-              <div class="plan__chips">
-                <span class="tag">Everything in Foundation</span>
-                <span class="tag">Full product UI design (up to 40 screens)</span>
-                <span class="tag">Component library in Figma (design system)</span>
-                <span class="tag">Interaction &amp; motion specifications</span>
-                <span class="tag">Developer handoff package</span>
-                <span class="tag">Frontend build (React / Next.js)</span>
-                <span class="tag">Three rounds of revisions</span>
-                <span class="tag">Two weeks post-launch support</span>
-              </div>
-              <p class="plan__note">Typical turnaround: 8&ndash;12 weeks. 40% upfront, 40% at mid-point, 20% on delivery. Bilingual UI priced on top.</p>
-            </div></div>
-          </div>
-          <div class="plan__cta"><a class="btn btn-p" href="#cta">Start a project</a></div>
+          <p class="plan__more">View what&rsquo;s included <span aria-hidden="true">&nearr;</span></p>
+          <div class="plan__line" aria-hidden="true"></div>
+          <span class="plan__arrow" aria-hidden="true">&nearr;</span>
         </article>
-        <article class="plan" data-plan-id="custom">
+        <article class="plan" data-plan="custom" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="plans">
           <p class="plan__tag">Enterprise</p>
           <h3 class="plan__name">Custom</h3>
           <p class="plan__price">Let&rsquo;s talk<small>scoped to the engagement</small></p>
           <p class="plan__desc">Multi-phase engagements, embedded design teams, and long-term partnerships. Scoped to your exact needs.</p>
-          <div class="plan__inc" data-plan role="button" tabindex="0" aria-expanded="false">
-            <span class="plan__inc-h">What&rsquo;s included</span>
-            <span class="plan__inc-t" aria-hidden="true">+</span>
-            <div class="plan__inc-shell"><div class="plan__inc-inner">
-              <div class="plan__chips">
-                <span class="tag">Multi-phase brand + product engagements</span>
-                <span class="tag">Embedded design team (2&ndash;4 designers)</span>
-                <span class="tag">Ongoing retainer or milestone-based billing</span>
-                <span class="tag">Direct access to the founding team</span>
-                <span class="tag">Priority scheduling &amp; response</span>
-                <span class="tag">White-label options available</span>
-              </div>
-              <p class="plan__note">We take on one or two custom engagements a quarter. Reach out early.</p>
-            </div></div>
-          </div>
-          <div class="plan__cta"><a class="btn btn-p" href="#cta">Start a project</a></div>
+          <p class="plan__more">Start a conversation <span aria-hidden="true">&nearr;</span></p>
+          <div class="plan__line" aria-hidden="true"></div>
+          <span class="plan__arrow" aria-hidden="true">&nearr;</span>
         </article>
       </div>
     </div>
@@ -919,6 +878,81 @@
   </div>
 </aside>
 
-<script src="main.js?v=1"></script>
+
+<!-- ============================================================
+     PLAN DRAWER
+     Same shell as the network drawer; the pricing cards open it with the
+     matching pane shown (main.js initPricing). Static so the inclusions
+     are crawlable; under .no-js all three panes render inline here.
+     ============================================================ -->
+<div class="net-scrim" id="prc-scrim" hidden></div>
+<aside class="net-drawer" id="plans" role="dialog" aria-modal="true" aria-label="Plan details" aria-hidden="true">
+  <div class="net-drawer__top">
+    <button class="net-drawer__close" id="prc-close" type="button" aria-label="Close">&#x2715;</button>
+  </div>
+  <div class="net-drawer__body">
+    <div class="prc-pane" data-plan-pane="starter" hidden>
+      <p class="net-drawer__tag">Starter</p>
+      <h2 class="net-drawer__h">Foundation</h2>
+      <p class="prc-pane__price"><sup>AED</sup>50,000<span>from, per project</span></p>
+      <p class="net-drawer__sub">Brand identity + single digital touchpoint. Ideal for early-stage companies that need to move fast without sacrificing quality.</p>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__label">What&rsquo;s included</p>
+      <ul class="prc-pane__list">
+        <li>Brand strategy workshop (half-day)</li>
+        <li>Logo mark + full identity system</li>
+        <li>Typography + colour token set</li>
+        <li>One digital touchpoint (landing page or app screen set)</li>
+        <li>Brand guidelines document (PDF + Figma)</li>
+        <li>Two rounds of revisions</li>
+      </ul>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__note">Typical turnaround: 4&ndash;6 weeks. 50% upfront, 50% on delivery. Arabic scope priced on top.</p>
+      <a class="net-drawer__btn" href="#cta">Book a discovery call <span aria-hidden="true">&nearr;</span></a>
+    </div>
+    <div class="prc-pane" data-plan-pane="studio" hidden>
+      <p class="net-drawer__tag">Most popular</p>
+      <h2 class="net-drawer__h">Studio</h2>
+      <p class="prc-pane__price"><sup>AED</sup>120,000<span>from, per project</span></p>
+      <p class="net-drawer__sub">Complete brand system, product UI, and build-ready design specifications. Our most requested engagement.</p>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__label">What&rsquo;s included</p>
+      <ul class="prc-pane__list">
+        <li>Everything in Foundation</li>
+        <li>Full product UI design (up to 40 screens)</li>
+        <li>Component library in Figma (design system)</li>
+        <li>Interaction &amp; motion specifications</li>
+        <li>Developer handoff package</li>
+        <li>Frontend build (React / Next.js)</li>
+        <li>Three rounds of revisions</li>
+        <li>Two weeks post-launch support</li>
+      </ul>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__note">Typical turnaround: 8&ndash;12 weeks. 40% upfront, 40% at mid-point, 20% on delivery. Bilingual UI priced on top.</p>
+      <a class="net-drawer__btn" href="#cta">Start a Studio project <span aria-hidden="true">&nearr;</span></a>
+    </div>
+    <div class="prc-pane" data-plan-pane="custom" hidden>
+      <p class="net-drawer__tag">Enterprise</p>
+      <h2 class="net-drawer__h">Custom</h2>
+      <p class="prc-pane__price">Let&rsquo;s talk<span>scoped to the engagement</span></p>
+      <p class="net-drawer__sub">Multi-phase engagements, embedded design teams, and long-term partnerships. Scoped to your exact needs.</p>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__label">What&rsquo;s included</p>
+      <ul class="prc-pane__list">
+        <li>Multi-phase brand + product engagements</li>
+        <li>Embedded design team (2&ndash;4 designers)</li>
+        <li>Ongoing retainer or milestone-based billing</li>
+        <li>Direct access to the founding team</li>
+        <li>Priority scheduling &amp; response</li>
+        <li>White-label options available</li>
+      </ul>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__note">We take on one or two custom engagements a quarter. Reach out early.</p>
+      <a class="net-drawer__btn" href="#cta">Start a conversation <span aria-hidden="true">&nearr;</span></a>
+    </div>
+  </div>
+</aside>
+
+<script src="main.js?v=2"></script>
 </body>
 </html>

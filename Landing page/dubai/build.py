@@ -199,23 +199,32 @@ plans = [
   'We take on one or two custom engagements a quarter. Reach out early.'),
 ]
 def plan_html(key, mod, tag, name, price, per, desc, inc, note):
-    chips = ''.join(f'                <span class="tag">{c}</span>\n' for c in inc)
-    return f'''        <article class="plan{mod}" data-plan-id="{key}">
+    return f'''        <article class="plan{mod}" data-plan="{key}" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="plans">
           <p class="plan__tag">{tag}</p>
           <h3 class="plan__name">{name}</h3>
           <p class="plan__price">{price}<small>{per}</small></p>
           <p class="plan__desc">{desc}</p>
-          <div class="plan__inc" data-plan role="button" tabindex="0" aria-expanded="false">
-            <span class="plan__inc-h">What&rsquo;s included</span>
-            <span class="plan__inc-t" aria-hidden="true">+</span>
-            <div class="plan__inc-shell"><div class="plan__inc-inner">
-              <div class="plan__chips">
-{chips}              </div>
-              <p class="plan__note">{note}</p>
-            </div></div>
-          </div>
-          <div class="plan__cta"><a class="btn btn-p" href="#cta">Start a project</a></div>
+          <p class="plan__more">{'Start a conversation' if key == 'custom' else 'View what&rsquo;s included'} <span aria-hidden="true">&nearr;</span></p>
+          <div class="plan__line" aria-hidden="true"></div>
+          <span class="plan__arrow" aria-hidden="true">&nearr;</span>
         </article>
+'''
+def pane_html(key, mod, tag, name, price, per, desc, inc, note):
+    items = ''.join(f'        <li>{c}</li>\n' for c in inc)
+    cta = 'Start a conversation' if key == 'custom' else ('Start a Studio project' if key == 'studio' else 'Book a discovery call')
+    return f'''    <div class="prc-pane" data-plan-pane="{key}" hidden>
+      <p class="net-drawer__tag">{tag}</p>
+      <h2 class="net-drawer__h">{name}</h2>
+      <p class="prc-pane__price">{price}<span>{per}</span></p>
+      <p class="net-drawer__sub">{desc}</p>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__label">What&rsquo;s included</p>
+      <ul class="prc-pane__list">
+{items}      </ul>
+      <hr class="net-drawer__rule">
+      <p class="net-drawer__note">{note}</p>
+      <a class="net-drawer__btn" href="#cta">{cta} <span aria-hidden="true">&nearr;</span></a>
+    </div>
 '''
 pricing = '''  <!-- ============================================================
        10 — PRICING
@@ -267,8 +276,27 @@ assert 'Munich' not in re.sub(r'<a class="mk__pin[^>]*>.*?</a>|<li class="mk__ro
     [m.start() for m in re.finditer('Munich', b)]
 assert 'German' not in b and 'BFSG' not in b and 'Bavaria' not in b
 
+# ── plan drawer: network-drawer shell, one static pane per plan ──
+plan_drawer = '''
+<!-- ============================================================
+     PLAN DRAWER
+     Same shell as the network drawer; the pricing cards open it with the
+     matching pane shown (main.js initPricing). Static so the inclusions
+     are crawlable; under .no-js all three panes render inline here.
+     ============================================================ -->
+<div class="net-scrim" id="prc-scrim" hidden></div>
+<aside class="net-drawer" id="plans" role="dialog" aria-modal="true" aria-label="Plan details" aria-hidden="true">
+  <div class="net-drawer__top">
+    <button class="net-drawer__close" id="prc-close" type="button" aria-label="Close">&#x2715;</button>
+  </div>
+  <div class="net-drawer__body">
+''' + ''.join(pane_html(*p) for p in plans) + '''  </div>
+</aside>
+'''
+b = rep(b, '<script src="main.js', plan_drawer + '\n<script src="main.js')
+
 # ── cache-bust: Dubai has its own series ──
-b = re.sub(r'\?v=\d+', '?v=1', b)
+b = re.sub(r'\?v=\d+', '?v=2', b)
 
 head = '''<!doctype html>
 <html lang="en" class="no-js">
@@ -312,8 +340,8 @@ head = '''<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=1">
-<link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="tokens.css?v=2">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 '''
 out = f"{ROOT}/dubai"

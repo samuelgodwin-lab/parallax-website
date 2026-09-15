@@ -57,8 +57,7 @@
      grid-template-rows. The live rows are click-only divs; these also answer
      Enter/Space and keep aria-expanded in sync. */
   /* Accordion: one open at a time within a group. Used by What We Build
-     ([data-svc]), the perks list in the network drawer ([data-perk]) and
-     the plan inclusions on the Dubai pricing band ([data-plan]). */
+     ([data-svc]) and the perks list in the network drawer ([data-perk]). */
   function initAccordion(selector) {
     var items = document.querySelectorAll(selector);
     if (!items.length) return;
@@ -83,6 +82,83 @@
           toggle(item);
         }
       });
+    });
+  }
+
+  /* ── Pricing cards + plan drawer ──
+     Same behaviour as the pricing cards on parallaxorg.com: the whole card
+     opens a drawer with the full inclusions, and a radial glow tracks the
+     pointer inside the card (--gx / --gy). The drawer is the network
+     drawer's shell with one static pane per plan; opening a card shows its
+     pane. Focus is trapped while open, Escape and the scrim close it. */
+  function initPricing() {
+    var drawer = document.getElementById('plans');
+    var scrim  = document.getElementById('prc-scrim');
+    var closer = document.getElementById('prc-close');
+    var cards  = document.querySelectorAll('.plan[data-plan]');
+    if (!drawer || !scrim || !cards.length) return;
+
+    var panes = drawer.querySelectorAll('.prc-pane');
+    var FOCUSABLE = 'a[href], button:not([disabled])';
+    var lastFocus = null, open = false;
+
+    function focusables() {
+      return Array.prototype.filter.call(drawer.querySelectorAll(FOCUSABLE), function (el) { return el.offsetParent !== null; });
+    }
+    function show(plan) {
+      panes.forEach(function (p) { p.hidden = p.getAttribute('data-plan-pane') !== plan; });
+    }
+    function openDrawer(plan, card) {
+      show(plan);
+      if (open) return;
+      open = true;
+      lastFocus = card || document.activeElement;
+      scrim.hidden = false;
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function () { scrim.classList.add('is-open'); drawer.classList.add('is-open'); });
+      drawer.scrollTop = 0;
+      setTimeout(function () { (closer || focusables()[0]).focus({ preventScroll: true }); }, reduced.matches ? 0 : 200);
+    }
+    function closeDrawer() {
+      if (!open) return;
+      open = false;
+      scrim.classList.remove('is-open');
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      setTimeout(function () { scrim.hidden = true; }, reduced.matches ? 0 : 400);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    }
+
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    cards.forEach(function (card) {
+      var plan = card.getAttribute('data-plan');
+      card.addEventListener('click', function () { openDrawer(plan, card); });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); openDrawer(plan, card); }
+      });
+      if (fine) {
+        card.addEventListener('mousemove', function (e) {
+          var r = card.getBoundingClientRect();
+          card.style.setProperty('--gx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+          card.style.setProperty('--gy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        });
+      }
+    });
+    /* The pane's CTA points at #cta on the page: close first so the scroll lands. */
+    drawer.querySelectorAll('.prc-pane a[href="#cta"]').forEach(function (a) { a.addEventListener('click', closeDrawer); });
+    if (closer) closer.addEventListener('click', closeDrawer);
+    scrim.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function (e) {
+      if (!open) return;
+      if (e.key === 'Escape') { closeDrawer(); return; }
+      if (e.key !== 'Tab') return;
+      var f = focusables();
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
   }
 
@@ -314,7 +390,7 @@
     });
   }
 
-  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initAccordion('[data-plan]'); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); }
+  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initPricing(); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

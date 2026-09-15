@@ -1187,48 +1187,89 @@ main:focus-visible { outline: none; }
 /* ============================================================
    SECTION 10 — PRICING (Dubai)
    Dark band like Services; the three plans form one ruled block on the
-   Network-steps pattern, not three floating cards. "What's included" is
-   the same one-open-at-a-time accordion as What We Build ([data-plan]),
-   with the included items as chips rather than a list.
+   Network-steps pattern, not three floating cards. The cards behave as
+   parallaxorg.com's do: the whole card is the control, hover lifts the
+   name to accent, draws the base line and shows the arrow, a cursor-
+   tracked glow follows the pointer, and a click opens the plan drawer
+   (below) with the full inclusions — same shell as the network drawer.
    ============================================================ */
-.pricing { padding: var(--section-pad) 0; border-top: var(--rule) solid var(--border); }
+.pricing {
+  --bg: oklch(0 0 0);              /* the live band is pure black, like Services */
+  padding: var(--section-pad) 0;
+  border-top: var(--rule) solid var(--border);
+}
 .pricing__head { max-width: 62ch; }
 .pricing__lede { margin-top: var(--s6); max-width: 62ch; }
+/* Cards: parallaxorg.com's .pricing .prc, value for value — no outer frame,
+   a hairline on each card's right edge, 48px padding, near-black ground. */
 .pricing__plans {
   margin-top: var(--s12);
-  border: var(--rule) solid var(--border);
-  background: var(--border);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--rule);
+  gap: 0;
 }
 .plan {
-  background: var(--bg);
-  padding: var(--s8);
+  background: oklch(0.08 0.003 0);
+  color: oklch(1 0 0);
+  border-right: 1px solid oklch(0.25 0.002 0);
+  padding: var(--s12);
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 300ms var(--ease-out);
+  --glow: oklch(0.60 0.18 249 / 0.20);
+  --gline: oklch(0.70 0.14 249);
 }
+.plan--featured { --glow: oklch(0.60 0.18 249 / 0.28); --gline: var(--accent); }
+/* Magnetic spotlight: --gx / --gy are the pointer's position in the card,
+   set by main.js; the glow fades in on hover and sits under the copy. */
+.plan::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 80% at var(--gx, 50%) var(--gy, 50%), var(--glow) 0%, transparent 68%);
+  opacity: 0;
+  transition: opacity 480ms var(--ease-out);
+  pointer-events: none;
+  z-index: 0;
+}
+.plan > * { position: relative; z-index: 1; }
 .plan__tag {
   font-family: var(--font-m);
-  font-size: 10px;
+  font-size: 9px;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--accent);
+  margin-bottom: var(--s6);
 }
-.plan--featured .plan__tag { color: var(--accent); }
+.plan--featured .plan__tag {
+  border: 1px solid oklch(0.60 0.18 249 / 0.32);
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px 7px;
+  margin-bottom: var(--s3);
+}
 .plan__name {
-  margin-top: var(--s3);
-  font-size: clamp(24px, 2.6vw, 34px);
+  font-size: clamp(24px, 2.5vw, 32px);
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: oklch(1 0 0);
+  margin-bottom: var(--s6);
+  transition: color 240ms var(--ease-out);
 }
+/* The live cards keep the figure for the drawer; Dubai publishes it on the
+   card (01-COPY.md §10), set in the same family as the name. */
 .plan__price {
-  margin-top: var(--s6);
-  font-size: clamp(22px, 2.4vw, 30px);
+  font-size: clamp(22px, 2.2vw, 28px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1;
+  color: oklch(1 0 0);
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum' 1;
 }
@@ -1239,50 +1280,93 @@ main:focus-visible { outline: none; }
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.06em;
-  color: var(--text-3);
+  color: oklch(0.60 0.003 0);
 }
-.plan__price sup { font-size: 0.5em; vertical-align: super; font-weight: 500; margin-right: 0.15em; color: var(--text-2); }
-.plan__desc { margin-top: var(--s4); font-size: 13.5px; line-height: 1.65; color: var(--text-2); max-width: 36ch; }
-.plan__inc {
-  margin-top: var(--s6);
-  padding-top: var(--s4);
-  border-top: var(--rule) solid var(--border);
-  display: grid;
-  grid-template-columns: 1fr 24px;
-  column-gap: var(--s3);
-  cursor: pointer;
+.plan__price sup { font-size: 0.5em; vertical-align: super; font-weight: 500; margin-right: 0.15em; color: oklch(0.70 0.003 0); }
+.plan__desc {
+  font-size: 15px;
+  color: oklch(0.70 0.003 0);
+  line-height: 1.6;
+  max-width: 34ch;
+  margin-top: var(--s4);
+  margin-bottom: var(--s8);
 }
-.plan__inc-h {
+.plan__more {
+  margin-top: auto;
   font-family: var(--font-m);
   font-size: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: var(--text-2);
-  padding-top: 3px;
-  transition: color 200ms var(--ease-out);
+  color: oklch(0.60 0.003 0);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.plan__inc-t {
-  font-family: var(--font-m);
-  font-size: 15px;
-  color: var(--text-3);
-  justify-self: end;
-  user-select: none;
-  transition: transform 320ms var(--ease-out), color 200ms var(--ease-out);
+.plan__line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 280ms var(--ease-out);
 }
-.plan__inc.open .plan__inc-t { transform: rotate(45deg); color: var(--accent); }
-.plan__inc-shell { grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; transition: grid-template-rows 400ms var(--ease-out); }
-.plan__inc.open .plan__inc-shell { grid-template-rows: 1fr; }
-.plan__inc-inner { overflow: hidden; min-height: 0; }
-.plan__chips { display: flex; flex-wrap: wrap; gap: var(--s2); padding: var(--s4) 0 var(--s2); }
-.plan__note { font-family: var(--font-m); font-size: 10px; line-height: 1.5; color: var(--text-3); padding: var(--s2) 0 var(--s1); }
-.plan__inc:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.plan__arrow {
+  position: absolute;
+  bottom: var(--s8); right: var(--s8);
+  font-size: 14px;
+  color: var(--accent);
+  opacity: 0;
+  transform: translate(-4px, -4px);
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+}
 @media (hover: hover) and (pointer: fine) {
-  .plan__inc:hover .plan__inc-h { color: var(--accent); }
+  .plan:hover { background: oklch(0.10 0.003 0); }
+  .plan:hover::before { opacity: 1; }
+  .plan:hover .plan__name { color: var(--accent); }
+  .plan:hover .plan__line { transform: scaleX(1); }
+  .plan:hover .plan__arrow { opacity: 1; transform: translate(0, 0); }
 }
-.plan__cta { margin-top: auto; padding-top: var(--s8); }
-.plan__cta .btn { width: 100%; justify-content: center; }
+.plan:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 @media (max-width: 960px) {
   .pricing__plans { grid-template-columns: 1fr; }
+  .plan { padding: 20px 16px; border-right: 0; border-bottom: 1px solid oklch(0.25 0.002 0); }
+  .plan:last-child { border-bottom: 0; }
+}
+
+/* ── Plan drawer: the network drawer's shell (.net-drawer / .net-scrim),
+   one pane per plan, main.js shows the pane for the card that was clicked.
+   Under .no-js all three panes render inline at the end of the page. ── */
+.prc-pane[hidden] { display: none; }
+.no-js .prc-pane { display: block; }
+.no-js .prc-pane + .prc-pane { margin-top: var(--s12); }
+.prc-pane__price {
+  margin-top: var(--s6);
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: var(--on);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.prc-pane__price sup { font-size: 0.42em; vertical-align: super; font-weight: 600; margin-right: 0.15em; }
+.prc-pane__price span { display: block; margin-top: var(--s2); font-family: var(--font-m); font-size: 10px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
+.prc-pane__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.prc-pane__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--on);
+}
+.prc-pane__list li::before {
+  content: '\2192';
+  font-family: var(--font-m);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 3px;
 }
 
 /* ============================================================
@@ -1624,6 +1708,7 @@ main:focus-visible { outline: none; }
 .net-drawer__btn:active { transform: scale(0.97); box-shadow: none; }
 .net-drawer__btn:focus-visible { outline: 2px solid oklch(1 0 0); outline-offset: 3px; }
 .net-drawer__btn[disabled] { opacity: 0.55; cursor: progress; box-shadow: none; transform: none; }
+a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a link to #cta */
 .net-form__fine { margin-top: var(--s3); font-size: 12px; line-height: 1.5; color: var(--on-2); }
 .net-form__ok { margin-top: var(--s8); }
 .net-form__ok[hidden] { display: none; }
