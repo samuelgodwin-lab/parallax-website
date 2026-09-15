@@ -31,8 +31,22 @@ warm bright Gulf daylight with soft haze, sand, travertine and pale marble
 palette with brass and warm wood accents, clean generous spaces, polished
 and prosperous, no logos, no text."
 
+**Two colour scenes, not one (v3).** With all eleven on the warm clause the
+page read as a single tone. The sectors and the network stay warm daylight;
+the bilingual-and-accessible band is reshot at **blue hour** so it sits apart
+— and because the band's subject is screens, sign-in and audits, which is
+evening work. It also puts the brand blue into the photography.
+
+**Style clause (Dubai, band):** "editorial photography for Dubai at blue
+hour, cool deep-blue dusk light through glass, city lights and screens
+glowing, charcoal, navy and steel-blue palette with brass highlights, clean
+generous spaces, polished, no logos, no text."
+
+Rule for the other markets: one colour scene for the sectors, a second for
+the band, so the page has two registers rather than one wallpaper.
+
 Generated with `nano_banana_pro` at 2k, centre-cropped to slot, WebP q80 +
-JPEG q82. All eleven accepted first pass.
+JPEG q82. All takes accepted first pass.
 
 ## The slots
 
@@ -43,13 +57,13 @@ JPEG q82. All eleven accepted first pass.
 | S–02 4/5 | `sector-hospitality-1600` | Beachfront resort arrival: sandstone arches, mashrabiya light, guest in linen at a travertine desk, sea through the far arch |
 | S–03 1/1 | `sector-fintech-1600` | DIFC-style limestone arcade under a glass roof: advisor in kandura and client at a marble table |
 | S–04 3/2 | `sector-founders-1600` | Dubai Creek wharf at golden hour: founder with a tablet, cartons and sacks, dhows, wind towers across the water |
-| A–01 4/3 | `bi-systems-800` | Emirati designer in abaya at a monitor, the interface mirrored RTL / LTR, mashrabiya light |
-| A–02 4/3 | `bi-type-800` | Arabic and Latin proof sheets, reed pen, brass inkwell, Arabic coffee (the one tile where letterforms are the subject) |
-| A–03 1/1 | `bi-audit-1200` | Emirati man and a colleague in hijab testing on a laptop in a warm stone office (the braille display in the prompt didn't render; the tile still reads as testing) |
-| A–04 1/1 | `bi-pass-1200` | Customer-happiness centre: woman in abaya at a kiosk with her phone, man in kandura at the counter, mashrabiya wall, skylight |
-| A–05 4/3 | `bi-pdpl-800` | Compliance review over printed diagrams, walnut table, hazy city and sea below |
-| A–06 4/3 | `bi-handover-800` | Binder and laptop across an oak table to an Emirati woman and her colleague, printed screens behind |
+| A–01 4/3 | `bi-systems-800` | Blue hour: Emirati designer in abaya at a monitor, the interface mirrored RTL / LTR, the lit skyline beyond the glass (the Burj is in it, small — swap if it bothers) |
+| A–02 4/3 | `bi-type-800` | Blue hour: Arabic and Latin proof sheets under a brass desk lamp, reed pen and inkwell (the one tile where letterforms are the subject) |
+| A–03 1/1 | `bi-audit-1200` | Blue hour: Emirati man and a colleague in hijab testing on a laptop, towers through the glass (the braille display in the prompt didn't render either time; the tile still reads as testing) |
+| A–04 1/1 | `bi-pass-1200` | Blue hour: customer-happiness centre, woman in abaya at a glowing kiosk, man in kandura at a dark marble counter, brass mashrabiya screen |
+| A–05 4/3 | `bi-pdpl-800` | Blue hour: compliance review over printed diagrams under a brass pendant, the lit coastline far below |
+| A–06 4/3 | `bi-handover-800` | Blue hour: binder and laptop across a dark table to an Emirati woman and her colleague, a lit wall of printed screens behind |
 | Network 16/7 | `network-studio-1600` | Converted-warehouse studio in d3: mixed young team in motion, sticky wall, long oak table, sunlit low buildings and palms outside. Generated 21:9, cropped. |
 
-v1 files (the industrial set) were overwritten in place; the takes are in
-the session scratchpad only.
+v1 (industrial) and the v2 warm band tiles were overwritten in place; the
+takes are in the session scratchpad only.
