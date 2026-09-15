@@ -162,6 +162,51 @@
     });
   }
 
+  /* ── Hero video loop guard ──
+     The hero is a Vimeo background embed with loop=1. Free-plan players can
+     still run an end screen ("related videos") when a loop stalls, which on
+     a page with two of our own videos means the other market's hero plays
+     next. So the page enforces the loop itself over the player.js message
+     API: on `ended` it seeks to 0 and plays; if the player ever reports a
+     different video id, the iframe is reloaded with its original src. */
+  function initHeroLoop() {
+    var frame = document.querySelector('.hero__video iframe');
+    if (!frame) return;
+    var src = frame.getAttribute('src');
+    var m = src && src.match(/\/video\/(\d+)/);
+    if (!m) return;
+    var id = Number(m[1]);
+    var origin = 'https://player.vimeo.com';
+
+    function post(o) {
+      try { frame.contentWindow.postMessage(JSON.stringify(o), origin); } catch (e) {}
+    }
+    function subscribe() {
+      post({ method: 'setLoop', value: true });
+      post({ method: 'addEventListener', value: 'ended' });
+      post({ method: 'addEventListener', value: 'loaded' });
+    }
+
+    window.addEventListener('message', function (e) {
+      if (e.origin !== origin || e.source !== frame.contentWindow) return;
+      var d;
+      try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch (x) { return; }
+      if (!d || !d.event) return;
+      if (d.event === 'ready') subscribe();
+      if (d.event === 'loaded' && d.data && d.data.id && Number(d.data.id) !== id) {
+        /* the player moved on to another video: put ours back */
+        frame.setAttribute('src', src);
+      }
+      if (d.event === 'ended') {
+        post({ method: 'setCurrentTime', value: 0 });
+        post({ method: 'play' });
+      }
+    });
+    /* `ready` may have fired before this script ran; subscribing twice is harmless. */
+    subscribe();
+    frame.addEventListener('load', subscribe);
+  }
+
   /* ── CTA cursor FX ──
      Copied from parallaxorg.com's "Work With Us" section. Same contract as the
      hero: pointer position as a percentage, read by the mask and the radial. */
@@ -390,7 +435,7 @@
     });
   }
 
-  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initPricing(); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); }
+  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initPricing(); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); initHeroLoop(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

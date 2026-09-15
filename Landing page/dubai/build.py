@@ -297,7 +297,7 @@ plan_drawer = '''
 b = rep(b, '<script src="main.js', plan_drawer + '\n<script src="main.js')
 
 # ── cache-bust: Dubai has its own series ──
-b = re.sub(r'\?v=\d+', '?v=2', b)
+b = re.sub(r'\?v=\d+', '?v=3', b)
 
 head = '''<!doctype html>
 <html lang="en" class="no-js">
@@ -344,8 +344,8 @@ head = '''<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=2">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="tokens.css?v=3">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 '''
 out = f"{ROOT}/dubai"
