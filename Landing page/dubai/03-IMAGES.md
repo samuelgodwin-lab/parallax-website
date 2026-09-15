@@ -1,23 +1,55 @@
 # Images — Parallax Dubai
 
-Generated 15 Sep 2026 with `nano_banana_pro` at 2k, the shared style clause
-("editorial architectural photography, cool overcast daylight, restrained
-desaturated palette, hard structure, deep space, no logos, no text"), then
-centre-cropped to the slot ratio and resampled. WebP q80 + JPEG q82. Same
-rule as Munich and the Northeast: Dubai as an economy, not a postcard — no
-Burj, no desert, no gold. Every take was accepted first pass.
+## The brief (v2, 15 Sep 2026)
+
+The first set reused the Munich/Northeast clause — "cool overcast daylight,
+restrained desaturated palette, hard structure" — and Samuel rejected it:
+concrete halls, container ports and grey glass read as industrial Europe,
+not the market we sell to. Dubai's visual register is the opposite on
+almost every axis, so the clause is replaced, not tuned:
+
+| | Munich / Northeast | Dubai |
+|---|---|---|
+| Light | cool, overcast, flat | warm, bright, hazy — late-afternoon gold or high white sun |
+| Palette | desaturated grey, raw concrete | sand, travertine, pale marble, honey wood, brass, palm green, turquoise water |
+| Structure | hard, exposed, engineered | generous, polished, arched and screened — mashrabiya, colonnades, skylights |
+| People | anonymous, from behind, small | present and specific: Emirati men in kandura, women in abaya/sheila, South Asian and Arab professionals, expats — the buyer is in the picture |
+| Places | factory floors, atriums, warehouses | sales lounges, resort arrivals, DIFC-style arcades, the Creek and its dhows, d3/Alserkal warehouses, customer-happiness centres |
+| Tone | sober | prosperous and hospitable, without gold-and-Burj cliché |
+
+Research behind it: Dubai brands sit "at the intersection of global aesthetic
+standards and deeply specific regional sensibilities"; buyers are
+"sophisticated, internationally exposed, and acutely aware of visual quality";
+the design scene lives in d3 (Dubai Design Week, Downtown Design) and the
+converted warehouses of Alserkal Avenue; DIFC is Gensler's master plan of
+pale stone and glass; Al Seef and the Creek are the heritage register. What
+we keep from the old rule: no Burj, no desert, no gold as a value, no stock
+handshakes — the city as an economy, not a postcard, but *its* economy.
+
+**Style clause (Dubai):** "editorial architectural photography for Dubai,
+warm bright Gulf daylight with soft haze, sand, travertine and pale marble
+palette with brass and warm wood accents, clean generous spaces, polished
+and prosperous, no logos, no text."
+
+Generated with `nano_banana_pro` at 2k, centre-cropped to slot, WebP q80 +
+JPEG q82. All eleven accepted first pass.
+
+## The slots
 
 | Slot | File | Subject |
 |---|---|---|
 | Hero 16/9 | — | Placeholder under `.hero--veil`. Samuel supplies a video; its first frame becomes `dxb-hero-poster`, as on Munich. |
-| S–01 3/2 | `sector-realestate-1600` | Developer's sales gallery: white scale model on a plinth, brokers and a buyer, tower cranes and a half-built frame through the glass |
-| S–02 4/5 | `sector-hospitality-1600` | Travertine hotel lobby, guest checking in on a phone, tall columns, palms |
-| S–03 1/1 | `sector-fintech-1600` | Financial-district atrium, bridges across the void, advisor and client on a mezzanine |
-| S–04 3/2 | `sector-founders-1600` | Free-zone warehouse at first light, founder with a tablet by cartons, container-port cranes through the roller door |
-| A–01 4/3 | `bi-systems-800` | Designer at a wide monitor, the same interface mirrored RTL / LTR as grey blocks |
-| A–02 4/3 | `bi-type-800` | Arabic and Latin proof sheets side by side on a grey desk (the one tile where letterforms are the subject) |
-| A–03 1/1 | `bi-audit-1200` | Two people testing a web app with a braille display and a laptop |
-| A–04 1/1 | `bi-pass-1200` | Government service hall: woman in an abaya at a kiosk with her phone, man in a kandura at the counter |
-| A–05 4/3 | `bi-pdpl-800` | Three people over printed system diagrams in a glass meeting room |
-| A–06 4/3 | `bi-handover-800` | Binder and laptop passed across a white table, printed screens on the wall behind |
-| Network 16/7 | `network-studio-1600` | Young designers in motion in a glass-walled d3-style studio — sticky wall, a walker, a sketcher, two laughing — low-rise concrete and a crane outside. Generated 21:9, cropped to 16:7. |
+| S–01 3/2 | `sector-realestate-1600` | Downtown sales lounge: Emirati buyer and broker over a white model on a brass-edged plinth, marble and wood, towers and palms outside |
+| S–02 4/5 | `sector-hospitality-1600` | Beachfront resort arrival: sandstone arches, mashrabiya light, guest in linen at a travertine desk, sea through the far arch |
+| S–03 1/1 | `sector-fintech-1600` | DIFC-style limestone arcade under a glass roof: advisor in kandura and client at a marble table |
+| S–04 3/2 | `sector-founders-1600` | Dubai Creek wharf at golden hour: founder with a tablet, cartons and sacks, dhows, wind towers across the water |
+| A–01 4/3 | `bi-systems-800` | Emirati designer in abaya at a monitor, the interface mirrored RTL / LTR, mashrabiya light |
+| A–02 4/3 | `bi-type-800` | Arabic and Latin proof sheets, reed pen, brass inkwell, Arabic coffee (the one tile where letterforms are the subject) |
+| A–03 1/1 | `bi-audit-1200` | Emirati man and a colleague in hijab testing on a laptop in a warm stone office (the braille display in the prompt didn't render; the tile still reads as testing) |
+| A–04 1/1 | `bi-pass-1200` | Customer-happiness centre: woman in abaya at a kiosk with her phone, man in kandura at the counter, mashrabiya wall, skylight |
+| A–05 4/3 | `bi-pdpl-800` | Compliance review over printed diagrams, walnut table, hazy city and sea below |
+| A–06 4/3 | `bi-handover-800` | Binder and laptop across an oak table to an Emirati woman and her colleague, printed screens behind |
+| Network 16/7 | `network-studio-1600` | Converted-warehouse studio in d3: mixed young team in motion, sticky wall, long oak table, sunlit low buildings and palms outside. Generated 21:9, cropped. |
+
+v1 files (the industrial set) were overwritten in place; the takes are in
+the session scratchpad only.
