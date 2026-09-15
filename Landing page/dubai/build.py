@@ -155,15 +155,15 @@ for old, (h, p) in zip(st, steps):
 b = b.replace(dn, d, 1)
 
 # ── where we work: Dubai is here, Munich becomes a link ──
-b = rep(b, '<span class="mk__pin mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai</span></span>',
+b = rep(b, '<a class="mk__pin mk__pin--live mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" href="/dubai/" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai <span aria-hidden="true">&rarr;</span></span></a>',
            '<span class="mk__pin mk__pin--live mk__pin--here mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai</span></span>')
 b = rep(b, '<span class="mk__pin mk__pin--live mk__pin--here" style="--x:48.33%;--y:37.98%;--d:1.8s" data-tz="Europe/Berlin"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Munich</span></span>',
            '<a class="mk__pin mk__pin--live" style="--x:48.33%;--y:37.98%;--d:1.8s" href="/munich/" data-tz="Europe/Berlin"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Munich <span aria-hidden="true">&rarr;</span></span></a>')
-b = rep(b, '''            <li class="mk__row">
-              <span class="mk__cell">
+b = rep(b, '''            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/dubai/">
                 <span class="mk__name">Dubai</span>
-                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Dubai">--:--</span><span class="mk__soon">Soon</span></span>
-              </span>
+                <span class="mk__meta"><span class="mk__time" data-tz="Asia/Dubai">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
             </li>''', '''            <li class="mk__row mk__row--live mk__row--here">
               <span class="mk__cell">
                 <span class="mk__name">Dubai</span>
@@ -308,8 +308,6 @@ head = '''<!doctype html>
 <link rel="apple-touch-icon" href="/images/Favicon.png">
 <title>Parallax — Brand, Product &amp; Frontend Studio for Dubai</title>
 <meta name="description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code. Bilingual and PDPL-ready by default.">
-<!-- Pre-launch: not indexed until the page is signed off. Remove with the sitemap entry. -->
-<meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://www.parallaxorg.com/dubai/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Parallax">
