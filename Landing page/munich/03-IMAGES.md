@@ -52,7 +52,7 @@ in place (copies in the session scratchpad).
 
 | Slot | File | Scene | Subject |
 |---|---|---|---|
-| Hero 16/9 | `muc-hero-poster` | — | Untouched: first frame of the Vimeo hero (1226635583) |
+| Hero 16/9 | `muc-hero-poster` | — | First frame of the Vimeo hero, swapped 15 Sep to 1226927399 (mean 224/255 — veil stays off) |
 | S–01 3/2 | `sector-startups-1600` | Bright | Founding team in a Werksviertel brick hall, a woman sketching a flow on a glass wall, sawtooth skylights |
 | S–02 4/5 | `sector-mobility-1600` | Dark | Engineer at a glowing console beside a car body on a lift, robots paused, the Alps through the glass at dusk |
 | S–03 1/1 | `sector-insurance-1600` | Dark | Advisor and a couple at a walnut table in an insurance HQ, Frauenkirche and Rathaus lit through the windows (the one deliberate landmark, as the network image has it) |
