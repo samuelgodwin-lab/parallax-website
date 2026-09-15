@@ -29,6 +29,11 @@ def placeholder(key, w, h):
            f"font-size='{max(w,h)//40}' letter-spacing='2' fill='#5b6470'>{key}</text></svg>")
     return "data:image/svg+xml," + urllib.parse.quote(svg)
 
+def pic(name, w, h, alt):
+    return (f'<picture>\n                <source type="image/webp" srcset="images/{name}.webp">\n'
+            f'                <img src="images/{name}.jpg" width="{w}" height="{h}"\n'
+            f'                     alt="{alt}"\n                     loading="lazy" decoding="async">\n              </picture>')
+
 def ph_img(key, w, h, cls=""):
     c = f' class="{cls}"' if cls else ""
     return f'<img{c} src="{placeholder(key+f" · {w}×{h}", w, h)}" width="{w}" height="{h}" alt="" loading="lazy" decoding="async">'
@@ -87,24 +92,24 @@ b = rep(b, '''    <!-- =========================================================
 sectors = [
  ('S&mdash;01 · Real estate &amp; proptech', 'Sold before it&rsquo;s <em>built.</em>',
   "Two hundred and seventy thousand transactions last year, most of them off-plan &mdash; sold on a launch site, a broker's phone and a configurator. We build the launch sites, broker and buyer apps, and owner and tenant portals that carry a project from first release to handover &mdash; the same systems we run for developers in India, built for DLD and REES.",
-  ['Off-plan launch sites', 'Broker &amp; buyer apps', 'Owner &amp; tenant portals', 'Property-management UI'], 'img_dxb_s01', (1600, 1067)),
+  ['Off-plan launch sites', 'Broker &amp; buyer apps', 'Owner &amp; tenant portals', 'Property-management UI'], ('sector-realestate-1600', 'A developer&rsquo;s sales gallery in Dubai: a white scale model of a residential development on a plinth, brokers and a buyer beside it, tower cranes and a half-built concrete frame through the glass.'), (1600, 1067)),
  ('S&mdash;02 · Hospitality &amp; tourism', 'Bookings that skip the <em>middleman.</em>',
   "Nearly twenty million visitors, 827 hotels, and most rooms sold through a channel that keeps a fifth of the rate. We build direct booking engines, guest apps and F&amp;B ordering that keep the guest &mdash; and the margin &mdash; with the property.",
-  ['Direct booking engines', 'Guest apps', 'F&amp;B ordering', 'Property UI'], 'img_dxb_s02', (1280, 1600)),
+  ['Direct booking engines', 'Guest apps', 'F&amp;B ordering', 'Property UI'], ('sector-hospitality-1600', 'A quiet hotel lobby in pale travertine: a guest checking in on their phone at a long reception desk, tall columns, palms in planters, daylight from a high clerestory.'), (1280, 1600)),
  ('S&mdash;03 · Fintech &amp; financial services', 'Onboarding people <em>finish.</em>',
   "Finance is Dubai's fastest-growing sector, and its products are still sold through flows most customers abandon at the document upload. We build the onboarding, KYC, payments and advisor tools that get finished &mdash; and, under the PDPL, that handle the data the way the regulator expects.",
-  ['Onboarding &amp; KYC flows', 'Payments UI', 'Advisor dashboards'], 'img_dxb_s03', (1600, 1600)),
+  ['Onboarding &amp; KYC flows', 'Payments UI', 'Advisor dashboards'], ('sector-fintech-1600', 'The glass-and-steel atrium of a financial district office tower, bridges crossing the void, an advisor and a client at a meeting table on a mezzanine.'), (1600, 1600)),
  ('S&mdash;04 · Founders &amp; trade', 'Open before the licence <em>dries.</em>',
   "Twenty-two thousand Indian businesses set up here in six months, and most needed a brand, a storefront and an ordering portal before the first customer walked in. One team for the lot, from the studio the Bengaluru founders in Dubai already know &mdash; a lead in the room by lunch.",
-  ['Brand systems', 'Storefronts', 'B2B ordering portals', 'Marketing sites'], 'img_dxb_s04', (1600, 1067)),
+  ['Brand systems', 'Storefronts', 'B2B ordering portals', 'Marketing sites'], ('sector-founders-1600', 'A free-zone warehouse at first light: a founder with a tablet beside cartons on a pallet, the roller door open to shipping containers and the gantry cranes of a container port.'), (1600, 1067)),
 ]
 sec = b[b.index('06 — SECTORS BENTO'):b.index('07 — ACCESSIBILITY')]
 arts = re.findall(r'(<article class="sector sector--0\d reveal">.*?</article>)', sec, re.S)
 assert len(arts) == 4
 new_sec = sec
-for art, (lab, h3, bod, tags, key, (w, h)) in zip(arts, sectors):
+for art, (lab, h3, bod, tags, (img, alt), (w, h)) in zip(arts, sectors):
     a = art
-    a = sub1(a, r'<picture>.*?</picture>', ph_img(key, w, h))
+    a = sub1(a, r'<picture>.*?</picture>', pic(img, w, h, alt))
     a = sub1(a, r'<div class="slabel">S&mdash;0\d · [^<]*</div>', f'<div class="slabel">{lab}</div>')
     a = sub1(a, r'<h3 class="sh sh--sub">.*?</h3>', f'<h3 class="sh sh--sub">{h3}</h3>')
     a = sub1(a, r'<p class="sector__body">.*?</p>', f'<p class="sector__body">{bod}</p>')
@@ -120,18 +125,18 @@ g = sub1(g, r'<h2 class="sh" id="gov-h">.*?</h2>', '<h2 class="sh" id="gov-h">Tw
 g = sub1(g, r'<p class="lede gov__lede">.*?</p>',
   "<p class=\"lede gov__lede\">Every product in Dubai is two products &mdash; Arabic and English, right-to-left and left-to-right. For government it's law; for everyone else it's expected, and usually bolted on last. We design bilingual from the first screen: mirrored, not flipped, with Arabic typography done properly, every page measured against WCAG 2.1 AA, data flows that have read the PDPL, and UAE Pass where it belongs.</p>")
 tiles = [
- ('Systems', 'Bilingual design systems', 'One component library, two directions. Layouts mirror rather than flip, so the Arabic product is designed, not translated.', 'img_dxb_a01', (800, 600)),
- ('Type', 'Arabic typography &amp; RTL', 'Arabic faces chosen and set to sit with the Latin, numerals, dates and forms handled properly, right-to-left tested on real devices.', 'img_dxb_a02', (800, 600)),
- ('Audit', 'Accessibility audits (WCAG 2.1 AA)', 'Measured page by page against the TDRA policy and the Dubai Universal Design Code, every failure specified as a fix rather than a finding.', 'img_dxb_a03', (1200, 1200)),
- ('Integration', 'UAE Pass &amp; Dubai Now integration', 'Sign-in, identity and government services wired the way Digital Dubai expects, on the front end your customer actually sees.', 'img_dxb_a04', (1200, 1200)),
- ('Data', 'PDPL-ready data flows', 'Consent, records of processing and breach paths designed into the product before the executive regulations make them a fine.', 'img_dxb_a05', (800, 600)),
- ('Handover', 'Handover to the next vendor', 'Documentation, tokens and test evidence that let another team pick it up &mdash; a supplier requirement for most government and enterprise work.', 'img_dxb_a06', (800, 600)),
+ ('Systems', 'Bilingual design systems', 'One component library, two directions. Layouts mirror rather than flip, so the Arabic product is designed, not translated.', ('bi-systems-800', 'A designer at a wide monitor showing the same interface twice as grey layout blocks, one mirrored right-to-left and one left-to-right.'), (800, 600)),
+ ('Type', 'Arabic typography &amp; RTL', 'Arabic faces chosen and set to sit with the Latin, numerals, dates and forms handled properly, right-to-left tested on real devices.', ('bi-type-800', 'Printed proof sheets of Arabic and Latin letterforms side by side on a grey desk, a ruler and a cup of coffee, in cool window light.'), (800, 600)),
+ ('Audit', 'Accessibility audits (WCAG 2.1 AA)', 'Measured page by page against the TDRA policy and the Dubai Universal Design Code, every failure specified as a fix rather than a finding.', ('bi-audit-1200', 'Two people testing a web application with a refreshable braille display and a laptop at a plain white desk.'), (1200, 1200)),
+ ('Integration', 'UAE Pass &amp; Dubai Now integration', 'Sign-in, identity and government services wired the way Digital Dubai expects, on the front end your customer actually sees.', ('bi-pass-1200', 'A government service hall in Dubai: a woman in an abaya holding her phone to a self-service kiosk, a man in a kandura at a pale stone counter behind.'), (1200, 1200)),
+ ('Data', 'PDPL-ready data flows', 'Consent, records of processing and breach paths designed into the product before the executive regulations make them a fine.', ('bi-pdpl-800', 'Three people leaning over a long table of printed system diagrams in a glass meeting room, one pointing with a pen.'), (800, 600)),
+ ('Handover', 'Handover to the next vendor', 'Documentation, tokens and test evidence that let another team pick it up &mdash; a supplier requirement for most government and enterprise work.', ('bi-handover-800', 'A bound documentation binder and a laptop being passed across a long white table from one team to another, a grid of printed screens on the wall behind.'), (800, 600)),
 ]
 tl = re.findall(r'(<article class="gov__tile[^"]*">.*?</article>)', g, re.S)
 assert len(tl) == 6, len(tl)
-for art, (tag, head, desc, key, (w, h)) in zip(tl, tiles):
+for art, (tag, head, desc, (img, alt), (w, h)) in zip(tl, tiles):
     a = art
-    a = sub1(a, r'<picture>.*?</picture>', ph_img(key, w, h))
+    a = sub1(a, r'<picture>.*?</picture>', pic(img, w, h, alt))
     a = sub1(a, r'<p class="gov__tile-tag">.*?</p>', f'<p class="gov__tile-tag">{tag}</p>')
     a = sub1(a, r'<h3 class="gov__tile-head">.*?</h3>', f'<h3 class="gov__tile-head">{head}</h3>')
     a = sub1(a, r'<p class="gov__tile-desc">.*?</p>', f'<p class="gov__tile-desc">{desc}</p>')
@@ -143,7 +148,7 @@ dn = b[b.index('08 — THE NETWORK'):b.index('09 — WHERE WE WORK')]
 d = rep(dn, '<div class="slabel">For Designers in Munich</div>', '<div class="slabel">For Designers in Dubai</div>')
 d = sub1(d, r'<p class="lede dn__lede">.*?</p>',
   "<p class=\"lede dn__lede\">Two of us are already in Dubai. We're looking for more: senior designers and design leads who can sit across the table &mdash; run discovery, present the work, own the relationship &mdash; and Arabic-speaking designers who can make the Arabic side of a product as good as the English. Paid a day rate for your time, ten percent of what you bring in. No exclusivity. Three ways in.</p>")
-d = sub1(d, r'<picture>.*?</picture>', ph_img('img_dxb_network', 1600, 700))
+d = sub1(d, r'<picture>.*?</picture>', pic('network-studio-1600', 1600, 700, 'Young designers in motion in a glass-walled studio in Dubai&rsquo;s design district: one walking through with a laptop, two at a wall of sticky notes, one sketching at the table edge, two laughing over a screen; pale low-rise buildings and a crane through the glass.'))
 steps = [('Lead a project', 'Discovery, workshops and presentations, in the room, in Dubai. Day rate agreed before you start.'),
          ('Bring work in', 'Introduce a company. We scope, price and close; you lead it, and take 10% of the fee.'),
          ('Localise it', 'Arabic typography, RTL layout and copy for the products we build. Paid per project, credited by name.')]
