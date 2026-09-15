@@ -34,18 +34,20 @@ and prosperous, no logos, no text."
 **Two colour scenes, mixed (v3 → v4).** With all eleven on the warm clause
 the page read as a single tone, so the six band tiles were reshot at **blue
 hour** — dusk through glass, screens and brass lamps, navy and steel-blue.
-All six dark made the band a different section entirely, so the band now
-**alternates bright and dark across the grid** — B D B / D B D — which
-balances it against the warm sectors instead of contrasting with them.
-Both takes of every tile exist; swapping one is a re-crop, not a reshoot.
+All six dark made the band a different section entirely, so **bright and
+dark are now mixed across both grids**: the sectors go B D / D B (real
+estate and founders warm, hospitality and fintech at blue hour) and the
+band B D B / D B D. Neither section is one tone, and neither contrasts
+with the other. Both takes of every mixed tile exist; swapping one is a
+re-crop, not a reshoot.
 
 **Style clause (Dubai, dark tiles):** "editorial photography for Dubai at
 blue hour, cool deep-blue dusk light through glass, city lights and screens
 glowing, charcoal, navy and steel-blue palette with brass highlights, clean
 generous spaces, polished, no logos, no text."
 
-Rule for the other markets: the band carries a second colour scene, mixed
-into the grid with the first rather than replacing it.
+Rule for the other markets: two colour scenes, mixed across both the sector
+bento and the band, so no grid is one tone and no section stands apart.
 
 Generated with `nano_banana_pro` at 2k, centre-cropped to slot, WebP q80 +
 JPEG q82. All takes accepted first pass.
@@ -55,10 +57,10 @@ JPEG q82. All takes accepted first pass.
 | Slot | File | Subject |
 |---|---|---|
 | Hero 16/9 | — | Placeholder under `.hero--veil`. Samuel supplies a video; its first frame becomes `dxb-hero-poster`, as on Munich. |
-| S–01 3/2 | `sector-realestate-1600` | Downtown sales lounge: Emirati buyer and broker over a white model on a brass-edged plinth, marble and wood, towers and palms outside |
-| S–02 4/5 | `sector-hospitality-1600` | Beachfront resort arrival: sandstone arches, mashrabiya light, guest in linen at a travertine desk, sea through the far arch |
-| S–03 1/1 | `sector-fintech-1600` | DIFC-style limestone arcade under a glass roof: advisor in kandura and client at a marble table |
-| S–04 3/2 | `sector-founders-1600` | Dubai Creek wharf at golden hour: founder with a tablet, cartons and sacks, dhows, wind towers across the water |
+| S–01 3/2 | `sector-realestate-1600` | Bright: Downtown sales lounge: Emirati buyer and broker over a white model on a brass-edged plinth, marble and wood, towers and palms outside |
+| S–02 4/5 | `sector-hospitality-1600` | Dark: beachfront resort arrival at blue hour, arches lit by brass lanterns, glowing mashrabiya, guest in linen at a travertine desk, dark sea beyond |
+| S–03 1/1 | `sector-fintech-1600` | Dark: DIFC-style arcade at blue hour, uplit arches under a glass roof, advisor in kandura and client at a marble table, lit towers beyond |
+| S–04 3/2 | `sector-founders-1600` | Bright: Dubai Creek wharf at golden hour: founder with a tablet, cartons and sacks, dhows, wind towers across the water |
 | A–01 4/3 | `bi-systems-800` | Bright: Emirati designer in abaya at a monitor, the interface mirrored RTL / LTR, mashrabiya light |
 | A–02 4/3 | `bi-type-800` | Dark: Arabic and Latin proof sheets under a brass desk lamp, reed pen and inkwell (the one tile where letterforms are the subject) |
 | A–03 1/1 | `bi-audit-1200` | Bright: Emirati man and a colleague in hijab testing on a laptop in a warm stone office (the braille display in the prompt didn't render either time; the tile still reads as testing) |
