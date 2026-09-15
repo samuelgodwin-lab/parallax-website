@@ -45,16 +45,12 @@ b = rep(b, "status.textContent = 'MUNICH'", "status.textContent = 'DUBAI'")
 b = rep(b, "FINAL = 'MUNICH'", "FINAL = 'DUBAI'")
 b = rep(b, '<span class="nav__label">Munich</span>', '<span class="nav__label">Dubai</span>')
 
-# ── hero: still placeholder under a veil until Samuel supplies footage ──
-b = rep(b, '<section class="hero" aria-labelledby="hero-h">', '<section class="hero hero--veil" aria-labelledby="hero-h">')
+# ── hero: Samuel's Vimeo loop (Dubai_Landing, 1226928370), poster = its first frame ──
+# Poster pulled from Vimeo at 1920×1080 into dubai/images/dxb-hero-poster.{jpg,webp};
+# mean 229/255, so the veil stays off, as on Munich.
 hero_bg = b[b.index('    <div class="hero__bg">'):b.index('    <!-- Cursor colour-reveal')]
-b = b.replace(hero_bg, f'''    <div class="hero__bg">
-      <!-- Placeholder until Dubai footage exists: slot img_dxb_hero, 16:9.
-           A still hero carries .hero--veil so the headline stays legible. -->
-      <img class="hero__poster" src="{placeholder('img_dxb_hero · 1920×1080', 1920, 1080)}" width="1920" height="1080"
-           alt="" aria-hidden="true" fetchpriority="high" decoding="async">
-    </div>
-''', 1)
+b = b.replace(hero_bg, hero_bg.replace('muc-hero-poster', 'dxb-hero-poster').replace('1226635583', '1226928370').replace('1226927399', '1226928370').replace('title="Munich hero"', 'title="Dubai hero"'), 1)
+assert '1226928370' in b and 'dxb-hero-poster.webp' in b and 'Munich' not in hero_bg.replace('title="Munich hero"', '')
 b = rep(b, '<div class="slabel slabel--hero">Munich</div>', '<div class="slabel slabel--hero">Dubai</div>')
 b = rep(b, 'Munich&rsquo;s next companies<br>', 'Dubai&rsquo;s next companies<br>')
 b = sub1(b, r'<p class="lede hero__lede">.*?</p>',
@@ -321,9 +317,14 @@ head = '''<!doctype html>
 <meta property="og:url" content="https://www.parallaxorg.com/dubai/">
 <meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
 <meta property="og:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta property="og:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Parallax — brand systems and apps for Dubai">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
 <meta name="twitter:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta name="twitter:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

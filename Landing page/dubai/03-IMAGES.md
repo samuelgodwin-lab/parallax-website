@@ -56,7 +56,7 @@ JPEG q82. All takes accepted first pass.
 
 | Slot | File | Subject |
 |---|---|---|
-| Hero 16/9 | — | Placeholder under `.hero--veil`. Samuel supplies a video; its first frame becomes `dxb-hero-poster`, as on Munich. |
+| Hero 16/9 | `dxb-hero-poster` | Vimeo loop 1226928370 (Dubai_Landing, 46 s), added 15 Sep; poster is its first frame at 1920×1080, mean 229/255 so the veil is off |
 | S–01 3/2 | `sector-realestate-1600` | Bright: Downtown sales lounge: Emirati buyer and broker over a white model on a brass-edged plinth, marble and wood, towers and palms outside |
 | S–02 4/5 | `sector-hospitality-1600` | Dark: beachfront resort arrival at blue hour, arches lit by brass lanterns, glowing mashrabiya, guest in linen at a travertine desk, dark sea beyond |
 | S–03 1/1 | `sector-fintech-1600` | Dark: DIFC-style arcade at blue hour, uplit arches under a glass roof, advisor in kandura and client at a marble table, lit towers beyond |

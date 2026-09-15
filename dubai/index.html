@@ -16,9 +16,14 @@
 <meta property="og:url" content="https://www.parallaxorg.com/dubai/">
 <meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
 <meta property="og:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta property="og:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Parallax — brand systems and apps for Dubai">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
 <meta name="twitter:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta name="twitter:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -120,13 +125,27 @@
   <!-- ============================================================
        02 — HERO
        ============================================================ -->
-  <section class="hero hero--veil" aria-labelledby="hero-h">
+  <section class="hero" aria-labelledby="hero-h">
 
     <div class="hero__bg">
-      <!-- Placeholder until Dubai footage exists: slot img_dxb_hero, 16:9.
-           A still hero carries .hero--veil so the headline stays legible. -->
-      <img class="hero__poster" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%201920%201080%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23d8dde4%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27JetBrains%20Mono%2Cmonospace%27%20font-size%3D%2748%27%20letter-spacing%3D%272%27%20fill%3D%27%235b6470%27%3Eimg_dxb_hero%20%C2%B7%201920%C3%971080%3C/text%3E%3C/svg%3E" width="1920" height="1080"
-           alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+      <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
+           frame while the player boots and is all that shows under reduced motion. -->
+      <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
+           frame while the player boots and is all that shows under reduced motion. -->
+      <picture>
+        <source type="image/webp" srcset="images/dxb-hero-poster.webp">
+        <img class="hero__poster" src="images/dxb-hero-poster.jpg" width="1920" height="1080"
+             alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+      </picture>
+      <!-- background=1 gives Vimeo's chromeless loop: autoplay, muted, looped, no
+           controls. dnt=1 opts out of Vimeo's tracking cookies. -->
+      <div class="hero__video" aria-hidden="true">
+        <iframe
+          src="https://player.vimeo.com/video/1226928370?background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;autopause=0&amp;dnt=1"
+          title="Dubai hero" frameborder="0" tabindex="-1"
+          allow="autoplay; fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
     </div>
     <!-- Cursor colour-reveal, copied from parallaxorg.com: an accent radial that
          tracks the pointer via --hx / --hy. Desktop pointers only. -->
