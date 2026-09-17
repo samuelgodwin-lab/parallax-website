@@ -1,0 +1,2075 @@
+/* ============================================================
+   PARALLAX — Northeast India landing page
+
+   REQUIRES tokens.css, linked BEFORE this file:
+     <link rel="stylesheet" href="tokens.css">
+     <link rel="stylesheet" href="styles.css">
+   Linked rather than @import-ed on purpose: @import serialises the
+   download behind this file and caches under its own URL, so a token
+   change cannot be cache-busted from here.
+
+   Colour and spacing are consumed as tokens only. Values that
+   exist on the live parallaxorg.com build but fall off the 4pt
+   scale are named once in the component-metric layer below and
+   never repeated as literals at the point of use.
+   ============================================================ */
+
+:root {
+  /* ── Component metrics — mirrored from live parallaxorg.com ── */
+  --btn-py:       14px;   /* live .btn padding block  */
+  --btn-px:       26px;   /* live .btn padding inline */
+  --btn-gap:      9px;    /* live .btn gap            */
+  --btn-lift:     1.5px;  /* live .btn hover translate */
+  --btn-shadow:   3px;    /* live .btn hover offset shadow */
+  --slabel-rule:  22px;   /* live .slabel::before width */
+  --slabel-hero-rule: 28px; /* live .hero__eye::before width */
+  --slabel-hero-gap:  14px; /* live .hero__eye gap */
+  --nav-py:       20px;   /* live .nav padding block  */
+  --nav-h:        88px;   /* designed, not emergent — the hero subtracts it */
+  --grid-cell:    48px;   /* guidelines §09 grid texture */
+  --grid-ink:     4%;     /* guidelines §09 — 3–5%    */
+  --rule:         1px;    /* hairline                 */
+  --stagger-step: 55ms;   /* guidelines §06           */
+  /* Grid texture image. Substituted lazily, so color-mix resolves against
+     the element's own --text and the texture inverts for free. */
+  --grid-img:
+    linear-gradient(color-mix(in oklch, var(--text) var(--grid-ink), transparent) var(--rule), transparent var(--rule)),
+    linear-gradient(90deg, color-mix(in oklch, var(--text) var(--grid-ink), transparent) var(--rule), transparent var(--rule));
+  --focus-ring:   2px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+img, picture, svg, video { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* Guidelines §12 — no radius on structural elements */
+button, input, select, textarea, img, picture, video,
+fieldset, table, dialog { border-radius: 0; }
+
+/* ── Base ── */
+body {
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent-muted); }
+
+/* ── Focus — visible on every interactive element ── */
+:focus-visible {
+  outline: var(--focus-ring) solid var(--accent);
+  outline-offset: var(--s1);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+.skip-link {
+  /* fixed, not absolute — the nav no longer scrolls with the page, so an
+     absolute skip link would scroll out of reach behind it. */
+  position: fixed;
+  left: var(--s4);
+  top: var(--s4);
+  z-index: 300;
+  transform: translateY(-200%);
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+.skip-link:focus-visible { transform: none; }
+
+.vh {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* <main> takes focus from the skip link; it is a scroll target, not a control,
+   so it should not paint a focus ring of its own. */
+main:focus { outline: none; }
+main:focus-visible { outline: none; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+
+/* Container — matches live .w */
+.w {
+  max-width: var(--w-max);
+  margin: 0 auto;
+  padding: 0 var(--w-padding);
+}
+
+.section {
+  padding: var(--section-pad) 0;
+  border-top: var(--rule) solid var(--border);
+}
+.section--flush { padding-top: 0; }
+.section--surface { background: var(--surface); }
+.section--raised  { background: var(--surface-raised); }
+
+/* ============================================================
+   TYPE
+   ============================================================ */
+
+.wordmark {
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  text-decoration: none;
+}
+.wordmark span { color: var(--accent); }   /* the full stop — part of the mark */
+
+/* Section heading — matches live .sh */
+.sh {
+  font-size: clamp(32px, 4vw, 58px);
+  font-weight: 700;
+  letter-spacing: -0.042em;
+  line-height: 1;
+  font-feature-settings: 'ss01' 1, 'kern' 1;
+  text-wrap: balance;
+  text-align: left;
+}
+
+/* The headline carries explicit <br>s so it sets in three lines like the live
+   hero. Below 640px the forced line 1 is wider than the column, so the breaks
+   are switched off and it wraps naturally — the newline after each <br> in the
+   source collapses to the space the break was standing in for. */
+@media (max-width: 640px) {
+  .sh--hero br { display: none; }
+}
+
+/* Hero scale — guidelines §04 display */
+.sh--hero {
+  font-size: clamp(32px, 4.7vw, 70px);   /* live .hero__h1 */
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 0.92;
+}
+
+/* Closing CTA heading — live .contact__h */
+.sh--cta {
+  font-size: clamp(40px, 5.5vw, 76px);
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 0.93;
+}
+/* Tile heading — live .bpost__title / .pc__name idiom */
+.sh--sub  { font-size: clamp(18px, 1.9vw, 24px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; }
+/* Step heading — live .form__ok h3 / .tslide__name idiom (600, looser tracking) */
+.sh--step { font-size: clamp(17px, 1.6vw, 20px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+
+/* Exactly one accent word per heading */
+.sh em, h1 em, h2 em, h3 em, h4 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.lede {
+  font-size: clamp(16px, 1.7vw, 19px);   /* live .hero__p */
+  color: var(--text-2);
+  line-height: 1.72;
+}
+.body-c { font-size: 15px; color: var(--text-2); line-height: 1.72; }
+
+/* ============================================================
+   .slabel — section label
+   Guidelines §09 + live build: accent, not --text-3.
+   ============================================================ */
+.slabel {
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-bottom: var(--s6);
+}
+.slabel::before {
+  content: '';
+  width: var(--slabel-rule);
+  height: var(--rule);
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Hero eyebrow runs a touch larger with a longer rule — live .hero__eye */
+/* Re-pointing --accent (rather than colour) so the text and the ::before rule
+   move together. At 10.5px over the hero video's ~0.70 luminance ground the
+   brand accent measures 3.69:1; this lands 5.83:1, and 4.72:1 even on the
+   darkest patches. Scoped here only — the 68px headline em needs just 3:1 and
+   keeps the brand value. */
+.slabel--hero {
+  --accent: oklch(0.42 0.20 249);
+  font-size: 10.5px;
+  gap: var(--slabel-hero-gap);
+}
+.slabel--hero::before { width: var(--slabel-hero-rule); }
+
+/* ============================================================
+   .btn — live names (.btn-p / .btn-g) with spec aliases
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  font-family: var(--font-m);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  padding: var(--btn-py) var(--btn-px);
+  border-radius: 0;
+  background: none;
+  border: var(--rule) solid transparent;
+  transition:
+    background   var(--dur-micro) var(--ease-out),
+    color        var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out),
+    box-shadow   var(--dur-micro) var(--ease-out),
+    transform    var(--dur-micro) var(--ease-out);
+}
+
+.btn-p, .btn--primary {
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+}
+.btn-g, .btn--ghost {
+  color: var(--text-2);
+  background: transparent;
+  border-color: var(--border-strong);
+}
+
+/* Hover — guidelines §09: 3px offset accent shadow. Pointer devices only. */
+@media (hover: hover) and (pointer: fine) {
+  .btn-p:hover, .btn--primary:hover,
+  .btn-p.is-hover, .btn--primary.is-hover {
+    border-color: var(--accent);
+    box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 var(--accent);
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+  }
+  .btn-g:hover, .btn--ghost:hover,
+  .btn-g.is-hover, .btn--ghost.is-hover {
+    color: var(--text);
+    border-color: var(--accent);
+    box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 var(--accent);
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+  }
+}
+
+.btn:active { transform: scale(0.97); box-shadow: none; }
+
+.btn[disabled], .btn.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Sheet-only forced focus mirror */
+.btn.is-focus {
+  outline: var(--focus-ring) solid var(--accent);
+  outline-offset: var(--s1);
+}
+
+/* ============================================================
+   .meta-band — 4-column metadata strip
+   Hairlines via 1px grid gap so they survive every column count.
+   ============================================================ */
+.meta-band {
+  border-top: var(--rule) solid var(--border);
+  border-bottom: var(--rule) solid var(--border);
+  background: var(--border);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--rule);
+}
+.meta-band__cell {
+  background: var(--bg);
+  padding: var(--s6) var(--s4);
+}
+.meta-band__k {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: var(--s2);
+}
+.meta-band__v {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+@media (max-width: 768px) { .meta-band { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .meta-band { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   Small parts
+   ============================================================ */
+
+/* Capability tag — 1px border, no radius */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  /* Tightened from --s3 / 0.12em: the three pharma tags were 2px too wide for
+     the span-5 tile and wrapped to a second row, leaving that tile ending a row
+     lower than its neighbour. At --s2 / 0.10em all four tile's tags fit one row. */
+  letter-spacing: 0.10em;
+  color: var(--text-2);
+  border: var(--rule) solid var(--border);
+  padding: var(--s2);
+}
+
+/* Status badge — the ONLY pill permitted (guidelines §09) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: var(--s1) var(--s3);
+  border: var(--rule) solid var(--border);
+  border-radius: 999px;
+  color: var(--text-2);
+}
+.badge--accent { color: var(--accent); border-color: var(--accent-muted); background: var(--accent-soft); }
+
+/* Datum block — dashed top rule, figure in accent */
+.datum { border-top: var(--rule) dashed var(--border-strong); padding-top: var(--s3); margin-top: var(--s4); }
+/* "We build" label above the deliverables that close each sector tile */
+.datum__k {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: var(--s3);
+}
+.datum__fig {
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+.datum__cap { font-family: var(--font-m); font-size: 10px; line-height: 1.5; color: var(--text-3); margin-top: var(--s1); }
+
+/* ============================================================
+   Grid texture — hero + statistics band only
+   Ink derives from --text, so it inverts with the band.
+   ============================================================ */
+.tex {
+  background-image: var(--grid-img);
+  background-size: var(--grid-cell) var(--grid-cell);
+}
+
+/* Self-layering variant for simple bands */
+.grid-tex { position: relative; }
+.grid-tex > * { position: relative; z-index: 1; }
+.grid-tex::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--grid-img);
+  background-size: var(--grid-cell) var(--grid-cell);
+}
+
+/* ============================================================
+   Scroll reveal — .js gate so content is never hidden without JS
+   ============================================================ */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity   var(--dur-standard) var(--ease-out),
+    transform var(--dur-standard) var(--ease-out);
+}
+.js .reveal.in { opacity: 1; transform: none; }
+
+.js .stagger > * {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity   var(--dur-standard) var(--ease-out),
+    transform var(--dur-standard) var(--ease-out);
+}
+.js .stagger.in > * { opacity: 1; transform: none; }
+.js .stagger.in > *:nth-child(1) { transition-delay: calc(0 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(2) { transition-delay: calc(1 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(3) { transition-delay: calc(2 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(4) { transition-delay: calc(3 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(5) { transition-delay: calc(4 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(6) { transition-delay: calc(5 * var(--stagger-step)); }
+.js .stagger.in > *:nth-child(n+7) { transition-delay: calc(6 * var(--stagger-step)); }
+
+/* ============================================================
+   Image placeholders — swapped for <picture> at handoff
+   ============================================================ */
+.ph {
+  background: var(--surface-raised);
+  border: var(--rule) solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.ph__key {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  text-align: center;
+  padding: var(--s3);
+}
+
+/* ============================================================
+   Reduced motion — content always visible, no movement
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal, .js .stagger > * { opacity: 1 !important; transform: none !important; }
+  /* The hero entrance is an animation, not a transition: it relies on running
+     to completion to become visible. Cancel it outright rather than trusting a
+     0.01ms duration to land, so the hero can never be stuck at opacity 0. */
+  .js .hero__body > *, .js .hero__stats, .js .hero__scroll { animation: none !important; opacity: 1 !important; transform: none !important; }
+  /* tokens.css collapses animation-duration but not delay — without this,
+     staggered hero entrances would stay invisible for their delay window. */
+  *, *::before, *::after { animation-delay: 0ms !important; transition-delay: 0ms !important; }
+  .btn:active { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-p:hover, .btn--primary:hover, .btn-g:hover, .btn--ghost:hover { transform: none; }
+  }
+}
+
+/* ============================================================
+   SECTION 01 — NAV
+   Was sticky with a permanent frosted ground and bottom rule. Now fixed and
+   fully transparent over the hero, frosting only once scrolled.
+   ============================================================ */
+/* Transparent and overlaying, as on parallaxorg.com — the hero video runs
+   under it. main.js adds .scrolled past 40px, which frosts it so the nav stays
+   readable over whatever section is passing beneath. */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-bottom: var(--rule) solid transparent;
+  transition: background var(--dur-standard) var(--ease-out),
+              backdrop-filter var(--dur-standard) var(--ease-out),
+              border-color var(--dur-standard) var(--ease-out);
+}
+.nav.scrolled {
+  background: oklch(1 0 0 / 0.75);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border-bottom-color: var(--border);
+}
+.nav__in { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--s4); }
+.nav__logo { font-size: 17px; }
+.nav__right { display: flex; align-items: center; gap: var(--s6); }
+.nav__label {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  /* Was --text-3, which was fine against the old permanently-frosted nav but
+     drops to 2.33:1 over the hero video now the bar is transparent. This value
+     clears AA in both states: 4.97:1 on the video's darkest patches, 10.41:1
+     once the nav frosts. */
+  color: oklch(0.37 0.005 0);
+  white-space: nowrap;
+}
+/* Below 768px the label drops, the button stays */
+@media (max-width: 768px) {
+  .nav__label { display: none; }
+  .nav__right { gap: var(--s3); }
+}
+@media (max-width: 600px) {
+  :root { --nav-h: 72px; }
+}
+/* Tighten the CTA on the narrowest screens so the bar never wraps */
+@media (max-width: 400px) {
+  .nav .btn { padding: var(--s3) var(--s4); font-size: 10px; }
+}
+
+/* ============================================================
+   SECTION 02 — HERO
+   Explicit layer order: media 0 · scrim 1 · texture 2 · content 3
+   ============================================================ */
+.hero {
+  position: relative;
+  /* Full viewport now that the nav overlays rather than stacks above. */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  /* 152/96. Live is 128 on the same full-viewport box, but our body carries a
+     note line theirs does not; a centred block that is taller starts higher, so
+     the extra 24 puts the headline back on the live position. */
+  padding: calc(var(--s24) + var(--s8) + var(--s6)) 0 var(--s24);
+  overflow: hidden;
+  border-bottom: var(--rule) solid var(--border);
+}
+.hero__bg { position: absolute; inset: 0; z-index: 0; }
+.hero__bg .ph, .hero__bg img { width: 100%; height: 100%; object-fit: cover; border: 0; }
+.hero__bg .ph { align-items: flex-start; padding-top: var(--s12); }
+
+/* Poster sits under the player: visible while the iframe boots, and the only
+   layer under reduced motion. */
+.hero__poster { position: absolute; inset: 0; object-position: 50% 45%; }
+/* A still hero on a light image: a left-weighted white veil under the text
+   column so the lede and the mono lines keep AA whatever the image does there.
+   The inverse of the brand's dark scrim, used only where the text is dark. */
+.hero--veil .hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, oklch(1 0 0 / 0.93) 0%, oklch(1 0 0 / 0.93) 55%, oklch(1 0 0 / 0) 80%);
+  pointer-events: none;
+}
+
+/* An iframe cannot object-fit, so the player is oversized past whichever axis
+   binds and centred — the CSS equivalent of cover. overflow:hidden on .hero clips it. */
+.hero__video { position: absolute; inset: 0; overflow: hidden; container-type: size; }
+.hero__video iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Fallback for browsers without container query units. */
+  width: 100vw;
+  height: 56.25vw;          /* 9/16 of viewport width */
+  min-width: 177.7778svh;   /* 16/9 of viewport height */
+  min-height: 100svh;
+  /* Cover the HERO, not the viewport. On mobile the hero grows past 100svh to
+     fit its content, and viewport-relative sizing left a band uncovered at the
+     top. cq units size against .hero__video, which is inset:0 on the hero. */
+  width: 100cqw;
+  height: 56.25cqw;
+  /* +2px overscan: at some heights the computed cover lands a fraction short
+     and a hairline of ground shows through. overflow:hidden clips the excess. */
+  min-width: calc(177.7778cqh + 2px);
+  min-height: calc(100cqh + 2px);
+  border: 0;
+  pointer-events: none;     /* the hero's own CTAs stay clickable above it */
+}
+
+/* No autoplaying loop for anyone who asked not to have one — the poster stands in. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__video { display: none; }
+}
+
+/* No scrim. The live hero runs black text straight over the video and ships no
+   gradient; a black scrim would only fight the dark type. --scrim stays in
+   tokens.css for any future dark hero. */
+
+/* Cursor colour-reveal, copied from parallaxorg.com. main.js writes --hx/--hy. */
+.hero__cursor-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+}
+.hero:hover .hero__cursor-fx { opacity: 0.65; }
+.hero__cursor-fx::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 367px at var(--hx, 85%) var(--hy, 50%),
+    oklch(0.60 0.20 249 / 0.18) 10%,
+    transparent 69%
+  );
+}
+@media (max-width: 768px) { .hero__cursor-fx { display: none; } }
+/* No grid texture and no darkening layer over the hero — the live hero has
+   neither (its ::before grid ships display:none). Only the cursor FX sits above
+   the video. */
+.hero__in {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* Centred in the space the foot leaves, exactly as the live hero does it. */
+.hero__body {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: var(--s12);
+  max-width: 1100px;
+}
+.hero__foot { display: flex; align-items: flex-end; justify-content: space-between; }
+
+/* Scroll cue, copied from parallaxorg.com. space-between on .hero__foot pushes
+   it to the right, level with the baseline of the stats. */
+.hero__scroll {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);   /* live uses --text-3; see .hero__sl for why ours can't */
+  flex-shrink: 0;
+}
+.hero__scroll-line {
+  width: 36px;
+  height: 1px;
+  background: currentColor;
+  animation: breathe 2.4s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { width: 36px; }
+  50%      { width: 20px; }
+}
+/* The line is decorative; hold it at full width rather than pulsing. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-line { animation: none; width: 36px; }
+}
+@media (max-width: 768px) { .hero__scroll { display: none; } }
+
+/* Munich hero: the German lede sits above the English one, same size; the
+   English drops its top margin so the pair reads as one block. */
+.hero__lede--de { color: var(--text); }
+.hero__lede--de + .hero__lede { margin-top: var(--s3); }
+/* Proof adjacent to the CTA — German B2B buyers want it there, not five
+   sections down. Same measure and colour rules as .hero__note. */
+.hero__proof {
+  font-family: var(--font-m);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+  margin-top: var(--s6);
+}
+.hero__proof + .hero__note { margin-top: var(--s2); }
+.gov__lede--de { margin-top: var(--s4); font-size: clamp(14px, 1.4vw, 16px); }
+.hero__lede { max-width: 52ch; margin-top: var(--s8); }   /* live .hero__h1 margin-bottom */
+.hero__cta  { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s12); }  /* live .hero__p margin-bottom */
+
+/* Friction-reducer under the CTAs. Carries the designer route too, so the
+   hero's two buttons can both stay client-facing. */
+.hero__note {
+  font-family: var(--font-m);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  /* --text-2, not --text-3: at 11px over the hero's brightest possible ground
+     --text-3 measures 4.34:1 and misses AA. --text-2 clears it at 7.87:1. */
+  color: var(--text-2);
+  margin-top: var(--s4);
+}
+.hero__note a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero__note a:hover { color: var(--accent); }
+}
+/* Narrow: the two clauses stack, so the middle dot would dangle at the
+   end of line one. Drop it and let the link own its own line. */
+@media (max-width: 560px) {
+  .hero__note-sep { display: none; }
+  .hero__note a { display: inline-block; margin-top: var(--s2); }
+}
+
+/* Credibility numbers sit in the hero foot, as on live parallaxorg.com */
+.hero__stats { display: flex; flex-wrap: wrap; gap: clamp(24px, 5vw, 64px); }  /* pinned by .hero__foot, so no top margin */
+.hero__sn {
+  display: block;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.hero__sn-plus { color: var(--accent); }
+.hero__sl {
+  display: block;
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* --text-2, not --text-3. The hero foot sits over the brightest part of the
+     video: --text-3 measures 2.67:1 there at 9.5px, --text-2 clears AA at 4.56.
+     Same reason the scroll cue below deviates from the live site's --text-3. */
+  color: var(--text-2);
+  margin-top: var(--s1);
+}
+
+/* ============================================================
+   PRELOADER — see the markup comment in index.html.
+   ============================================================ */
+.plx {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: oklch(0.08 0.004 260);   /* the .invert ground */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--dur-cinematic) var(--ease-inout), transform var(--dur-cinematic) var(--ease-inout);
+}
+.plx.plx--out { opacity: 0; transform: translateY(-16px); pointer-events: none; }
+.no-js .plx { display: none; }
+.plx__center { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.plx__mark {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(38px, 5.5vw, 72px);
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: oklch(1 0 0);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.plx__mark.plx--vis { opacity: 1; transform: none; }
+.plx__dot { color: var(--accent-hi); }   /* the dark-ground accent, as in .invert */
+.plx__status {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-hi);
+  opacity: 0;
+  height: 14px;
+  min-width: 150px;
+  text-align: center;
+  transition: opacity 400ms ease;
+}
+.plx__status.plx--vis { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .plx, .plx__mark, .plx__status { transition: none; }
+}
+
+/* Cinematic entrance — no scroll trigger, hero is above the fold */
+@keyframes heroUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+/* Delays are per element now, not nth-child — .hero__in holds two children
+   (body, foot), so positional selectors no longer map to the six items. */
+.js .hero__body > *,
+.js .hero__stats,
+.js .hero__scroll { animation: heroUp var(--dur-cinematic) var(--ease-out) both; }
+/* Hold the entrance until the preloader has lifted, so it plays in view. */
+.js:not(.loaded) .hero__body > *,
+.js:not(.loaded) .hero__stats,
+.js:not(.loaded) .hero__scroll { animation-play-state: paused; }
+.js .slabel--hero { animation-delay: 200ms; }
+.js .sh--hero     { animation-delay: 340ms; }
+.js .hero__lede   { animation-delay: 500ms; }
+.js .hero__cta    { animation-delay: 640ms; }
+.js .hero__note   { animation-delay: 720ms; }
+.js .hero__stats  { animation-delay: 800ms; }
+.js .hero__scroll { animation-delay: 920ms; }
+
+/* ============================================================
+   SECTION 03 — META BAND
+   Sits directly under the hero, no padding above.
+   ============================================================ */
+.meta-band--flush { border-top: 0; }
+
+/* ============================================================
+   SECTION 04 — THE GAP
+   12 columns: heading spans 1–5, body spans 7–12.
+   ============================================================ */
+.gap__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--s8);
+  align-items: start;
+}
+.gap__head { grid-column: 1 / span 5; }
+.gap__body { grid-column: 7 / span 6; max-width: 46ch; }
+.gap__body p + p { margin-top: var(--s6); }
+.gap__body p:last-child {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 880px) {
+  .gap__grid { grid-template-columns: 1fr; gap: var(--s8); }
+  .gap__head, .gap__body { grid-column: 1 / -1; }
+}
+
+
+/* ============================================================
+   SECTION 03 — SERVICES MARQUEE
+   Copied from parallaxorg.com. The track holds the six services twice
+   and translates -50%, so the loop is seamless.
+   ============================================================ */
+.marquee {
+  background: var(--accent);
+  border: none;
+  padding: var(--s4) 0;
+  overflow: hidden;
+}
+.marquee__t {
+  display: flex;
+  align-items: center;
+  gap: var(--s12);
+  white-space: nowrap;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee__i {
+  font-family: var(--font-m);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+  flex-shrink: 0;
+}
+.marquee__sep { color: oklch(1 0 0 / 0.5); margin: 0 var(--s2); }
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+/* The global reduced-motion rule only collapses the duration, which would
+   snap the track to -50%. Stop it outright and hold the first copy. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__t { animation: none !important; transform: none !important; }
+}
+
+/* ============================================================
+   SECTION 05 — CLIENT LOGOS
+   Copied from parallaxorg.com: accent ground, inline SVG marks at 72%
+   opacity, hairline separators, and a name-marquee under 768px.
+   ============================================================ */
+.logos-strip {
+  background: var(--accent);
+  padding: var(--s8) 0;
+  border: none;
+}
+.logos-strip__inner {
+  display: flex;
+  align-items: center;
+  /* Distributed for the same reason as the clocks row above. */
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: var(--s4);
+}
+.logos-strip__label {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* Live uses oklch(1 0 0 / 0.7), which composites to 3.32:1 on the accent
+     ground — under AA at 9px. 0.92 gives 4.61:1 and still reads as a quiet
+     label beside the solid white marks. (Pure white would be 5.16:1.) */
+  color: oklch(1 0 0 / 0.92);
+  white-space: nowrap;
+}
+.logo-sep { width: 1px; height: 20px; background: oklch(1 0 0 / 0.3); flex-shrink: 0; }
+.logo-mark {
+  opacity: 0.72;
+  transition: opacity 240ms var(--ease-out);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .logo-mark:hover { opacity: 1; }
+}
+
+.logos-mobile-marquee { display: none; }
+
+@media (max-width: 700px) {
+  .logos-strip__inner { flex-wrap: wrap; gap: var(--s6); }
+  .logos-strip__label { width: 100%; margin-right: 0; }
+  .logo-sep { display: none; }
+}
+@media (max-width: 768px) {
+  .logos-strip { padding: var(--s4) 0; }
+  .logos-strip__inner { display: none; }
+  .logos-mobile-marquee { display: block; overflow: hidden; }
+}
+
+/* ============================================================
+   SECTION 06 — SECTORS BENTO
+   12-column asymmetric: 7 / 5 over 5 / 7. Never four equal cards.
+   ============================================================ */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--s3);
+  margin-top: var(--s12);
+}
+.sector {
+  grid-column: span 12;
+  border: var(--rule) solid var(--border);
+  padding: var(--s6);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  transition: background var(--dur-micro) var(--ease-out),
+              border-color var(--dur-micro) var(--ease-out);
+}
+.sector--01 { grid-column: span 7; }
+.sector--02 { grid-column: span 5; }
+.sector--03 { grid-column: span 5; }
+.sector--04 { grid-column: span 7; }
+
+@media (hover: hover) and (pointer: fine) {
+  .sector:hover { background: var(--accent-soft); border-color: var(--accent-muted); }
+}
+
+/* One fixed media height across all four tiles, whatever the tile width.
+   aspect-ratio cannot do this: the span-7 and span-5 tiles are different widths,
+   so a shared ratio gives different heights. A shared height lines the images up
+   and starts every tile's text on the same baseline. cover absorbs the ratios. */
+.sector__media {
+  margin-bottom: var(--s6);
+  height: clamp(240px, 25vw, 360px);
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+.sector__media .ph { height: 100%; }
+.sector__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* .dn__media is a plain full-width band — it keeps its natural ratio. */
+.dn__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.sector__body {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-top: var(--s3);
+  margin-bottom: var(--s6);
+}
+.sector__tags { display: flex; flex-wrap: wrap; gap: var(--s2); }
+/* Was margin-top:auto, which pinned the datum to the tile floor and therefore
+   gave every tile a different gap above it. A fixed gap keeps the spacing
+   identical tile to tile. */
+.sector .datum { margin-top: 0; }
+
+@media (max-width: 880px) {
+  .sector__media { height: clamp(200px, 44vw, 300px); }
+}
+@media (max-width: 1024px) {
+  .sector--01, .sector--02, .sector--03, .sector--04 { grid-column: span 6; }
+}
+@media (max-width: 640px) {
+  .sector--01, .sector--02, .sector--03, .sector--04 { grid-column: span 12; }
+}
+
+/* ============================================================
+   SECTION 07 — GOVERNMENT
+   ============================================================ */
+.gov__grid { display: block; }
+/* Heading block sits above the cards now, full width and left aligned —
+   the reference centres it; this page does not centre display type. */
+.gov__head { max-width: 62ch; }
+.gov__lede { margin-top: var(--s6); max-width: 62ch; }
+
+/* Four columns so a card can span two. Row 1 runs narrow, narrow, wide;
+   row 2 mirrors it — wide, narrow, narrow — with the wide card's halves
+   swapped so the flip reads as deliberate rather than a repeat. */
+.gov__tiles {
+  margin-top: var(--s12);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s3);
+}
+.gov__tile {
+  border: var(--rule) solid var(--border);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color var(--dur-micro) var(--ease-out);
+}
+.gov__tile--wide {
+  grid-column: span 2;
+  flex-direction: row;
+}
+/* Second wide card is the mirror: text first, image second. */
+.gov__tile--wide:nth-of-type(4) { flex-direction: row-reverse; }
+
+.gov__tile-media { overflow: hidden; flex: 0 0 auto; height: 190px; }
+/* The wide card's media is stretched by the flex row, so it has no definite
+   height for the image's height:100% to resolve against — it fell back to the
+   intrinsic size and left a gap. Absolute fill sidesteps that. */
+.gov__tile--wide .gov__tile-media { height: auto; flex: 1 1 50%; position: relative; }
+.gov__tile--wide .gov__tile-media img { position: absolute; inset: 0; }
+.gov__tile-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-standard) var(--ease-out);
+}
+
+.gov__tile-body {
+  padding: var(--s6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.gov__tile--wide .gov__tile-body {
+  flex: 1 1 50%;
+  justify-content: center;
+  gap: var(--s3);
+}
+.gov__tile-tag {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.gov__tile-head {
+  font-size: clamp(16px, 1.4vw, 19px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--text);
+  text-align: left;
+}
+.gov__tile-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gov__tile:hover { border-color: var(--accent); }
+  .gov__tile:hover .gov__tile-media img { transform: scale(1.03); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gov__tile:hover .gov__tile-media img { transform: none; }
+}
+
+/* Two up: each wide card takes a full row of its own. */
+@media (max-width: 1024px) {
+  .gov__tiles { grid-template-columns: repeat(2, 1fr); }
+  .gov__tile--wide { grid-column: span 2; }
+}
+/* Stacked: the wide cards drop their side-by-side split and behave like the rest. */
+@media (max-width: 640px) {
+  .gov__tiles { grid-template-columns: 1fr; }
+  .gov__tile--wide,
+  .gov__tile--wide:nth-of-type(4) { grid-column: span 1; flex-direction: column; }
+  .gov__tile--wide .gov__tile-media { height: 190px; flex: 0 0 auto; }
+}
+
+/* ============================================================
+   SECTION 04 — SERVICES
+   Structure and behaviour copied from parallaxorg.com's "What We Do":
+   dark band, sticky two-column split, one-at-a-time accordion.
+   ============================================================ */
+.services {
+  --bg: oklch(0 0 0);          /* live band is pure black, not .invert's near-black */
+  padding: var(--section-pad) 0;
+  border-top: var(--rule) solid var(--border);
+}
+.svcs__wrap {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: var(--s16);
+  align-items: start;
+}
+.svcs__left { position: sticky; top: 96px; }
+.svcs__desc {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.72;
+  margin-top: var(--s6);
+  max-width: 34ch;
+}
+.svcs__cta { margin-top: var(--s12); display: inline-flex; }
+
+.svcs__list { display: flex; flex-direction: column; }
+
+.svc {
+  display: grid;
+  grid-template-columns: 64px 1fr 28px;
+  align-items: start;
+  gap: var(--s4);
+  padding: var(--s6) 0;
+  border-top: var(--rule) solid var(--border);
+  cursor: pointer;
+}
+.svc:last-child { border-bottom: var(--rule) solid var(--border); }
+.svc__n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  padding-top: 5px;
+}
+.svc__name {
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  padding-top: 3px;
+  transition: color 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .svc:hover .svc__name { color: var(--accent); }
+}
+/* 0fr -> 1fr animates the panel open with no fixed height to maintain */
+.svc__shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 400ms var(--ease-out);
+}
+.svc.open .svc__shell { grid-template-rows: 1fr; }
+.svc__inner { overflow: hidden; min-height: 0; }
+.svc__body {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+  padding: var(--s3) 0 var(--s2);
+  max-width: 58ch;
+}
+.svc__toggle {
+  font-size: 15px;
+  color: var(--text-3);
+  padding-top: 4px;
+  user-select: none;
+  justify-self: end;
+  transition: transform 320ms var(--ease-out), color 200ms var(--ease-out);
+}
+.svc.open .svc__toggle { transform: rotate(45deg); color: var(--accent); }
+
+/* The live rows are click-only divs. Ours are focusable and answer Enter/Space,
+   so the accordion is reachable from the keyboard. */
+.svc:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (max-width: 960px) {
+  .svcs__wrap { grid-template-columns: 1fr; gap: var(--s8); }
+  .svcs__left { position: relative; top: 0; }
+}
+
+/* ============================================================
+   SECTION 10 — PRICING (Dubai)
+   Dark band like Services; the three plans form one ruled block on the
+   Network-steps pattern, not three floating cards. The cards behave as
+   parallaxorg.com's do: the whole card is the control, hover lifts the
+   name to accent, draws the base line and shows the arrow, a cursor-
+   tracked glow follows the pointer, and a click opens the plan drawer
+   (below) with the full inclusions — same shell as the network drawer.
+   ============================================================ */
+.pricing {
+  --bg: oklch(0 0 0);              /* the live band is pure black, like Services */
+  padding: var(--section-pad) 0;
+  border-top: var(--rule) solid var(--border);
+}
+.pricing__head { max-width: 62ch; }
+.pricing__lede { margin-top: var(--s6); max-width: 62ch; }
+/* Cards: parallaxorg.com's .pricing .prc, value for value — no outer frame,
+   a hairline on each card's right edge, 48px padding, near-black ground. */
+.pricing__plans {
+  margin-top: var(--s12);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+.plan {
+  background: oklch(0.08 0.003 0);
+  color: oklch(1 0 0);
+  border-right: 1px solid oklch(0.25 0.002 0);
+  padding: var(--s12);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 300ms var(--ease-out);
+  --glow: oklch(0.60 0.18 249 / 0.20);
+  --gline: oklch(0.70 0.14 249);
+}
+.plan--featured { --glow: oklch(0.60 0.18 249 / 0.28); --gline: var(--accent); }
+/* Magnetic spotlight: --gx / --gy are the pointer's position in the card,
+   set by main.js; the glow fades in on hover and sits under the copy. */
+.plan::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 80% at var(--gx, 50%) var(--gy, 50%), var(--glow) 0%, transparent 68%);
+  opacity: 0;
+  transition: opacity 480ms var(--ease-out);
+  pointer-events: none;
+  z-index: 0;
+}
+.plan > * { position: relative; z-index: 1; }
+.plan__tag {
+  font-family: var(--font-m);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s6);
+}
+.plan--featured .plan__tag {
+  border: 1px solid oklch(0.60 0.18 249 / 0.32);
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px 7px;
+  margin-bottom: var(--s3);
+}
+.plan__name {
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: oklch(1 0 0);
+  margin-bottom: var(--s6);
+  transition: color 240ms var(--ease-out);
+}
+/* The live cards keep the figure for the drawer; Dubai publishes it on the
+   card (01-COPY.md §10), set in the same family as the name. */
+.plan__price {
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: oklch(1 0 0);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.plan__price small {
+  display: block;
+  margin-top: var(--s2);
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: oklch(0.60 0.003 0);
+}
+.plan__price sup { font-size: 0.5em; vertical-align: super; font-weight: 500; margin-right: 0.15em; color: oklch(0.70 0.003 0); }
+.plan__desc {
+  font-size: 15px;
+  color: oklch(0.70 0.003 0);
+  line-height: 1.6;
+  max-width: 34ch;
+  margin-top: var(--s4);
+  margin-bottom: var(--s8);
+}
+.plan__more {
+  margin-top: auto;
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: oklch(0.60 0.003 0);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.plan__line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 280ms var(--ease-out);
+}
+.plan__arrow {
+  position: absolute;
+  bottom: var(--s8); right: var(--s8);
+  font-size: 14px;
+  color: var(--accent);
+  opacity: 0;
+  transform: translate(-4px, -4px);
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .plan:hover { background: oklch(0.10 0.003 0); }
+  .plan:hover::before { opacity: 1; }
+  .plan:hover .plan__name { color: var(--accent); }
+  .plan:hover .plan__line { transform: scaleX(1); }
+  .plan:hover .plan__arrow { opacity: 1; transform: translate(0, 0); }
+}
+.plan:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+@media (max-width: 960px) {
+  .pricing__plans { grid-template-columns: 1fr; }
+  .plan { padding: 20px 16px; border-right: 0; border-bottom: 1px solid oklch(0.25 0.002 0); }
+  .plan:last-child { border-bottom: 0; }
+}
+
+/* ── Plan drawer: the network drawer's shell (.net-drawer / .net-scrim),
+   one pane per plan, main.js shows the pane for the card that was clicked.
+   Under .no-js all three panes render inline at the end of the page. ── */
+.prc-pane[hidden] { display: none; }
+.no-js .prc-pane { display: block; }
+.no-js .prc-pane + .prc-pane { margin-top: var(--s12); }
+.prc-pane__price {
+  margin-top: var(--s6);
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: var(--on);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.prc-pane__price sup { font-size: 0.42em; vertical-align: super; font-weight: 600; margin-right: 0.15em; }
+.prc-pane__price span { display: block; margin-top: var(--s2); font-family: var(--font-m); font-size: 10px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
+.prc-pane__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.prc-pane__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--on);
+}
+.prc-pane__list li::before {
+  content: '\2192';
+  font-family: var(--font-m);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* ============================================================
+   SECTION 09 — DESIGNER NETWORK
+   Steps form a single ruled block: 1px hairline gaps over a
+   --border ground, --bg cells. Not three floating cards.
+   ============================================================ */
+.dn__head { max-width: 62ch; }
+.dn__lede { margin-top: var(--s6); max-width: 62ch; }
+
+.dn__media { margin-top: var(--s12); }
+
+.dn__steps {
+  margin-top: var(--s12);
+  border: var(--rule) solid var(--border);
+  background: var(--border);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--rule);
+}
+.dn__step {
+  background: var(--bg);
+  padding: var(--s8);
+  display: flex;
+  flex-direction: column;
+}
+.dn__step-n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s4);
+}
+.dn__step-b { font-size: 13.5px; color: var(--text-2); line-height: 1.65; margin-top: var(--s3); }
+
+.dn__terms {
+  margin-top: var(--s8);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+.dn__term {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  border: var(--rule) solid var(--accent);
+  padding: var(--s3) var(--s4);
+}
+.dn__cta { margin-top: var(--s8); }
+
+/* ============================================================
+   NETWORK DRAWER
+   Lifted from the pricing drawer on parallaxorg.com: fixed, right, accent
+   ground, black title with a white second line, black button. Scrim and
+   drawer are siblings so the scrim can fade independently of the slide.
+   ============================================================ */
+.net-scrim {
+  position: fixed;
+  inset: 0;
+  background: oklch(0 0 0 / 0.5);
+  z-index: 499;
+  opacity: 0;
+  transition: opacity var(--dur-standard) var(--ease-out);
+}
+.net-scrim.is-open { opacity: 1; }
+.net-scrim[hidden] { display: none; }
+
+.net-drawer {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(560px, 100vw);
+  background: var(--accent);
+  color: oklch(1 0 0);
+  z-index: 500;
+  transform: translateX(100%);
+  transition: transform var(--dur-cinematic) var(--ease-inout);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  /* a11y on the accent ground: white is 5.16:1; white at any alpha below 1
+     drops under 4.5 (0.9 = 4.48), so all running text is full white and the
+     hierarchy comes from size, weight and the mono face, not from tint.
+     Black is 4.07:1 — large text only (the title, the sent state). */
+  --on: oklch(1 0 0);
+  --on-2: oklch(1 0 0);
+  --on-rule: oklch(0 0 0 / 0.18);
+}
+.net-drawer.is-open { transform: translateX(0); }
+.net-drawer[aria-hidden="true"] { visibility: hidden; }
+.net-drawer.is-open,
+.no-js .net-drawer { visibility: visible; }
+@media (prefers-reduced-motion: reduce) {
+  .net-drawer, .net-scrim { transition: none; }
+}
+/* No JS: the drawer is a normal block at the end of the page. */
+.no-js .net-drawer { position: static; transform: none; width: 100%; }
+.no-js .net-drawer__top, .no-js .net-scrim { display: none; }
+
+.net-drawer__top {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--s6) var(--s8) 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.net-drawer__close {
+  pointer-events: auto;
+  width: 40px; height: 40px;
+  /* Solid, because it's sticky and the copy scrolls beneath it. */
+  background: oklch(0 0 0);
+  border: var(--rule) solid oklch(0 0 0);
+  color: var(--on);
+  font-size: 16px;
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: background var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .net-drawer__close:hover { border-color: oklch(1 0 0); box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 oklch(1 0 0); }
+}
+.net-drawer__close:focus-visible { outline: 2px solid var(--on); outline-offset: 2px; }
+
+.net-drawer__body { padding: var(--s2) var(--s8) var(--s16); flex: 1; }
+@media (max-width: 480px) {
+  .net-drawer__top { padding: var(--s4) var(--s4) 0; }
+  .net-drawer__body { padding: 0 var(--s4) var(--s12); }
+}
+
+.net-drawer__tag {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-2);
+  margin-bottom: var(--s4);
+}
+.net-drawer__h {
+  font-size: clamp(30px, 4.6vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  color: oklch(0 0 0);
+}
+.net-drawer__h span { display: block; color: var(--on); }
+.net-drawer__sub {
+  margin-top: var(--s4);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--on-2);
+  max-width: 40ch;
+}
+.net-drawer__rule { border: 0; height: var(--rule); background: var(--on-rule); margin: var(--s6) 0; }
+.net-drawer__label {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-2);
+  margin-bottom: var(--s4);
+}
+/* ── Perks accordion. Same mechanics as .svc, on the accent ground. ── */
+/* Hairlines only between rows — the section rules above and below the block
+   already frame it, so the list carries no outer border of its own. */
+.net-acc__row {
+  display: grid;
+  grid-template-columns: 1fr 24px;
+  column-gap: var(--s3);
+  padding: var(--s3) 0;
+  border-bottom: var(--rule) solid var(--on-rule);
+  cursor: pointer;
+}
+.net-acc__row:last-child { border-bottom: 0; }
+.net-acc__row:first-child { padding-top: 0; }
+.net-acc__h {
+  font-size: clamp(17px, 2vw, 20px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--on);
+  padding: 3px 0;
+}
+.net-acc__t {
+  font-family: var(--font-m);
+  font-size: 15px;
+  color: var(--on);
+  justify-self: end;
+  padding-top: 4px;
+  user-select: none;
+  transition: transform 320ms var(--ease-out);
+}
+.net-acc__row.open .net-acc__t { transform: rotate(45deg); }
+.net-acc__shell {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 400ms var(--ease-out);
+}
+.net-acc__row.open .net-acc__shell { grid-template-rows: 1fr; }
+.net-acc__inner { overflow: hidden; min-height: 0; }
+.net-acc__b {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--on);
+  padding: var(--s2) 0 var(--s1);
+  max-width: 48ch;
+}
+.net-acc__row:focus-visible { outline: 2px solid var(--on); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .net-acc__row:hover .net-acc__h { color: oklch(0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .net-acc__shell, .net-acc__t { transition: none; }
+}
+
+/* ── Steps: headline plus one short line. ── */
+.net-drawer__steps { list-style: none; display: flex; flex-direction: column; gap: var(--s4); }
+.net-drawer__steps li { display: flex; align-items: baseline; gap: var(--s3); }
+.net-drawer__n {
+  font-family: var(--font-m);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--on);
+  flex-shrink: 0;
+  min-width: 22px;
+}
+.net-drawer__steps strong {
+  display: block;
+  font-size: clamp(17px, 2vw, 20px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--on);
+}
+.net-drawer__steps span:not(.net-drawer__n) {
+  display: block;
+  margin-top: 2px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--on);
+}
+
+/* ── Chips: the section's .dn__term, inverted for the accent ground. ── */
+.net-drawer__chipset + .net-drawer__chipset { margin-top: var(--s6); }
+.net-drawer__chips { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.net-chip {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on);
+  border: var(--rule) solid oklch(1 0 0 / 0.55);
+  padding: 9px 12px;
+  line-height: 1.3;
+}
+.net-drawer__p { font-size: 13.5px; line-height: 1.6; color: var(--on-2); }
+.net-drawer__note { font-size: 12.5px; line-height: 1.6; color: var(--on-2); }
+
+/* ── The form. White fields on the accent ground, black text. ── */
+.net-form { margin-top: var(--s8); }
+.net-form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
+.net-form__g--wide { grid-column: 1 / -1; }
+@media (max-width: 480px) { .net-form__grid { grid-template-columns: 1fr; } }
+.net-form__lbl {
+  display: block;
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-2);
+  margin-bottom: var(--s1);
+}
+.net-form__lbl span { text-transform: none; letter-spacing: 0.04em; }
+.net-form__in {
+  width: 100%;
+  font: inherit;
+  font-size: 14px;
+  color: oklch(0 0 0);
+  background: oklch(1 0 0 / 0.96);
+  border: var(--rule) solid oklch(1 0 0 / 0.96);
+  border-radius: 0;
+  padding: 11px 12px;
+  transition: box-shadow var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+}
+.net-form__in::placeholder { color: oklch(0.55 0.005 0); }
+.net-form__in:focus { outline: none; border-color: oklch(0 0 0); box-shadow: 3px 3px 0 0 oklch(0 0 0); }
+.net-form__sel {
+  appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+.net-form__sel:invalid { color: oklch(0.55 0.005 0); }
+.net-form__ta { resize: vertical; min-height: 64px; }
+.net-form__g.err .net-form__in { border-color: oklch(0 0 0); box-shadow: inset 3px 0 0 0 oklch(0 0 0); }
+.net-form__g.err .net-form__lbl::after { content: ' \2014 required'; text-transform: none; letter-spacing: 0.04em; }
+.net-form__hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.net-form__err {
+  margin-top: var(--s3);
+  font-size: 13px;
+  line-height: 1.5;
+  color: oklch(0 0 0);
+  background: oklch(1 0 0 / 0.9);
+  padding: var(--s2) var(--s3);
+}
+.net-form__err[hidden] { display: none; }
+.net-drawer__btn {
+  margin-top: var(--s4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  font-family: var(--font-m);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(1 0 0);
+  background: oklch(0 0 0);
+  border: var(--rule) solid oklch(0 0 0);
+  padding: 15px 26px;
+  cursor: pointer;
+  transition: box-shadow var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .net-drawer__btn:hover {
+    border-color: oklch(1 0 0);
+    box-shadow: var(--btn-shadow) var(--btn-shadow) 0 0 oklch(1 0 0);
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+  }
+}
+.net-drawer__btn:active { transform: scale(0.97); box-shadow: none; }
+.net-drawer__btn:focus-visible { outline: 2px solid oklch(1 0 0); outline-offset: 3px; }
+.net-drawer__btn[disabled] { opacity: 0.55; cursor: progress; box-shadow: none; transform: none; }
+a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a link to #cta */
+.net-form__fine { margin-top: var(--s3); font-size: 12px; line-height: 1.5; color: var(--on-2); }
+.net-form__ok { margin-top: var(--s8); }
+.net-form__ok[hidden] { display: none; }
+.net-form__ok-h {
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: oklch(0 0 0);
+  margin-bottom: var(--s3);
+}
+
+@media (max-width: 880px) { .dn__steps { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   SECTION 10 — CTA
+   Left-aligned like everything else. Never centred.
+   ============================================================ */
+.cta__h { max-width: 18ch; }
+.cta__lede { margin-top: var(--s6); max-width: 54ch; }
+.cta__btns { margin-top: var(--s8); display: flex; flex-wrap: wrap; gap: var(--s3); }
+
+/* ============================================================
+   WHERE WE WORK — markets map
+   Replaces the Global Presence clocks. Adding a market is one pin plus
+   one list row; --x/--y come straight from the projection, so nothing
+   here needs recalculating as the set grows.
+   ============================================================ */
+.markets { border-top: var(--rule) solid var(--border); padding: var(--section-pad) 0; }
+.markets__head { max-width: 62ch; }
+.mk__lede { margin-top: var(--s6); max-width: 54ch; }
+
+.mk__map {
+  position: relative;
+  margin-top: var(--s12);
+  aspect-ratio: 871 / 462;     /* the artwork's own cropped bounds */
+  width: 100%;
+}
+.mk__geo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* A fixed, centred hit box. The label is taken out of flow deliberately: when
+   it was a flex sibling, translate(-50%,-50%) centred the dot+label row rather
+   than the dot, pushing every marker sideways by half a label width. */
+.mk__pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+}
+
+.mk__dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  /* Planned markets are light blue, not grey — grey disappeared into the map. */
+  background: var(--accent-hi);
+  border: 1.5px solid var(--accent-hi);
+  transition: background var(--dur-micro) var(--ease-out),
+              border-color var(--dur-micro) var(--ease-out),
+              transform var(--dur-micro) var(--ease-out);
+}
+.mk__pin--live .mk__dot { background: var(--accent); border-color: var(--accent); }
+
+/* Name shows on hover only. opacity rather than display:none, so the text is
+   still the link's accessible name and still crawlable. */
+.mk__pin-label {
+  position: absolute;
+  left: calc(100% - 4px);
+  top: 50%;
+  white-space: nowrap;
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: oklch(1 0 0 / 0.88);
+  padding: 3px 6px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%) translateX(-4px);
+  transition: opacity var(--dur-micro) var(--ease-out),
+              transform var(--dur-micro) var(--ease-out);
+}
+/* Pins past ~60% would run their label off the right edge, so it flips left. */
+.mk__pin--flip .mk__pin-label {
+  left: auto;
+  right: calc(100% - 4px);
+  transform: translateY(-50%) translateX(4px);
+}
+.mk__pin:hover .mk__pin-label,
+.mk__pin:focus-visible .mk__pin-label {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mk__pin-label { transition: opacity var(--dur-micro) linear; transform: translateY(-50%); }
+}
+
+/* Every marker pings, so the whole set reads as live. Offset delays keep them
+   from pulsing in unison, which looks mechanical. */
+@keyframes mkPing {
+  0%   { transform: scale(0.55); opacity: 0.65; }
+  70%  { transform: scale(2.6);  opacity: 0; }
+  100% { transform: scale(2.6);  opacity: 0; }
+}
+.mk__dot::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  background: currentColor;
+  color: var(--accent-hi);
+  animation: mkPing 3s var(--ease-out) infinite;
+  /* Stagger comes from the pin's own --d. nth-of-type counted <span> and <a>
+     separately, so two pairs of markers were pinging in unison. */
+  animation-delay: var(--d, 0s);
+  pointer-events: none;
+}
+.mk__pin--live .mk__dot::after { color: var(--accent); }
+
+/* A live pin also carries a static ring, so what is clickable still reads
+   when the ping is off. */
+.mk__pin--live .mk__dot::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 1px solid var(--accent-muted);
+  border-radius: 50%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mk__dot::after { animation: none; opacity: 0.28; transform: scale(1.9); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .mk__pin--live:not(.mk__pin--here):hover .mk__dot { transform: scale(1.35); }
+  .mk__pin--live:not(.mk__pin--here):hover .mk__pin-label { color: var(--accent); }
+}
+.mk__pin--live:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* ── The list. Same links as the map, for anyone not clicking pins,
+      and the only version that shows below 760px. ── */
+.mk__list {
+  list-style: none;
+  margin-top: var(--s12);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--rule);
+  border: var(--rule) solid var(--border);
+}
+/* Wherever the map shows, the five markets stay on one row. A cell that gets
+   too narrow stacks its time under the name (container query below) rather
+   than the list breaking to a second row. */
+@media (min-width: 761px) {
+  .mk__list { grid-template-columns: repeat(5, 1fr); }
+}
+/* Hairlines are drawn by each cell, not by a grey list background showing
+   through the gap — so a leftover slot below 760px is white, not grey. */
+.mk__row {
+  background: var(--bg);
+  box-shadow: 0 0 0 var(--rule) var(--border);
+  container-type: inline-size;
+}
+.mk__cell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s1) var(--s2);
+  padding: var(--s4);
+  text-decoration: none;
+  transition: background var(--dur-micro) var(--ease-out);
+}
+.mk__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  margin-left: auto;
+}
+.mk__name {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  flex: 1 1 auto;
+  white-space: nowrap;
+}
+.mk__row:not(.mk__row--live) .mk__name { color: var(--text-2); }
+/* a11y: --accent is 5.16:1 on --bg, so the blue holds AA at this size. */
+.mk__row--live .mk__name { color: var(--accent); }
+/* 240px is where "Northeast India · 16:30 · Visit →" stops fitting on one
+   line. Every cell in the row is the same width, so they all stack together. */
+@container (max-width: 240px) {
+  .mk__meta { flex-basis: 100%; margin-left: 0; }
+}
+@container (max-width: 150px) {
+  .mk__name { white-space: normal; }
+}
+.mk__time {
+  font-family: var(--font-m);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  transition: color 800ms linear;
+}
+.mk__time.tick { color: var(--accent); }
+.mk__go {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.mk__soon,
+.mk__here {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mk__row--live .mk__cell:hover { background: var(--accent-soft); }
+}
+
+/* Below this even the live labels crowd; the list carries everything. */
+@media (max-width: 760px) {
+  .mk__map { display: none; }
+  .mk__list { margin-top: var(--s8); }
+}
+
+/* ============================================================
+   CTA CURSOR FX
+   Copied from parallaxorg.com's "Work With Us" section: a grid revealed
+   by a radial mask that follows the pointer, plus an accent radial.
+   ============================================================ */
+.contact { position: relative; overflow: hidden; }
+.contact__cursor-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+}
+.contact:hover .contact__cursor-fx { opacity: 0.65; }
+.contact__cursor-fx::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(oklch(0 0 0 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0 0 0 / 0.08) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle 411px at var(--cx, 50%) var(--cy, 50%), black 5%, transparent 75%);
+}
+.contact__cursor-fx::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 367px at var(--cx, 50%) var(--cy, 50%),
+    oklch(0.60 0.20 249 / 0.18) 10%,
+    transparent 69%
+  );
+}
+.contact .w { position: relative; z-index: 1; }
+@media (max-width: 768px) { .contact__cursor-fx { display: none; } }
+
+/* ============================================================
+   SECTION 11 — FOOTER
+   Guidelines §03/§12 forbid accent as a large background fill,
+   so this does NOT reproduce the live site's accent footer.
+   ============================================================ */
+/* Accent ground, matching live parallaxorg.com. This is the one place the
+   accent is used as a large fill; the brand guidelines forbid it, the live
+   build does it, and matching the site was the explicit call. Because --accent
+   was darkened to 0.53 for the contrast pass, white-on-accent here clears AA
+   (5.16:1) where the live site's own footer does not (3.90:1). */
+.footer {
+  background: var(--accent);
+  padding: var(--s8) 0;
+}
+.footer__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s6);
+  flex-wrap: wrap;
+}
+.footer__left { display: flex; align-items: baseline; gap: var(--s4); flex-wrap: wrap; }
+.footer__logo { font-size: 15px; letter-spacing: -0.04em; color: var(--bg); }
+/* Live renders the whole mark solid white on the accent ground — the full stop
+   is not tinted here, since accent-on-accent would erase it. */
+.footer__logo span { color: var(--bg); }
+.footer__copy {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--bg);
+}
+/* Left: wordmark and copyright. Middle: the region list. Right: socials.
+   The studios that used to sit here are now the Global Presence clocks. */
+.footer__mid {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  text-align: center;
+}
+.footer__links {
+  display: flex;
+  gap: var(--s6);
+  list-style: none;
+  flex-shrink: 0;
+}
+.footer__links a {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bg);
+  text-decoration: none;
+  transition: opacity 180ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer__links a:hover { opacity: 0.72; text-decoration: underline; text-underline-offset: 3px; }
+}
+.footer__k,
+.footer__v {
+  font-family: var(--font-m);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  color: var(--bg);
+  line-height: 1.9;
+}
+/* Weight, not opacity, separates key from value — a dimmed white would drop
+   9.5px text under AA on the accent ground. */
+.footer__k { font-weight: 600; letter-spacing: 0.14em; }
+.footer__v { font-weight: 400; letter-spacing: 0.1em; text-align: right; }
+
+@media (max-width: 860px) {
+  .footer__in { flex-direction: column; align-items: flex-start; gap: var(--s6); }
+  .footer__mid { justify-content: flex-start; text-align: left; }
+  .footer__v { text-align: left; }
+}
