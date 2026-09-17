@@ -183,6 +183,12 @@
     }
     function subscribe() {
       post({ method: 'setLoop', value: true });
+      /* Auto quality opens on a 240p/360p rendition and steps up over the first
+         seconds; on a 15–20 s loop that soft start is most of what a visitor
+         sees, and the `quality` URL parameter is ignored by the background
+         player. Pinning via the API holds. 1080p, not 4K: the frame covers a
+         ~1500 css px hero and the loop restarts often. */
+      post({ method: 'setQuality', value: '1080p' });
       post({ method: 'addEventListener', value: 'ended' });
       post({ method: 'addEventListener', value: 'loaded' });
     }

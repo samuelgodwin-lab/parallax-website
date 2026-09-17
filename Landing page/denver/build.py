@@ -230,6 +230,7 @@ for bad in ('AED', 'Arabic', 'PDPL', 'UAE', 'dxb-', 'Emirat', 'bilingual', 'Bili
 
 # ── cache-bust: Denver has its own series ──
 b = re.sub(r'\?v=\d+', '?v=1', b)
+b = rep(b, 'main.js?v=1', 'main.js?v=2')   # bumped 17 Sep with the setQuality pin
 
 head = '''<!doctype html>
 <html lang="en" class="no-js">
