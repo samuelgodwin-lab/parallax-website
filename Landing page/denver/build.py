@@ -113,7 +113,7 @@ g = sub1(gov, r'07 — BILINGUAL[^\n]*', '07 — ACCESSIBLE &amp; COMPLIANT', 0)
 g = rep(g, '<div class="slabel">Bilingual &amp; Accessible</div>', '<div class="slabel">Accessible &amp; Compliant</div>')
 g = sub1(g, r'<h2 class="sh" id="gov-h">.*?</h2>', '<h2 class="sh" id="gov-h">Accessible is the <em>law</em> here.</h2>')
 g = sub1(g, r'<p class="lede gov__lede">.*?</p>',
-  '<p class="lede gov__lede">Colorado got there first. HB21-1110 has required every state and local government platform to meet WCAG 2.1 AA since July 2025, with $3,500 a violation for the person it fails; the ADA Title II web rule catches up on 26 April 2027; the Colorado Privacy Act already governs the data, and SB 26-189 governs the AI from January. Anyone selling to the public sector &mdash; or getting sued by the private one &mdash; needs product that passes. We measure every page we ship against AA. We can do the same for the ones you already have.</p>')
+  '<p class="lede gov__lede">Colorado got there first. HB21-1110 has required every public platform to meet WCAG 2.1 AA since July 2025, at $3,500 a violation; the ADA Title II web rule follows in April 2027, the Privacy Act governs the data and SB 26-189 the AI. Product sold to the public sector has to pass. We measure every page we ship against AA &mdash; and can do the same for yours.</p>')
 tiles = [  # bright / dark / bright / dark / bright / dark
  ('Audit', 'Accessibility audits (WCAG 2.1 AA)', 'Measured page by page against Title II and HB21-1110, every failure specified as a fix rather than a finding.',
   ('ac-audit-800', 'A woman with headphones and a refreshable braille display testing a web app at a desk by a tall sunlit window, exposed brick and a low Denver skyline outside.'), (800, 600)),
@@ -143,7 +143,7 @@ b = b.replace(gov, g, 1)
 dn = b[b.index('08 — THE NETWORK'):b.index('09 — WHERE WE WORK')]
 d = rep(dn, '<div class="slabel">For Designers in Dubai</div>', '<div class="slabel">For Designers in Denver</div>')
 d = sub1(d, r'<p class="lede dn__lede">.*?</p>',
-  "<p class=\"lede dn__lede\">Denver is the first market where the lead in the room is the whole model: you run the day in Mountain time, the studio builds overnight, and the work is waiting when you both sit down. We're looking for the first &mdash; senior designers and design leads who can sit across the table, run discovery, present the work and own the relationship, with a delivery team of designers and engineers behind them. Paid a day rate for your time, ten percent of what you bring in. No exclusivity. Three ways in.</p>")
+  "<p class=\"lede dn__lede\">The lead in the room is the whole model here: you run the day in Mountain time, the studio builds overnight. We're looking for the first &mdash; senior designers and design leads who can own the relationship, with a delivery team behind them. A day rate for your time, ten percent of what you bring in. Three ways in.</p>")
 d = sub1(d, r'<picture>.*?</picture>', pic('network-studio-1600', 1600, 700, 'A mixed young design team in a bright converted-warehouse studio in RiNo: one walking through with a laptop, others at a wall of sticky notes and along a long timber table; hard sunlight, red brick and a mural across the street through the tall windows.'))
 steps = [('Lead a project', 'Discovery, workshops and presentations, in the room, in Denver or Boulder. Day rate agreed before you start.'),
          ('Bring work in', 'Introduce a company. We scope, price and close; you lead it, and take 10% of the fee.'),

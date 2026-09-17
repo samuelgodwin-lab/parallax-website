@@ -108,14 +108,8 @@ India and Dubai, built for a Colorado closing.
 **H2:** Accessible is the *law* here.
 > Alt (decision 3): Built for Title II. Ready for *2027.*
 
-**Lede:** Colorado got there first. HB21-1110 has required every state and
-local government platform to meet WCAG 2.1 AA since July 2025, with $3,500 a
-violation for the person it fails; the ADA Title II web rule catches up on
-26 April 2027; the Colorado Privacy Act already governs the data, and
-SB 26-189 governs the AI from January. Anyone selling to the public sector —
-or getting sued by the private one — needs product that passes. We measure
-every page we ship against AA. We can do the same for the ones you already
-have.
+**Lede:** Colorado got there first. HB21-1110 has required every public platform to meet WCAG 2.1 AA since July 2025, at $3,500 a violation; the ADA Title II web rule follows in April 2027, the Privacy Act governs the data and SB 26-189 the AI. Product sold to the public sector has to pass. We measure every page we ship against AA — and can do the same for yours.
+> Cut 17 Sep — the first draft ran nine lines and broke the section.
 
 **Tiles:**
 - **Accessibility audits (WCAG 2.1 AA)** — Measured page by page against
@@ -138,13 +132,8 @@ have.
 ## 08 — The network (the delivery model here)
 **Slabel:** `FOR DESIGNERS IN DENVER`
 **H2:** Lead it here. We'll *build it.*
-**Lede:** Denver is the first market where the lead in the room is the whole
-model: you run the day in Mountain time, the studio builds overnight, and the
-work is waiting when you both sit down. We're looking for the first — senior
-designers and design leads who can sit across the table, run discovery,
-present the work and own the relationship, with a delivery team of designers
-and engineers behind them. Paid a day rate for your time, ten percent of what
-you bring in. No exclusivity. Three ways in.
+**Lede:** The lead in the room is the whole model here: you run the day in Mountain time, the studio builds overnight. We're looking for the first — senior designers and design leads who can own the relationship, with a delivery team behind them. A day rate for your time, ten percent of what you bring in. Three ways in.
+> Cut 17 Sep, same reason.
 **Route 01 · Lead a project** — Discovery, workshops and presentations, in
 the room, in Denver or Boulder. Day rate agreed before you start.
 **Route 02 · Bring work in** — Introduce a company. We scope, price and
