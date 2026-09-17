@@ -41,14 +41,14 @@ b = rep(b, "status.textContent = 'DUBAI'", "status.textContent = 'DENVER'")
 b = rep(b, "FINAL = 'DUBAI'", "FINAL = 'DENVER'")
 b = rep(b, '<span class="nav__label">Dubai</span>', '<span class="nav__label">Denver</span>')
 
-# ── hero: Samuel's Vimeo loop (Denver_Land, 1227693782, 14 s; replaced 1227691546 the same day), poster = its first frame ──
+# ── hero: Samuel's Vimeo loop (Denver_Final, 1227702653, 23 s — fourth cut of
+# 17 Sep, after 1227691546, 1227693782 and 1227698154), poster = its first frame ──
 # Poster pulled from Vimeo's oEmbed thumbnail at 1920×1080 into
-# denver/images/den-hero-poster.{jpg,webp}. Whole-frame mean 171/255; the
-# text column (left 55%, mid-height) is 135 — snow above, forest under the
-# headline. The veil was tried and Samuel asked for it off (17 Sep): the
-# hero runs the type straight over the loop, as Munich and Dubai do.
+# denver/images/den-hero-poster.{jpg,webp}. Mean 231/255, text column 234:
+# light enough for the type to run straight over it, no veil, as on Munich
+# and Dubai. main.js pins the player to 1080p.
 hero_bg = b[b.index('    <div class="hero__bg">'):b.index('    <!-- Cursor colour-reveal')]
-new_bg = hero_bg.replace('dxb-hero-poster', 'den-hero-poster').replace('1226928370', '1227698154').replace('title="Dubai hero"', 'title="Denver hero"')
+new_bg = hero_bg.replace('dxb-hero-poster', 'den-hero-poster').replace('1226928370', '1227702653').replace('title="Dubai hero"', 'title="Denver hero"')
 # Dubai's source carries the poster comment twice; keep one.
 dup = """      <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
            frame while the player boots and is all that shows under reduced motion. -->
@@ -56,7 +56,7 @@ dup = """      <!-- Poster is the video's own first frame, pulled from Vimeo. It
 assert new_bg.count(dup) == 2
 new_bg = new_bg.replace(dup, '', 1)
 b = b.replace(hero_bg, new_bg, 1)
-assert '1227698154' in b and 'den-hero-poster.webp' in b and 'Dubai' not in new_bg
+assert '1227702653' in b and 'den-hero-poster.webp' in b and 'Dubai' not in new_bg
 b = rep(b, '<div class="slabel slabel--hero">Dubai</div>', '<div class="slabel slabel--hero">Denver</div>')
 b = rep(b, 'Dubai&rsquo;s next companies<br>', 'Denver&rsquo;s next companies<br>')
 b = sub1(b, r'<p class="lede hero__lede">.*?</p>',
