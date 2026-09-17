@@ -239,22 +239,22 @@ head = '''<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="/images/Favicon.png">
 <link rel="apple-touch-icon" href="/images/Favicon.png">
-<title>Parallax — Brand, Product &amp; Frontend Studio for Denver</title>
-<meta name="description" content="Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code. Briefed at five, built overnight, WCAG 2.1 AA by default.">
+<title>Design Agency in Denver — Brand, Product &amp; Web | Parallax</title>
+<meta name="description" content="Brand systems, product UI and frontend engineering for Denver's next companies — briefed at five, built overnight, ADA Title II and WCAG 2.1 AA by default.">
 <link rel="canonical" href="https://www.parallaxorg.com/denver/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Parallax">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://www.parallaxorg.com/denver/">
-<meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Denver">
-<meta property="og:description" content="Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta property="og:title" content="Design Agency in Denver — Brand, Product &amp; Web | Parallax">
+<meta property="og:description" content="Brand systems, product UI and frontend engineering for Denver's next companies — briefed at five, built overnight, ADA Title II and WCAG 2.1 AA by default.">
 <meta property="og:image" content="https://www.parallaxorg.com/denver/images/den-hero-poster.jpg">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1080">
 <meta property="og:image:alt" content="Parallax — brand systems and apps for Denver">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Denver">
-<meta name="twitter:description" content="Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta name="twitter:title" content="Design Agency in Denver — Brand, Product &amp; Web | Parallax">
+<meta name="twitter:description" content="Brand systems, product UI and frontend engineering for Denver's next companies — briefed at five, built overnight, ADA Title II and WCAG 2.1 AA by default.">
 <meta name="twitter:image" content="https://www.parallaxorg.com/denver/images/den-hero-poster.jpg">
 <script type="application/ld+json">
 {

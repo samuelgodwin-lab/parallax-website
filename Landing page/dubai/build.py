@@ -182,7 +182,7 @@ b = rep(b, '''            <li class="mk__row mk__row--live mk__row--here">
               </a>
             </li>''')
 b = sub1(b, r'<p class="lede mk__lede">.*?</p>',
-  "<p class=\"lede mk__lede\">Bengaluru, Northeast India and Munich each have their own page &mdash; the work we've done there, the people, and how to reach us. Pick a market. Denver is next.</p>")
+  "<p class=\"lede mk__lede\">Bengaluru, Northeast India, Munich and Denver each have their own page &mdash; the work we've done there, the people, and how to reach us. Pick a market.</p>")
 
 # ── pricing band, between Where we work and CTA ──
 plans = [
@@ -298,6 +298,7 @@ b = rep(b, '<script src="main.js', plan_drawer + '\n<script src="main.js')
 
 # ── cache-bust: Dubai has its own series ──
 b = re.sub(r'\?v=\d+', '?v=3', b)
+b = rep(b, 'main.js?v=3', 'main.js?v=4')   # bumped 17 Sep with the setQuality pin
 
 head = '''<!doctype html>
 <html lang="en" class="no-js">
@@ -306,22 +307,22 @@ head = '''<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="/images/Favicon.png">
 <link rel="apple-touch-icon" href="/images/Favicon.png">
-<title>Parallax — Brand, Product &amp; Frontend Studio for Dubai</title>
-<meta name="description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code. Bilingual and PDPL-ready by default.">
+<title>Design Agency in Dubai — Brand, Product &amp; Web | Parallax</title>
+<meta name="description" content="Brand systems, product UI and frontend engineering for Dubai's next companies — one studio, identity to shipped code, bilingual Arabic–English, PDPL-ready.">
 <link rel="canonical" href="https://www.parallaxorg.com/dubai/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Parallax">
 <meta property="og:locale" content="en_AE">
 <meta property="og:url" content="https://www.parallaxorg.com/dubai/">
-<meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
-<meta property="og:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta property="og:title" content="Design Agency in Dubai — Brand, Product &amp; Web | Parallax">
+<meta property="og:description" content="Brand systems, product UI and frontend engineering for Dubai's next companies — one studio, identity to shipped code, bilingual Arabic–English, PDPL-ready.">
 <meta property="og:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1080">
 <meta property="og:image:alt" content="Parallax — brand systems and apps for Dubai">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Dubai">
-<meta name="twitter:description" content="Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta name="twitter:title" content="Design Agency in Dubai — Brand, Product &amp; Web | Parallax">
+<meta name="twitter:description" content="Brand systems, product UI and frontend engineering for Dubai's next companies — one studio, identity to shipped code, bilingual Arabic–English, PDPL-ready.">
 <meta name="twitter:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
 <script type="application/ld+json">
 {
