@@ -154,16 +154,16 @@ for old, (h, p) in zip(st, steps):
     d = d.replace(old, f'<h3 class="sh sh--step">{h}</h3>\n          <p class="dn__step-b">{p}</p>', 1)
 b = b.replace(dn, d, 1)
 
-# ── where we work: Denver is here (pre-launch, on this page only); Dubai becomes a link ──
-b = rep(b, '<span class="mk__pin" style="--x:19.61%;--y:40.75%;--d:0.6s" data-tz="America/Denver"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Denver</span></span>',
+# ── where we work: Denver is here; Dubai becomes a link (source is the launched Dubai page, Denver live everywhere) ──
+b = rep(b, '<a class="mk__pin mk__pin--live" style="--x:19.61%;--y:40.75%;--d:0.6s" href="/denver/" data-tz="America/Denver"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Denver <span aria-hidden="true">&rarr;</span></span></a>',
            '<span class="mk__pin mk__pin--live mk__pin--here" style="--x:19.61%;--y:40.75%;--d:0.6s" data-tz="America/Denver"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Denver</span></span>')
 b = rep(b, '<span class="mk__pin mk__pin--live mk__pin--here mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai</span></span>',
            '<a class="mk__pin mk__pin--live mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" href="/dubai/" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai <span aria-hidden="true">&rarr;</span></span></a>')
-b = rep(b, '''            <li class="mk__row">
-              <span class="mk__cell">
+b = rep(b, '''            <li class="mk__row mk__row--live">
+              <a class="mk__cell" href="/denver/">
                 <span class="mk__name">Denver</span>
-                <span class="mk__meta"><span class="mk__time" data-tz="America/Denver">--:--</span><span class="mk__soon">Soon</span></span>
-              </span>
+                <span class="mk__meta"><span class="mk__time" data-tz="America/Denver">--:--</span><span class="mk__go">Visit <span aria-hidden="true">&rarr;</span></span></span>
+              </a>
             </li>''', '''            <li class="mk__row mk__row--live mk__row--here">
               <span class="mk__cell">
                 <span class="mk__name">Denver</span>
@@ -241,8 +241,6 @@ head = '''<!doctype html>
 <link rel="apple-touch-icon" href="/images/Favicon.png">
 <title>Parallax — Brand, Product &amp; Frontend Studio for Denver</title>
 <meta name="description" content="Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code. Briefed at five, built overnight, WCAG 2.1 AA by default.">
-<!-- Pre-launch: not indexed until the page is signed off. Remove with the sitemap entry. -->
-<meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://www.parallaxorg.com/denver/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Parallax">
