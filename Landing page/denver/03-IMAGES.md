@@ -27,13 +27,13 @@ highlights, clean spacious interiors, no logos, no text."
 
 Generated with `nano_banana_pro` at 2k (served as nano_banana_2),
 centre-cropped to slot, WebP q80 + JPEG q82. All eleven accepted first
-pass. Originals in the session scratchpad (`den/`).
+pass; the hero poster is Samuel's footage, not generated. Originals in the session scratchpad (`den/`).
 
 ## The slots
 
 | Slot | File | Mean | Subject |
 |---|---|---|---|
-| Hero 16/9 | — | — | **Placeholder** (grey slot, `.hero--veil`) until Samuel's Vimeo loop; then `den-hero-poster` = first frame at 1920×1080, veil off if it's light |
+| Hero 16/9 | `den-hero-poster` | 166 | Vimeo loop 1227691546 (Denver_Landing, 21 s), added 17 Sep; poster is its first frame at 1920×1080 — an aerial of a snowfield and forest under mountains. Whole frame 166 but the text column (left 55%, mid-height) is 138 against Munich/Dubai's 224–230, so **the veil stays on** |
 | S–01 3/2 | `sector-startups-1600` | 85 | Bright: three founders in flannel at a long timber table in a red-brick RiNo loft, hard sun through factory windows, printed screens on the brick, mountains beyond |
 | S–02 4/5 | `sector-aerospace-1600` | 63 | Dark: engineer at a console of telemetry screens in a mission-ops room, a satellite bus on a stand behind, alpenglow on the peaks through the window |
 | S–03 1/1 | `sector-outdoor-1600` | 72 | Dark: customer in a down jacket weighing a pack at a concrete counter in a flagship outdoor store at blue hour, pendant lamps, the mountain silhouette through the shopfront |

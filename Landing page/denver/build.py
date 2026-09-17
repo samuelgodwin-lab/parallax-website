@@ -3,8 +3,7 @@
 Dubai, not Munich, is the source: it is the freshest structure and already
 carries the pricing band and plan drawer that Denver also publishes. Denver
 differs from it in copy, images, currency, the band (accessibility and
-compliance replaces bilingual) and the hero, which is a placeholder still
-until Samuel's Vimeo loop arrives.
+compliance replaces bilingual) and the hero loop.
 
 Copy comes from 01-COPY.md (signed off 17 Sep 2026). Every substitution is
 asserted, so a change to dubai/index.html that breaks an anchor fails loudly
@@ -42,18 +41,21 @@ b = rep(b, "status.textContent = 'DUBAI'", "status.textContent = 'DENVER'")
 b = rep(b, "FINAL = 'DUBAI'", "FINAL = 'DENVER'")
 b = rep(b, '<span class="nav__label">Dubai</span>', '<span class="nav__label">Denver</span>')
 
-# ── hero: placeholder still + veil until Samuel's Denver loop exists ──
-# When the Vimeo id arrives: swap this block back for Dubai's poster + iframe
-# (poster = first frame at 1920×1080 as den-hero-poster.{jpg,webp}), check the
-# mean brightness, drop .hero--veil if it's light, and add og/twitter:image.
+# ── hero: Samuel's Vimeo loop (Denver_Landing, 1227691546, 21 s), poster = its first frame ──
+# Poster pulled from Vimeo's oEmbed thumbnail at 1920×1080 into
+# denver/images/den-hero-poster.{jpg,webp}. Whole-frame mean 166/255 but the
+# text column (left 55%, mid-height) is 138 — snow above, dark forest under
+# the headline — where Munich and Dubai measure 224–230. So the veil stays on.
 hero_bg = b[b.index('    <div class="hero__bg">'):b.index('    <!-- Cursor colour-reveal')]
-b = b.replace(hero_bg, f'''    <div class="hero__bg">
-      <!-- Placeholder until Denver footage exists: slot img_den_hero, 16:9.
-           A still hero carries .hero--veil so the headline stays legible. -->
-      <img class="hero__poster" src="{placeholder('img_den_hero · 1920×1080', 1920, 1080)}" width="1920" height="1080"
-           alt="" aria-hidden="true" fetchpriority="high" decoding="async">
-    </div>
-''', 1)
+new_bg = hero_bg.replace('dxb-hero-poster', 'den-hero-poster').replace('1226928370', '1227691546').replace('title="Dubai hero"', 'title="Denver hero"')
+# Dubai's source carries the poster comment twice; keep one.
+dup = """      <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
+           frame while the player boots and is all that shows under reduced motion. -->
+"""
+assert new_bg.count(dup) == 2
+new_bg = new_bg.replace(dup, '', 1)
+b = b.replace(hero_bg, new_bg, 1)
+assert '1227691546' in b and 'den-hero-poster.webp' in b and 'Dubai' not in new_bg
 b = rep(b, '<section class="hero" aria-labelledby="hero-h">', '<section class="hero hero--veil" aria-labelledby="hero-h">')
 b = rep(b, '<div class="slabel slabel--hero">Dubai</div>', '<div class="slabel slabel--hero">Denver</div>')
 b = rep(b, 'Dubai&rsquo;s next companies<br>', 'Denver&rsquo;s next companies<br>')
@@ -247,9 +249,14 @@ head = '''<!doctype html>
 <meta property="og:url" content="https://www.parallaxorg.com/denver/">
 <meta property="og:title" content="Parallax — Brand, Product &amp; Frontend Studio for Denver">
 <meta property="og:description" content="Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta property="og:image" content="https://www.parallaxorg.com/denver/images/den-hero-poster.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Parallax — brand systems and apps for Denver">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Parallax — Brand, Product &amp; Frontend Studio for Denver">
 <meta name="twitter:description" content="Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.">
+<meta name="twitter:image" content="https://www.parallaxorg.com/denver/images/den-hero-poster.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
