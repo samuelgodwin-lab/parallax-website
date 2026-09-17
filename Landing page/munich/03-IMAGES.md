@@ -56,7 +56,7 @@ in place (copies in the session scratchpad).
 | S–01 3/2 | `sector-startups-1600` | Bright | Founding team in a Werksviertel brick hall, a woman sketching a flow on a glass wall, sawtooth skylights |
 | S–02 4/5 | `sector-mobility-1600` | Dark | Engineer at a glowing console beside a car body on a lift, robots paused, the Alps through the glass at dusk |
 | S–03 1/1 | `sector-insurance-1600` | Dark | Advisor and a couple at a walnut table in an insurance HQ, Frauenkirche and Rathaus lit through the windows (the one deliberate landmark, as the network image has it) |
-| S–04 3/2 | `sector-realestate-1600` | Bright | Agent with a tablet showing a couple a Maxvorstadt Altbau street, cream and ochre stucco, chestnuts, blue sky |
+| S–04 3/2 | `sector-realestate-1600` | Bright | Agent with a tablet showing a couple a Maxvorstadt Altbau street, cream and ochre stucco, chestnuts, blue sky. Re-edited 17 Sep (image-to-image on the same frame): the couple now look up at the façade he points to, not at him |
 | A–01 4/3 | `bfsg-audit-800` | Bright | Designer and accessibility consultant at an Altbau window, contrast overlay on the monitor |
 | A–02 4/3 | `bfsg-remediation-800` | Dark | Developer at two monitors in the evening, brass lamp, the dusk street outside |
 | A–03 1/1 | `bfsg-system-1200` | Bright | Two designers before a grid of printed components under a sawtooth roof |
