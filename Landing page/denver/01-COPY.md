@@ -25,11 +25,8 @@ Denver's next companies
 *run* on.
 
 **Lede:**
-Brand systems, interface design and frontend engineering — one studio, from
-identity to shipped code, on a clock that works for you: briefed at five,
-built overnight, waiting at eight. For the second-wave startup that left the
-coast, the aerospace team whose tools were never designed, and the brand
-that lives on taste.
+Brand systems, interface design and frontend engineering — one studio, from identity to shipped code, on your clock: briefed at five, built overnight, waiting at eight. For the startup that left the coast and the brand that lives on taste.
+> Cut 17 Sep from five lines to four, with the band and network ledes.
 > The time zone is sold as the product, not hidden. 09:00 Denver is 20:30
 > Bengaluru — a 17:00 brief lands at 04:30 our time and is in your inbox by
 > 08:00 Mountain, summer or winter.

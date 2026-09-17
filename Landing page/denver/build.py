@@ -41,13 +41,13 @@ b = rep(b, "status.textContent = 'DUBAI'", "status.textContent = 'DENVER'")
 b = rep(b, "FINAL = 'DUBAI'", "FINAL = 'DENVER'")
 b = rep(b, '<span class="nav__label">Dubai</span>', '<span class="nav__label">Denver</span>')
 
-# ── hero: Samuel's Vimeo loop (Denver_Landing, 1227691546, 21 s), poster = its first frame ──
+# ── hero: Samuel's Vimeo loop (Denver_Land, 1227693782, 14 s; replaced 1227691546 the same day), poster = its first frame ──
 # Poster pulled from Vimeo's oEmbed thumbnail at 1920×1080 into
-# denver/images/den-hero-poster.{jpg,webp}. Whole-frame mean 166/255 but the
-# text column (left 55%, mid-height) is 138 — snow above, dark forest under
+# denver/images/den-hero-poster.{jpg,webp}. Whole-frame mean 171/255 but the
+# text column (left 55%, mid-height) is 135 — snow above, dark forest under
 # the headline — where Munich and Dubai measure 224–230. So the veil stays on.
 hero_bg = b[b.index('    <div class="hero__bg">'):b.index('    <!-- Cursor colour-reveal')]
-new_bg = hero_bg.replace('dxb-hero-poster', 'den-hero-poster').replace('1226928370', '1227691546').replace('title="Dubai hero"', 'title="Denver hero"')
+new_bg = hero_bg.replace('dxb-hero-poster', 'den-hero-poster').replace('1226928370', '1227693782').replace('title="Dubai hero"', 'title="Denver hero"')
 # Dubai's source carries the poster comment twice; keep one.
 dup = """      <!-- Poster is the video's own first frame, pulled from Vimeo. It holds the
            frame while the player boots and is all that shows under reduced motion. -->
@@ -55,12 +55,12 @@ dup = """      <!-- Poster is the video's own first frame, pulled from Vimeo. It
 assert new_bg.count(dup) == 2
 new_bg = new_bg.replace(dup, '', 1)
 b = b.replace(hero_bg, new_bg, 1)
-assert '1227691546' in b and 'den-hero-poster.webp' in b and 'Dubai' not in new_bg
+assert '1227693782' in b and 'den-hero-poster.webp' in b and 'Dubai' not in new_bg
 b = rep(b, '<section class="hero" aria-labelledby="hero-h">', '<section class="hero hero--veil" aria-labelledby="hero-h">')
 b = rep(b, '<div class="slabel slabel--hero">Dubai</div>', '<div class="slabel slabel--hero">Denver</div>')
 b = rep(b, 'Dubai&rsquo;s next companies<br>', 'Denver&rsquo;s next companies<br>')
 b = sub1(b, r'<p class="lede hero__lede">.*?</p>',
-  '<p class="lede hero__lede">Brand systems, interface design and frontend engineering &mdash; one studio, from identity to shipped code, on a clock that works for you: briefed at five, built overnight, waiting at eight. For the second-wave startup that left the coast, the aerospace team whose tools were never designed, and the brand that lives on taste.</p>')
+  '<p class="lede hero__lede">Brand systems, interface design and frontend engineering &mdash; one studio, from identity to shipped code, on your clock: briefed at five, built overnight, waiting at eight. For the startup that left the coast and the brand that lives on taste.</p>')
 b = rep(b, 'subject=New%20project%20%E2%80%94%20Dubai', 'subject=New%20project%20%E2%80%94%20Denver')
 b = sub1(b, r'<p class="hero__proof">.*?</p>', '<p class="hero__proof">BMW &middot; Accenture &middot; Nissan &middot; Sportradar &mdash; and a studio that works while Denver sleeps.</p>')
 b = rep(b, '<a href="#designers">Designer in Dubai?</a>', '<a href="#designers">Designer in Denver?</a>')
