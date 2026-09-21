@@ -1,6 +1,6 @@
 # Article draft — /dubai/ · PDPL, the free-zone laws, and designing for both
 
-Draft for sign-off, 21 Sep 2026. Denver/Munich shape. English. About
+Signed off 21 Sep 2026 and **loaded into the CMS as a draft** (articles id `2b905302-373d-4b88-acff-2a6e98c970d9`, slug `pdpl-dubai`, category compliance, tags Dubai · UAE · PDPL · Privacy · Accessibility). Add a hero and publish from `/admin/article-editor.html?id=2b905302-373d-4b88-acff-2a6e98c970d9`; live at `/articles/pdpl-dubai`. On publish: band button via `build.py` (Dubai builds from Munich; add after the gov lede), seo.py, deploy. Denver/Munich shape. English. About
 1,450 words. Goes into the CMS as a draft (category Compliance, tags
 Dubai · UAE · PDPL · Privacy · Accessibility) on "article works".
 
