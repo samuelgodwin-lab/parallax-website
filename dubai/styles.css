@@ -1002,6 +1002,8 @@ main:focus-visible { outline: none; }
    the reference centres it; this page does not centre display type. */
 .gov__head { max-width: 62ch; }
 .gov__lede { margin-top: var(--s6); max-width: 62ch; }
+/* A band's supporting article (Denver: the Title II timetable), as a ghost button under the lede. */
+.gov__cta { margin-top: var(--s8); display: inline-flex; }
 
 /* Four columns so a card can span two. Row 1 runs narrow, narrow, wide;
    row 2 mirrors it — wide, narrow, narrow — with the wide card's halves

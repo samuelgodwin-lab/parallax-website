@@ -119,6 +119,9 @@ g = rep(g, '<div class="slabel">Bilingual &amp; Accessible</div>', '<div class="
 g = sub1(g, r'<h2 class="sh" id="gov-h">.*?</h2>', '<h2 class="sh" id="gov-h">Accessible is the <em>law</em> here.</h2>')
 g = sub1(g, r'<p class="lede gov__lede">.*?</p>',
   '<p class="lede gov__lede">Colorado got there first. HB21-1110 has required every public platform to meet WCAG 2.1 AA since July 2025, at $3,500 a violation; the ADA Title II web rule follows in April 2027, the Privacy Act governs the data and SB 26-189 the AI. Product sold to the public sector has to pass. We measure every page we ship against AA &mdash; and can do the same for yours.</p>')
+# The band's supporting article: the Title II / HB21-1110 timetable, published in the CMS 21 Sep 2026.
+g = rep(g, 'We measure every page we ship against AA &mdash; and can do the same for yours.</p>',
+  'We measure every page we ship against AA &mdash; and can do the same for yours.</p>\n          <a class="btn btn-g gov__cta" href="/articles/ada-title-ii-colorado">Read the Colorado timetable</a>')
 tiles = [  # bright / dark / bright / dark / bright / dark
  ('Audit', 'Accessibility audits (WCAG 2.1 AA)', 'Measured page by page against Title II and HB21-1110, every failure specified as a fix rather than a finding.',
   ('ac-audit-800', 'A woman with headphones and a refreshable braille display testing a web app at a desk by a tall sunlit window, exposed brick and a low Denver skyline outside.'), (800, 600)),
@@ -283,7 +286,7 @@ head = '''<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css?v=1">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 '''
 out = f"{ROOT}/denver"
