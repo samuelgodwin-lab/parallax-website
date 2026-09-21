@@ -1,6 +1,6 @@
 # Article draft — /northeast-india/ · India's accessibility rules go mandatory
 
-Draft for sign-off, 21 Sep 2026. Same shape as the other three. English.
+Signed off 21 Sep 2026 and **loaded into the CMS as a draft** (articles id `44fb60ac-569a-4e67-88a9-840d610442f5`, slug `accessibility-northeast-india`, category compliance, tags Northeast India · India · GIGW · IS 17802 · Accessibility). Add a hero and publish from `/admin/article-editor.html?id=44fb60ac-569a-4e67-88a9-840d610442f5`; live at `/articles/accessibility-northeast-india`. On publish: band button hand-added to northeast-india/index.html (it's the government band there), seo.py, deploy. Same shape as the other three. English.
 About 1,450 words. Goes into the CMS as a draft (category Compliance, tags
 Northeast India · India · GIGW · IS 17802 · Accessibility) on "article works".
 
