@@ -103,7 +103,7 @@ function fill(html, a) {
   out = out.replace(/(<div class="post-meta__item">)[\s\S]*?(<\/div>)/g, (m, o, c) => (i < 3 ? `${o}${metaItems[i++]}${c}` : m));
   if (a.hero_image_url) {
     out = out.replace(/(<figure[^>]*class="[^"]*post-hero-img[^"]*"[^>]*>)[\s\S]*?(<\/figure>)/i,
-      `$1<img src="${esc(a.hero_image_url)}" alt="${esc(title)}" style="width:100%;display:block;max-height:600px;object-fit:cover;">$2`);
+      `$1<img src="${esc(a.hero_image_url)}" alt="${esc(title)}" style="width:100%;height:100%;display:block;object-fit:cover;">$2`);
   }
   if (body) out = out.replace(/(<article[^>]*id="post-body"[^>]*>)[\s\S]*?(<\/article>)/i, `$1\n${body}\n$2`);
   /* third breadcrumb link is the category */
