@@ -4,13 +4,13 @@ Same shape: six questions, one accordion before the CTA, `FAQPage` schema.
 Slabel `QUESTIONS` · H2 *Straight answers, before the *call.**
 
 **Is Parallax a design agency in Northeast India?**
-Parallax is a brand, product and frontend design studio in Bengaluru that builds the brands and apps the companies of Northeast India run on — for real-estate developers, hospitality groups, pharma companies, educational institutions and the state governments of the eight states.
+Parallax is a brand, product and frontend design studio that builds the brands and apps the companies of Northeast India run on — for real-estate developers, hospitality groups, pharma companies, educational institutions and the state governments of the eight states. A lead based in the region runs workshops and reviews in person, and each project gets a dedicated team built out from our Northeast hub.
 
 **Do you design government portals and citizen services?**
 Yes. Parallax designs citizen service portals, tourism and permit systems, scheme and benefit tracking and internal dashboards for state departments, with accessibility audits to WCAG 2.1 AA and a design-system handover so the next vendor can continue the work.
 
 **How does a Bengaluru studio work with a client in Guwahati, Shillong or Imphal?**
-The whole working day is shared — Bengaluru and the Northeast are in the same time zone — so reviews, workshops and calls happen in your hours. Discovery starts on a call or WhatsApp; a founder visit is a planned trip, with direct flights from Bengaluru to Guwahati.
+Our lead in the Northeast runs discovery, workshops and presentations on the ground, and the dedicated project team is built out from the Northeast hub — so reviews, workshops and calls happen in your hours, in your time zone. Discovery starts on a call or WhatsApp, and a visit is a planned trip, not a long-haul one.
 
 **What does a brand identity or app design cost?**
 Parallax scopes each project rather than quoting from a rate card, and starts by questioning the brief. A brand identity with one digital touchpoint and a complete brand system with product UI are the two most common engagements; both are priced in rupees for the Indian market and quoted after one call.

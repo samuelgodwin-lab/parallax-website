@@ -7,10 +7,10 @@ engine can quote it. Emitted as `FAQPage` schema. Slabel `QUESTIONS` ·
 H2 *Straight answers, before the *call.**
 
 **Is Parallax a design agency in Denver?**
-Parallax is a brand, product and frontend design studio serving Denver from Bengaluru on a follow-the-sun cycle, and is building a network of Denver-based design leads to run discovery and presentations in the room. The studio builds brand systems, product interfaces and marketing sites for Denver's startups, aerospace and energy companies, outdoor brands and real-estate developers.
+Parallax is a brand, product and frontend design studio serving Denver on a follow-the-sun cycle. Each project gets a dedicated team built out from our Denver hub, with a lead on the ground for discovery, workshops and presentations in Mountain time. The studio builds brand systems, product interfaces and marketing sites for Denver's startups, aerospace and energy companies, outdoor brands and real-estate developers.
 
 **How does a studio in Bengaluru work with a Denver team?**
-Denver runs on a follow-the-sun cycle: 09:00 in Denver is 20:30 in Bengaluru, so a brief sent at five is built overnight and waiting at eight the next morning. Discovery, workshops and reviews are scheduled in Mountain time; design and engineering happen while Denver sleeps.
+Denver runs on a follow-the-sun cycle: 09:00 in Denver is 20:30 in Bengaluru, so a brief sent at five is built overnight and waiting at eight the next morning. Discovery, workshops and reviews happen in Mountain time with the lead on the ground in Denver, and the dedicated team is built out from the Denver hub; design and engineering continue overnight so the work is waiting at eight.
 
 **What does brand identity or product design cost in Denver?**
 Parallax publishes its Denver prices. Foundation starts at $15,000 for a brand identity plus one digital touchpoint; Studio starts at $35,000 for a complete brand system, product UI and a frontend build. Denver agencies quote $5,000–20,000 for identity alone and $9,000–22,000 for a five-page site, so both tiers sit below local scope-for-scope.
