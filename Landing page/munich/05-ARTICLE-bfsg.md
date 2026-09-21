@@ -1,6 +1,6 @@
 # Article draft — /munich/ · BFSG (Barrierefreiheitsstärkungsgesetz)
 
-Draft for sign-off, 21 Sep 2026. Same shape as the Denver Title II piece:
+Signed off 21 Sep 2026 and **loaded into the CMS as a draft** (articles id `ccbb0ba4-9035-45af-b073-1ee673a5e53c`, slug `bfsg-munich`, category compliance, tags Munich · Germany · BFSG · Accessibility). Review, add a hero and publish from `/admin/article-editor.html?id=ccbb0ba4-9035-45af-b073-1ee673a5e53c`; it goes live at `/articles/bfsg-munich`. On publish: re-run `Landing page/seo.py`, deploy, and add the band button on /munich/ (hand-edit — Munich has no live build script). Same shape as the Denver Title II piece:
 opens with the answer, question-shaped headings, exact dates and numbers,
 a "what to fix first" list, six FAQs. English, for the English `/munich/`
 page; a German version can follow with `/de/munich/`. About 1,450 words.
