@@ -1,16 +1,12 @@
 # Article draft — /denver/ · ADA Title II & Colorado HB21-1110
 
-Draft for sign-off, 21 Sep 2026. Written to be the answer an AI or a search
+Draft for sign-off, 21 Sep 2026. **Loaded into the CMS as a draft the same day** (articles id `8ebff43a-2542-4994-9a54-6d614dab1c58`, slug `ada-title-ii-colorado`, category compliance, tags Denver · Colorado · Accessibility · ADA Title II). Review and publish from `/admin/article-editor.html?id=8ebff43a-2542-4994-9a54-6d614dab1c58`; it goes live at `/articles/ada-title-ii-colorado`. Written to be the answer an AI or a search
 engine quotes when a Colorado city clerk, a school district IT lead or a
 SaaS founder selling to them asks "when is the Title II deadline" — so it
 opens with the answer, uses question-shaped headings, gives exact dates in a
 table, and ends with an FAQ that becomes `FAQPage` schema. About 1,400 words.
 
-**Container (decision for you, see the note at the end):** proposed URL
-`https://www.parallaxorg.com/denver/ada-title-ii-colorado/` as a static
-page in the market's own template — not the journal CMS, whose pages render
-from Supabase in the browser, so answer engines' crawlers see an empty
-article shell.
+**Container:** the journal CMS, now server-rendered at `/articles/<slug>` (commit `b82ae29`), so crawlers get the full article.
 
 ---
 
@@ -107,23 +103,8 @@ An audit of a typical government or SaaS product takes two to three weeks. Remed
 
 ---
 
-## Notes for sign-off
-
-1. **Container.** The journal (`article.html?slug=…`) fetches the article from
-   Supabase in the browser and serves the same title, description and
-   canonical for every piece. Googlebot renders JS; GPTBot, ClaudeBot and
-   PerplexityBot generally don't — they'd see an empty shell. For the
-   compliance articles to do their job they need to be static HTML at a
-   clean URL. I propose `/denver/ada-title-ii-colorado/` built from this
-   markdown by a small `article.py` in the market's template (nav, footer,
-   the same type), with `Article` + `FAQPage` + `BreadcrumbList` schema,
-   linked from the Denver band ("Read the Colorado timetable"), from
-   `llms.txt` and the sitemap. It would not appear in the journal list
-   unless we also add a CMS entry that links out to it — easy, if wanted.
-2. **Claims to confirm.** "Roughly a third" of WCAG criteria are catchable by
-   automated scanners is the widely quoted industry figure (Deque: 57% of
-   *issues*, ~30% of *criteria*); "several thousand a year" Title III web
-   suits is UsableNet's tracking (~4,000 in 2024). Both are hedged in the
-   text; say if you want them cut.
-3. **Tone.** No exclamation, no fear-selling; the numbers do the work.
-   Parallax appears once, in its own section, plus the CTA link.
+## Notes
+- The deadline table became three dated lines in the CMS body (the editor has no tables).
+- Two hedged figures: automated scanners catching "roughly a third" of WCAG criteria (Deque: ~57% of issues, ~30% of criteria) and "several thousand a year" Title III web suits (UsableNet, ~4,000 in 2024). Cut them in the editor if unwanted.
+- No hero image set — pick one in the editor before publishing.
+- On publish: re-run `Landing page/seo.py` and deploy so llms.txt lists it under Denver; the Denver band then gets its "Read the Colorado timetable" link.
