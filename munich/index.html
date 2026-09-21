@@ -25,17 +25,206 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Parallax",
-  "url": "https://www.parallaxorg.com/munich/",
-  "logo": "https://www.parallaxorg.com/images/Favicon.png",
-  "parentOrganization": { "@type": "Organization", "name": "Parallax", "url": "https://www.parallaxorg.com/" },
-  "sameAs": ["https://www.parallaxorg.com/", "https://www.linkedin.com/company/parallaxorg", "https://www.instagram.com/parallaxdsign/"],
-  "description": "Parallax builds the brands and apps Munich runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.",
-  "email": "projects@parallaxorg.com",
-  "areaServed": [{ "@type": "City", "name": "Munich" }, { "@type": "State", "name": "Bavaria" }],
-  "availableLanguage": ["en", "de"],
-  "knowsAbout": ["Brand Systems","Interface Design","Frontend Engineering","Design Systems","Accessibility (BFSG / WCAG 2.1 AA)","Digital Strategy","Motion & Interaction"]
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.parallaxorg.com/#organization",
+      "name": "Parallax",
+      "url": "https://www.parallaxorg.com/",
+      "logo": "https://www.parallaxorg.com/images/Favicon.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/parallaxorg",
+        "https://www.instagram.com/parallaxdsign/"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.parallaxorg.com/munich/#webpage",
+      "url": "https://www.parallaxorg.com/munich/",
+      "name": "Parallax — Munich",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.parallaxorg.com/#website",
+        "url": "https://www.parallaxorg.com/",
+        "name": "Parallax"
+      },
+      "about": {
+        "@id": "https://www.parallaxorg.com/munich/#service"
+      },
+      "inLanguage": "en",
+      "datePublished": "2026-09-14",
+      "dateModified": "2026-09-21"
+    },
+    {
+      "@type": "ProfessionalService",
+      "name": "Parallax",
+      "url": "https://www.parallaxorg.com/munich/",
+      "logo": "https://www.parallaxorg.com/images/Favicon.png",
+      "sameAs": [
+        "https://www.parallaxorg.com/",
+        "https://www.linkedin.com/company/parallaxorg",
+        "https://www.instagram.com/parallaxdsign/"
+      ],
+      "description": "Parallax builds the brands and apps Munich runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.",
+      "email": "projects@parallaxorg.com",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Munich"
+        },
+        {
+          "@type": "State",
+          "name": "Bavaria"
+        }
+      ],
+      "availableLanguage": [
+        "en",
+        "de"
+      ],
+      "knowsAbout": [
+        "Brand Systems",
+        "Interface Design",
+        "Frontend Engineering",
+        "Design Systems",
+        "Accessibility (BFSG / WCAG 2.1 AA)",
+        "Digital Strategy",
+        "Motion & Interaction"
+      ],
+      "parentOrganization": {
+        "@id": "https://www.parallaxorg.com/#organization"
+      },
+      "@id": "https://www.parallaxorg.com/munich/#service",
+      "mainEntityOfPage": {
+        "@id": "https://www.parallaxorg.com/munich/#webpage"
+      },
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Foundation",
+          "description": "Brand identity plus one digital touchpoint.",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 12000,
+            "priceCurrency": "EUR",
+            "minPrice": 12000,
+            "valueAddedTaxIncluded": false
+          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Munich"
+            },
+            {
+              "@type": "State",
+              "name": "Bavaria"
+            }
+          ],
+          "url": "https://www.parallaxorg.com/#pricing",
+          "seller": {
+            "@id": "https://www.parallaxorg.com/#organization"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Studio",
+          "description": "Complete brand system, product UI and build-ready specifications, with the frontend build.",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 28000,
+            "priceCurrency": "EUR",
+            "minPrice": 28000,
+            "valueAddedTaxIncluded": false
+          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Munich"
+            },
+            {
+              "@type": "State",
+              "name": "Bavaria"
+            }
+          ],
+          "url": "https://www.parallaxorg.com/#pricing",
+          "seller": {
+            "@id": "https://www.parallaxorg.com/#organization"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.parallaxorg.com/munich/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Parallax",
+          "item": "https://www.parallaxorg.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Munich",
+          "item": "https://www.parallaxorg.com/munich/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.parallaxorg.com/munich/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Parallax a design agency in Munich?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parallax is a brand, product and frontend design studio serving Munich from Bengaluru, founded by a designer who trained in Munich, and building a network of German-speaking design leads to run discovery and presentations in the room. The studio builds brand systems, product interfaces and marketing sites for Munich's startups, mobility and industrial companies, insurers and property developers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you work in German?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Discovery and presentations are run in English today, and in German as Munich-based leads join the studio's network. German UI copy, documentation and the Barrierefreiheitserklärung are produced with native German speakers; design files and code are delivered in English."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is your work BFSG-compliant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Since 28 June 2025 the Barrierefreiheitsstärkungsgesetz requires consumer websites, apps, shops and banking services to meet WCAG 2.1 AA, with fines up to €100,000 and competitor Abmahnungen. Parallax measures every page it ships against AA and audits, remediates and documents existing products to the same standard."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a brand identity or product design cost from Parallax?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parallax publishes its prices. Foundation starts at €12,000 for a brand identity plus one digital touchpoint; Studio starts at €28,000 for a complete brand system, product UI and a frontend build. Munich agencies typically quote well above that scope-for-scope; the difference is a Bengaluru delivery team behind a Munich lead."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which industries in Munich do you design for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Four sectors sit at the centre of the Munich practice: startups and scale-ups that need a brand system and product UI before the next round; mobility and industrial companies with configurators and engineering tools; insurance and finance onboarding that customers finish; and real-estate and proptech portals for owners, tenants and managers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does a studio in Bengaluru work with a Munich team?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Munich's morning is Bengaluru's midday: 09:00 in Munich is 12:30 in Bengaluru, so the two working days overlap until the German evening. Reviews and workshops happen in your hours; the studio continues after you log off, so the next iteration is ready the following morning."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 <script>document.documentElement.classList.replace('no-js','js');</script>
@@ -43,7 +232,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css?v=15">
-<link rel="stylesheet" href="styles.css?v=15">
+<link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
 <!-- ============================================================
@@ -722,6 +911,86 @@
   </section>
 
   <!-- ============================================================
+       FAQ (SEO/AEO)
+       Six questions in the market's own words, one open at a time. Copy in
+       Landing page/munich/04-FAQ.md; injected by Landing page/seo.py, which
+       also emits the FAQPage schema. Edit the .md and re-run, not this.
+       ============================================================ -->
+  <section class="section section--surface faq" id="faq" aria-labelledby="faq-h">
+    <div class="w">
+      <div class="faq__wrap">
+        <div class="faq__left reveal">
+          <p class="slabel">Questions</p>
+          <h2 class="sh" id="faq-h">Straight answers,<br>before the <em>call.</em></h2>
+          <p class="faq__desc">The six things people in Munich ask before they write to us. If yours isn&rsquo;t here, ask it.</p>
+        </div>
+        <div class="faq__list stagger">
+        <div class="faq__item">
+          <span class="faq__n">01</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a1">Is Parallax a design agency in Munich?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a1">
+              <p class="faq__a">Parallax is a brand, product and frontend design studio serving Munich from Bengaluru, founded by a designer who trained in Munich, and building a network of German-speaking design leads to run discovery and presentations in the room. The studio builds brand systems, product interfaces and marketing sites for Munich's startups, mobility and industrial companies, insurers and property developers.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">02</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a2">Do you work in German?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a2">
+              <p class="faq__a">Discovery and presentations are run in English today, and in German as Munich-based leads join the studio's network. German UI copy, documentation and the Barrierefreiheitserklärung are produced with native German speakers; design files and code are delivered in English.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">03</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a3">Is your work BFSG-compliant?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a3">
+              <p class="faq__a">Yes. Since 28 June 2025 the Barrierefreiheitsstärkungsgesetz requires consumer websites, apps, shops and banking services to meet WCAG 2.1 AA, with fines up to €100,000 and competitor Abmahnungen. Parallax measures every page it ships against AA and audits, remediates and documents existing products to the same standard.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">04</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a4">What does a brand identity or product design cost from Parallax?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a4">
+              <p class="faq__a">Parallax publishes its prices. Foundation starts at €12,000 for a brand identity plus one digital touchpoint; Studio starts at €28,000 for a complete brand system, product UI and a frontend build. Munich agencies typically quote well above that scope-for-scope; the difference is a Bengaluru delivery team behind a Munich lead.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">05</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a5">Which industries in Munich do you design for?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a5">
+              <p class="faq__a">Four sectors sit at the centre of the Munich practice: startups and scale-ups that need a brand system and product UI before the next round; mobility and industrial companies with configurators and engineering tools; insurance and finance onboarding that customers finish; and real-estate and proptech portals for owners, tenants and managers.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">06</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a6">How does a studio in Bengaluru work with a Munich team?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a6">
+              <p class="faq__a">Munich's morning is Bengaluru's midday: 09:00 in Munich is 12:30 in Bengaluru, so the two working days overlap until the German evening. Reviews and workshops happen in your hours; the studio continues after you log off, so the next iteration is ready the following morning.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /FAQ -->
+  <!-- ============================================================
        10 — CTA
        ============================================================ -->
   <section class="section contact" id="cta" aria-labelledby="cta-h">
@@ -905,6 +1174,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=17"></script>
+<script src="main.js?v=18"></script>
 </body>
 </html>

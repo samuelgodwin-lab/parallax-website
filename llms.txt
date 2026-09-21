@@ -1,0 +1,57 @@
+# Parallax
+
+> Parallax is a brand, product and frontend design studio in Bengaluru, India, working with companies in Bengaluru, Northeast India, Munich, Dubai and Denver. One team from identity to shipped code: brand systems, interface design, frontend engineering, design systems, digital strategy, motion.
+
+Contact: projects@parallaxorg.com · https://www.linkedin.com/company/parallaxorg
+
+## Markets
+
+- [Northeast India](https://www.parallaxorg.com/northeast-india/): Brand systems, app design and frontend engineering for the companies and state governments of Northeast India.
+- [Munich](https://www.parallaxorg.com/munich/): Brand systems, product UI and frontend engineering for Munich's startups, mobility, insurance and property companies — WCAG 2.1 AA and BFSG-ready. Published prices: Foundation from EUR 12,000, Studio from EUR 28,000.
+- [Dubai](https://www.parallaxorg.com/dubai/): Bilingual Arabic–English brand systems, product UI and frontend engineering for Dubai's developers, hospitality groups, fintechs and founders — PDPL-ready. Published prices: Foundation from AED 50,000, Studio from AED 120,000.
+- [Denver](https://www.parallaxorg.com/denver/): Brand systems, product UI and frontend engineering for Denver's startups, aerospace and outdoor brands — briefed at five, built overnight; ADA Title II and WCAG 2.1 AA by default. Published prices: Foundation from USD 15,000, Studio from USD 35,000.
+
+## Main site
+
+- [Home](https://www.parallaxorg.com/): the studio, work and euro pricing (Foundation from EUR 12,000, Studio from EUR 28,000).
+- [Services](https://www.parallaxorg.com/services.html)
+- [Work](https://www.parallaxorg.com/work.html)
+- [About](https://www.parallaxorg.com/about.html)
+- [Articles](https://www.parallaxorg.com/articles.html)
+- [Sitemap](https://www.parallaxorg.com/sitemap.xml)
+
+## Questions each market page answers
+
+### Northeast India (https://www.parallaxorg.com/northeast-india/)
+- **Is Parallax a design agency in Northeast India?** Parallax is a brand, product and frontend design studio in Bengaluru that builds the brands and apps the companies of Northeast India run on — for real-estate developers, hospitality groups, pharma companies, educational institutions and the state governments of the eight states.
+- **Do you design government portals and citizen services?** Yes. Parallax designs citizen service portals, tourism and permit systems, scheme and benefit tracking and internal dashboards for state departments, with accessibility audits to WCAG 2.1 AA and a design-system handover so the next vendor can continue the work.
+- **How does a Bengaluru studio work with a client in Guwahati, Shillong or Imphal?** The whole working day is shared — Bengaluru and the Northeast are in the same time zone — so reviews, workshops and calls happen in your hours. Discovery starts on a call or WhatsApp; a founder visit is a planned trip, with direct flights from Bengaluru to Guwahati.
+- **What does a brand identity or app design cost?** Parallax scopes each project rather than quoting from a rate card, and starts by questioning the brief. A brand identity with one digital touchpoint and a complete brand system with product UI are the two most common engagements; both are priced in rupees for the Indian market and quoted after one call.
+- **Which industries in Northeast India do you design for?** Four sectors sit at the centre of the practice: real estate, from launch sites to owner portals; hospitality and tourism, with direct booking and guest apps; pharma, with compliant product and partner interfaces; and education, with admission, learning and alumni platforms — plus the government band above.
+- **How do I start a project with Parallax?** Email projects@parallaxorg.com or message the studio on WhatsApp with what you're building. Parallax starts by questioning the brief on one call, no deck. If it isn't the right studio for the work, it will say so and point you to one that is.
+
+### Munich (https://www.parallaxorg.com/munich/)
+- **Is Parallax a design agency in Munich?** Parallax is a brand, product and frontend design studio serving Munich from Bengaluru, founded by a designer who trained in Munich, and building a network of German-speaking design leads to run discovery and presentations in the room. The studio builds brand systems, product interfaces and marketing sites for Munich's startups, mobility and industrial companies, insurers and property developers.
+- **Do you work in German?** Discovery and presentations are run in English today, and in German as Munich-based leads join the studio's network. German UI copy, documentation and the Barrierefreiheitserklärung are produced with native German speakers; design files and code are delivered in English.
+- **Is your work BFSG-compliant?** Yes. Since 28 June 2025 the Barrierefreiheitsstärkungsgesetz requires consumer websites, apps, shops and banking services to meet WCAG 2.1 AA, with fines up to €100,000 and competitor Abmahnungen. Parallax measures every page it ships against AA and audits, remediates and documents existing products to the same standard.
+- **What does a brand identity or product design cost from Parallax?** Parallax publishes its prices. Foundation starts at €12,000 for a brand identity plus one digital touchpoint; Studio starts at €28,000 for a complete brand system, product UI and a frontend build. Munich agencies typically quote well above that scope-for-scope; the difference is a Bengaluru delivery team behind a Munich lead.
+- **Which industries in Munich do you design for?** Four sectors sit at the centre of the Munich practice: startups and scale-ups that need a brand system and product UI before the next round; mobility and industrial companies with configurators and engineering tools; insurance and finance onboarding that customers finish; and real-estate and proptech portals for owners, tenants and managers.
+- **How does a studio in Bengaluru work with a Munich team?** Munich's morning is Bengaluru's midday: 09:00 in Munich is 12:30 in Bengaluru, so the two working days overlap until the German evening. Reviews and workshops happen in your hours; the studio continues after you log off, so the next iteration is ready the following morning.
+
+### Dubai (https://www.parallaxorg.com/dubai/)
+- **Is Parallax a design agency in Dubai?** Parallax is a brand, product and frontend design studio working in Dubai from Bengaluru, with two of its own people already in Dubai to run discovery, presentations and the relationship. The studio builds bilingual Arabic–English brand systems, product interfaces and marketing sites for developers, hospitality groups, fintechs and founders.
+- **Do you design in Arabic and English?** Yes. Parallax designs bilingual from the first screen: one component library in two directions, layouts mirrored rather than flipped, Arabic typography set to sit with the Latin, and right-to-left tested on real devices. Arabic localisation is priced on top of the published tiers.
+- **What does branding or product design cost in Dubai?** Parallax publishes its Dubai prices in dirhams. Foundation starts at AED 50,000 for a brand identity plus one digital touchpoint; Studio starts at AED 120,000 for a complete brand system, product UI and a frontend build. Both are "from" prices; bilingual scope is quoted separately.
+- **Are your products PDPL-compliant and accessible?** Parallax designs consent, records of processing and breach paths into the product under the UAE Personal Data Protection Law, and measures every page against WCAG 2.1 AA, the TDRA policy and the Dubai Universal Design Code. UAE Pass and Dubai Now integration are wired on the front end the customer sees.
+- **Which industries in Dubai do you design for?** Four sectors sit at the centre of the Dubai practice: real estate and proptech, from off-plan launch sites to owner portals; hospitality and tourism, with direct booking engines and guest apps; fintech onboarding and KYC flows people finish; and founders and trade — brands, storefronts and B2B ordering portals for new licences.
+- **How do I start a project with Parallax in Dubai?** Email projects@parallaxorg.com or open a WhatsApp thread with what you're building. The studio starts by questioning the brief on one call, no deck, and someone from the studio can be in a room in Dubai within the week. 09:00 in Dubai is 10:30 in Bengaluru, so the whole working day overlaps.
+
+### Denver (https://www.parallaxorg.com/denver/)
+- **Is Parallax a design agency in Denver?** Parallax is a brand, product and frontend design studio serving Denver from Bengaluru on a follow-the-sun cycle, and is building a network of Denver-based design leads to run discovery and presentations in the room. The studio builds brand systems, product interfaces and marketing sites for Denver's startups, aerospace and energy companies, outdoor brands and real-estate developers.
+- **How does a studio in Bengaluru work with a Denver team?** Denver runs on a follow-the-sun cycle: 09:00 in Denver is 20:30 in Bengaluru, so a brief sent at five is built overnight and waiting at eight the next morning. Discovery, workshops and reviews are scheduled in Mountain time; design and engineering happen while Denver sleeps.
+- **What does brand identity or product design cost in Denver?** Parallax publishes its Denver prices. Foundation starts at $15,000 for a brand identity plus one digital touchpoint; Studio starts at $35,000 for a complete brand system, product UI and a frontend build. Denver agencies quote $5,000–20,000 for identity alone and $9,000–22,000 for a five-page site, so both tiers sit below local scope-for-scope.
+- **Do you build websites that meet ADA Title II and Colorado HB21-1110?** Yes. Every page Parallax ships is measured against WCAG 2.1 AA, the standard both the ADA Title II web rule (26 April 2027 for most public entities) and Colorado's HB21-1110 (in force since 1 July 2025) require. The studio also audits and remediates existing sites and hands over the conformance documentation a procurement office asks for.
+- **Which industries in Denver do you design for?** Four sectors sit at the centre of the Denver practice: startups and scale-ups that need a brand system and product UI before the next round; aerospace, energy and industrial companies with internal tools that were never designed; outdoor and consumer brands where taste is the buying criterion; and real-estate and proptech portals that move inventory.
+- **How do I start a project with Parallax in Denver?** Email projects@parallaxorg.com with what you're building. The studio starts by questioning the brief on one call — no deck — and answers in your afternoon with the first response in your inbox the next morning. If Parallax isn't the right studio for the work, it will say so and point you to one that is.
+
+Last updated 2026-09-21.

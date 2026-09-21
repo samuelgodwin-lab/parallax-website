@@ -25,18 +25,208 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Parallax",
-  "url": "https://www.parallaxorg.com/dubai/",
-  "logo": "https://www.parallaxorg.com/images/Favicon.png",
-  "parentOrganization": { "@type": "Organization", "name": "Parallax", "url": "https://www.parallaxorg.com/" },
-  "sameAs": ["https://www.parallaxorg.com/", "https://www.linkedin.com/company/parallaxorg", "https://www.instagram.com/parallaxdsign/"],
-  "description": "Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.",
-  "email": "projects@parallaxorg.com",
-  "areaServed": [{ "@type": "City", "name": "Dubai" }, { "@type": "Country", "name": "United Arab Emirates" }],
-  "availableLanguage": ["en", "ar"],
-  "priceRange": "AED 50,000 – 120,000+",
-  "knowsAbout": ["Brand Systems","Interface Design","Frontend Engineering","Design Systems","Bilingual Arabic–English Design","Accessibility (WCAG 2.1 AA)","Digital Strategy","Motion & Interaction"]
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.parallaxorg.com/#organization",
+      "name": "Parallax",
+      "url": "https://www.parallaxorg.com/",
+      "logo": "https://www.parallaxorg.com/images/Favicon.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/parallaxorg",
+        "https://www.instagram.com/parallaxdsign/"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.parallaxorg.com/dubai/#webpage",
+      "url": "https://www.parallaxorg.com/dubai/",
+      "name": "Parallax — Dubai",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.parallaxorg.com/#website",
+        "url": "https://www.parallaxorg.com/",
+        "name": "Parallax"
+      },
+      "about": {
+        "@id": "https://www.parallaxorg.com/dubai/#service"
+      },
+      "inLanguage": "en",
+      "datePublished": "2026-09-15",
+      "dateModified": "2026-09-21"
+    },
+    {
+      "@type": "ProfessionalService",
+      "name": "Parallax",
+      "url": "https://www.parallaxorg.com/dubai/",
+      "logo": "https://www.parallaxorg.com/images/Favicon.png",
+      "parentOrganization": {
+        "@id": "https://www.parallaxorg.com/#organization"
+      },
+      "sameAs": [
+        "https://www.parallaxorg.com/",
+        "https://www.linkedin.com/company/parallaxorg",
+        "https://www.instagram.com/parallaxdsign/"
+      ],
+      "description": "Parallax builds the brands and apps Dubai runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.",
+      "email": "projects@parallaxorg.com",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Dubai"
+        },
+        {
+          "@type": "Country",
+          "name": "United Arab Emirates"
+        }
+      ],
+      "availableLanguage": [
+        "en",
+        "ar"
+      ],
+      "priceRange": "AED 50,000 – 120,000+",
+      "knowsAbout": [
+        "Brand Systems",
+        "Interface Design",
+        "Frontend Engineering",
+        "Design Systems",
+        "Bilingual Arabic–English Design",
+        "Accessibility (WCAG 2.1 AA)",
+        "Digital Strategy",
+        "Motion & Interaction"
+      ],
+      "@id": "https://www.parallaxorg.com/dubai/#service",
+      "mainEntityOfPage": {
+        "@id": "https://www.parallaxorg.com/dubai/#webpage"
+      },
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Foundation",
+          "description": "Brand identity plus one digital touchpoint.",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 50000,
+            "priceCurrency": "AED",
+            "minPrice": 50000,
+            "valueAddedTaxIncluded": false
+          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Dubai"
+            },
+            {
+              "@type": "Country",
+              "name": "United Arab Emirates"
+            }
+          ],
+          "url": "https://www.parallaxorg.com/dubai/#pricing",
+          "seller": {
+            "@id": "https://www.parallaxorg.com/#organization"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Studio",
+          "description": "Complete brand system, product UI and build-ready specifications, with the frontend build.",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 120000,
+            "priceCurrency": "AED",
+            "minPrice": 120000,
+            "valueAddedTaxIncluded": false
+          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Dubai"
+            },
+            {
+              "@type": "Country",
+              "name": "United Arab Emirates"
+            }
+          ],
+          "url": "https://www.parallaxorg.com/dubai/#pricing",
+          "seller": {
+            "@id": "https://www.parallaxorg.com/#organization"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.parallaxorg.com/dubai/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Parallax",
+          "item": "https://www.parallaxorg.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Dubai",
+          "item": "https://www.parallaxorg.com/dubai/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.parallaxorg.com/dubai/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Parallax a design agency in Dubai?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parallax is a brand, product and frontend design studio working in Dubai from Bengaluru, with two of its own people already in Dubai to run discovery, presentations and the relationship. The studio builds bilingual Arabic–English brand systems, product interfaces and marketing sites for developers, hospitality groups, fintechs and founders."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you design in Arabic and English?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Parallax designs bilingual from the first screen: one component library in two directions, layouts mirrored rather than flipped, Arabic typography set to sit with the Latin, and right-to-left tested on real devices. Arabic localisation is priced on top of the published tiers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does branding or product design cost in Dubai?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parallax publishes its Dubai prices in dirhams. Foundation starts at AED 50,000 for a brand identity plus one digital touchpoint; Studio starts at AED 120,000 for a complete brand system, product UI and a frontend build. Both are \"from\" prices; bilingual scope is quoted separately."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are your products PDPL-compliant and accessible?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parallax designs consent, records of processing and breach paths into the product under the UAE Personal Data Protection Law, and measures every page against WCAG 2.1 AA, the TDRA policy and the Dubai Universal Design Code. UAE Pass and Dubai Now integration are wired on the front end the customer sees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which industries in Dubai do you design for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Four sectors sit at the centre of the Dubai practice: real estate and proptech, from off-plan launch sites to owner portals; hospitality and tourism, with direct booking engines and guest apps; fintech onboarding and KYC flows people finish; and founders and trade — brands, storefronts and B2B ordering portals for new licences."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I start a project with Parallax in Dubai?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Email projects@parallaxorg.com or open a WhatsApp thread with what you're building. The studio starts by questioning the brief on one call, no deck, and someone from the studio can be in a room in Dubai within the week. 09:00 in Dubai is 10:30 in Bengaluru, so the whole working day overlaps."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 <script>document.documentElement.classList.replace('no-js','js');</script>
@@ -44,7 +234,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css?v=3">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 <!-- ============================================================
@@ -766,6 +956,86 @@
   </section>
 
   <!-- ============================================================
+       FAQ (SEO/AEO)
+       Six questions in the market's own words, one open at a time. Copy in
+       Landing page/dubai/04-FAQ.md; injected by Landing page/seo.py, which
+       also emits the FAQPage schema. Edit the .md and re-run, not this.
+       ============================================================ -->
+  <section class="section section--surface faq" id="faq" aria-labelledby="faq-h">
+    <div class="w">
+      <div class="faq__wrap">
+        <div class="faq__left reveal">
+          <p class="slabel">Questions</p>
+          <h2 class="sh" id="faq-h">Straight answers,<br>before the <em>call.</em></h2>
+          <p class="faq__desc">The six things people in Dubai ask before they write to us. If yours isn&rsquo;t here, ask it.</p>
+        </div>
+        <div class="faq__list stagger">
+        <div class="faq__item">
+          <span class="faq__n">01</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a1">Is Parallax a design agency in Dubai?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a1">
+              <p class="faq__a">Parallax is a brand, product and frontend design studio working in Dubai from Bengaluru, with two of its own people already in Dubai to run discovery, presentations and the relationship. The studio builds bilingual Arabic&ndash;English brand systems, product interfaces and marketing sites for developers, hospitality groups, fintechs and founders.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">02</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a2">Do you design in Arabic and English?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a2">
+              <p class="faq__a">Yes. Parallax designs bilingual from the first screen: one component library in two directions, layouts mirrored rather than flipped, Arabic typography set to sit with the Latin, and right-to-left tested on real devices. Arabic localisation is priced on top of the published tiers.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">03</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a3">What does branding or product design cost in Dubai?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a3">
+              <p class="faq__a">Parallax publishes its Dubai prices in dirhams. Foundation starts at AED 50,000 for a brand identity plus one digital touchpoint; Studio starts at AED 120,000 for a complete brand system, product UI and a frontend build. Both are "from" prices; bilingual scope is quoted separately.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">04</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a4">Are your products PDPL-compliant and accessible?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a4">
+              <p class="faq__a">Parallax designs consent, records of processing and breach paths into the product under the UAE Personal Data Protection Law, and measures every page against WCAG 2.1 AA, the TDRA policy and the Dubai Universal Design Code. UAE Pass and Dubai Now integration are wired on the front end the customer sees.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">05</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a5">Which industries in Dubai do you design for?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a5">
+              <p class="faq__a">Four sectors sit at the centre of the Dubai practice: real estate and proptech, from off-plan launch sites to owner portals; hospitality and tourism, with direct booking engines and guest apps; fintech onboarding and KYC flows people finish; and founders and trade &mdash; brands, storefronts and B2B ordering portals for new licences.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">06</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a6">How do I start a project with Parallax in Dubai?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a6">
+              <p class="faq__a">Email projects@parallaxorg.com or open a WhatsApp thread with what you're building. The studio starts by questioning the brief on one call, no deck, and someone from the studio can be in a room in Dubai within the week. 09:00 in Dubai is 10:30 in Bengaluru, so the whole working day overlaps.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /FAQ -->
+  <!-- ============================================================
        11 — CTA
        ============================================================ -->
   <section class="section contact" id="cta" aria-labelledby="cta-h">
@@ -1025,6 +1295,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=4"></script>
+<script src="main.js?v=5"></script>
 </body>
 </html>

@@ -2073,3 +2073,94 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
   .footer__mid { justify-content: flex-start; text-align: left; }
   .footer__v { text-align: left; }
 }
+
+/* ============================================================
+   FAQ — six questions before the CTA (SEO/AEO pass, 21 Sep 2026)
+   Same split and row grammar as the services accordion, on a light
+   surface, with the answers a size up so they read as prose. The
+   answers stay in the DOM when collapsed (grid 0fr), so crawlers and
+   answer engines see the text; FAQPage schema carries it as well.
+   ============================================================ */
+.faq__wrap {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: var(--s16);
+  align-items: start;
+}
+.faq__left { position: sticky; top: 96px; }
+.faq__desc {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.72;
+  margin-top: var(--s6);
+  max-width: 34ch;
+}
+.faq__list { display: flex; flex-direction: column; }
+.faq__item {
+  display: grid;
+  grid-template-columns: 64px 1fr 28px;
+  align-items: start;
+  gap: var(--s4);
+  padding: var(--s6) 0;
+  border-top: var(--rule) solid var(--border);
+  cursor: pointer;
+}
+.faq__item:last-child { border-bottom: var(--rule) solid var(--border); }
+.faq__n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  padding-top: 6px;
+}
+.faq__q { margin: 0; }
+.faq__btn {
+  all: unset;
+  display: block;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  padding-top: 2px;
+  color: var(--text);
+  transition: color 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .faq__item:hover .faq__btn { color: var(--accent); }
+}
+.faq__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.faq__shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 400ms var(--ease-out);
+}
+.faq__item.open .faq__shell { grid-template-rows: 1fr; }
+.faq__inner { overflow: hidden; min-height: 0; }
+.faq__a {
+  font-size: 15.5px;
+  color: var(--text-2);
+  line-height: 1.7;
+  padding: var(--s4) 0 var(--s2);
+  max-width: 62ch;
+}
+.faq__toggle {
+  font-size: 15px;
+  color: var(--text-3);
+  padding-top: 4px;
+  user-select: none;
+  justify-self: end;
+  transition: transform 320ms var(--ease-out), color 200ms var(--ease-out);
+}
+.faq__item.open .faq__toggle { transform: rotate(45deg); color: var(--accent); }
+@media (prefers-reduced-motion: reduce) {
+  .faq__shell, .faq__toggle, .faq__btn { transition: none; }
+}
+@media (max-width: 960px) {
+  .faq__wrap { grid-template-columns: 1fr; gap: var(--s8); }
+  .faq__left { position: relative; top: 0; }
+}
+@media (max-width: 640px) {
+  .faq__item { grid-template-columns: 40px 1fr 24px; }
+}

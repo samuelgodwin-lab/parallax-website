@@ -13,6 +13,11 @@ import re, os, shutil, urllib.parse
 ROOT = "/Users/samuelgodwin/Documents/2026/Parallax/Website Test — Copy"
 src = open(f"{ROOT}/munich/index.html").read()
 body = src[src.index('<body>'):]
+# The source page carries its own FAQ and @graph (Landing page/seo.py); drop the
+# FAQ here and let seo.py re-inject this market's at the end of the build.
+if '       FAQ (SEO/AEO)' in body:
+    _i = body.index('  <!-- ============================================================\n       FAQ (SEO/AEO)'); _j = body.index('  <!-- /FAQ -->\n') + len('  <!-- /FAQ -->\n')
+    body = body[:_i] + body[_j:]
 
 def rep(s, old, new, n=1):
     assert s.count(old) == n, (old[:70], s.count(old))
@@ -298,7 +303,7 @@ b = rep(b, '<script src="main.js', plan_drawer + '\n<script src="main.js')
 
 # ── cache-bust: Dubai has its own series ──
 b = re.sub(r'\?v=\d+', '?v=3', b)
-b = rep(b, 'main.js?v=3', 'main.js?v=4')   # bumped 17 Sep with the setQuality pin
+b = rep(b, 'main.js?v=3', 'main.js?v=5')   # bumped 17 Sep (setQuality pin) and 21 Sep (FAQ)
 
 head = '''<!doctype html>
 <html lang="en" class="no-js">
@@ -346,7 +351,7 @@ head = '''<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css?v=3">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 '''
 out = f"{ROOT}/dubai"
@@ -356,3 +361,5 @@ for f in ("styles.css", "tokens.css", "main.js"):
     shutil.copy(f"{ROOT}/Landing page/files/{f}", f"{out}/{f}")
 shutil.copy(f"{ROOT}/munich/images/world-map.svg", f"{out}/images/world-map.svg")
 print("dubai/index.html written", len(head + b) // 1024, "KB")
+import subprocess, sys
+subprocess.run([sys.executable, f"{ROOT}/Landing page/seo.py", "dubai"], check=True)

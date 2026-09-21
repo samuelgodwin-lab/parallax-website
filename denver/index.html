@@ -25,18 +25,219 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Parallax",
-  "url": "https://www.parallaxorg.com/denver/",
-  "logo": "https://www.parallaxorg.com/images/Favicon.png",
-  "parentOrganization": { "@type": "Organization", "name": "Parallax", "url": "https://www.parallaxorg.com/" },
-  "sameAs": ["https://www.parallaxorg.com/", "https://www.linkedin.com/company/parallaxorg", "https://www.instagram.com/parallaxdsign/"],
-  "description": "Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.",
-  "email": "projects@parallaxorg.com",
-  "areaServed": [{ "@type": "City", "name": "Denver" }, { "@type": "State", "name": "Colorado" }, { "@type": "Country", "name": "United States" }],
-  "availableLanguage": ["en"],
-  "priceRange": "USD 15,000 – 35,000+",
-  "knowsAbout": ["Brand Systems","Interface Design","Frontend Engineering","Design Systems","Accessibility (WCAG 2.1 AA)","ADA Title II Compliance","Digital Strategy","Motion & Interaction"]
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.parallaxorg.com/#organization",
+      "name": "Parallax",
+      "url": "https://www.parallaxorg.com/",
+      "logo": "https://www.parallaxorg.com/images/Favicon.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/parallaxorg",
+        "https://www.instagram.com/parallaxdsign/"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.parallaxorg.com/denver/#webpage",
+      "url": "https://www.parallaxorg.com/denver/",
+      "name": "Parallax — Denver",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.parallaxorg.com/#website",
+        "url": "https://www.parallaxorg.com/",
+        "name": "Parallax"
+      },
+      "about": {
+        "@id": "https://www.parallaxorg.com/denver/#service"
+      },
+      "inLanguage": "en",
+      "datePublished": "2026-09-17",
+      "dateModified": "2026-09-21"
+    },
+    {
+      "@type": "ProfessionalService",
+      "name": "Parallax",
+      "url": "https://www.parallaxorg.com/denver/",
+      "logo": "https://www.parallaxorg.com/images/Favicon.png",
+      "parentOrganization": {
+        "@id": "https://www.parallaxorg.com/#organization"
+      },
+      "sameAs": [
+        "https://www.parallaxorg.com/",
+        "https://www.linkedin.com/company/parallaxorg",
+        "https://www.instagram.com/parallaxdsign/"
+      ],
+      "description": "Parallax builds the brands and apps Denver runs on. Brand systems, interface design and frontend engineering — one studio, from identity to shipped code.",
+      "email": "projects@parallaxorg.com",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Denver"
+        },
+        {
+          "@type": "State",
+          "name": "Colorado"
+        },
+        {
+          "@type": "Country",
+          "name": "United States"
+        }
+      ],
+      "availableLanguage": [
+        "en"
+      ],
+      "priceRange": "USD 15,000 – 35,000+",
+      "knowsAbout": [
+        "Brand Systems",
+        "Interface Design",
+        "Frontend Engineering",
+        "Design Systems",
+        "Accessibility (WCAG 2.1 AA)",
+        "ADA Title II Compliance",
+        "Digital Strategy",
+        "Motion & Interaction"
+      ],
+      "@id": "https://www.parallaxorg.com/denver/#service",
+      "mainEntityOfPage": {
+        "@id": "https://www.parallaxorg.com/denver/#webpage"
+      },
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Foundation",
+          "description": "Brand identity plus one digital touchpoint.",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 15000,
+            "priceCurrency": "USD",
+            "minPrice": 15000,
+            "valueAddedTaxIncluded": false
+          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Denver"
+            },
+            {
+              "@type": "State",
+              "name": "Colorado"
+            },
+            {
+              "@type": "Country",
+              "name": "United States"
+            }
+          ],
+          "url": "https://www.parallaxorg.com/denver/#pricing",
+          "seller": {
+            "@id": "https://www.parallaxorg.com/#organization"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Studio",
+          "description": "Complete brand system, product UI and build-ready specifications, with the frontend build.",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 35000,
+            "priceCurrency": "USD",
+            "minPrice": 35000,
+            "valueAddedTaxIncluded": false
+          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Denver"
+            },
+            {
+              "@type": "State",
+              "name": "Colorado"
+            },
+            {
+              "@type": "Country",
+              "name": "United States"
+            }
+          ],
+          "url": "https://www.parallaxorg.com/denver/#pricing",
+          "seller": {
+            "@id": "https://www.parallaxorg.com/#organization"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.parallaxorg.com/denver/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Parallax",
+          "item": "https://www.parallaxorg.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Denver",
+          "item": "https://www.parallaxorg.com/denver/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.parallaxorg.com/denver/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Parallax a design agency in Denver?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parallax is a brand, product and frontend design studio serving Denver from Bengaluru on a follow-the-sun cycle, and is building a network of Denver-based design leads to run discovery and presentations in the room. The studio builds brand systems, product interfaces and marketing sites for Denver's startups, aerospace and energy companies, outdoor brands and real-estate developers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does a studio in Bengaluru work with a Denver team?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Denver runs on a follow-the-sun cycle: 09:00 in Denver is 20:30 in Bengaluru, so a brief sent at five is built overnight and waiting at eight the next morning. Discovery, workshops and reviews are scheduled in Mountain time; design and engineering happen while Denver sleeps."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does brand identity or product design cost in Denver?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parallax publishes its Denver prices. Foundation starts at $15,000 for a brand identity plus one digital touchpoint; Studio starts at $35,000 for a complete brand system, product UI and a frontend build. Denver agencies quote $5,000–20,000 for identity alone and $9,000–22,000 for a five-page site, so both tiers sit below local scope-for-scope."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you build websites that meet ADA Title II and Colorado HB21-1110?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Every page Parallax ships is measured against WCAG 2.1 AA, the standard both the ADA Title II web rule (26 April 2027 for most public entities) and Colorado's HB21-1110 (in force since 1 July 2025) require. The studio also audits and remediates existing sites and hands over the conformance documentation a procurement office asks for."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which industries in Denver do you design for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Four sectors sit at the centre of the Denver practice: startups and scale-ups that need a brand system and product UI before the next round; aerospace, energy and industrial companies with internal tools that were never designed; outdoor and consumer brands where taste is the buying criterion; and real-estate and proptech portals that move inventory."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I start a project with Parallax in Denver?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Email projects@parallaxorg.com with what you're building. The studio starts by questioning the brief on one call — no deck — and answers in your afternoon with the first response in your inbox the next morning. If Parallax isn't the right studio for the work, it will say so and point you to one that is."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 <script>document.documentElement.classList.replace('no-js','js');</script>
@@ -44,7 +245,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css?v=1">
-<link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 <!-- ============================================================
@@ -756,6 +957,86 @@
   </section>
 
   <!-- ============================================================
+       FAQ (SEO/AEO)
+       Six questions in the market's own words, one open at a time. Copy in
+       Landing page/denver/04-FAQ.md; injected by Landing page/seo.py, which
+       also emits the FAQPage schema. Edit the .md and re-run, not this.
+       ============================================================ -->
+  <section class="section section--surface faq" id="faq" aria-labelledby="faq-h">
+    <div class="w">
+      <div class="faq__wrap">
+        <div class="faq__left reveal">
+          <p class="slabel">Questions</p>
+          <h2 class="sh" id="faq-h">Straight answers,<br>before the <em>call.</em></h2>
+          <p class="faq__desc">The six things people in Denver ask before they write to us. If yours isn&rsquo;t here, ask it.</p>
+        </div>
+        <div class="faq__list stagger">
+        <div class="faq__item">
+          <span class="faq__n">01</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a1">Is Parallax a design agency in Denver?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a1">
+              <p class="faq__a">Parallax is a brand, product and frontend design studio serving Denver from Bengaluru on a follow-the-sun cycle, and is building a network of Denver-based design leads to run discovery and presentations in the room. The studio builds brand systems, product interfaces and marketing sites for Denver's startups, aerospace and energy companies, outdoor brands and real-estate developers.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">02</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a2">How does a studio in Bengaluru work with a Denver team?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a2">
+              <p class="faq__a">Denver runs on a follow-the-sun cycle: 09:00 in Denver is 20:30 in Bengaluru, so a brief sent at five is built overnight and waiting at eight the next morning. Discovery, workshops and reviews are scheduled in Mountain time; design and engineering happen while Denver sleeps.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">03</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a3">What does brand identity or product design cost in Denver?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a3">
+              <p class="faq__a">Parallax publishes its Denver prices. Foundation starts at $15,000 for a brand identity plus one digital touchpoint; Studio starts at $35,000 for a complete brand system, product UI and a frontend build. Denver agencies quote $5,000&ndash;20,000 for identity alone and $9,000&ndash;22,000 for a five-page site, so both tiers sit below local scope-for-scope.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">04</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a4">Do you build websites that meet ADA Title II and Colorado HB21-1110?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a4">
+              <p class="faq__a">Yes. Every page Parallax ships is measured against WCAG 2.1 AA, the standard both the ADA Title II web rule (26 April 2027 for most public entities) and Colorado's HB21-1110 (in force since 1 July 2025) require. The studio also audits and remediates existing sites and hands over the conformance documentation a procurement office asks for.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">05</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a5">Which industries in Denver do you design for?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a5">
+              <p class="faq__a">Four sectors sit at the centre of the Denver practice: startups and scale-ups that need a brand system and product UI before the next round; aerospace, energy and industrial companies with internal tools that were never designed; outdoor and consumer brands where taste is the buying criterion; and real-estate and proptech portals that move inventory.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        <div class="faq__item">
+          <span class="faq__n">06</span>
+          <div>
+            <h3 class="faq__q"><button class="faq__btn" type="button" aria-expanded="false" aria-controls="faq-a6">How do I start a project with Parallax in Denver?</button></h3>
+            <div class="faq__shell"><div class="faq__inner" id="faq-a6">
+              <p class="faq__a">Email projects@parallaxorg.com with what you're building. The studio starts by questioning the brief on one call &mdash; no deck &mdash; and answers in your afternoon with the first response in your inbox the next morning. If Parallax isn't the right studio for the work, it will say so and point you to one that is.</p>
+            </div></div>
+          </div>
+          <span class="faq__toggle" aria-hidden="true">+</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /FAQ -->
+  <!-- ============================================================
        11 — CTA
        ============================================================ -->
   <section class="section contact" id="cta" aria-labelledby="cta-h">
@@ -1014,6 +1295,6 @@
   </div>
 </aside>
 
-<script src="main.js?v=2"></script>
+<script src="main.js?v=3"></script>
 </body>
 </html>

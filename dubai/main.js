@@ -213,6 +213,34 @@
     frame.addEventListener('load', subscribe);
   }
 
+  /* ── FAQ accordion ──
+     Like initAccordion, but the question is a real <button> inside an <h3>
+     (so the heading survives for screen readers and crawlers) and the
+     expanded state lives on that button. Clicking anywhere on the row
+     toggles it; one open at a time, like the services list. */
+  function initFaq() {
+    var items = document.querySelectorAll('.faq__item');
+    if (!items.length) return;
+    function set(item, open) {
+      item.classList.toggle('open', open);
+      var btn = item.querySelector('.faq__btn');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    items.forEach(function (item) {
+      var btn = item.querySelector('.faq__btn');
+      function toggle() {
+        var isOpen = item.classList.contains('open');
+        items.forEach(function (i) { set(i, false); });
+        if (!isOpen) set(item, true);
+      }
+      item.addEventListener('click', function (e) {
+        if (e.target === btn) return;   /* the button handles its own click */
+        toggle();
+      });
+      if (btn) btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+    });
+  }
+
   /* ── CTA cursor FX ──
      Copied from parallaxorg.com's "Work With Us" section. Same contract as the
      hero: pointer position as a percentage, read by the mask and the radial. */
@@ -441,7 +469,7 @@
     });
   }
 
-  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initPricing(); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); initHeroLoop(); }
+  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initPricing(); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); initHeroLoop(); initFaq(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
