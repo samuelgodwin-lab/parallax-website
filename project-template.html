@@ -52,11 +52,17 @@
       --text:           oklch(0 0 0);
       --text-2:         oklch(0.40 0.005 0);
       --text-3:         oklch(0.55 0.005 0);
-      --accent:         oklch(0.53 0.18 249);
+      /* Parallax blue. --brand-* never changes; --accent* is re-pointed to the
+         project's own colour at load (see the accent_color block in the script)
+         and the site-chrome sections below pin themselves back to --brand. */
+      --brand:          oklch(0.53 0.18 249);
+      --brand-muted:    oklch(0.60 0.18 249 / 0.14);
+      --brand-soft:     oklch(0.60 0.18 249 / 0.06);
+      --accent:         var(--brand);
       --accent-hi:      oklch(0.70 0.14 249);
       --accent-on-dark: oklch(0.70 0.14 249);
-      --accent-muted:   oklch(0.60 0.18 249 / 0.14);
-      --accent-soft:    oklch(0.60 0.18 249 / 0.06);
+      --accent-muted:   var(--brand-muted);
+      --accent-soft:    var(--brand-soft);
       --border:         oklch(0 0 0 / 0.15);
       --border-strong:  oklch(0 0 0 / 0.30);
 
@@ -1694,9 +1700,23 @@
        token to the lighter --accent-on-dark (7.67:1 on near-black).
        Descendants pick it up automatically via inheritance. */
     .services, .pricing, .prc, .process, .team, .afeat__inner,
-    .proj-hero, .proj-stats, .dig-system, .brand-variant--dark,
+    .dig-system, .brand-variant--dark,
     .dsys-comp__demo--dark, .nav__overlay-right {
       --accent: var(--accent-on-dark);
+    }
+
+    /* Project hero and By The Numbers carry the project's own accent on their
+       dark ground. --accent-proj-dark is the CMS colour, lightened in the script
+       only when it can't reach 4.5:1 on near-black; without a project colour
+       they fall back to the site's on-dark blue. */
+    .proj-hero, .proj-stats { --accent: var(--accent-proj-dark, var(--accent-on-dark)); }
+
+    /* Site chrome stays Parallax blue on every project: Where We Work, the
+       closing CTA band and the footer are shared with the rest of the site. */
+    .markets, .cta-band, .footer {
+      --accent: var(--brand);
+      --accent-muted: var(--brand-muted);
+      --accent-soft: var(--brand-soft);
     }
   </style>
   <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
@@ -1891,6 +1911,25 @@
     /* ---- LOAD PROJECT ---- */
     (async () => {
       const id = new URLSearchParams(location.search).get('id');
+      // The hero and stats sit on near-black (oklch 0.06). A dark CMS accent
+      // (YVT navy is 1.99:1) would vanish there, so mix it toward white in 5%
+      // steps until it clears 4.5:1 (AA for the small labels). Bright accents
+      // pass first time and come back untouched.
+      function accentOnDark(hex) {
+        const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+        if (!m) return hex;
+        const rgb = [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16));
+        const lin = c => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+        const lum = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+        const bg  = lum([14, 14, 15]);
+        let mix = 0, c = rgb;
+        while ((lum(c) + 0.05) / (bg + 0.05) < 4.5 && mix < 1) {
+          mix += 0.05;
+          c = rgb.map(v => Math.round(v + (255 - v) * mix));
+        }
+        return '#' + c.map(v => v.toString(16).padStart(2, '0')).join('');
+      }
+
       if (!id) {
         document.getElementById('app').innerHTML = `<div class="loading-screen">No project ID. <a href="work.html" style="color:var(--accent);">← Back to Work</a></div>`;
         return;
@@ -1916,6 +1955,7 @@
         document.documentElement.style.setProperty('--accent', p.accent_color);
         document.documentElement.style.setProperty('--accent-muted', p.accent_color + '25');
         document.documentElement.style.setProperty('--accent-soft',  p.accent_color + '10');
+        document.documentElement.style.setProperty('--accent-proj-dark', accentOnDark(p.accent_color));
       }
 
       const services     = Array.isArray(p.services) ? p.services.join(' · ') : (p.services || '—');
