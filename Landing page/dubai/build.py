@@ -125,6 +125,10 @@ g = rep(g, '<div class="slabel">Accessibility</div>', '<div class="slabel">Bilin
 g = sub1(g, r'<h2 class="sh" id="gov-h">.*?</h2>', '<h2 class="sh" id="gov-h">Two languages. One <em>system.</em></h2>')
 g = sub1(g, r'<p class="lede gov__lede">.*?</p>',
   "<p class=\"lede gov__lede\">Every product in Dubai is two products &mdash; Arabic and English, right-to-left and left-to-right. For government it's law; for everyone else it's expected, and usually bolted on last. We design bilingual from the first screen: mirrored, not flipped, with Arabic typography done properly, every page measured against WCAG 2.1 AA, data flows that have read the PDPL, and UAE Pass where it belongs.</p>")
+# The band's supporting article: PDPL and the free-zone laws, published in the CMS 21 Sep 2026.
+# (Munich's band carries its own BFSG button; swap it for ours.)
+g = rep(g, '<a class="btn btn-g gov__cta" href="/articles/bfsg-munich">Read the BFSG timetable</a>',
+           '<a class="btn btn-g gov__cta" href="/articles/pdpl-dubai">Read the PDPL guide</a>')
 tiles = [
  ('Systems', 'Bilingual design systems', 'One component library, two directions. Layouts mirror rather than flip, so the Arabic product is designed, not translated.', ('bi-systems-800', 'An Emirati designer in an abaya at a monitor showing the same app interface mirrored right-to-left and left-to-right as grey blocks, warm light through a mashrabiya screen.'), (800, 600)),
  ('Type', 'Arabic typography &amp; RTL', 'Arabic faces chosen and set to sit with the Latin, numerals, dates and forms handled properly, right-to-left tested on real devices.', ('bi-type-800', 'Proof sheets of Arabic and Latin letterforms under a brass desk lamp at night, a reed pen and inkwell, the dusk city through the window behind.'), (800, 600)),

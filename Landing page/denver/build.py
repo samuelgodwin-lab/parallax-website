@@ -120,8 +120,9 @@ g = sub1(g, r'<h2 class="sh" id="gov-h">.*?</h2>', '<h2 class="sh" id="gov-h">Ac
 g = sub1(g, r'<p class="lede gov__lede">.*?</p>',
   '<p class="lede gov__lede">Colorado got there first. HB21-1110 has required every public platform to meet WCAG 2.1 AA since July 2025, at $3,500 a violation; the ADA Title II web rule follows in April 2027, the Privacy Act governs the data and SB 26-189 the AI. Product sold to the public sector has to pass. We measure every page we ship against AA &mdash; and can do the same for yours.</p>')
 # The band's supporting article: the Title II / HB21-1110 timetable, published in the CMS 21 Sep 2026.
-g = rep(g, 'We measure every page we ship against AA &mdash; and can do the same for yours.</p>',
-  'We measure every page we ship against AA &mdash; and can do the same for yours.</p>\n          <a class="btn btn-g gov__cta" href="/articles/ada-title-ii-colorado">Read the Colorado timetable</a>')
+# (Dubai's band carries its own PDPL button; swap it for ours.)
+g = rep(g, '<a class="btn btn-g gov__cta" href="/articles/pdpl-dubai">Read the PDPL guide</a>',
+           '<a class="btn btn-g gov__cta" href="/articles/ada-title-ii-colorado">Read the Colorado timetable</a>')
 tiles = [  # bright / dark / bright / dark / bright / dark
  ('Audit', 'Accessibility audits (WCAG 2.1 AA)', 'Measured page by page against Title II and HB21-1110, every failure specified as a fix rather than a finding.',
   ('ac-audit-800', 'A woman with headphones and a refreshable braille display testing a web app at a desk by a tall sunlit window, exposed brick and a low Denver skyline outside.'), (800, 600)),
