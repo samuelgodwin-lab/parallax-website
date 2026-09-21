@@ -1038,7 +1038,7 @@
   <script src="admin/supabase.js"></script>
   <script>
   (async () => {
-    const CAT = { brand: 'Brand Identity', interface: 'Interface Design', engineering: 'Engineering', process: 'Process', opinion: 'Opinion' };
+    const CAT = { brand: 'Brand Identity', interface: 'Interface Design', engineering: 'Engineering', process: 'Process', opinion: 'Opinion', compliance: 'Compliance' };
     const esc = s => s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const accentify = str => str ? esc(str).replace(/\*([^*]+)\*/g, '<span class="text-accent">$1</span>') : '';
     const plain = str => (str || '').replace(/\*([^*]+)\*/g, '$1');
@@ -1049,19 +1049,19 @@
     function cardHtml(a) {
       const label = CAT[a.category] || a.category || '';
       const date = fmtDate(a.created_at);
-      const urlParam = a.slug ? `slug=${encodeURIComponent(a.slug)}` : `id=${encodeURIComponent(a.id)}`;
+      const href = a.slug ? `/articles/${encodeURIComponent(a.slug)}` : `/article.html?id=${encodeURIComponent(a.id)}`;
       const imgHtml = a.hero_image_url
         ? `<img src="${esc(a.hero_image_url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`
         : `<svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="80" height="6" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="24" y="40" width="200" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/><rect x="24" y="62" width="160" height="6" rx="2" fill="oklch(0 0 0 / 0.07)"/><circle cx="500" cy="169" r="90" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="24" y="280" width="48" height="24" rx="2" fill="oklch(0.60 0.18 249)"/></svg>`;
       return `
-      <a href="article.html?${urlParam}" class="bpost" data-category="${esc(a.category || '')}">
+      <a href="${href}" class="bpost" data-category="${esc(a.category || '')}">
         <div class="bpost__line"></div>
         <div class="bpost__img">${imgHtml}</div>
         <span class="bpost__cat">${esc(label)}</span>
         <h3 class="bpost__title">${accentify(a.title)}</h3>
         <p class="bpost__excerpt">${esc(a.excerpt || '')}</p>
         <div class="bpost__foot">
-          <span class="bpost__meta">${esc(date)}${a.read_time ? ' · ' + esc(a.read_time) : ''}</span>
+          <span class="bpost__meta">${esc(date)}${a.read_time ? ' · ' + esc(typeof a.read_time === 'number' ? a.read_time + ' min read' : a.read_time) : ''}</span>
           <span class="bpost__arrow">↗</span>
         </div>
       </a>`;
@@ -1086,8 +1086,7 @@
     const featEl = document.getElementById('afeat-card');
     if (featEl) {
       const featLabel = CAT[feat.category] || feat.category || '';
-      const featParam = feat.slug ? `slug=${encodeURIComponent(feat.slug)}` : `id=${encodeURIComponent(feat.id)}`;
-      featEl.href = `article.html?${featParam}`;
+      featEl.href = feat.slug ? `/articles/${encodeURIComponent(feat.slug)}` : `/article.html?id=${encodeURIComponent(feat.id)}`;
       const inner = featEl.querySelector('.afeat__img-inner');
       if (inner) {
         inner.innerHTML = feat.hero_image_url

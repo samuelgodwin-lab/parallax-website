@@ -788,7 +788,7 @@
   <nav class="nav" id="main-nav">
     <div class="w">
       <div class="nav__inner">
-        <a href="index.html" class="nav__logo">Parallax<span>.</span></a>
+        <a href="/" class="nav__logo">Parallax<span>.</span></a>
         <button class="nav__burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
           <span class="nav__burger-line"></span>
           <span class="nav__burger-line"></span>
@@ -801,17 +801,17 @@
   <div class="nav__overlay" id="nav-overlay" aria-hidden="true">
     <div class="nav__overlay-left">
       <ul class="nav__menu-links">
-        <li><a href="work.html"              data-index="01">Work</a></li>
-        <li><a href="services.html" data-index="02">Services</a></li>
-        <li><a href="about.html"             data-index="03">About</a></li>
-        <li><a href="articles.html"          data-index="04" class="active">Articles</a></li>
+        <li><a href="/work.html"              data-index="01">Work</a></li>
+        <li><a href="/services.html" data-index="02">Services</a></li>
+        <li><a href="/about.html"             data-index="03">About</a></li>
+        <li><a href="/articles.html"          data-index="04" class="active">Articles</a></li>
         <li><a href="#markets" data-index="05">Markets</a></li>
       </ul>
     </div>
     <div class="nav__overlay-right">
       <div class="nav__meta">
         <p class="nav__meta-label">Ready to build?</p>
-        <a href="index.html#contact" class="nav__meta-cta">Start a Project ↗</a>
+        <a href="/#contact" class="nav__meta-cta">Start a Project ↗</a>
       </div>
       <p class="nav__meta-tagline">Precision over decoration.<br>Logic over assumption.</p>
     </div>
@@ -823,12 +823,12 @@
     <div class="w">
 
       <nav class="post-crumb reveal" aria-label="Breadcrumb">
-        <a href="index.html">Home</a>
+        <a href="/">Home</a>
         <span class="post-crumb__sep">/</span>
-        <a href="articles.html">Articles</a>
+        <a href="/articles.html">Articles</a>
         <span class="post-crumb__sep">/</span>
         <!-- CMS: {article.category} -->
-        <a href="articles.html">Brand Identity</a>
+        <a href="/articles.html">Brand Identity</a>
         <span class="post-crumb__sep post-crumb__sep--title">/</span>
         <span class="post-crumb__current">Current article</span>
       </nav>
@@ -1030,10 +1030,10 @@
       <div class="post-footer__inner">
         <div class="post-tags">
           <span class="post-tags__label">Tags</span>
-          <a href="articles.html" class="post-tag">Design Systems</a>
-          <a href="articles.html" class="post-tag">Brand Identity</a>
-          <a href="articles.html" class="post-tag">Engineering</a>
-          <a href="articles.html" class="post-tag">Process</a>
+          <a href="/articles.html" class="post-tag">Design Systems</a>
+          <a href="/articles.html" class="post-tag">Brand Identity</a>
+          <a href="/articles.html" class="post-tag">Engineering</a>
+          <a href="/articles.html" class="post-tag">Process</a>
         </div>
         <div class="post-share">
           <span class="post-share__label">Share</span>
@@ -1053,7 +1053,7 @@
           <p class="slabel">Related Articles</p>
           <h2 class="sh">More on<br><em>this topic.</em></h2>
         </div>
-        <a href="articles.html" class="post-related__all">All Articles →</a>
+        <a href="/articles.html" class="post-related__all">All Articles →</a>
       </div>
       <div class="related-grid stagger" id="related-grid">
 
@@ -1187,6 +1187,7 @@
     /* ---- CMS mode: wipe hardcoded content immediately so it never flashes ---- */
     (function () {
       const p = new URLSearchParams(location.search);
+      if (window.__ARTICLE__) return;   /* server-rendered: the real article is already in the DOM */
       if (!p.get('slug') && !p.get('id')) return;
       ['.post-cat','.post-title','.post-meta__name','.post-meta__role','.post-crumb__current'].forEach(s => {
         const el = document.querySelector(s); if (el) el.textContent = '';
@@ -1307,7 +1308,7 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="admin/supabase.js"></script>
+  <script src="/admin/supabase.js"></script>
   <script>
   /* ---- Article CMS ---- */
   (async () => {
@@ -1315,9 +1316,10 @@
     const params = new URLSearchParams(location.search);
     const slug = params.get('slug');
     const id   = params.get('id');
-    if (!slug && !id) return;
+    const pre  = window.__ARTICLE__ || null;   /* injected by api/article.js on /articles/<slug> */
+    if (!slug && !id && !pre) return;
 
-    const CAT = { brand: 'Brand Identity', interface: 'Interface Design', engineering: 'Engineering', process: 'Process', opinion: 'Opinion' };
+    const CAT = { brand: 'Brand Identity', interface: 'Interface Design', engineering: 'Engineering', process: 'Process', opinion: 'Opinion', compliance: 'Compliance' };
     const esc = s => s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const fmtDate = iso => iso ? new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
 
@@ -1371,11 +1373,11 @@
 
     function cardHtml(a) {
       const label = CAT[a.category] || a.category || '';
-      const urlParam = a.slug ? `slug=${encodeURIComponent(a.slug)}` : `id=${encodeURIComponent(a.id)}`;
+      const href = a.slug ? `/articles/${encodeURIComponent(a.slug)}` : `/article.html?id=${encodeURIComponent(a.id)}`;
       const img   = a.hero_image_url
         ? `<img src="${esc(a.hero_image_url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`
         : `<svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="600" height="338" fill="oklch(0.94 0.001 0)"/><rect x="24" y="24" width="80" height="6" rx="2" fill="oklch(0.60 0.18 249 / 0.5)"/><rect x="24" y="40" width="200" height="14" rx="2" fill="oklch(0 0 0 / 0.12)"/><circle cx="500" cy="169" r="90" fill="oklch(0.60 0.18 249 / 0.08)"/><rect x="24" y="280" width="48" height="24" rx="2" fill="oklch(0.60 0.18 249)"/></svg>`;
-      return `<a href="article.html?${urlParam}" class="bpost" data-category="${esc(a.category||'')}">
+      return `<a href="${href}" class="bpost" data-category="${esc(a.category||'')}">
         <div class="bpost__line"></div>
         <div class="bpost__img">${img}</div>
         <span class="bpost__cat">${esc(label)}</span>
@@ -1389,8 +1391,8 @@
     }
 
     /* Admin preview: check localStorage first (bypasses Supabase RLS) */
-    let a = null;
-    if (id) {
+    let a = pre;
+    if (!a && id) {
       try {
         const raw = localStorage.getItem('parallax_preview');
         if (raw) {
@@ -1453,7 +1455,8 @@
     /* Date / read time / category meta bar */
     const metaItems = document.querySelectorAll('.post-meta__item');
     if (metaItems[0]) metaItems[0].innerHTML = `<strong>${fmtDate(a.created_at)}</strong>`;
-    if (metaItems[1]) metaItems[1].innerHTML = `<strong>${esc(a.read_time||'')}</strong>${a.read_time?' read':''}`;
+    const rt = typeof a.read_time === 'number' ? `${a.read_time} min` : (a.read_time || '');
+    if (metaItems[1]) metaItems[1].innerHTML = `<strong>${esc(rt)}</strong>${rt ? ' read' : ''}`;
     if (metaItems[2]) metaItems[2].textContent = catLabel;
 
     /* Hero image */
@@ -1489,7 +1492,7 @@
     /* Tags */
     if (a.tags && a.tags.length) {
       const tagsEl = document.querySelector('.post-tags');
-      if (tagsEl) tagsEl.innerHTML = `<span class="post-tags__label">Tags</span>${a.tags.map(t=>`<a href="articles.html" class="post-tag">${esc(t)}</a>`).join('')}`;
+      if (tagsEl) tagsEl.innerHTML = `<span class="post-tags__label">Tags</span>${a.tags.map(t=>`<a href="/articles.html" class="post-tag">${esc(t)}</a>`).join('')}`;
     }
 
     /* Reveal all content elements (IO already fired on empty elements) */

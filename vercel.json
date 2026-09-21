@@ -7,14 +7,22 @@
     { "source": "/project-v3.html", "destination": "/work.html", "permanent": true },
     { "source": "/project-v3", "destination": "/work.html", "permanent": true },
     { "source": "/project-template.html", "destination": "/work.html", "permanent": true },
-    { "source": "/project-template", "destination": "/work.html", "permanent": true }
+    { "source": "/project-template", "destination": "/work.html", "permanent": true },
+    { "source": "/article-template.html", "destination": "/articles.html", "permanent": true },
+    { "source": "/article-template", "destination": "/articles.html", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/project.html", "destination": "/api/project" }
+    { "source": "/project.html", "destination": "/api/project" },
+    { "source": "/article.html", "destination": "/api/article" },
+    { "source": "/articles/:slug", "destination": "/api/article?slug=:slug" },
+    { "source": "/sitemap-articles.xml", "destination": "/api/sitemap-articles" }
   ],
   "functions": {
     "api/project.js": {
       "includeFiles": "project-template.html"
+    },
+    "api/article.js": {
+      "includeFiles": "article-template.html"
     }
   }
 }

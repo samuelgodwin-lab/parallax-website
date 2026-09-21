@@ -138,8 +138,7 @@ def inject(slug):
     j = json.loads(mm.group(1))
     if '@graph' in j:   # already ours: recover the service node
         j = next(n for n in j['@graph'] if n.get('@type') == 'ProfessionalService')
-        for k in ('@id', 'parentOrganization', 'mainEntityOfPage', 'makesOffer'): j.pop(k, None)
-        j['parentOrganization'] = {"@type": "Organization", "name": "Parallax", "url": f"{SITE}/"}
+        for k in ('@id', 'mainEntityOfPage', 'makesOffer'): j.pop(k, None)
     s = s[:mm.start(1)] + graph(slug, m, j, pairs) + s[mm.end(1):]
     # FAQ before the CTA
     cta = re.search(r'  <!-- =+\n\s+1\d — CTA', s)
@@ -147,6 +146,19 @@ def inject(slug):
     s = s[:cta.start()] + faq_html(pairs, m) + s[cta.start():]
     open(path, 'w').write(s)
     print(slug, 'ok —', len(pairs), 'questions')
+
+def articles_for(name):
+    """Published CMS articles tagged with the market name, for llms.txt."""
+    import urllib.request, urllib.parse
+    q = urllib.parse.quote('{"' + name + '"}')
+    url = ("https://oveiewvqykwoliuyaiey.supabase.co/rest/v1/articles?status=eq.published&select=slug,title,excerpt"
+           f"&tags=cs.{q}&order=created_at.desc")
+    anon = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92ZWlld3ZxeWt3b2xpdXlhaWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDMyMDIsImV4cCI6MjA5MzExOTIwMn0.Lz48hdUsqp3PX8jLGEJTc_5pVDn_gMjxEbhmpGdosbA"
+    try:
+        req = urllib.request.Request(url, headers={"apikey": anon, "Authorization": "Bearer " + anon})
+        return json.load(urllib.request.urlopen(req, timeout=10))
+    except Exception:
+        return []
 
 def llms():
     lines = ["# Parallax", "",
@@ -169,7 +181,11 @@ def llms():
       lines.append(f"### {m['name']} ({SITE}/{slug}/)")
       for q, a in pairs:
         lines.append(f"- **{q}** {a}")
+      for art in articles_for(m['name']):
+        t = re.sub(r'\*([^*]+)\*', r'\1', art.get('title') or '')
+        lines.append(f"- Article: [{t}]({SITE}/articles/{art['slug']}) — {' '.join((art.get('excerpt') or '').split())}")
       lines.append("")
+    lines += ["## Journal", "", f"All articles: {SITE}/articles.html · sitemap {SITE}/sitemap-articles.xml", ""]
     lines.append(f"Last updated {TODAY}.")
     open(f"{ROOT}/llms.txt", 'w').write('\n'.join(lines) + '\n')
     print('llms.txt ok')

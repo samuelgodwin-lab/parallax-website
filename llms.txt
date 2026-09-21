@@ -54,4 +54,8 @@ Contact: projects@parallaxorg.com · https://www.linkedin.com/company/parallaxor
 - **Which industries in Denver do you design for?** Four sectors sit at the centre of the Denver practice: startups and scale-ups that need a brand system and product UI before the next round; aerospace, energy and industrial companies with internal tools that were never designed; outdoor and consumer brands where taste is the buying criterion; and real-estate and proptech portals that move inventory.
 - **How do I start a project with Parallax in Denver?** Email projects@parallaxorg.com with what you're building. The studio starts by questioning the brief on one call — no deck — and answers in your afternoon with the first response in your inbox the next morning. If Parallax isn't the right studio for the work, it will say so and point you to one that is.
 
+## Journal
+
+All articles: https://www.parallaxorg.com/articles.html · sitemap https://www.parallaxorg.com/sitemap-articles.xml
+
 Last updated 2026-09-21.
