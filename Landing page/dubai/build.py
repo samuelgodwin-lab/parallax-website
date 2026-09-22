@@ -325,14 +325,14 @@ head = '''<!doctype html>
 <meta property="og:url" content="https://www.parallaxorg.com/dubai/">
 <meta property="og:title" content="Design Agency in Dubai — Brand, Product &amp; Web | Parallax">
 <meta property="og:description" content="Brand systems, product UI and frontend engineering for Dubai's next companies — one studio, identity to shipped code, bilingual Arabic–English, PDPL-ready.">
-<meta property="og:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1080">
+<meta property="og:image" content="https://www.parallaxorg.com/dubai/images/og-dubai.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Parallax — brand systems and apps for Dubai">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Design Agency in Dubai — Brand, Product &amp; Web | Parallax">
 <meta name="twitter:description" content="Brand systems, product UI and frontend engineering for Dubai's next companies — one studio, identity to shipped code, bilingual Arabic–English, PDPL-ready.">
-<meta name="twitter:image" content="https://www.parallaxorg.com/dubai/images/dxb-hero-poster.jpg">
+<meta name="twitter:image" content="https://www.parallaxorg.com/dubai/images/og-dubai.png">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
