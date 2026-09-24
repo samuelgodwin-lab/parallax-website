@@ -489,9 +489,11 @@
        dot+label, lands on the coordinate. */
     .mk__pin {
       position: absolute; left: var(--x); top: var(--y);
-      width: 28px; height: 28px; margin: -14px 0 0 -14px;
-      display: grid; place-items: center; text-decoration: none;
+      width: 34px; height: 34px; margin: -17px 0 0 -17px;
+      display: grid; place-items: center; text-decoration: none; z-index: 1;
     }
+    /* Hover grows the ring past the neighbouring pin, so the active one stacks on top. */
+    a.mk__pin:hover, a.mk__pin:focus-visible { z-index: 2; }
     .mk__dot {
       position: relative; width: 9px; height: 9px; flex-shrink: 0; border-radius: 50%;
       background: var(--accent-hi); border: 1.5px solid var(--accent-hi);
@@ -499,13 +501,18 @@
     }
     .mk__pin--live .mk__dot { background: var(--accent); border-color: var(--accent); }
     .mk__pin-label {
-      position: absolute; left: calc(100% - 4px); top: 50%; white-space: nowrap;
+      position: absolute; left: calc(100% + 7px); top: 50%; white-space: nowrap;
       font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text); background: oklch(1 0 0 / 0.88); padding: 3px 6px; pointer-events: none;
+      font-weight: 600; color: var(--accent); background: oklch(1 0 0); padding: 4px 7px;
+      border: 1px solid var(--accent); box-shadow: 2px 2px 0 0 oklch(0.53 0.18 249 / 0.14);
+      pointer-events: none;
       opacity: 0; transform: translateY(-50%) translateX(-4px);
       transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
-    .mk__pin--flip .mk__pin-label { left: auto; right: calc(100% - 4px); transform: translateY(-50%) translateX(4px); }
+    /* Opt-in per pin, not a rule about position: a label flips left only where it
+       would otherwise run off the map. Northeast India sits at 72% and still has
+       room on the right, and flipping it laid its label over Bengaluru and Dubai. */
+    .mk__pin--flip .mk__pin-label { left: auto; right: calc(100% + 7px); transform: translateY(-50%) translateX(4px); }
     .mk__pin:hover .mk__pin-label, .mk__pin:focus-visible .mk__pin-label { opacity: 1; transform: translateY(-50%); }
     @keyframes mkPing {
       0%   { transform: scale(0.55); opacity: 0.65; }
@@ -519,14 +526,32 @@
     .mk__pin--live .mk__dot::after { color: var(--accent); }
     .mk__pin--live .mk__dot::before {
       content: ""; position: absolute; inset: -7px; border: 1px solid var(--accent-muted); border-radius: 50%;
+      pointer-events: none;
+      transition: border-color 150ms var(--ease-out), border-width 150ms var(--ease-out);
     }
     @media (prefers-reduced-motion: reduce) {
       .mk__pin-label { transition: opacity 150ms linear; transform: translateY(-50%); }
       .mk__dot::after { animation: none; opacity: 0.28; transform: scale(1.9); }
     }
+    /* THE ACTIVE MARKER. 1.35 was too close to rest to read as "highlighted";
+       2x plus a solid accent ring is unmistakable, and the ping is switched off
+       so the ring is the only halo. .is-linked is set by JS on BOTH halves of a
+       market — map pin and list cell — so lighting one lights the other. :hover
+       and :focus-visible carry the same look on their own, so the map still
+       responds on its own if that JS never runs. */
+    .mk__pin--live:not(.mk__pin--here).is-linked .mk__dot,
+    .mk__pin--live:not(.mk__pin--here):focus-visible .mk__dot { transform: scale(2); }
+    .mk__pin--live:not(.mk__pin--here).is-linked .mk__dot::before,
+    .mk__pin--live:not(.mk__pin--here):focus-visible .mk__dot::before { border-width: 2px; border-color: var(--accent); }
+    .mk__pin--live:not(.mk__pin--here).is-linked .mk__dot::after,
+    .mk__pin--live:not(.mk__pin--here):focus-visible .mk__dot::after { animation: none; opacity: 0; }
+    /* Reached from the list, the pin has to name itself — the cursor is nowhere near it. */
+    .mk__pin.is-linked { z-index: 2; }
+    .mk__pin.is-linked .mk__pin-label { opacity: 1; transform: translateY(-50%); }
     @media (hover: hover) and (pointer: fine) {
-      .mk__pin--live:not(.mk__pin--here):hover .mk__dot { transform: scale(1.35); }
-      .mk__pin--live:not(.mk__pin--here):hover .mk__pin-label { color: var(--accent); }
+      .mk__pin--live:not(.mk__pin--here):hover .mk__dot { transform: scale(2); }
+      .mk__pin--live:not(.mk__pin--here):hover .mk__dot::before { border-width: 2px; border-color: var(--accent); }
+      .mk__pin--live:not(.mk__pin--here):hover .mk__dot::after { animation: none; opacity: 0; }
     }
     .mk__pin--live:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
@@ -538,10 +563,15 @@
     /* Wherever the map shows, the five markets stay on one row; a narrow cell
        stacks its time under the name (container query) rather than wrapping. */
     @media (min-width: 761px) { .mk__list { grid-template-columns: repeat(5, 1fr); } }
-    .mk__row { background: var(--bg); box-shadow: 0 0 0 1px var(--border); container-type: inline-size; }
+    /* display:grid so the single cell fills the row on both axes. Without it a
+       cell that wraps to two lines (Northeast India's "You're here" is the
+       longest string in the set) grows its own row and leaves the other four
+       with dead space below the clickable area. */
+    .mk__row { position: relative; display: grid; background: var(--bg); box-shadow: 0 0 0 1px var(--border); container-type: inline-size; }
     .mk__cell {
-      display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s1) var(--s2);
-      padding: var(--s4); text-decoration: none; transition: background 150ms var(--ease-out);
+      display: flex; flex-wrap: wrap; align-items: baseline; align-content: center; gap: var(--s1) var(--s2);
+      padding: var(--s4); text-decoration: none;
+      transition: background 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
     .mk__meta { display: flex; align-items: baseline; gap: var(--s2); margin-left: auto; }
     .mk__name {
@@ -560,10 +590,30 @@
     .mk__go, .mk__soon, .mk__here {
       font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;
     }
-    .mk__go { color: var(--accent); }
+    /* 9px/400 next to a 12px/500 clock read as a caption, not a call to
+       action. 10px/600 puts "Visit" level with the time it sits beside. */
+    .mk__go { color: var(--accent); font-size: 10px; font-weight: 600; }
+    .mk__go span { display: inline-block; transition: transform 150ms var(--ease-out); }
     .mk__soon, .mk__here { color: var(--text-3); }
+    a.mk__cell:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+    /* The site's button hover — 3px offset accent shadow on a 1.5px lift —
+       applied to the cell, so the strip reads as five buttons, not a clock row. */
+    .mk__row--live:has(a.mk__cell.is-linked) { z-index: 2; }
+    .mk__row--live a.mk__cell.is-linked {
+      background: oklch(0.53 0.18 249 / 0.06);
+      box-shadow: inset 0 0 0 1px var(--accent), 3px 3px 0 0 var(--accent);
+      transform: translate(-1.5px, -1.5px);
+    }
+    .mk__row--live a.mk__cell.is-linked .mk__go span { transform: translateX(3px); }
     @media (hover: hover) and (pointer: fine) {
-      .mk__row--live a.mk__cell:hover { background: oklch(0.53 0.18 249 / 0.06); }
+      .mk__row--live:has(a.mk__cell:hover) { z-index: 2; }
+      .mk__row--live a.mk__cell:hover {
+        background: oklch(0.53 0.18 249 / 0.06);
+        box-shadow: inset 0 0 0 1px var(--accent), 3px 3px 0 0 var(--accent);
+        transform: translate(-1.5px, -1.5px);
+      }
+      .mk__row--live a.mk__cell:hover .mk__go span { transform: translateX(3px); }
+      .mk__row--live a.mk__cell:active { transform: translate(-1.5px, -1.5px) scale(0.97); }
     }
     @media (max-width: 760px) {
       .mk__map { display: none; }
@@ -891,7 +941,7 @@
         <a class="mk__pin mk__pin--live" style="--x:19.61%;--y:40.75%;--d:0.6s" href="/denver/" data-tz="America/Denver"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Denver <span aria-hidden="true">&rarr;</span></span></a>
         <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:61.52%;--y:52.06%;--d:1.2s" href="/dubai/" data-tz="Asia/Dubai"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Dubai <span aria-hidden="true">&rarr;</span></span></a>
         <a class="mk__pin mk__pin--live" style="--x:48.33%;--y:37.98%;--d:1.8s" href="/munich/" data-tz="Europe/Berlin"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Munich <span aria-hidden="true">&rarr;</span></span></a>
-        <a class="mk__pin mk__pin--live mk__pin--flip" style="--x:72.14%;--y:51.15%;--d:2.4s" href="/northeast-india/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Northeast India <span aria-hidden="true">&rarr;</span></span></a>
+        <a class="mk__pin mk__pin--live" style="--x:72.14%;--y:51.15%;--d:2.4s" href="/northeast-india/" data-tz="Asia/Kolkata"><span class="mk__dot" aria-hidden="true"></span><span class="mk__pin-label">Northeast India <span aria-hidden="true">&rarr;</span></span></a>
       </div>
 
       <ul class="mk__list">
@@ -1019,6 +1069,39 @@
       }
       tick();
       setInterval(tick, 1000);
+    })();
+
+    /* WHERE WE WORK — map <-> list. Lighting either half of a market lights the
+       other, so hovering "Munich" in the list names Munich on the map and the
+       map reads as a control, not an illustration. Paired by href, so a new
+       market is HTML only. Pointer pairing is gated to real hover devices — on
+       a phone the map is hidden and a tap should just follow the link — while
+       focus is bound either way so the map answers the keyboard too. */
+    (function () {
+      const section = document.querySelector('.markets');
+      if (!section) return;
+      const groups = new Map();
+      section.querySelectorAll('a.mk__pin[href], a.mk__cell[href]').forEach(el => {
+        const href = el.getAttribute('href');
+        if (!groups.has(href)) groups.set(href, []);
+        groups.get(href).push(el);
+      });
+      const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      groups.forEach(pair => {
+        /* Defensive: a market that somehow has only one half has nothing to
+           light. (Below 760px the map is display:none, but its pins are still
+           in the DOM — the pointer gate above is what spares touch devices.) */
+        if (pair.length < 2) return;
+        const set = on => pair.forEach(el => el.classList.toggle('is-linked', on));
+        pair.forEach(el => {
+          if (fine) {
+            el.addEventListener('pointerenter', () => set(true));
+            el.addEventListener('pointerleave', () => set(false));
+          }
+          el.addEventListener('focus', () => set(true));
+          el.addEventListener('blur', () => set(false));
+        });
+      });
     })();
 
     /* ---- Articles hero cursor FX ---- */

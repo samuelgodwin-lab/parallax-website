@@ -295,6 +295,49 @@
     setInterval(tick, 1000);
   }
 
+  /* ── Map ↔ list ──
+     The map was decoration: nothing tied a pin to the row underneath it. Now
+     lighting either half of a market lights the other, so hovering "Munich" in
+     the list names Munich on the map, and the map reads as a control rather
+     than an illustration. Pairing is by href, so a new market needs no JS
+     change — same contract as the clocks above. The pointer half is gated to
+     real hover devices: on a phone the map is hidden and a tap should just
+     follow the link. Focus is bound either way, so the map answers the
+     keyboard too. */
+  function initMarketLink() {
+    var section = document.querySelector('.markets');
+    if (!section) return;
+
+    var groups = {};
+    section.querySelectorAll('a.mk__pin[href], a.mk__cell[href]').forEach(function (el) {
+      var href = el.getAttribute('href');
+      (groups[href] = groups[href] || []).push(el);
+    });
+
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    Object.keys(groups).forEach(function (href) {
+      var pair = groups[href];
+      /* Defensive: a market that somehow has only one half has nothing to
+         light. (Below 760px the map is display:none, but its pins are still in
+         the DOM — the pointer gate above is what spares touch devices.) */
+      if (pair.length < 2) return;
+
+      function set(on) {
+        pair.forEach(function (el) { el.classList.toggle('is-linked', on); });
+      }
+
+      pair.forEach(function (el) {
+        if (fine) {
+          el.addEventListener('pointerenter', function () { set(true); });
+          el.addEventListener('pointerleave', function () { set(false); });
+        }
+        el.addEventListener('focus', function () { set(true); });
+        el.addEventListener('blur', function () { set(false); });
+      });
+    });
+  }
+
   /* ── Nav frosting ──
      Copied from parallaxorg.com: the nav is transparent over the hero and
      frosts once you are past 40px, so it stays readable over whatever is
@@ -469,7 +512,7 @@
     });
   }
 
-  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initPricing(); initCtaCursor(); initClocks(); initNav(); initNetwork(); initMarquee(); initHeroLoop(); initFaq(); }
+  function init() { initReveal(); initHeroCursor(); initAccordion('[data-svc]'); initAccordion('[data-perk]'); initPricing(); initCtaCursor(); initClocks(); initMarketLink(); initNav(); initNetwork(); initMarquee(); initHeroLoop(); initFaq(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

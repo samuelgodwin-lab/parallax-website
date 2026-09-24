@@ -1764,13 +1764,17 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
   position: absolute;
   left: var(--x);
   top: var(--y);
-  width: 28px;
-  height: 28px;
-  margin: -14px 0 0 -14px;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
   display: grid;
   place-items: center;
   text-decoration: none;
+  z-index: 1;
 }
+/* Hover grows the ring past the neighbouring pin, so the active one stacks on top. */
+a.mk__pin:hover,
+a.mk__pin:focus-visible { z-index: 2; }
 
 .mk__dot {
   position: relative;
@@ -1791,26 +1795,31 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
    still the link's accessible name and still crawlable. */
 .mk__pin-label {
   position: absolute;
-  left: calc(100% - 4px);
+  left: calc(100% + 7px);
   top: 50%;
   white-space: nowrap;
   font-family: var(--font-m);
   font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text);
-  background: oklch(1 0 0 / 0.88);
-  padding: 3px 6px;
+  font-weight: 600;
+  color: var(--accent);
+  background: oklch(1 0 0);
+  padding: 4px 7px;
+  border: var(--rule) solid var(--accent);
+  box-shadow: 2px 2px 0 0 var(--accent-muted);
   pointer-events: none;
   opacity: 0;
   transform: translateY(-50%) translateX(-4px);
   transition: opacity var(--dur-micro) var(--ease-out),
               transform var(--dur-micro) var(--ease-out);
 }
-/* Pins past ~60% would run their label off the right edge, so it flips left. */
+/* Opt-in per pin, not a rule about position: a label flips left only where it
+   would otherwise run off the map. Northeast India sits at 72% and still has room
+   on the right, and flipping it laid its label over Bengaluru and Dubai. */
 .mk__pin--flip .mk__pin-label {
   left: auto;
-  right: calc(100% - 4px);
+  right: calc(100% + 7px);
   transform: translateY(-50%) translateX(4px);
 }
 .mk__pin:hover .mk__pin-label,
@@ -1850,15 +1859,40 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
   content: "";
   position: absolute;
   inset: -7px;
-  border: 1px solid var(--accent-muted);
+  border: var(--rule) solid var(--accent-muted);
   border-radius: 50%;
+  pointer-events: none;
+  transition: border-color var(--dur-micro) var(--ease-out),
+              border-width var(--dur-micro) var(--ease-out);
 }
 @media (prefers-reduced-motion: reduce) {
   .mk__dot::after { animation: none; opacity: 0.28; transform: scale(1.9); }
 }
+/* THE ACTIVE MARKER. 1.35 was too close to rest to read as "highlighted"; 2x
+   plus a solid accent ring is unmistakable, and the ping is switched off so the
+   ring is the only halo. .is-linked is set by JS on BOTH halves of a market —
+   map pin and list cell — so lighting one lights the other. :hover and
+   :focus-visible carry the same look on their own, so the map still responds on
+   its own if that JS never runs. */
+.mk__pin--live:not(.mk__pin--here).is-linked .mk__dot,
+.mk__pin--live:not(.mk__pin--here):focus-visible .mk__dot { transform: scale(2); }
+.mk__pin--live:not(.mk__pin--here).is-linked .mk__dot::before,
+.mk__pin--live:not(.mk__pin--here):focus-visible .mk__dot::before {
+  border-width: 2px;
+  border-color: var(--accent);
+}
+.mk__pin--live:not(.mk__pin--here).is-linked .mk__dot::after,
+.mk__pin--live:not(.mk__pin--here):focus-visible .mk__dot::after { animation: none; opacity: 0; }
+/* Reached from the list, the pin has to name itself — the cursor is nowhere near it. */
+.mk__pin.is-linked { z-index: 2; }
+.mk__pin.is-linked .mk__pin-label { opacity: 1; transform: translateY(-50%); }
 @media (hover: hover) and (pointer: fine) {
-  .mk__pin--live:not(.mk__pin--here):hover .mk__dot { transform: scale(1.35); }
-  .mk__pin--live:not(.mk__pin--here):hover .mk__pin-label { color: var(--accent); }
+  .mk__pin--live:not(.mk__pin--here):hover .mk__dot { transform: scale(2); }
+  .mk__pin--live:not(.mk__pin--here):hover .mk__dot::before {
+    border-width: 2px;
+    border-color: var(--accent);
+  }
+  .mk__pin--live:not(.mk__pin--here):hover .mk__dot::after { animation: none; opacity: 0; }
 }
 .mk__pin--live:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
@@ -1880,7 +1914,13 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
 }
 /* Hairlines are drawn by each cell, not by a grey list background showing
    through the gap — so a leftover slot below 760px is white, not grey. */
+/* display:grid so the single cell fills the row on both axes. Without it a cell
+   that wraps to two lines (Northeast India's "You're here" is the longest
+   string in the set) grows its own row and leaves the other four with dead
+   space below the clickable area. */
 .mk__row {
+  position: relative;
+  display: grid;
   background: var(--bg);
   box-shadow: 0 0 0 var(--rule) var(--border);
   container-type: inline-size;
@@ -1889,10 +1929,15 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  /* Cells fill the row (see .mk__row), so centre the line(s) in it — otherwise
+     a one-line cell sits at the top of a row made tall by a wrapping neighbour. */
+  align-content: center;
   gap: var(--s1) var(--s2);
   padding: var(--s4);
   text-decoration: none;
-  transition: background var(--dur-micro) var(--ease-out);
+  transition: background var(--dur-micro) var(--ease-out),
+              box-shadow var(--dur-micro) var(--ease-out),
+              transform var(--dur-micro) var(--ease-out);
 }
 .mk__meta {
   display: flex;
@@ -1931,13 +1976,20 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
   transition: color 800ms linear;
 }
 .mk__time.tick { color: var(--accent); }
+/* 9px/400 next to a 12px/500 clock read as a caption, not a call to action.
+   10px/600 puts "Visit" level with the time it sits beside. */
 .mk__go {
   font-family: var(--font-m);
-  font-size: 9px;
+  font-size: 10px;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
   white-space: nowrap;
+}
+.mk__go span {
+  display: inline-block;
+  transition: transform var(--dur-micro) var(--ease-out);
 }
 .mk__soon,
 .mk__here {
@@ -1948,8 +2000,33 @@ a.net-drawer__btn { text-decoration: none; }   /* the plan drawer's CTA is a lin
   color: var(--text-3);
   white-space: nowrap;
 }
+a.mk__cell:focus-visible {
+  outline: var(--focus-ring) solid var(--accent);
+  outline-offset: -3px;
+}
+/* The site's button hover — 3px offset accent shadow on a 1.5px lift — applied
+   to the cell, so the strip reads as five buttons, not a clock row. Scoped to
+   a.mk__cell: the unscoped rule also tinted this page's own non-link row. */
+.mk__row--live:has(a.mk__cell.is-linked) { z-index: 2; }
+.mk__row--live a.mk__cell.is-linked {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 var(--rule) var(--accent),
+              var(--btn-shadow) var(--btn-shadow) 0 0 var(--accent);
+  transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+}
+.mk__row--live a.mk__cell.is-linked .mk__go span { transform: translateX(3px); }
 @media (hover: hover) and (pointer: fine) {
-  .mk__row--live .mk__cell:hover { background: var(--accent-soft); }
+  .mk__row--live:has(a.mk__cell:hover) { z-index: 2; }
+  .mk__row--live a.mk__cell:hover {
+    background: var(--accent-soft);
+    box-shadow: inset 0 0 0 var(--rule) var(--accent),
+                var(--btn-shadow) var(--btn-shadow) 0 0 var(--accent);
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1));
+  }
+  .mk__row--live a.mk__cell:hover .mk__go span { transform: translateX(3px); }
+  .mk__row--live a.mk__cell:active {
+    transform: translate(calc(var(--btn-lift) * -1), calc(var(--btn-lift) * -1)) scale(0.97);
+  }
 }
 
 /* Below this even the live labels crowd; the list carries everything. */
