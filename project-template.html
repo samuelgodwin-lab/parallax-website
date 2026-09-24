@@ -830,8 +830,11 @@
     }
     .dig-tile {
       position: relative; overflow: hidden;
-      border: 1px solid oklch(1 0 0 / 0.08);
-      background: oklch(0.10 0.003 249);
+      /* Neutral black, stated outright. A translucent white edge over the cool
+         near-black used to composite to a faintly blue hairline on wide-gamut
+         displays — the mockup canvases are neutral, so this frame is too. */
+      border: 1px solid oklch(0.12 0 0);
+      background: oklch(0.10 0 0);
       transition: border-color 280ms var(--ease-out), transform 280ms var(--ease-out);
       display: flex; flex-direction: column;
     }
@@ -907,7 +910,10 @@
     }
     .dig--lead .dig-tile__media img {
       width: 100%; height: 100%;
-      object-fit: cover; object-position: top center;
+      object-fit: cover;
+      /* --dig-focus is measured from the image itself at load (see fitLeadTiles)
+         so a mockup exported on a non-house canvas still frames like the rest. */
+      object-position: 50% var(--dig-focus, 50%);
       transition: transform 1000ms var(--ease-out);
     }
     @media (hover:hover) and (pointer:fine) {
@@ -1955,7 +1961,12 @@
         : `<div class="${cls}" style="border:1px dashed oklch(0 0 0/0.12);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:oklch(0 0 0/0.18);">${cap}</div>`;
     }
     function digTile(url, cls, cap) {
-      return url ? `<div class="${cls}"><img src="${url}" alt="${cap}" loading="lazy"><span class="dig-tile__cap">${cap}</span></div>` : '';
+      if (!url) return '';
+      const img = `<img src="${url}" alt="${cap}" loading="lazy">`;
+      /* Lead tiles get the media wrapper the lead-specific CSS targets — without
+         it the wide desktop tile fell back to the generic centred crop. */
+      const body = /\bdig--lead\b/.test(cls) ? `<div class="dig-tile__media">${img}</div>` : img;
+      return `<div class="${cls}">${body}<span class="dig-tile__cap">${cap}</span></div>`;
     }
 
     /* ---- LOAD PROJECT ---- */
@@ -2014,7 +2025,46 @@
       const atoms        = Array.isArray(p.brand_atoms) ? p.brand_atoms : [];
       const uiComponents = Array.isArray(p.brand_ui) ? p.brand_ui : [];
       const widgets      = Array.isArray(p.brand_widgets) ? p.brand_widgets : [];
-      const fontSources  = Array.isArray(p.brand_fonts?.sources) ? p.brand_fonts.sources : [];
+      /* Font sources — normalised so a blank family in the CMS never silently
+         kills the Typography card. An uploaded file carries its own family and
+         weight in the filename ("Manrope-Bold.ttf"), so derive both from there. */
+      const FONT_WEIGHTS = { thin:100, hairline:100, extralight:200, ultralight:200, light:300,
+        regular:400, normal:400, book:400, medium:500, semibold:600, demibold:600,
+        bold:700, extrabold:800, ultrabold:800, black:900, heavy:900 };
+      const FONT_WEIGHT_NAMES = { 100:'Thin', 200:'ExtraLight', 300:'Light', 400:'Regular',
+        500:'Medium', 600:'SemiBold', 700:'Bold', 800:'ExtraBold', 900:'Black' };
+      /* Anchored to the END of the stem and to a segment boundary, so a family
+         whose NAME contains a style word ("Things-Regular") isn't read as Thin. */
+      const FONT_STYLE_RE = new RegExp(
+        '(?:^|[-_ ])(extra[-_ ]?light|ultra[-_ ]?light|semi[-_ ]?bold|demi[-_ ]?bold|extra[-_ ]?bold|ultra[-_ ]?bold|' +
+        'thin|hairline|light|medium|regular|normal|book|black|heavy|bold)(?:[-_ ]*(italic|oblique))?$', 'i');
+      function fontStem(url) {
+        try {
+          return decodeURIComponent(String(url || '').split('?')[0].split('/').pop() || '')
+            .replace(/\.(woff2?|ttf|otf)$/i, '')
+            .replace(/([a-z0-9])([A-Z])/g, '$1-$2');   /* ManropeBold -> Manrope-Bold */
+        } catch (_) { return ''; }
+      }
+      function parseFontFile(stem) {
+        const m = stem.match(FONT_STYLE_RE);
+        const italic = /(?:^|[-_ ])(italic|oblique)$/i.test(stem) || !!(m && m[2]);
+        const weight = m ? (FONT_WEIGHTS[m[1].replace(/[-_ ]/g, '').toLowerCase()] || 400) : 400;
+        const family = stem
+          .replace(FONT_STYLE_RE, '')
+          .replace(/(?:^|[-_ ])(italic|oblique)$/i, '')
+          .replace(/[-_]+/g, ' ').trim();
+        return { family: family || stem, weight, style: italic ? 'italic' : 'normal' };
+      }
+      const fontSources  = (Array.isArray(p.brand_fonts?.sources) ? p.brand_fonts.sources : []).map(s => {
+        const stem = fontStem(s.url);
+        const file = stem ? parseFontFile(stem) : { family: '', weight: 400, style: 'normal' };
+        return {
+          ...s,
+          family: (s.family || '').trim() || file.family,
+          weight: Number(s.weight) || file.weight,
+          style:  file.style,
+        };
+      });
       const fonts        = fontSources.filter(s => s.family);
       const stats        = [1,2,3,4,5].map(i => ({ value: p[`stat${i}_value`], label: p[`stat${i}_label`] })).filter(s => s.value);
       function statHtml(val) {
@@ -2027,20 +2077,22 @@
       const allSwatches  = colours.flatMap(g => (g.swatches || []).map(s => ({ ...s, group: g.name || '' })));
 
       // Load Google fonts
-      const googleSources = fontSources.filter(s => s.source === 'google' && s.family);
+      const googleSources = fonts.filter(s => s.source === 'google');
       if (googleSources.length) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = `https://fonts.googleapis.com/css2?${googleSources.map(s => `family=${encodeURIComponent(s.family)}:wght@100..900`).join('&')}&display=swap`;
         document.head.appendChild(link);
       }
-      const uploadedSources = fontSources.filter(s => s.source === 'upload' && s.url && s.family);
+      const uploadedSources = fonts.filter(s => s.source === 'upload' && s.url);
       if (uploadedSources.length) {
         const st = document.createElement('style');
         st.textContent = uploadedSources.map(s => {
           const ext = s.url.split('?')[0].split('.').pop().toLowerCase();
           const fmt = ext === 'woff2' ? 'woff2' : ext === 'woff' ? 'woff' : ext === 'ttf' ? 'truetype' : 'opentype';
-          return `@font-face { font-family: '${s.family}'; src: url('${s.url}') format('${fmt}'); font-display: swap; }`;
+          /* Each file declares its own weight/style, so sibling uploads of the
+             same family stack instead of the last one overwriting the rest. */
+          return `@font-face { font-family: '${s.family}'; src: url('${s.url}') format('${fmt}'); font-weight: ${s.weight}; font-style: ${s.style}; font-display: swap; }`;
         }).join('\n');
         document.head.appendChild(st);
       }
@@ -2063,12 +2115,18 @@
       function renderTypographyCard() {
         if (!fonts.length) return '';
         const family = fonts[0].family || 'sans-serif';
-        const wbtns = [{w:400,l:'Regular'},{w:700,l:'Bold'}]
-          .map(({w,l}) => `<button class="bsys-wbtn${w===700?' active':''}" data-weight="${w}">${l}</button>`).join('');
+        /* Uploaded families only expose the weights actually supplied; Google,
+           Adobe and system families are served variable, so offer the pair. */
+        const faces  = fonts.filter(f => f.family === family && f.source === 'upload' && f.style === 'normal');
+        let weights  = [...new Set(faces.map(f => f.weight))].sort((a, b) => a - b);
+        if (weights.length < 2) weights = [400, 700];
+        const def    = weights.includes(700) ? 700 : weights[weights.length - 1];
+        const wbtns  = weights
+          .map(w => `<button class="bsys-wbtn${w===def?' active':''}" data-weight="${w}">${FONT_WEIGHT_NAMES[w] || w}</button>`).join('');
         return `<div class="bsys-card" id="bsys-typo-card">
           <div class="bsys-card__head"><span class="bsys-card__label">Typography</span><span class="bsys-card__meta">${family}</span></div>
           <div class="bsys-type-weights" id="bsys-weights">${wbtns}</div>
-          <p class="bsys-type-preview" id="bsys-preview" style="font-family:'${family}',sans-serif;font-weight:700;">${family}</p>
+          <p class="bsys-type-preview" id="bsys-preview" style="font-family:'${family}',sans-serif;font-weight:${def};">${family}</p>
           <div class="bsys-type-scale">
             ${[['Heading',64],['Subheading',32],['Body',16],['Caption',12]].map(([n,v]) =>
               `<div class="bsys-type-scale__item"><span class="bsys-type-scale__val">${v}</span><span class="bsys-type-scale__name">${n}</span></div>`).join('')}
@@ -2485,7 +2543,57 @@
     }
 
     /* ---- ALL INTERACTIVITY (wired after innerHTML is set) ---- */
+    /* ---- LEAD TILE FRAMING ----------------------------------------------
+       Every device mockup in the library sits on the same scene: the device is
+       bottom-anchored on the canvas and its height is a fixed fraction of the
+       canvas WIDTH, so where the device starts vertically is a pure function of
+       the canvas ratio. The house canvas is 4500x3000 (3:2), which a 16:7 tile
+       crops to ~12.8% headroom above the device. A mockup exported at another
+       ratio — Ezer came in at 3200x1800 — lands the device hard against the top
+       edge under the default centred crop. Solving for the y-offset that
+       restores the house headroom is a no-op on 3:2 sources (it resolves to
+       ~50%) and corrects everything else.                                     */
+    const MOCK_DEVICE_BOTTOM = 0.997;  /* device foot, as a fraction of canvas height */
+    const MOCK_DEVICE_SCALE  = 0.4935; /* device height, as a fraction of canvas width */
+    const HOUSE_RATIO        = 1.5;    /* the 4500x3000 canvas the library is exported on */
+
+    function mockDeviceTop(imgRatio) { return MOCK_DEVICE_BOTTOM - MOCK_DEVICE_SCALE * imgRatio; }
+
+    function leadFocus(imgRatio, tileRatio) {
+      const visible = imgRatio / tileRatio;            /* share of image height the crop keeps */
+      if (!(visible > 0) || visible >= 0.999) return null;  /* image no taller than the tile — nothing cropped */
+      const deviceTop = mockDeviceTop(imgRatio);
+      if (deviceTop <= 0 || deviceTop >= 1) return null;    /* not a mockup we recognise — leave it centred */
+      /* Target the headroom a house-canvas image gets from the DEFAULT centred
+         crop at this same tile ratio. That makes the whole correction a no-op
+         (exactly 50%) for 3:2 sources at every breakpoint, and moves only the
+         canvases that deviate. Headroom is held in tile-WIDTH units because the
+         device scales with tile width, not height. */
+      const houseHeadroom = (mockDeviceTop(HOUSE_RATIO) - (1 - HOUSE_RATIO / tileRatio) / 2) / HOUSE_RATIO;
+      if (!(houseHeadroom > 0)) return null;
+      const offset = (deviceTop - houseHeadroom * imgRatio) / (1 - visible);
+      return Math.max(0, Math.min(100, offset * 100));
+    }
+
+    function fitLeadTiles() {
+      document.querySelectorAll('.dig--lead .dig-tile__media img').forEach(img => {
+        const apply = () => {
+          const tile = img.closest('.dig--lead');
+          const box  = tile && tile.getBoundingClientRect();
+          if (!box || !box.height || !img.naturalHeight) return;
+          const focus = leadFocus(img.naturalWidth / img.naturalHeight, box.width / box.height);
+          if (focus === null) { img.style.removeProperty('--dig-focus'); return; }
+          img.style.setProperty('--dig-focus', focus.toFixed(2) + '%');
+        };
+        if (img.complete && img.naturalHeight) apply();
+        else img.addEventListener('load', apply, { once: true });
+        window.addEventListener('resize', apply);
+      });
+    }
+
     function initInteractivity() {
+      fitLeadTiles();
+
       /* Scroll reveal */
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });

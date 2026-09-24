@@ -934,10 +934,20 @@
         const { data: urlData } = db.storage.from('parallax-assets').getPublicUrl(path);
         urlInput.value = urlData.publicUrl;
         filenameSpan.textContent = file.name;
+        /* A blank family name silently drops the whole Typography card on the
+           project page, so seed it from the filename — "Manrope-Bold.ttf" →
+           "Manrope". Still editable if the file is named badly. */
+        if (!familyInput.value.trim()) {
+          familyInput.value = file.name
+            .replace(/\.(woff2?|ttf|otf)$/i, '')
+            .replace(/[-_\s]*(italic|oblique)$/i, '')
+            .replace(/[-_\s]*(extra[-\s_]?light|ultra[-\s_]?light|semi[-\s_]?bold|demi[-\s_]?bold|extra[-\s_]?bold|ultra[-\s_]?bold|thin|hairline|light|medium|black|heavy|bold|regular|normal|book)$/i, '')
+            .replace(/[-_]+/g, ' ').trim();
+        }
         showToast('Font uploaded: ' + file.name);
       });
 
-      div.querySelector('.remove-font').addEventListener('click', () => { div.remove(); refreshFamilySelects(); });
+      div.querySelector('.remove-font').addEventListener('click', () => { div.remove(); });
       return div;
     }
 
