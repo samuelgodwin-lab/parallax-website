@@ -136,14 +136,16 @@
     .proj-overview__h { font-size: clamp(28px, 3.2vw, 48px); font-weight: 700; letter-spacing: -0.042em; line-height: 1.0; margin-top: var(--s6); }
     .proj-overview__h em { font-style: normal; color: var(--accent); }
     .proj-overview__body p { font-size: clamp(16px, 1.7vw, 19px); color: var(--text-2); line-height: 1.72; margin-bottom: var(--s6); }
-    @media (max-width: 860px) { .proj-overview__inner { grid-template-columns: 1fr; gap: var(--s8); } }
+    .proj-overview__body p:last-child { margin-bottom: 0; }
+    .proj-overview__inner--challenge { margin-top: var(--s16); padding-top: var(--s16); border-top: 1px solid var(--border); }
+    .proj-overview__sub { font-size: clamp(22px, 2.8vw, 38px); font-weight: 700; letter-spacing: -0.038em; line-height: 1.2; color: var(--text); margin-top: var(--s6); }
+    .proj-overview__sub em { font-style: normal; color: var(--accent); }
+    @media (max-width: 860px) {
+      .proj-overview__inner { grid-template-columns: 1fr; gap: var(--s8); }
+      .proj-overview__inner--challenge { margin-top: var(--s12); padding-top: var(--s12); }
+    }
 
     /* Challenge */
-    .proj-challenge { padding: var(--s24) 0; background: #f8f8f8; border-top: 1px solid var(--border); }
-    .proj-challenge__inner { max-width: 860px; }
-    .proj-challenge__pull { font-size: clamp(22px, 2.8vw, 38px); font-weight: 700; letter-spacing: -0.038em; line-height: 1.2; color: var(--text); margin-top: var(--s6); margin-bottom: var(--s8); }
-    .proj-challenge__pull em { font-style: normal; color: var(--accent); }
-    .proj-challenge__body { font-size: clamp(15px, 1.4vw, 17px); color: var(--text-2); line-height: 1.8; max-width: 68ch; }
 
     /* Identity — Branding */
     .sec--branding { padding: var(--s24) 0; background: var(--bg); }
@@ -879,29 +881,28 @@
             </div>
           </div>
 
-          <!-- Overview -->
-          ${p.overview ? `
+          <!-- Overview (the Challenge rides inside it as a second movement) -->
+          ${p.overview || p.challenge_heading || p.challenge_body ? `
           <section class="proj-overview">
             <div class="w">
+              ${p.overview ? `
               <div class="proj-overview__inner">
                 <div>
                   <p class="slabel">Project Overview</p>
                   <h2 class="proj-overview__h">${hl(p.overview_heading) || 'Project Overview'}</h2>
                 </div>
                 <div class="proj-overview__body"><p>${p.overview}</p></div>
-              </div>
-            </div>
-          </section>` : ''}
-
-          <!-- Challenge -->
-          ${p.challenge_heading || p.challenge_body ? `
-          <section class="proj-challenge">
-            <div class="w">
-              <div class="proj-challenge__inner">
-                <p class="slabel">The Challenge</p>
-                ${p.challenge_heading ? `<p class="proj-challenge__pull">${hl(p.challenge_heading)}</p>` : ''}
-                ${p.challenge_body ? `<p class="proj-challenge__body">${p.challenge_body}</p>` : ''}
-              </div>
+              </div>` : ''}
+              ${p.challenge_heading || p.challenge_body ? `
+              <div class="proj-overview__inner proj-overview__inner--challenge">
+                <div>
+                  <p class="slabel">The Challenge</p>
+                  ${p.challenge_heading ? `<h3 class="proj-overview__sub">${hl(p.challenge_heading)}</h3>` : ''}
+                </div>
+                <div class="proj-overview__body">
+                  ${p.challenge_body ? `<p>${p.challenge_body}</p>` : ''}
+                </div>
+              </div>` : ''}
             </div>
           </section>` : ''}
 

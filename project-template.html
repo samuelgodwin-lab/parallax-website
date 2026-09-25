@@ -389,22 +389,25 @@
       line-height: 1.72; margin-bottom: var(--s6);
     }
     .proj-overview__body p:last-child { margin-bottom: 0; }
-    @media (max-width: 860px) { .proj-overview__inner { grid-template-columns: 1fr; gap: var(--s8); } }
 
-    /* ============================================================
-       CHALLENGE
-    ============================================================ */
-    .proj-challenge { padding: var(--s24) 0; background: #f8f8f8; }
-    .proj-challenge__inner { max-width: 860px; }
-    .proj-challenge__pull {
+    /* The Challenge rides inside Overview as a second movement. Both sections
+       sat on the same #f8f8f8 with no gap, so they read as one wall of text
+       with a 9px label as the only divider — the rule and the step down in
+       type size do that job now. Renders only when a project has a challenge. */
+    .proj-overview__inner--challenge {
+      margin-top: var(--s16);
+      padding-top: var(--s16);
+      border-top: 1px solid var(--border);
+    }
+    .proj-overview__sub {
       font-size: clamp(22px, 2.8vw, 38px); font-weight: 700;
       letter-spacing: -0.038em; line-height: 1.2; color: var(--text);
-      margin-top: var(--s6); margin-bottom: var(--s8);
+      margin-top: var(--s6);
     }
-    .proj-challenge__pull em { font-style: normal; color: var(--accent); }
-    .proj-challenge__body {
-      font-size: clamp(15px, 1.4vw, 17px); color: var(--text-2);
-      line-height: 1.8; max-width: 68ch;
+    .proj-overview__sub em { font-style: normal; color: var(--accent); }
+    @media (max-width: 860px) {
+      .proj-overview__inner { grid-template-columns: 1fr; gap: var(--s8); }
+      .proj-overview__inner--challenge { margin-top: var(--s12); padding-top: var(--s12); }
     }
 
     /* ============================================================
@@ -2268,21 +2271,25 @@
           </div>
         </div>
 
-        ${p.overview ? `
+        ${p.overview || p.challenge_heading || p.challenge_body ? `
         <section class="proj-overview">
-          <div class="w"><div class="proj-overview__inner reveal">
-            <div><p class="slabel">Project Overview</p><h2 class="proj-overview__h">${hl(p.overview_heading)||'Project Overview'}</h2></div>
-            <div class="proj-overview__body"><p>${p.overview}</p></div>
-          </div></div>
-        </section>` : ''}
-
-        ${p.challenge_heading||p.challenge_body ? `
-        <section class="proj-challenge">
-          <div class="w"><div class="proj-challenge__inner reveal">
-            <p class="slabel">The Challenge</p>
-            ${p.challenge_heading ? `<p class="proj-challenge__pull">${hl(p.challenge_heading)}</p>` : ''}
-            ${p.challenge_body ? `<p class="proj-challenge__body">${p.challenge_body}</p>` : ''}
-          </div></div>
+          <div class="w">
+            ${p.overview ? `
+            <div class="proj-overview__inner reveal">
+              <div><p class="slabel">Project Overview</p><h2 class="proj-overview__h">${hl(p.overview_heading)||'Project Overview'}</h2></div>
+              <div class="proj-overview__body"><p>${p.overview}</p></div>
+            </div>` : ''}
+            ${p.challenge_heading||p.challenge_body ? `
+            <div class="proj-overview__inner proj-overview__inner--challenge reveal">
+              <div>
+                <p class="slabel">The Challenge</p>
+                ${p.challenge_heading ? `<h3 class="proj-overview__sub">${hl(p.challenge_heading)}</h3>` : ''}
+              </div>
+              <div class="proj-overview__body">
+                ${p.challenge_body ? `<p>${p.challenge_body}</p>` : ''}
+              </div>
+            </div>` : ''}
+          </div>
         </section>` : ''}
 
         ${p.show_identity !== false ? `
