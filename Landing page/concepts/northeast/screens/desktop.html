@@ -1,0 +1,107 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 1440px; height: 900px; overflow: hidden; display: flex; flex-direction: column; }
+  .nav { height: 64px; display: flex; align-items: center; gap: 40px; padding: 0 32px; border-bottom: var(--rule) solid var(--border); }
+  .nav__links { display: flex; gap: 28px; font-family: var(--font-m); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .nav__links b { color: var(--text); font-weight: 500; position: relative; }
+  .nav__links b::after { content: ''; position: absolute; left: 0; right: 0; bottom: -25px; height: 2px; background: var(--accent); }
+  .nav__right { margin-left: auto; display: flex; align-items: center; gap: 16px; font-family: var(--font-m); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); }
+  .op { width: 34px; height: 34px; border: var(--rule) solid var(--border); display: grid; place-items: center; color: var(--text); }
+
+  .main { flex: 1; display: grid; grid-template-columns: 1fr 440px; min-height: 0; }
+  .left { padding: 28px 32px; display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+  .left h1 { font-size: 44px; margin-top: 12px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); border: var(--rule) solid var(--border); }
+  .kpi { padding: 16px 18px; }
+  .kpi + .kpi { border-left: var(--rule) solid var(--border); }
+  .kpi span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .kpi b { display: block; font-size: 34px; font-weight: 700; letter-spacing: -0.04em; margin-top: 8px; line-height: 1; }
+  .kpi p { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; margin-top: 8px; color: var(--text-2); }
+  .kpi.hl { background: var(--accent-soft); }
+  .kpi.hl b { color: var(--accent); }
+  .filters { display: flex; gap: 8px; align-items: center; }
+  .filters .sp { margin-left: auto; font-family: var(--font-m); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-family: var(--font-m); font-size: 9.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); padding: 0 12px 10px 0; border-bottom: var(--rule) solid var(--border-strong); }
+  td { padding: 12px 12px 12px 0; border-bottom: var(--rule) solid var(--border); font-size: 15px; vertical-align: middle; }
+  td.m { font-family: var(--font-m); font-size: 11px; letter-spacing: .06em; color: var(--text-2); }
+  td b { font-weight: 700; letter-spacing: -0.02em; }
+  tr.sel td { background: var(--accent-soft); }
+  tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--accent); padding-left: 12px; }
+  .pip { display: flex; gap: 3px; }
+  .pip i { width: 18px; height: 6px; background: var(--surface-raised); }
+  .pip i.d { background: var(--text); }
+  .pip i.n { background: var(--accent); }
+
+  .right { border-left: var(--rule) solid var(--border); padding: 28px; display: flex; flex-direction: column; gap: 16px; background: var(--surface); }
+  .right h2 { font-size: 32px; margin-top: 10px; }
+  .right .sub { font-family: var(--font-m); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-top: 8px; }
+  .tl { border-top: var(--rule) solid var(--border); }
+  .st { display: grid; grid-template-columns: 24px 1fr auto; gap: 12px; align-items: center; padding: 11px 0; border-bottom: var(--rule) solid var(--border); }
+  .st i { width: 22px; height: 22px; border: 1.5px solid var(--border-strong); display: grid; place-items: center; }
+  .st.d i { background: var(--text); border-color: var(--text); }
+  .st.n i { border-color: var(--accent); box-shadow: 2px 2px 0 0 var(--accent); }
+  .st h5 { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+  .st span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+  .sms { background: var(--bg); border: var(--rule) solid var(--border); padding: 14px; }
+  .sms p { font-size: 14px; line-height: 1.5; margin-top: 8px; }
+  .acts { margin-top: auto; display: flex; gap: 10px; }
+  .acts .btn { height: 42px; font-size: 10.5px; }
+  .docs div { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: var(--rule) solid var(--border); font-size: 14px; }
+  .docs div:first-of-type { margin-top: 8px; border-top: var(--rule) solid var(--border); }
+  .docs b { font-weight: 700; letter-spacing: -0.02em; }
+  .docs span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); align-self: center; }
+</style></head>
+<body>
+  <nav class="nav">
+    <span class="mark"><i></i>Admissions</span>
+    <div class="nav__links"><b>Applications</b><span>Merit list</span><span>Fees</span><span>Messages</span></div>
+    <div class="nav__right"><span class="badge badge--accent">2026 intake · open</span><span>Office · Shillong</span><span class="op">MS</span></div>
+  </nav>
+  <div class="main">
+    <section class="left">
+      <div><span class="eyebrow">Admissions office · live</span><h1 class="serif">10,412 applications. <em>One queue.</em></h1></div>
+      <div class="kpis">
+        <div class="kpi"><span>Complete</span><b class="num">9,870</b><p>Ready for the merit list</p></div>
+        <div class="kpi"><span>Waiting on a document</span><b class="num">342</b><p>Reminded by SMS</p></div>
+        <div class="kpi hl"><span>Resumed after signal loss</span><b class="num">2,914</b><p>Nothing re-typed</p></div>
+        <div class="kpi"><span>Office visits to ask</span><b class="num">0</b><p>This week</p></div>
+      </div>
+      <div class="filters"><span class="chip chip--on">All</span><span class="chip">Waiting on document</span><span class="chip">Fee pending</span><span class="chip">From districts with 2G</span><span class="sp">Sorted · most recent</span></div>
+      <table>
+        <thead><tr><th>Applicant</th><th>From</th><th>Programme</th><th>Stage</th><th>Last SMS</th></tr></thead>
+        <tbody>
+          <tr class="sel"><td><b>Iba Lyngdoh</b></td><td class="m">Sohra · Meghalaya</td><td>BA English</td><td><div class="pip"><i class="d"></i><i class="d"></i><i class="d"></i><i class="n"></i><i></i></div></td><td class="m">Fee received · 09:12</td></tr>
+          <tr><td><b>Lalremruati</b></td><td class="m">Lunglei · Mizoram</td><td>BSc Botany</td><td><div class="pip"><i class="d"></i><i class="d"></i><i class="n"></i><i></i><i></i></div></td><td class="m">Docs checked · 08:47</td></tr>
+          <tr><td><b>Pranjal Bora</b></td><td class="m">Majuli · Assam</td><td>BCom</td><td><div class="pip"><i class="d"></i><i class="n"></i><i></i><i></i><i></i></div></td><td class="m">1 document due · 08:30</td></tr>
+          <tr><td><b>Vikhono Sekhose</b></td><td class="m">Phek · Nagaland</td><td>BA History</td><td><div class="pip"><i class="d"></i><i class="d"></i><i class="d"></i><i class="n"></i><i></i></div></td><td class="m">Fee received · 08:02</td></tr>
+          <tr><td><b>Tenzin Dolma</b></td><td class="m">Tawang · Arunachal</td><td>BSc Physics</td><td><div class="pip"><i class="d"></i><i class="d"></i><i class="n"></i><i></i><i></i></div></td><td class="m">Resumed offline draft · 07:41</td></tr>
+          <tr><td><b>Sanjib Debbarma</b></td><td class="m">Dhalai · Tripura</td><td>BA Economics</td><td><div class="pip"><i class="d"></i><i class="d"></i><i class="d"></i><i class="d"></i><i class="n"></i></div></td><td class="m">On merit list · Fri</td></tr>
+          <tr><td><b>Bijoy Singha</b></td><td class="m">Silchar · Assam</td><td>BSc Chemistry</td><td><div class="pip"><i class="d"></i><i class="d"></i><i class="n"></i><i></i><i></i></div></td><td class="m">Docs checked · 07:20</td></tr>
+          <tr><td><b>Thoibi Devi</b></td><td class="m">Imphal · Manipur</td><td>BA Pol. Science</td><td><div class="pip"><i class="d"></i><i class="n"></i><i></i><i></i><i></i></div></td><td class="m">1 document due · 06:58</td></tr>
+          <tr><td><b>Pempa Bhutia</b></td><td class="m">Gangtok · Sikkim</td><td>BCA</td><td><div class="pip"><i class="d"></i><i class="d"></i><i class="d"></i><i class="n"></i><i></i></div></td><td class="m">Fee received · Yesterday</td></tr>
+          <tr><td><b>Ruth Marak</b></td><td class="m">Tura · Meghalaya</td><td>BSc Zoology</td><td><div class="pip"><i class="n"></i><i></i><i></i><i></i><i></i></div></td><td class="m">Submitted · Yesterday</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <aside class="right">
+      <span class="eyebrow">Application 2026-0418</span>
+      <div><h2 class="serif">Iba Lyngdoh</h2><p class="sub">BA English · Sohra · applied on a phone, 2G</p></div>
+      <div class="tl">
+        <div class="st d"><i><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#fff" stroke-width="2"/></svg></i><h5>Submitted</h5><span>12 Jun · 14 min</span></div>
+        <div class="st d"><i><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#fff" stroke-width="2"/></svg></i><h5>Documents checked</h5><span>13 Jun</span></div>
+        <div class="st d"><i><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#fff" stroke-width="2"/></svg></i><h5>Fee paid · ₹500 UPI</h5><span>Today 09:12</span></div>
+        <div class="st n"><i></i><h5>Merit list</h5><span>28 Jun</span></div>
+        <div class="st"><i></i><h5>Admitted</h5><span>—</span></div>
+      </div>
+      <div class="sms"><span class="eyebrow eyebrow--plain">Last SMS · English · Khasi</span><p>Fee received for application 2026-0418. Next: merit list on 28 Jun. No need to visit the office.</p></div>
+      <div class="docs"><span class="eyebrow eyebrow--plain">Documents · 3 of 3</span>
+        <div><b>Class 12 marksheet</b><span>MBOSE · 240 KB</span></div>
+        <div><b>ID proof</b><span>190 KB</span></div>
+        <div><b>ST certificate</b><span>Sent after signal · 260 KB</span></div>
+      </div>
+      <div class="acts"><span class="btn btn--ghost">Message applicant</span><span class="btn btn--copper">Open file</span></div>
+    </aside>
+  </div>
+</body></html>

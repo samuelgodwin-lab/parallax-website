@@ -1,0 +1,36 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 393px; height: 852px; }
+  .ph-head h1 { font-size: 36px; }
+  .id { margin: 10px 20px 0; font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .tl { margin: 16px 20px 0; border-top: var(--rule) solid var(--border); }
+  .st { display: grid; grid-template-columns: 24px 1fr auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: var(--rule) solid var(--border); }
+  .st i { width: 22px; height: 22px; border: 1.5px solid var(--border-strong); display: grid; place-items: center; }
+  .st.d i { background: var(--text); border-color: var(--text); }
+  .st.n i { border-color: var(--accent); box-shadow: 2px 2px 0 0 var(--accent); }
+  .st h5 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+  .st span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+  .st.n span { color: var(--accent); }
+  .sms { margin: 16px 20px 0; padding: 14px; background: var(--surface); border-left: 2px solid var(--accent); }
+  .sms .top { display: flex; justify-content: space-between; }
+  .sms .top span { font-family: var(--font-m); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .sms p { font-size: 14.5px; line-height: 1.45; margin-top: 8px; }
+  .lang { margin: 12px 20px 0; display: flex; gap: 6px; }
+</style></head>
+<body><div class="phone" data-tabs="Apply,Status,Fees,Help" data-tab="1">
+  <div class="ph-head">
+    <div class="top"><span class="eyebrow">BA English · 2026 intake</span><span class="ibtn">↻</span></div>
+    <h1 class="serif">Application <em>received.</em></h1>
+  </div>
+  <p class="id">Application 2026-0418 · no need to visit the office</p>
+  <div class="tl">
+    <div class="st d"><i><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#fff" stroke-width="2"/></svg></i><h5>Submitted</h5><span>12 Jun</span></div>
+    <div class="st d"><i><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#fff" stroke-width="2"/></svg></i><h5>Documents checked</h5><span>13 Jun</span></div>
+    <div class="st d"><i><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#fff" stroke-width="2"/></svg></i><h5>Fee paid · ₹500</h5><span>Today</span></div>
+    <div class="st n"><i></i><h5>Merit list</h5><span>28 Jun</span></div>
+    <div class="st"><i></i><h5>Admitted</h5><span>—</span></div>
+  </div>
+  <div class="sms"><div class="top"><span>SMS · today 09:12</span><span>3 of 5</span></div><p>Fee received for application 2026-0418. Next: merit list on 28 Jun.</p></div>
+  <div class="lang"><span class="chip chip--on">English</span><span class="chip">Khasi</span><span class="chip">Assamese</span><span class="chip">Hindi</span></div>
+</div><script src="phone.js"></script></body></html>

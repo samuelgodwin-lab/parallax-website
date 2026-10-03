@@ -268,9 +268,9 @@ for low bandwidth first and checked against India's accessibility standard
 (IS 17802) throughout.
 **stats:**
 - 2 — Sides designed (applicant, admissions office)
-- 5 — Stages, from application to enrolment
-- [n] — Screens designed
-- 2G — Designed to work on it
+- 5 — Stages to admission
+- 4 — Key screens
+- 4 — SMS languages (English, Khasi, Assamese, Hindi)
 
 **heading_outcomes:** What we'd *measure.*
 **outcomes** (design targets: figure + two-to-three-word label, as YVT):

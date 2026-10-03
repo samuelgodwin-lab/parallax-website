@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 393px; height: 852px; }
+  .off { margin: 6px 20px 0; padding: 12px 14px; background: var(--text); color: var(--bg); display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: center; }
+  .off b { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; display: block; }
+  .off span { font-family: var(--font-m); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin: 14px 20px 0; }
+  .steps i { height: 3px; background: var(--surface-raised); }
+  .steps i.d { background: var(--text); }
+  .steps i.n { background: var(--accent); }
+  .ph-head h1 { font-size: 36px; margin-top: 14px; }
+  .f { margin: 16px 20px 0; }
+  .f label { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); display: block; margin-bottom: 8px; }
+  .boards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .boards span { height: 44px; border: var(--rule) solid var(--border-strong); display: flex; align-items: center; padding: 0 12px; font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+  .boards span.on { border-color: var(--text); box-shadow: 3px 3px 0 0 var(--accent); }
+  .boards span small { font-family: var(--font-m); font-weight: 400; font-size: 9px; letter-spacing: .1em; color: var(--text-3); margin-left: auto; }
+  .inp { height: 50px; border: var(--rule) solid var(--text); display: flex; align-items: center; padding: 0 14px; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; justify-content: space-between; }
+  .inp span { font-family: var(--font-m); font-size: 9.5px; font-weight: 400; letter-spacing: .12em; color: var(--success); text-transform: uppercase; }
+  .bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 40px; border-top: var(--rule) solid var(--border); background: var(--bg); display: flex; gap: 10px; }
+  .bar .btn { height: 52px; }
+  .bar .btn--copper { flex: 1; }
+  .subs { display: flex; flex-wrap: wrap; gap: 6px; }
+</style></head>
+<body><div class="phone" data-tabs="none">
+  <div class="ph-head"><div class="top"><span class="ibtn">‹</span><span class="eyebrow">Step 3 of 6 · Your marks</span><span class="ibtn" style="font-family:var(--font-m);font-size:10px">EN</span></div></div>
+  <div class="off"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0M12 19h.01M3 3l18 18"/></svg><div><b>No signal. Saved on your phone.</b><span>Sends by itself when you're back</span></div></div>
+  <div class="steps"><i class="d"></i><i class="d"></i><i class="n"></i><i></i><i></i><i></i></div>
+  <div class="ph-head"><h1 class="serif">Which board was your <em>Class 12?</em></h1></div>
+  <div class="f"><label>Board</label>
+    <div class="boards"><span class="on">MBOSE <small>MEGHALAYA</small></span><span>SEBA <small>ASSAM</small></span><span>CBSE</span><span>Another board</span></div>
+  </div>
+  <div class="f"><label>Your percentage</label><div class="inp">78.4% <span>✓ Saved</span></div></div>
+  <div class="f"><label>Subjects · 5</label>
+    <div class="subs"><span class="chip">English</span><span class="chip">Khasi</span><span class="chip">History</span><span class="chip">Economics</span><span class="chip">Pol. Science</span></div>
+  </div>
+  <div class="bar"><span class="btn btn--ghost">Back</span><span class="btn btn--copper">Continue, offline</span></div>
+</div><script src="phone.js"></script></body></html>

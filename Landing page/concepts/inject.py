@@ -50,6 +50,17 @@ CONCEPTS = {
             ("Four tools open to answer one question", "One view of the whole fleet, drill-down to a single asset"),
             ("Shift handover in a spreadsheet", "Handover built in: what changed, what's open, who owns it"),
         ]),
+    'northeast-india': dict(
+        slug='concept-admissions-northeast', img='admissions-northeast',
+        label='Concept &mdash; Education',
+        h2='Admissions on <em>a weak signal.</em>',
+        lede="A student in the hills applies on a phone, on a signal that drops, and the form loses everything when it does. Then they travel to the office to ask what happened. We designed an admissions flow for ten thousand applicants that saves every step and answers its own questions.",
+        alt="Concept screen on a laptop: an unbranded admissions office view of 10,412 applications from across the Northeast, with one student's status, documents and last SMS beside it.",
+        pairs=[
+            ("A form that times out and loses everything", "Every answer saved on the phone, sent when the signal returns"),
+            ("Uploads that fail on a weak signal", "Documents photographed and compressed on the phone"),
+            ("&ldquo;Come to the office to check&rdquo;", "Status by SMS at every stage, from submitted to admitted"),
+        ]),
 }
 
 

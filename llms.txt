@@ -69,6 +69,7 @@ Unbranded concepts: how Parallax would solve the most pressing product problem i
 - [Sold before it's built. — Dubai real estate concept](https://www.parallaxorg.com/work/concept-off-plan-dubai) — A concept for Dubai's off-plan buyers: live inventory, payment milestones and construction progress in one app, from launch day to handover.
 - [Insurance people finish. — Munich insurance concept](https://www.parallaxorg.com/work/concept-insurance-munich) — A concept for insurance onboarding and claims in Munich: a flow customers finish, built to WCAG 2.2 AA for the BFSG.
 - [Tools that match the hardware. — Denver energy concept](https://www.parallaxorg.com/work/concept-energy-ops-denver) — A concept for a renewable fleet's control room: alarms ranked by consequence, one view of every asset, and shift handover built in.
+- [Admissions students don't fight. — Northeast India education concept](https://www.parallaxorg.com/work/concept-admissions-northeast) — A concept for university admissions in Northeast India: a phone-first flow that survives a weak signal, saves every step and reports status by SMS.
 
 ## Journal
 
