@@ -107,7 +107,9 @@ def section(c):
 def inject(market):
     path = ROOT / market / 'index.html'
     s = path.read_text()
-    s = re.sub(r'<!-- CONCEPT -->[\s\S]*?<!-- /CONCEPT -->\n', '', s)
+    # take the block out with its indent and the blank line after it, plus any
+    # whitespace-only lines earlier runs left behind
+    s = re.sub(r'(?:[ \t]*\n)*[ \t]*<!-- CONCEPT -->[\s\S]*?<!-- /CONCEPT -->\n\n?', '\n', s)
     band = re.search(r'  <!-- =+\n\s+07 — ', s)
     assert band, f'{market}: no 07 band anchor'
     s = s[:band.start()] + '  ' + section(CONCEPTS[market]) + '\n' + s[band.start():]
