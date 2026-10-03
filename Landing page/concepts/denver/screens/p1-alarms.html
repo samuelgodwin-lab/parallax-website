@@ -1,0 +1,34 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 393px; height: 852px; }
+  .ph-head h1 { font-size: 36px; }
+  .sum { margin: 14px 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); border: var(--rule) solid var(--border); }
+  .sum div { padding: 10px 12px; }
+  .sum div + div { border-left: var(--rule) solid var(--border); }
+  .sum b { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; display: block; }
+  .sum span { font-family: var(--font-m); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .list { margin: 14px 20px 0; display: flex; flex-direction: column; gap: 10px; }
+  .al { border: var(--rule) solid var(--border); background: var(--surface); padding: 14px; display: grid; grid-template-columns: 26px 1fr; gap: 6px 10px; }
+  .al .rank { grid-row: span 3; font-size: 26px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--text-3); }
+  .al h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+  .al .meta { display: flex; gap: 8px; align-items: center; font-family: var(--font-m); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+  .al.top { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); background: var(--bg); }
+  .al.top .rank { color: var(--accent); }
+  .al .btn { height: 38px; font-size: 10px; padding: 0 12px; margin-top: 6px; justify-self: start; }
+  .grp { margin: 12px 20px 0; padding: 12px 14px; border: var(--rule) dashed var(--border-strong); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); }
+  .grp b { font-family: var(--font-d); font-size: 18px; letter-spacing: -0.03em; color: var(--text); text-transform: none; }
+</style></head>
+<body class="dark"><div class="phone" data-tabs="Fleet,Alarms,Assets,Handover" data-tab="1">
+  <div class="ph-head">
+    <div class="top"><span class="eyebrow">On call · 02:14 MT</span><span class="sev sev--high">Storm</span></div>
+    <h1 class="serif">3 of 412. <em>Start here.</em></h1>
+  </div>
+  <div class="sum"><div><b class="num" style="color:var(--crit)">3</b><span>Critical</span></div><div><b class="num" style="color:var(--high)">18</b><span>High</span></div><div><b class="num">391</b><span>Grouped</span></div></div>
+  <div class="list">
+    <div class="al top"><span class="rank">1</span><h3>W-14 turbine 07 · gearbox 112 °C, rising</h3><div class="meta"><span class="sev sev--crit">Critical</span>6 min</div><span class="btn btn--copper">Curtail turbine</span></div>
+    <div class="al"><span class="rank">2</span><h3>S-03 inverter bank B offline · 18 MW</h3><div class="meta"><span class="sev sev--crit">Critical</span>22 min</div></div>
+    <div class="al"><span class="rank">3</span><h3>Sub T-2 · trip risk at 02:40 gust</h3><div class="meta"><span class="sev sev--crit">Critical</span>in 26 min</div></div>
+  </div>
+  <div class="grp"><span>Grouped by storm front</span><b class="num">391 →</b></div>
+</div><script src="phone.js"></script></body></html>

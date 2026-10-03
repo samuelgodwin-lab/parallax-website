@@ -203,8 +203,8 @@ on a design system the operator's own team can extend.
 **stats:**
 - 3 — Core views (fleet, asset, handover)
 - 1 — Design system, handed over
-- [n] — Components designed
-- 24/7 — Designed for a night shift (dark mode first)
+- 4 — Key screens
+- 24/7 — Night shift first (dark mode)
 
 **heading_outcomes:** What we'd *measure.*
 **outcomes** (design targets: figure + two-to-three-word label, as YVT):

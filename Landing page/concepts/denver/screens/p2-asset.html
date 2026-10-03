@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 393px; height: 852px; }
+  .ph-head h1 { font-size: 34px; }
+  .photo { margin: 14px 20px 0; height: 150px; background: url('img/turbine.jpg') center 40%/cover; position: relative; border: var(--rule) solid var(--border); }
+  .photo .sev { position: absolute; left: 10px; top: 10px; background: var(--bg); }
+  .read { margin: 12px 20px 0; display: grid; grid-template-columns: 1fr 1fr; border: var(--rule) solid var(--border); }
+  .read div { padding: 12px; }
+  .read div:nth-child(even) { border-left: var(--rule) solid var(--border); }
+  .read div:nth-child(n+3) { border-top: var(--rule) solid var(--border); }
+  .read span { font-family: var(--font-m); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .read b { display: block; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; margin-top: 4px; }
+  .chart { margin: 12px 20px 0; height: 92px; border: var(--rule) solid var(--border); position: relative; }
+  .chart .eyebrow { position: absolute; left: 10px; top: 8px; font-size: 9px; }
+  .chart svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .acts { margin: 14px 20px 0; display: flex; gap: 10px; }
+  .acts .btn { flex: 1; height: 46px; font-size: 10.5px; padding: 0 10px; }
+</style></head>
+<body class="dark"><div class="phone" data-tabs="Fleet,Alarms,Assets,Handover" data-tab="2">
+  <div class="ph-head">
+    <div class="top"><span class="ibtn">‹</span><span class="eyebrow">Site W-14 · Logan County</span><span class="ibtn">↗</span></div>
+    <h1 class="serif">Turbine 07, <em>running hot.</em></h1>
+  </div>
+  <div class="photo"><span class="sev sev--crit">Gearbox · critical</span></div>
+  <div class="read">
+    <div><span>Gearbox temp</span><b class="num" style="color:var(--crit)">112 °C</b></div>
+    <div><span>Trip at</span><b class="num">120 °C</b></div>
+    <div><span>Output</span><b class="num">2.6 MW</b></div>
+    <div><span>Last service</span><b class="num">41 days</b></div>
+  </div>
+  <div class="chart"><span class="eyebrow eyebrow--plain">Gearbox · 60 min</span>
+    <svg viewBox="0 0 353 92" preserveAspectRatio="none">
+      <path d="M0 20 H353" stroke="#F87171" stroke-dasharray="4 4" stroke-opacity=".7"/>
+      <path d="M0 74 L40 72 L80 73 L120 70 L160 66 L200 60 L240 52 L280 44 L320 36 L353 30" fill="none" stroke="#FBBF24" stroke-width="2"/>
+    </svg>
+  </div>
+  <div class="acts"><span class="btn btn--copper">Curtail turbine</span><span class="btn btn--ghost">Dispatch tech</span></div>
+</div><script src="phone.js"></script></body></html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 1440px; height: 900px; overflow: hidden; display: flex; flex-direction: column; }
+  .nav { height: 64px; display: flex; align-items: center; gap: 40px; padding: 0 32px; border-bottom: var(--rule) solid var(--border); }
+  .nav__links { display: flex; gap: 28px; font-family: var(--font-m); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .nav__links b { color: var(--text); font-weight: 500; position: relative; }
+  .nav__links b::after { content: ''; position: absolute; left: 0; right: 0; bottom: -25px; height: 2px; background: var(--accent); }
+  .nav__links .n { color: var(--crit); margin-left: 6px; }
+  .nav__right { margin-left: auto; display: flex; align-items: center; gap: 18px; font-family: var(--font-m); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); }
+  .op { width: 34px; height: 34px; background: var(--surface-raised); border: var(--rule) solid var(--border); display: grid; place-items: center; color: var(--text); }
+
+  .main { flex: 1; display: grid; grid-template-columns: 1fr 470px; min-height: 0; }
+  .left { padding: 28px 32px; display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; }
+  .head h1 { font-size: 44px; margin-top: 12px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); border: var(--rule) solid var(--border); }
+  .kpi { padding: 16px 18px; }
+  .kpi + .kpi { border-left: var(--rule) solid var(--border); }
+  .kpi span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .kpi b { display: block; font-size: 34px; font-weight: 700; letter-spacing: -0.04em; margin-top: 8px; line-height: 1; }
+  .kpi b small { font-size: 15px; color: var(--text-3); font-weight: 500; letter-spacing: -0.01em; }
+  .kpi p { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; margin-top: 8px; color: var(--text-2); }
+  .map { flex: 1; min-height: 0; border: var(--rule) solid var(--border); background: var(--surface); position: relative; overflow: hidden; }
+  .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map .lbl { position: absolute; left: 16px; top: 14px; }
+  .map .leg { position: absolute; right: 16px; top: 14px; display: flex; gap: 14px; font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); }
+  .map .leg span { display: inline-flex; gap: 6px; align-items: center; }
+  .chart { height: 120px; border: var(--rule) solid var(--border); position: relative; }
+  .chart .lbl { position: absolute; left: 14px; top: 10px; }
+  .chart svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .right { border-left: var(--rule) solid var(--border); padding: 28px 28px; display: flex; flex-direction: column; gap: 14px; background: var(--surface); }
+  .right h2 { font-size: 30px; margin-top: 10px; }
+  .al { border: var(--rule) solid var(--border); background: var(--bg); padding: 16px; display: grid; grid-template-columns: 30px 1fr; gap: 6px 12px; }
+  .al .rank { grid-row: span 3; font-size: 30px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--text-3); }
+  .al h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+  .al .meta { display: flex; gap: 8px; align-items: center; font-family: var(--font-m); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+  .al .acts { display: flex; gap: 8px; margin-top: 6px; }
+  .al .acts .btn { height: 34px; padding: 0 12px; font-size: 10px; }
+  .al.top { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); }
+  .al.top .rank { color: var(--accent); }
+  .grouped { margin-top: auto; border-top: var(--rule) solid var(--border); padding-top: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .grouped b { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; }
+  .grouped p { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-top: 4px; }
+</style></head>
+<body class="dark">
+  <nav class="nav">
+    <span class="mark"><i></i>Fleet</span>
+    <div class="nav__links"><b>Overview</b><span>Alarms<span class="n">3</span></span><span>Assets</span><span>Handover</span></div>
+    <div class="nav__right">
+      <span class="sev sev--high">Storm front · NE Colorado</span>
+      <span>Night shift · 02:14 MT</span>
+      <span class="op">RK</span>
+    </div>
+  </nav>
+  <div class="main">
+    <section class="left">
+      <div class="head">
+        <div><span class="eyebrow">Fleet overview · 24 sites</span><h1 class="serif">Storm front. <em>Three things to act on.</em></h1></div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span>Output now</span><b class="num">612 <small>MW</small></b><p>of 1,040 MW capacity</p></div>
+        <div class="kpi"><span>Sites online</span><b class="num">23 <small>/ 24</small></b><p style="color:var(--high)">S-03 inverter bank offline</p></div>
+        <div class="kpi"><span>Alarms</span><b class="num">412</b><p><span style="color:var(--crit)">3 critical</span> · 18 high · 391 grouped</p></div>
+        <div class="kpi"><span>Gusts at W-14</span><b class="num">58 <small>mph</small></b><p>71 forecast 02:40</p></div>
+      </div>
+      <div class="map">
+        <span class="eyebrow eyebrow--plain lbl">Sites · Colorado</span>
+        <div class="leg"><span><i class="dot" style="background:var(--text-2)"></i>Wind</span><span><i class="dot" style="background:var(--accent)"></i>Solar</span><span><i class="dot" style="background:var(--crit)"></i>Critical</span></div>
+        <svg viewBox="0 0 880 330" preserveAspectRatio="xMidYMid slice">
+          <defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.05)"/></pattern>
+            <linearGradient id="st" x1="0" x2="1"><stop offset="0" stop-color="#FB923C" stop-opacity="0"/><stop offset=".5" stop-color="#FB923C" stop-opacity=".22"/><stop offset="1" stop-color="#FB923C" stop-opacity="0"/></linearGradient></defs>
+          <rect width="880" height="330" fill="url(#g)"/>
+          <rect x="70" y="40" width="740" height="270" fill="none" stroke="rgba(255,255,255,.22)" stroke-dasharray="4 6"/>
+          <path d="M560 30 C600 120 640 200 720 330 L860 330 L860 30 Z" fill="url(#st)"/>
+          <path d="M560 30 C600 120 640 200 720 330" fill="none" stroke="#FB923C" stroke-width="1.5" stroke-dasharray="6 5"/>
+          <text x="610" y="62" font-family="JetBrains Mono" font-size="10" fill="#FB923C" letter-spacing="1.5">STORM FRONT → E · 34 MPH</text>
+          <g fill="rgba(255,255,255,.7)">
+            <circle cx="640" cy="80" r="5"/><circle cx="700" cy="95" r="5"/><circle cx="760" cy="70" r="5"/><circle cx="690" cy="140" r="5"/><circle cx="750" cy="160" r="5"/><circle cx="620" cy="200" r="5"/><circle cx="560" cy="120" r="5"/><circle cx="520" cy="90" r="5"/><circle cx="470" cy="250" r="5"/><circle cx="780" cy="240" r="5"/>
+          </g>
+          <g fill="#FBBF24"><rect x="250" y="210" width="9" height="9"/><rect x="300" y="240" width="9" height="9"/><rect x="200" y="260" width="9" height="9"/><rect x="380" y="270" width="9" height="9"/><rect x="330" y="150" width="9" height="9"/></g>
+          <circle cx="720" cy="118" r="7" fill="#F87171"/><circle cx="720" cy="118" r="16" fill="none" stroke="#F87171" stroke-opacity=".5"/>
+          <text x="740" y="122" font-family="JetBrains Mono" font-size="10.5" fill="#fff" letter-spacing="1">W-14</text>
+          <rect x="256" y="138" width="9" height="9" fill="#F87171"/><circle cx="260" cy="143" r="15" fill="none" stroke="#F87171" stroke-opacity=".5"/>
+          <text x="282" y="147" font-family="JetBrains Mono" font-size="10.5" fill="#fff" letter-spacing="1">S-03</text>
+          <path d="M600 260 L640 240" stroke="#F87171" stroke-width="2"/><circle cx="600" cy="260" r="6" fill="none" stroke="#F87171" stroke-width="2"/>
+          <text x="560" y="285" font-family="JetBrains Mono" font-size="10.5" fill="#fff" letter-spacing="1">SUB T-2</text>
+          <text x="94" y="300" font-family="JetBrains Mono" font-size="10" fill="rgba(255,255,255,.4)" letter-spacing="1.5">DENVER</text><circle cx="160" cy="286" r="3" fill="rgba(255,255,255,.4)"/>
+        </svg>
+      </div>
+      <div class="chart">
+        <span class="eyebrow eyebrow--plain lbl">Fleet output · last 6 h</span>
+        <svg viewBox="0 0 880 120" preserveAspectRatio="none">
+          <path d="M0 40 L60 38 L120 42 L180 36 L240 44 L300 40 L360 48 L420 46 L480 58 L540 55 L600 66 L660 72 L720 70 L780 82 L840 78 L880 80" fill="none" stroke="#FBBF24" stroke-width="2"/>
+          <path d="M0 40 L60 38 L120 42 L180 36 L240 44 L300 40 L360 48 L420 46 L480 58 L540 55 L600 66 L660 72 L720 70 L780 82 L840 78 L880 80 L880 120 L0 120Z" fill="#FBBF24" fill-opacity=".08"/>
+        </svg>
+      </div>
+    </section>
+    <aside class="right">
+      <span class="eyebrow">Act now · ranked by consequence</span>
+      <h2 class="serif">3 of 412</h2>
+      <div class="al top"><span class="rank">1</span><h3>W-14 turbine 07 · gearbox at 112 °C and rising</h3><div class="meta"><span class="sev sev--crit">Critical</span>Logan County · 6 min</div><div class="acts"><span class="btn btn--copper">Curtail turbine</span><span class="btn btn--ghost">Open asset</span></div></div>
+      <div class="al"><span class="rank">2</span><h3>S-03 inverter bank B offline · 18 MW lost</h3><div class="meta"><span class="sev sev--crit">Critical</span>Weld County · 22 min</div><div class="acts"><span class="btn btn--ghost">Dispatch tech</span><span class="btn btn--ghost">Open asset</span></div></div>
+      <div class="al"><span class="rank">3</span><h3>Substation T-2 · breaker trip risk, 71 mph gust forecast 02:40</h3><div class="meta"><span class="sev sev--crit">Critical</span>Morgan County · in 26 min</div><div class="acts"><span class="btn btn--ghost">Pre-curtail feeders</span></div></div>
+      <div class="grouped"><div><b class="num">409</b><p>More · 18 high, 391 grouped by storm</p></div><span class="btn btn--ghost" style="height:36px;font-size:10px;padding:0 12px">Review later</span></div>
+    </aside>
+  </div>
+</body></html>

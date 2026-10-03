@@ -336,6 +336,20 @@
       display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6);
     }
     .proj-hero__tag::before { content: ''; width: 22px; height: 1px; background: var(--accent); }
+    /* Concept pages: the way back to the market page they came from */
+    .proj-back {
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: var(--s6);
+      font-family: var(--font-m); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: oklch(1 0 0 / 0.8); text-decoration: none;
+      border: 1px solid oklch(1 0 0 / 0.35); padding: 9px 14px;
+      transition: border-color var(--dur-micro, 150ms), color var(--dur-micro, 150ms);
+    }
+    .proj-back:hover { color: white; border-color: var(--accent-proj-dark, var(--accent)); }
+    .proj-market { padding: var(--s16) 0; border-top: 1px solid var(--border); background: var(--surface); }
+    .proj-market__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s6) var(--s16); align-items: end; }
+    .proj-market__inner p:not(.slabel) { margin-top: var(--s4); font-size: clamp(15px, 1.4vw, 17px); line-height: 1.65; color: var(--text-2); max-width: 56ch; }
+    .proj-market__acts { display: flex; gap: var(--s3); flex-wrap: wrap; }
+    @media (max-width: 760px) { .proj-market__inner { grid-template-columns: 1fr; } }
     .proj-hero__client { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
     .proj-hero__h1 {
       font-size: clamp(40px, 6.5vw, 96px); font-weight: 800;
@@ -2247,6 +2261,10 @@
         return items.length ? `<div class="dig-bento">${items.join('')}</div>` : '';
       }
 
+      /* Concepts belong to a market page; give the reader the way back. */
+      const MARKET_URL = { 'Dubai': '/dubai/', 'Munich': '/munich/', 'Denver': '/denver/', 'Northeast India': '/northeast-india/' };
+      const marketUrl  = /^concept-/.test(p.slug || '') && MARKET_URL[p.market] ? MARKET_URL[p.market] : null;
+
       const appsHTML    = renderApplications();
       const digitalHTML = renderDigital();
 
@@ -2257,6 +2275,7 @@
           <div class="proj-hero__scrim"></div>
           <div class="proj-hero__content">
             <div class="w">
+              ${marketUrl ? `<a class="proj-back" href="${marketUrl}">&#8592; Back to ${p.market}</a>` : ''}
               <p class="proj-hero__tag"><span class="proj-hero__client">${p.client || 'Client'}</span></p>
               <h1 class="proj-hero__h1">${hl(p.title) || 'Project Title'}</h1>
             </div>
@@ -2373,6 +2392,21 @@
             <div><p class="slabel">Outcome</p><h2 class="proj-outcome__h">${hl(p.heading_outcomes||'What we *delivered.*')}</h2></div>
             <div class="proj-outcome__cards">
               ${outcomes.map(o=>`<div class="proj-outcome__card"><p class="proj-outcome__card-n">${o.title}</p><p class="proj-outcome__card-sub">${o.desc}</p></div>`).join('')}
+            </div>
+          </div></div>
+        </section>` : ''}
+
+        ${marketUrl ? `
+        <section class="proj-market">
+          <div class="w"><div class="proj-market__inner reveal">
+            <div>
+              <p class="slabel">${p.client}</p>
+              <h2 class="sh">Built for <em>${p.market}.</em></h2>
+              <p>One concept from our ${p.market} page. The team, the sectors we work in and how to start a project there are all on that page.</p>
+            </div>
+            <div class="proj-market__acts">
+              <a href="${marketUrl}" class="btn btn-p">&#8592; Back to ${p.market}</a>
+              <a href="${marketUrl}#cta" class="btn btn-g">Start a project</a>
             </div>
           </div></div>
         </section>` : ''}

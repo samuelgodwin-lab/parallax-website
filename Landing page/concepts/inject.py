@@ -39,7 +39,19 @@ CONCEPTS = {
             ("A policy delivered as a PDF", "The policy as a page you can read, search and share"),
             ("Claims by phone and post", "A claim filed from your phone in minutes, photos included"),
         ]),
+    'denver': dict(
+        slug='concept-energy-ops-denver', img='energy-ops-denver',
+        label='Concept &mdash; Aerospace &amp; energy',
+        h2='A control room that reads <em>at a glance.</em>',
+        lede="Colorado&rsquo;s energy and aerospace operators run billions of dollars of hardware from software engineers built for themselves. Four tools are open at once, alarms arrive in floods, and the shift handover happens in a spreadsheet. We designed the operations view an operator would actually choose.",
+        alt="Concept screen on a laptop: a dark operations dashboard for an unbranded Colorado wind and solar fleet during a storm front, with three critical alarms ranked first.",
+        pairs=[
+            ("Hundreds of alarms, all the same red", "Alarms ranked by consequence, the critical three on top"),
+            ("Four tools open to answer one question", "One view of the whole fleet, drill-down to a single asset"),
+            ("Shift handover in a spreadsheet", "Handover built in: what changed, what's open, who owns it"),
+        ]),
 }
+
 
 def section(c):
     pairs = '\n'.join(f'''          <li class="concept__pair">
