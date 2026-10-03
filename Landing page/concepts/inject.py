@@ -28,8 +28,18 @@ CONCEPTS = {
             ("Payment milestones in email reminders", "Every instalment, receipt and escrow payment in one schedule"),
             ("Construction progress by rumour", "Monthly site updates against the handover date"),
         ]),
+    'munich': dict(
+        slug='concept-insurance-munich', img='insurance-munich',
+        label='Concept &mdash; Insurance',
+        h2='An insurance flow people <em>finish.</em>',
+        lede="Munich is Europe&rsquo;s insurance capital, and its products are still sold through forms most customers abandon. Since June 2025 those forms must also be accessible by law. We designed an onboarding and claims flow that does both.",
+        alt="Concept screen on a laptop: an unbranded home-contents quote asking one question at a time, with a suggested sum insured and a live monthly price beside it.",
+        pairs=[
+            ("Forty fields on one page", "One question at a time, with answers filled in for you"),
+            ("A policy delivered as a PDF", "The policy as a page you can read, search and share"),
+            ("Claims by phone and post", "A claim filed from your phone in minutes, photos included"),
+        ]),
 }
-
 
 def section(c):
     pairs = '\n'.join(f'''          <li class="concept__pair">

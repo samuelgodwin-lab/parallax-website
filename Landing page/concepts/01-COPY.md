@@ -137,8 +137,8 @@ breaks the law.
 claim, designed for the customer and checked against WCAG 2.2 AA at every step.
 **stats:**
 - 2 — Journeys (onboarding, claims)
-- AA — WCAG 2.2, every screen
-- [n] — Screens designed
+- 5 — Steps to a policy
+- 4 — Key screens
 - 2 — Languages (German, English)
 
 **heading_outcomes:** What we'd *measure.*

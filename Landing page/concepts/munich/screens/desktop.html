@@ -1,0 +1,111 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 1440px; height: 900px; overflow: hidden; display: flex; flex-direction: column; }
+  .nav { height: 72px; display: flex; align-items: center; gap: 40px; padding: 0 40px; border-bottom: var(--rule) solid var(--border); }
+  .nav__links { display: flex; gap: 28px; font-family: var(--font-m); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); }
+  .nav__links b { color: var(--text); font-weight: 500; position: relative; }
+  .nav__links b::after { content: ''; position: absolute; left: 0; right: 0; bottom: -29px; height: 2px; background: var(--accent); }
+  .nav__right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+  .seg { display: flex; border: var(--rule) solid var(--border); }
+  .seg span { font-family: var(--font-m); font-size: 10.5px; letter-spacing: .12em; padding: 8px 10px; color: var(--text-2); }
+  .seg span.on { background: var(--text); color: var(--bg); }
+
+  .main { flex: 1; display: grid; grid-template-columns: 260px 1fr 400px; min-height: 0; }
+  .rail { border-right: var(--rule) solid var(--border); padding: 40px 32px; background: var(--surface); }
+  .rail ol { list-style: none; display: flex; flex-direction: column; margin-top: 22px; }
+  .rail li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 14px 0; border-bottom: var(--rule) solid var(--border); font-size: 16px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-3); }
+  .rail li i { width: 28px; height: 28px; border: var(--rule) solid var(--border-strong); display: grid; place-items: center; font-style: normal; font-family: var(--font-m); font-size: 11px; font-weight: 500; }
+  .rail li.done { color: var(--text); }
+  .rail li.done i { background: var(--text); border-color: var(--text); color: var(--bg); }
+  .rail li.now { color: var(--text); }
+  .rail li.now i { border-color: var(--accent); color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); }
+  .rail .save { margin-top: 28px; font-family: var(--font-m); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); line-height: 1.7; }
+
+  .q { padding: 48px 64px 40px; display: flex; flex-direction: column; }
+  .q h1 { font-size: 52px; margin-top: 18px; max-width: 13ch; }
+  .q .help { font-size: 17px; line-height: 1.55; color: var(--text-2); margin-top: 18px; max-width: 54ch; }
+  .q .help b { color: var(--text); }
+  .amount { margin-top: 34px; display: flex; align-items: baseline; gap: 16px; }
+  .amount b { font-size: 64px; font-weight: 700; letter-spacing: -0.045em; line-height: 1; }
+  .amount span { font-family: var(--font-m); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .opts { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 640px; }
+  .opt { border: var(--rule) solid var(--border-strong); padding: 18px 18px 18px 52px; position: relative; }
+  .opt::before { content: ''; position: absolute; left: 18px; top: 20px; width: 18px; height: 18px; border: 1.5px solid var(--border-strong); border-radius: 50%; }
+  .opt h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .opt p { font-size: 14px; color: var(--text-2); margin-top: 6px; line-height: 1.45; }
+  .opt.sel { border-color: var(--text); outline: 3px solid var(--accent); outline-offset: 3px; }
+  .opt.sel::before { border-color: var(--text); background: radial-gradient(circle, var(--text) 0 4px, transparent 5px); }
+  .kbd { margin-top: 14px; font-family: var(--font-m); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .more { margin-top: 26px; max-width: 640px; border-top: var(--rule) solid var(--border); border-bottom: var(--rule) solid var(--border); padding: 14px 0; display: flex; justify-content: space-between; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; }
+  .more span { font-family: var(--font-m); font-weight: 400; color: var(--text-3); }
+  .actions { margin-top: auto; display: flex; gap: 12px; }
+
+  .quote { border-left: var(--rule) solid var(--border); padding: 40px 36px; display: flex; flex-direction: column; gap: 22px; }
+  .price { display: flex; align-items: baseline; gap: 10px; margin-top: 4px; }
+  .price b { font-size: 72px; font-weight: 700; letter-spacing: -0.05em; line-height: 1; }
+  .price span { font-family: var(--font-m); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .upd { font-family: var(--font-m); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .cov { list-style: none; border-top: var(--rule) solid var(--border); }
+  .cov li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: var(--rule) solid var(--border); font-size: 15px; }
+  .cov li span:last-child { font-family: var(--font-m); font-size: 11px; letter-spacing: .08em; color: var(--text-2); }
+  .cov li .y { color: var(--success); }
+  .a11y { padding: 16px; background: var(--accent-soft); border: var(--rule) solid var(--accent-muted); }
+  .a11y p { font-size: 14px; line-height: 1.5; margin-top: 8px; color: var(--text-2); }
+  .human { margin-top: auto; border-top: var(--rule) solid var(--border); padding-top: 18px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .human p { font-size: 15px; line-height: 1.45; color: var(--text-2); }
+</style></head>
+<body>
+  <nav class="nav">
+    <span class="mark"><i></i>Cover</span>
+    <div class="nav__links"><b>Home contents</b><span>Liability</span><span>Claims</span><span>Help</span></div>
+    <div class="nav__right">
+      <span class="chip">Aa · Text size</span>
+      <div class="seg"><span class="on">EN</span><span>DE</span></div>
+      <span class="btn btn--ghost" style="height:36px;padding:0 14px;font-size:10.5px">Save &amp; finish later</span>
+    </div>
+  </nav>
+  <div class="main">
+    <aside class="rail">
+      <span class="eyebrow eyebrow--plain">Home contents · 5 steps</span>
+      <ol>
+        <li class="done"><i>✓</i>About you</li>
+        <li class="done"><i>✓</i>Your home</li>
+        <li class="now"><i>3</i>What you own</li>
+        <li><i>4</i>Extras</li>
+        <li><i>5</i>Check &amp; sign</li>
+      </ol>
+      <p class="save">Saved as you go.<br>About 2 minutes left.</p>
+    </aside>
+    <section class="q">
+      <span class="eyebrow">Step 3 of 5 · What you own</span>
+      <h1 class="serif">What would it cost to replace <em>everything?</em></h1>
+      <p class="help">Most people guess too low. We start from your flat: <b>72 m² × €650</b>, the amount that waives underinsurance. If you ever claim, nobody can say you were under-covered.</p>
+      <div class="amount"><b class="num">€46,800</b><span>Suggested sum insured</span></div>
+      <div class="opts">
+        <div class="opt sel"><h3>Use €46,800</h3><p>Recommended. Underinsurance waived.</p></div>
+        <div class="opt"><h3>Enter my own amount</h3><p>We'll show what it changes.</p></div>
+      </div>
+      <p class="kbd">Tab to move · Space to choose · Enter to continue</p>
+      <div class="more">What counts as "contents"? <span>+</span></div>
+      <div class="actions"><span class="btn btn--ghost">Back</span><span class="btn btn--copper">Continue</span></div>
+    </section>
+    <aside class="quote">
+      <span class="eyebrow">Your quote</span>
+      <div class="price"><b class="num">€7.90</b><span>a month</span></div>
+      <p class="upd">Updates as you answer · cancel monthly</p>
+      <ul class="cov">
+        <li><span>Fire, water, storm &amp; hail</span><span class="y">Covered</span></li>
+        <li><span>Burglary &amp; vandalism</span><span class="y">Covered</span></li>
+        <li><span>Bikes, when locked</span><span class="num">Up to €2,000</span></li>
+        <li><span>Excess</span><span class="num">€0</span></li>
+        <li><span>Sum insured</span><span class="num">€46,800</span></li>
+      </ul>
+      <div class="a11y">
+        <span class="badge badge--accent">WCAG 2.2 AA · BFSG</span>
+        <p>Every step works with a keyboard, a screen reader and 200% text, because since June 2025 it has to.</p>
+      </div>
+      <div class="human"><span class="eyebrow eyebrow--plain">Stuck on a question?</span><p>Talk to a person, in English or German. Mon–Sat, 8:00–20:00.</p><span class="btn btn--ghost" style="height:38px;padding:0 14px;font-size:10.5px">Call back in 10 min</span></div>
+    </aside>
+  </div>
+</body></html>

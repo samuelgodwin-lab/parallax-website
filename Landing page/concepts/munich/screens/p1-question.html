@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 393px; height: 852px; }
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 6px 20px 0; }
+  .steps i { height: 3px; background: var(--surface-raised); }
+  .steps i.d { background: var(--text); }
+  .steps i.n { background: var(--accent); }
+  .ph-head h1 { font-size: 40px; margin-top: 18px; }
+  .why { margin: 14px 20px 0; font-size: 15px; line-height: 1.5; color: var(--text-2); }
+  .opts { margin: 24px 20px 0; display: flex; flex-direction: column; gap: 12px; }
+  .opt { border: var(--rule) solid var(--border-strong); padding: 18px 18px 18px 54px; position: relative; }
+  .opt::before { content: ''; position: absolute; left: 18px; top: 21px; width: 20px; height: 20px; border: 1.5px solid var(--border-strong); border-radius: 50%; }
+  .opt h3 { font-size: 21px; font-weight: 700; letter-spacing: -0.03em; }
+  .opt p { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-top: 6px; }
+  .opt.sel { border-color: var(--text); box-shadow: 3px 3px 0 0 var(--accent); }
+  .opt.sel::before { border-color: var(--text); background: radial-gradient(circle, var(--text) 0 5px, transparent 6px); }
+  .note { margin: 18px 20px 0; padding: 14px; background: var(--surface); border-left: 2px solid var(--accent); font-size: 14px; line-height: 1.45; color: var(--text-2); }
+  .bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 40px; border-top: var(--rule) solid var(--border); background: var(--bg); display: flex; gap: 10px; }
+  .bar .btn { height: 52px; }
+  .bar .btn--copper { flex: 1; }
+  .quote { margin: 18px 20px 0; display: flex; justify-content: space-between; align-items: baseline; border-top: var(--rule) solid var(--border); padding-top: 14px; }
+  .quote span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+  .quote b { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; }
+  .sofar { margin: 22px 20px 0; }
+  .sofar div { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: var(--rule) solid var(--border); font-size: 15px; }
+  .sofar div:first-of-type { margin-top: 8px; border-top: var(--rule) solid var(--border); }
+  .sofar span { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); align-self: center; }
+  .quote { border-top: 0; }
+</style></head>
+<body><div class="phone" data-tabs="none">
+  <div class="ph-head">
+    <div class="top"><span class="ibtn">‹</span><span class="eyebrow">Step 2 of 5 · Your home</span><span class="ibtn" style="font-family:var(--font-m);font-size:11px">DE</span></div>
+  </div>
+  <div class="steps"><i class="d"></i><i class="n"></i><i></i><i></i><i></i></div>
+  <div class="ph-head"><h1 class="serif">Do you rent or <em>own?</em></h1></div>
+  <p class="why">One question per screen. Nothing here needs a document.</p>
+  <div class="opts">
+    <div class="opt sel"><h3>I rent</h3><p>Flat or house</p></div>
+    <div class="opt"><h3>I own</h3><p>Including a flat in a shared building</p></div>
+  </div>
+  <div class="note">Why we ask: owners can add the building itself later. It doesn't change today's price.</div>
+  <div class="sofar"><span class="eyebrow eyebrow--plain">Saved so far</span>
+    <div><span>Postcode</span><b>80799 · Maxvorstadt</b></div>
+    <div><span>Moving in</span><b>1 Nov 2026</b></div>
+  </div>
+  <div class="quote"><span>Your quote so far</span><b class="num">€7.90 / mo</b></div>
+  <div class="bar"><span class="btn btn--ghost">Back</span><span class="btn btn--copper">Continue</span></div>
+</div><script src="phone.js"></script></body></html>
