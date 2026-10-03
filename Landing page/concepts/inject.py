@@ -33,12 +33,10 @@ CONCEPTS = {
 
 def section(c):
     pairs = '\n'.join(f'''          <li class="concept__pair">
-            <span class="concept__k">Today</span>
-            <p class="concept__was">{was}</p>
-            <span class="concept__arrow" aria-hidden="true"></span>
-            <span class="concept__k concept__k--now">With the concept</span>
+            <span class="concept__n">0{i}</span>
+            <p class="concept__was"><span class="concept__k">Today</span>{was}</p>
             <p class="concept__now">{now}</p>
-          </li>''' for was, now in c['pairs'])
+          </li>''' for i, (was, now) in enumerate(c['pairs'], 1))
     base = f"/images/concepts/{c['img']}"
     return f'''<!-- CONCEPT -->
   <!-- ============================================================
