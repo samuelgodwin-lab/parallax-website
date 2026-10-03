@@ -2254,7 +2254,7 @@ a.mk__cell:focus-visible {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   gap: var(--s6) var(--s16);
-  align-items: end;
+  align-items: start;
 }
 .concept__head .sh { margin: 0; }
 .concept__aside .lede { margin: 0 0 var(--s6); }
