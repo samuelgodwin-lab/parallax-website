@@ -380,7 +380,7 @@
     /* ============================================================
        OVERVIEW
     ============================================================ */
-    .proj-overview { padding: var(--s24) 0; background: #f8f8f8; }
+    .proj-overview { padding: var(--s24) 0; background: #f8f8f8; overflow-x: clip; }
     .proj-overview__inner {
       display: grid; grid-template-columns: 1fr 1.2fr;
       gap: clamp(var(--s16), 8vw, 160px); align-items: start;
@@ -403,7 +403,14 @@
     .proj-overview__inner--challenge {
       margin-top: var(--s16);
       padding-top: var(--s16);
-      border-top: 1px solid var(--border-strong);
+      position: relative;
+    }
+    /* Full-bleed hairline in --border — the same divider as the market band
+       and More Work; the section clips the 100vw overhang. */
+    .proj-overview__inner--challenge::before {
+      content: ''; position: absolute; top: 0; left: 50%;
+      width: 100vw; margin-left: -50vw; height: 1px;
+      background: var(--border);
     }
     .proj-overview__sub {
       font-size: clamp(22px, 2.8vw, 38px); font-weight: 700;
