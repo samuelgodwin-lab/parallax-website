@@ -147,18 +147,27 @@ def inject(slug):
     open(path, 'w').write(s)
     print(slug, 'ok —', len(pairs), 'questions')
 
-def articles_for(name):
-    """Published CMS articles tagged with the market name, for llms.txt."""
+def articles_for(name=None):
+    """Published CMS articles tagged with the market name, for llms.txt.
+    With no name: the cross-market guides — compliance pieces tagged with no market."""
     import urllib.request, urllib.parse
-    q = urllib.parse.quote('{"' + name + '"}')
-    url = ("https://oveiewvqykwoliuyaiey.supabase.co/rest/v1/articles?status=eq.published&select=slug,title,excerpt"
-           f"&tags=cs.{q}&order=created_at.desc")
+    if name:
+        q = urllib.parse.quote('{"' + name + '"}')
+        filt = f"&tags=cs.{q}"
+    else:
+        filt = "&category=eq.compliance"
+    url = ("https://oveiewvqykwoliuyaiey.supabase.co/rest/v1/articles?status=eq.published&select=slug,title,excerpt,tags"
+           f"{filt}&order=created_at.desc")
     anon = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92ZWlld3ZxeWt3b2xpdXlhaWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDMyMDIsImV4cCI6MjA5MzExOTIwMn0.Lz48hdUsqp3PX8jLGEJTc_5pVDn_gMjxEbhmpGdosbA"
     try:
         req = urllib.request.Request(url, headers={"apikey": anon, "Authorization": "Bearer " + anon})
-        return json.load(urllib.request.urlopen(req, timeout=10))
+        rows = json.load(urllib.request.urlopen(req, timeout=10))
     except Exception:
         return []
+    if not name:
+        markets = {m['name'] for m in MARKETS.values()}
+        rows = [r for r in rows if not markets & set(r.get('tags') or [])]
+    return rows
 
 def llms():
     lines = ["# Parallax", "",
@@ -184,6 +193,13 @@ def llms():
       for art in articles_for(m['name']):
         t = re.sub(r'\*([^*]+)\*', r'\1', art.get('title') or '')
         lines.append(f"- Article: [{t}]({SITE}/articles/{art['slug']}) — {' '.join((art.get('excerpt') or '').split())}")
+      lines.append("")
+    guides = articles_for()
+    if guides:
+      lines += ["## Guides across markets", ""]
+      for art in guides:
+        t = re.sub(r'\*([^*]+)\*', r'\1', art.get('title') or '')
+        lines.append(f"- [{t}]({SITE}/articles/{art['slug']}) — {' '.join((art.get('excerpt') or '').split())}")
       lines.append("")
     lines += ["## Journal", "", f"All articles: {SITE}/articles.html · sitemap {SITE}/sitemap-articles.xml", ""]
     lines.append(f"Last updated {TODAY}.")

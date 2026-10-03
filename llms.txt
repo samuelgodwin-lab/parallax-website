@@ -58,8 +58,12 @@ Contact: projects@parallaxorg.com · https://www.linkedin.com/company/parallaxor
 - **How do I start a project with Parallax in Denver?** Email projects@parallaxorg.com with what you're building. The studio starts by questioning the brief on one call — no deck — and answers in your afternoon with the first response in your inbox the next morning. If Parallax isn't the right studio for the work, it will say so and point you to one that is.
 - Article: [ADA Title II in Colorado: the deadlines, the standard, and what to fix first](https://www.parallaxorg.com/articles/ada-title-ii-colorado) — The DOJ's Title II web rule lands 26 April 2027 for most Colorado entities; HB21-1110 already applies. What WCAG 2.1 AA means and what to fix first.
 
+## Guides across markets
+
+- [Accessibility law in 2026: the deadlines in the US, EU, UAE and India](https://www.parallaxorg.com/articles/accessibility-deadlines-2026) — One standard, four timetables. The web-accessibility deadlines in the US, EU, UAE and India, what WCAG 2.1 AA requires, and what to fix first.
+
 ## Journal
 
 All articles: https://www.parallaxorg.com/articles.html · sitemap https://www.parallaxorg.com/sitemap-articles.xml
 
-Last updated 2026-09-22.
+Last updated 2026-10-03.

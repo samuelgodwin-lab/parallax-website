@@ -2,7 +2,8 @@
    /articles/<slug>  (and the legacy /article.html?slug=…, which 301s here)
    are rewritten to this function. It reads the row from Supabase and returns
    article-template.html with the real <title>/description/canonical/og, an
-   Article + BreadcrumbList JSON-LD, and the article itself already in the
+   Article + BreadcrumbList (+ FAQPage, from the "Questions people ask"
+   section) JSON-LD, and the article itself already in the
    DOM — so crawlers that don't run JavaScript (GPTBot, ClaudeBot,
    PerplexityBot) see the piece, not an empty shell. The page's own script
    picks the row up from window.__ARTICLE__ instead of fetching it.
@@ -35,6 +36,22 @@ function bodyHtml(body) {
     return id ? `<${tag} id="${id}"${attrs}>${inner}</${tag}>` : m;
   });
   return html;
+}
+
+/* The "Questions people ask" section → FAQPage pairs: each h3 under that h2
+   and the first paragraph after it, up to the next h2 or the end. */
+const text = s => s.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\*([^*]+)\*/g, '$1').replace(/\s+/g, ' ').trim();
+function faqFrom(body) {
+  const m = (body || '').match(/<h2[^>]*>\s*Questions people ask\s*<\/h2>([\s\S]*?)(?=<h2[\s>]|$)/i);
+  if (!m) return [];
+  const pairs = [];
+  const re = /<h3[^>]*>([\s\S]*?)<\/h3>\s*<p[^>]*>([\s\S]*?)<\/p>/gi;
+  let q;
+  while ((q = re.exec(m[1]))) {
+    const name = text(q[1]), answer = text(q[2]);
+    if (name && answer) pairs.push({ name, answer });
+  }
+  return pairs;
 }
 
 function fill(html, a) {
@@ -80,6 +97,11 @@ function fill(html, a) {
         { '@type': 'ListItem', position: 3, name: title, item: url } ] },
     ],
   };
+  const faq = faqFrom(a.body);
+  if (faq.length) {
+    ld['@graph'].push({ '@type': 'FAQPage', '@id': `${url}#faq`, mainEntityOfPage: { '@id': url }, inLanguage: 'en',
+      mainEntity: faq.map(f => ({ '@type': 'Question', name: f.name, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) });
+  }
   const ldTag = `  <script type="application/ld+json">\n${JSON.stringify(ld, null, 1)}\n  </script>`;
   const data  = `  <script>window.__ARTICLE__ = ${JSON.stringify(a).replace(/</g, '\\u003c')};</script>`;
 
