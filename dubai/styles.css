@@ -2243,3 +2243,75 @@ a.mk__cell:focus-visible {
 @media (max-width: 640px) {
   .faq__item { grid-template-columns: 40px 1fr 24px; }
 }
+
+/* ============================================================
+   .concept — the market's concept project, a section of its own
+   (after the sectors, before the compliance band). Teaser only:
+   the full piece lives at /work/<slug>. Markup comes from
+   Landing page/concepts/inject.py.
+   ============================================================ */
+.concept__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--s6) var(--s16);
+  align-items: end;
+}
+.concept__head .sh { margin: 0; }
+.concept__aside .lede { margin: 0 0 var(--s6); }
+.concept__media {
+  display: block;
+  position: relative;
+  margin-top: var(--s12);
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  background: var(--surface);
+  border: var(--rule) solid var(--border);
+}
+.concept__media picture { display: block; height: 100%; }
+.concept__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  display: block;
+  transition: transform 900ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .concept__media:hover img { transform: scale(1.02); }
+}
+.concept__flag {
+  position: absolute; left: var(--s4); top: var(--s4);
+  font-family: var(--font-m); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text); background: var(--bg);
+  border: var(--rule) solid var(--border-strong);
+  padding: 6px 10px;
+}
+.concept__pairs {
+  list-style: none; margin: var(--s8) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: var(--rule) solid var(--border);
+}
+.concept__pair {
+  padding: var(--s6) var(--s6) 0 0;
+  display: flex; flex-direction: column; gap: var(--s3);
+}
+.concept__pair + .concept__pair { padding-left: var(--s6); border-left: var(--rule) solid var(--border); }
+.concept__k {
+  font-family: var(--font-m); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3);
+}
+.concept__k--now { color: var(--accent); }
+.concept__was { font-size: 15px; line-height: 1.5; color: var(--text-3); }
+.concept__now { font-size: clamp(17px, 1.5vw, 20px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; color: var(--text); }
+.concept__arrow { display: block; width: 18px; height: 1px; background: var(--border-strong); position: relative; }
+.concept__arrow::after { content: ''; position: absolute; right: 0; top: -3px; width: 7px; height: 7px;
+  border-top: 1px solid var(--border-strong); border-right: 1px solid var(--border-strong); transform: rotate(45deg); }
+.concept__note { margin-top: var(--s8); font-family: var(--font-m); font-size: 10px; letter-spacing: 0.08em; color: var(--text-3); }
+
+@media (max-width: 860px) {
+  .concept__head { grid-template-columns: 1fr; }
+  .concept__media { aspect-ratio: 4 / 3; }
+  .concept__pairs { grid-template-columns: 1fr; }
+  .concept__pair, .concept__pair + .concept__pair { padding: var(--s6) 0; border-left: 0; }
+  .concept__pair + .concept__pair { border-top: var(--rule) solid var(--border); }
+}

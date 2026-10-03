@@ -1,0 +1,159 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 1440px; height: 900px; overflow: hidden; display: flex; flex-direction: column; }
+  .nav { height: 72px; display: flex; align-items: center; gap: 40px; padding: 0 40px;
+    border-bottom: 1px solid var(--line); background: var(--paper); }
+  .nav__links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-2); font-weight: 500; }
+  .nav__links b { color: var(--ink); font-weight: 600; position: relative; }
+  .nav__links b::after { content: ''; position: absolute; left: 0; right: 0; bottom: -26px; height: 2px; background: var(--copper); }
+  .nav__right { margin-left: auto; display: flex; align-items: center; gap: 16px; font-size: 14px; color: var(--ink-2); }
+  .live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--palm); font-weight: 600; }
+  .live .dot { background: var(--palm); box-shadow: 0 0 0 4px var(--palm-t); }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--sand-2); display: grid; place-items: center; font-weight: 600; font-size: 13px; color: var(--ink); }
+
+  .main { flex: 1; display: grid; grid-template-columns: 1fr 520px; min-height: 0; }
+  .left { padding: 32px 40px 28px; display: flex; flex-direction: column; gap: 20px; min-height: 0; background: var(--sand); }
+  .head { display: flex; align-items: flex-end; justify-content: space-between; }
+  .head h1 { font-size: 40px; line-height: 1.05; margin-top: 8px; }
+  .head h1 em { font-style: italic; color: var(--copper); }
+  .stock { display: flex; gap: 28px; text-align: right; }
+  .stock div b { display: block; font-size: 22px; font-weight: 600; }
+  .stock div span { font-size: 12px; color: var(--ink-3); }
+  .filters { display: flex; gap: 8px; align-items: center; }
+  .filters .sep { width: 1px; height: 20px; background: var(--line); margin: 0 6px; }
+  .legend { margin-left: auto; display: flex; gap: 16px; font-size: 12px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+  .stack { flex: 1; min-height: 0; display: grid; grid-template-columns: 44px 1fr; gap: 10px; }
+  .floors { display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; color: var(--ink-3); text-align: right; padding: 2px 0; }
+  .grid { display: grid; grid-template-rows: repeat(18, 1fr); gap: 4px; }
+  .row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; border-radius: 6px; position: relative; }
+  .row.sel { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .u { border-radius: 4px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+  .u.av { background: #fff; box-shadow: inset 0 0 0 1px #D8CDBB; }
+  .u.av.view { background: var(--copper-t); box-shadow: inset 0 0 0 1px #E6C6AE; }
+  .u.held { background: var(--held); box-shadow: none; opacity: .55; }
+  .u.sold { background: #DCD4C6; box-shadow: none; }
+  .u.pick { background: var(--copper); box-shadow: 0 6px 16px -6px rgba(164,85,42,.7); }
+  .row .tag { position: absolute; right: -2px; top: 50%; transform: translate(100%, -50%); }
+
+  .right { background: var(--paper); border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+  .photo { height: 300px; background: url('img/interior.jpg') center/cover; position: relative; }
+  .photo .chip { position: absolute; left: 20px; top: 20px; background: rgba(251,249,245,.92); box-shadow: none; }
+  .photo .count { position: absolute; right: 20px; bottom: 16px; font-size: 12px; color: #fff; background: rgba(29,26,22,.55); padding: 6px 10px; border-radius: 999px; }
+  .detail { padding: 26px 32px 28px; display: flex; flex-direction: column; gap: 20px; flex: 1; }
+  .unit-h { display: flex; justify-content: space-between; align-items: flex-start; }
+  .unit-h h2 { font-size: 34px; line-height: 1; }
+  .unit-h p { font-size: 14px; color: var(--ink-2); margin-top: 8px; }
+  .price { text-align: right; }
+  .price b { font-size: 24px; font-weight: 600; display: block; }
+  .price span { font-size: 12px; color: var(--ink-3); }
+  .specs { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .specs div { padding: 14px 0; }
+  .specs div + div { padding-left: 16px; border-left: 1px solid var(--line); }
+  .specs b { display: block; font-size: 17px; font-weight: 600; }
+  .specs span { font-size: 12px; color: var(--ink-3); }
+  .plan h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; }
+  .plan h3 span { color: var(--ink-3); font-weight: 500; }
+  .bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; gap: 3px; }
+  .bar i { display: block; }
+  .bar-l { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-2); margin-top: 10px; }
+  .cta { margin-top: auto; display: flex; gap: 10px; }
+  .cta .btn { white-space: nowrap; }
+  .cta .btn--ghost { flex: 0 0 auto; }
+  .cta .btn--copper { flex: 1; }
+  .ticks { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+  .ticks span { display: inline-flex; align-items: center; gap: 8px; }
+  .ticks span::before { content: ''; width: 16px; height: 16px; border-radius: 50%; background: var(--palm-t) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2 4.8-4.8' fill='none' stroke='%233E6B57' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
+  .note { font-size: 12px; color: var(--ink-3); text-align: center; }
+</style></head>
+<body>
+  <nav class="nav">
+    <span class="mark"><i></i>Residences</span>
+    <div class="nav__links"><b>Inventory</b><span>Payment plans</span><span>Progress</span><span>Location</span></div>
+    <div class="nav__right">
+      <span class="live"><span class="dot"></span>Live inventory · updated 2 min ago</span>
+      <span>EN · عربي</span>
+      <span class="avatar">SR</span>
+    </div>
+  </nav>
+  <div class="main">
+    <section class="left">
+      <div class="head">
+        <div>
+          <p class="eyebrow">Phase 2 · Tower B · Handover Q4 2027</p>
+          <h1 class="serif">Choose your floor. <em>Then your view.</em></h1>
+        </div>
+        <div class="stock">
+          <div><b class="num" id="n-av"></b><span>Available</span></div>
+          <div><b class="num" id="n-held"></b><span>On hold</span></div>
+          <div><b class="num" id="n-sold"></b><span>Sold</span></div>
+        </div>
+      </div>
+      <div class="filters">
+        <span class="chip chip--on">2 bedrooms</span>
+        <span class="chip">Sea view</span>
+        <span class="chip">Floor 15+</span>
+        <span class="chip">Up to AED 2.6M</span>
+        <span class="sep"></span>
+        <span class="chip">60/40 plan</span>
+        <div class="legend">
+          <span><i class="dot" style="background:#fff;box-shadow:inset 0 0 0 1px #D8CDBB"></i>Available</span>
+          <span><i class="dot" style="background:var(--copper-t);box-shadow:inset 0 0 0 1px #E6C6AE"></i>Matches</span>
+          <span><i class="dot" style="background:var(--held);opacity:.55"></i>On hold</span>
+          <span><i class="dot" style="background:var(--sold)"></i>Sold</span>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="floors" id="floors"></div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+    <aside class="right">
+      <div class="photo"><span class="chip">West · sea view</span><span class="count">1 / 14</span></div>
+      <div class="detail">
+        <div class="unit-h">
+          <div><p class="eyebrow">Floor 24 · Unit 04</p><h2 class="serif" style="margin-top:8px">Residence 2404</h2><p>Two bedrooms, corner, west-facing terrace</p></div>
+          <div class="price"><b class="num">AED 2,480,000</b><span class="num">AED 1,932 / sq ft</span></div>
+        </div>
+        <div class="specs">
+          <div><b class="num">1,284</b><span>sq ft</span></div>
+          <div><b>2 + maid</b><span>Bedrooms</span></div>
+          <div><b class="num">186</b><span>Terrace sq ft</span></div>
+          <div><b>1</b><span>Parking</span></div>
+        </div>
+        <div class="plan">
+          <h3>Payment plan <span>60% during construction · 40% on handover</span></h3>
+          <div class="bar"><i style="flex:10;background:var(--copper)"></i><i style="flex:50;background:var(--sand-2)"></i><i style="flex:40;background:var(--ink)"></i></div>
+          <div class="bar-l"><span>10% to reserve</span><span>50% in 5 instalments, by build stage</span><span>40% at keys</span></div>
+        </div>
+        <div class="ticks"><span>Escrow-protected</span><span>Oqood registered</span><span>Price held 72 hours</span></div>
+        <div class="cta"><span class="btn btn--ghost">Book a viewing</span><span class="btn btn--copper">Reserve · AED 248,000</span></div>
+        <p class="note">Plus the 4% DLD registration fee. Every payment goes to the project escrow account.</p>
+      </div>
+    </aside>
+  </div>
+<script>
+  const grid = document.getElementById('grid'), floors = document.getElementById('floors');
+  let s = 7; const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  for (let f = 32; f >= 15; f--) {
+    const row = document.createElement('div'); row.className = 'row' + (f === 24 ? ' sel' : '');
+    for (let u = 1; u <= 8; u++) {
+      const x = r(); const i = document.createElement('i');
+      let c = x < .48 ? 'sold' : x < .56 ? 'held' : 'av';
+      if (c === 'av' && (u <= 2 || u >= 7) && x > .72) c += ' view';
+      if (f === 24 && u === 4) c = 'pick';
+      if (f === 24 && (u === 3 || u === 7)) c = 'av view';
+      i.className = 'u ' + c; row.appendChild(i);
+    }
+    grid.appendChild(row);
+    const l = document.createElement('span'); l.textContent = f; if (f === 24) { l.style.color = 'var(--ink)'; l.style.fontWeight = 700; }
+    floors.appendChild(l);
+  }
+  const n = c => document.querySelectorAll('.u.' + c).length;
+  document.getElementById('n-av').textContent = n('av') + n('pick');
+  document.getElementById('n-held').textContent = n('held');
+  document.getElementById('n-sold').textContent = n('sold');
+</script>
+</body></html>

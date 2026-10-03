@@ -169,6 +169,18 @@ def articles_for(name=None):
         rows = [r for r in rows if not markets & set(r.get('tags') or [])]
     return rows
 
+def concepts():
+    """Published concept projects (case_studies, slug concept-*), for llms.txt."""
+    import urllib.request
+    url = ("https://oveiewvqykwoliuyaiey.supabase.co/rest/v1/case_studies?status=eq.published&slug=like.concept-*"
+           "&select=slug,title,market,industry,seo_description,overview&order=sort_order.asc")
+    anon = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92ZWlld3ZxeWt3b2xpdXlhaWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDMyMDIsImV4cCI6MjA5MzExOTIwMn0.Lz48hdUsqp3PX8jLGEJTc_5pVDn_gMjxEbhmpGdosbA"
+    try:
+        req = urllib.request.Request(url, headers={"apikey": anon, "Authorization": "Bearer " + anon})
+        return json.load(urllib.request.urlopen(req, timeout=10))
+    except Exception:
+        return []
+
 def llms():
     lines = ["# Parallax", "",
       "> Parallax is a brand, product and frontend design studio in Bengaluru, India, working with companies in Bengaluru, Northeast India, Munich, Dubai and Denver. One team from identity to shipped code: brand systems, interface design, frontend engineering, design systems, digital strategy, motion.",
@@ -200,6 +212,14 @@ def llms():
       for art in guides:
         t = re.sub(r'\*([^*]+)\*', r'\1', art.get('title') or '')
         lines.append(f"- [{t}]({SITE}/articles/{art['slug']}) — {' '.join((art.get('excerpt') or '').split())}")
+      lines.append("")
+    cps = concepts()
+    if cps:
+      lines += ["## Concept projects", "",
+        "Unbranded concepts: how Parallax would solve the most pressing product problem in each market. Outcomes are design targets, not client results.", ""]
+      for c in cps:
+        t = re.sub(r'\*([^*]+)\*', r'\1', c.get('title') or '')
+        lines.append(f"- [{t} — {c.get('market') or ''} {(c.get('industry') or '').lower()} concept]({SITE}/work/{c['slug']}) — {' '.join((c.get('seo_description') or c.get('overview') or '').split())}")
       lines.append("")
     lines += ["## Journal", "", f"All articles: {SITE}/articles.html · sitemap {SITE}/sitemap-articles.xml", ""]
     lines.append(f"Last updated {TODAY}.")

@@ -13,6 +13,7 @@
   ],
   "rewrites": [
     { "source": "/project.html", "destination": "/api/project" },
+    { "source": "/work/:slug", "destination": "/api/project?slug=:slug" },
     { "source": "/article.html", "destination": "/api/article" },
     { "source": "/articles/:slug", "destination": "/api/article?slug=:slug" },
     { "source": "/sitemap-articles.xml", "destination": "/api/sitemap-articles" }

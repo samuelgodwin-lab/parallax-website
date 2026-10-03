@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 393px; height: 852px; }
+  .hero { margin: 14px 20px 0; height: 236px; border-radius: 20px; background: url('img/site.jpg') center 35%/cover; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(29,26,22,0) 45%, rgba(29,26,22,.7)); }
+  .hero .chip { position: absolute; left: 14px; top: 14px; background: rgba(251,249,245,.92); box-shadow: none; height: 28px; font-size: 12px; z-index: 1; }
+  .hero .cap { position: absolute; left: 16px; right: 16px; bottom: 14px; color: #fff; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; }
+  .hero .cap b { font-size: 34px; font-weight: 600; line-height: 1; }
+  .hero .cap span { font-size: 12px; opacity: .85; text-align: right; }
+  .track { margin: 12px 20px 0; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+  .track .dot { width: 10px; height: 10px; background: var(--palm); box-shadow: 0 0 0 5px var(--palm-t); }
+  .track b { font-size: 14px; font-weight: 600; }
+  .track p { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+  .yours { margin: 10px 20px 0; padding: 14px 16px; border-radius: 18px; background: var(--copper-t); }
+  .yours .eyebrow { color: var(--copper); }
+  .yours p { font-size: 14px; margin-top: 6px; line-height: 1.4; }
+  .ms { padding: 14px 20px 0; }
+  .m { display: grid; grid-template-columns: 1fr 64px; gap: 4px 14px; padding: 9px 0; align-items: center; }
+  .m h5 { font-size: 13.5px; font-weight: 600; }
+  .m span { font-size: 12px; color: var(--ink-3); text-align: right; }
+  .m .b { grid-column: 1 / -1; height: 5px; border-radius: 999px; background: var(--sand-2); overflow: hidden; }
+  .m .b i { display: block; height: 100%; background: var(--ink); border-radius: 999px; }
+</style></head>
+<body><div class="phone" data-tab="2">
+  <div class="ph-head">
+    <div class="top"><span class="eyebrow">Tower B · October update</span><span class="ibtn">↗</span></div>
+    <h1 class="serif">Your building, <em>this month.</em></h1>
+  </div>
+  <div class="hero"><span class="chip">Site photo · 1 Oct 2026</span><div class="cap"><b class="num">62%</b><span>built<br>Next update 1 Nov</span></div></div>
+  <div class="card track"><span class="dot"></span><div><b>On track for Q4 2027</b><p>Handover date unchanged since launch</p></div></div>
+  <div class="yours"><span class="eyebrow">Your floor · 24</span><p>Glazing reaches level 24 in November. Instalment 2 falls due at 70% built, expected mid-December.</p></div>
+  <div class="ms">
+    <div class="m"><h5>Structure</h5><span>Complete</span><div class="b"><i style="width:100%"></i></div></div>
+    <div class="m"><h5>Facade &amp; glazing</h5><span class="num">Level 21</span><div class="b"><i style="width:64%"></i></div></div>
+    <div class="m"><h5>MEP fit-out</h5><span class="num">Level 18</span><div class="b"><i style="width:48%"></i></div></div>
+    <div class="m"><h5>Interiors</h5><span>Jan 2027</span><div class="b"><i style="width:6%"></i></div></div>
+  </div>
+</div><script src="phone.js"></script></body></html>

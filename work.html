@@ -784,6 +784,32 @@
       .pc__img { min-height: 240px !important; }
     }
 
+    /* ── Concepts — unbranded market concepts, a group of their own under the
+       client work. Even 2-up grid; none of the client bento's nth-child spans. ── */
+    .concepts-hdr {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--s6) var(--s16); align-items: end;
+      margin: var(--s24) 0 var(--s8); padding-top: var(--s12);
+      border-top: 1px solid var(--border);
+    }
+    .concepts-hdr .sh { margin: 0; }
+    .concepts-hdr p:not(.slabel) { font-size: clamp(15px, 1.4vw, 17px); line-height: 1.65; color: var(--text-2); max-width: 52ch; }
+    .grid--concepts .pc:nth-child(n) { grid-column: span 6; grid-row: auto; }
+    .grid--concepts .pc:nth-child(n) .pc__img { flex: none; height: 340px; min-height: 0; }
+    .pc__concept {
+      position: absolute; right: 16px; top: 16px; z-index: 2;
+      font-family: var(--font-m); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #fff; border: 1px solid oklch(1 0 0 / 0.5); padding: 6px 10px; background: oklch(0 0 0 / 0.25);
+    }
+    @media (max-width: 1024px) {
+      .grid--concepts .pc:nth-child(n) { grid-column: span 3; }
+    }
+    @media (max-width: 640px) {
+      .concepts-hdr { grid-template-columns: 1fr; margin-top: var(--s16); }
+      .grid--concepts .pc:nth-child(n) { grid-column: span 1; }
+      .grid--concepts .pc:nth-child(n) .pc__img { height: 260px; }
+    }
+
     /* No results state */
     .no-results {
       grid-column: 1 / -1;
@@ -1579,6 +1605,10 @@
       'linear-gradient(145deg, oklch(0.16 0.06 78) 0%, oklch(0.24 0.09 68) 50%, oklch(0.12 0.04 90) 100%)',
     ];
 
+    const isConcept = p => /^concept-/.test(p.slug || '');
+
+    const plainTitle = t => (t || '').replace(/\*([^*]+)\*/g, '$1');
+
     function buildCard(p, index) {
       const isSoon   = p.status === 'coming_soon';
       const services = Array.isArray(p.services) ? p.services.join(' · ') : (p.services || '');
@@ -1595,6 +1625,7 @@
           ${p.img_hero ? `<img class="pc__photo" src="${p.img_hero}" alt="${p.client}" loading="lazy">` : ''}
           <div class="pc__overlay"></div>
           ${tag}
+          ${isConcept(p) ? '<span class="pc__concept">Concept</span>' : ''}
           <div class="pc__img-inner">
             <span class="pc__logo-text" style="opacity:0.9;">${p.client || ''}</span>
             <span class="pc__industry">${p.industry || ''}</span>
@@ -1602,7 +1633,7 @@
         </div>
         <div class="pc__info">
           ${services ? `<p class="pc__discipline">${services}</p>` : ''}
-          <h2 class="pc__name">${isSoon ? (p.title || 'Case Study') : p.title}</h2>
+          <h2 class="pc__name">${isSoon ? (plainTitle(p.title) || 'Case Study') : plainTitle(p.title)}</h2>
           <div class="pc__meta">
             <span class="pc__client">${p.client || ''}</span>
             ${p.year ? `<span class="pc__yr">${p.year}</span>` : ''}
@@ -1618,8 +1649,9 @@
       } else {
         const a = document.createElement('a');
         a.className = 'pc';
-        a.href = `project.html?id=${p.id}`;
+        a.href = isConcept(p) ? `/work/${p.slug}` : `project.html?id=${p.id}`;
         a.dataset.categories = p.categories || '';
+        if (isConcept(p)) a.dataset.concept = '1';
         a.innerHTML = inner;
         return a;
       }
@@ -1636,7 +1668,7 @@
         const cats = (card.dataset.categories || '').split(' ').filter(Boolean);
         const show = filter === 'all' || cats.includes(filter);
         card.style.display = show ? '' : 'none';
-        if (show) visible++;
+        if (show && !card.dataset.concept) visible++;
       });
       const countEl = document.querySelector('.work-hero__count strong');
       if (countEl) countEl.textContent = `${visible} case ${visible === 1 ? 'study' : 'studies'}`;
@@ -1646,7 +1678,7 @@
       try {
         const { data: projects, error } = await db
           .from('case_studies')
-          .select('id,title,client,industry,services,year,img_hero,accent_color,categories,sort_order,status')
+          .select('id,slug,title,client,industry,services,year,img_hero,accent_color,categories,sort_order,status')
           .in('status', ['published', 'coming_soon'])
           .order('sort_order', { ascending: true, nullsFirst: false });
 
@@ -1662,7 +1694,10 @@
         const grid = document.createElement('div');
         grid.className = 'grid stagger';
 
-        projects.forEach((p, i) => {
+        const clientWork = projects.filter(p => !isConcept(p));
+        const concepts   = projects.filter(isConcept);
+
+        clientWork.forEach((p, i) => {
           const card = buildCard(p, i);
           allCards.push(card);
           grid.appendChild(card);
@@ -1671,8 +1706,25 @@
         skeleton.remove();
         wrap.appendChild(grid);
 
-        // Update hero count
-        const published = projects.filter(p => p.status === 'published').length;
+        if (concepts.length) {
+          const hdr = document.createElement('div');
+          hdr.className = 'concepts-hdr reveal in';
+          hdr.innerHTML = `<div><p class="slabel">Concepts</p><h2 class="sh">Problems we\'d solve <em>next.</em></h2></div>
+            <p>Unbranded concepts, one per market: the product problem that costs the most there, and how we would design it. The outcomes are design targets, not client results.</p>`;
+          const cgrid = document.createElement('div');
+          cgrid.className = 'grid grid--concepts stagger';
+          concepts.forEach((p, i) => {
+            const card = buildCard(p, i);
+            allCards.push(card);
+            cgrid.appendChild(card);
+          });
+          wrap.appendChild(hdr);
+          wrap.appendChild(cgrid);
+          setTimeout(() => cgrid.classList.add('in'), 0);
+        }
+
+        // Update hero count — client case studies only
+        const published = clientWork.filter(p => p.status === 'published').length;
         const countEl   = document.querySelector('.work-hero__count strong');
         if (countEl) countEl.textContent = `${published} case ${published === 1 ? 'study' : 'studies'}`;
 

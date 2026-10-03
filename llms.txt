@@ -62,6 +62,12 @@ Contact: projects@parallaxorg.com · https://www.linkedin.com/company/parallaxor
 
 - [Accessibility law in 2026: the deadlines in the US, EU, UAE and India](https://www.parallaxorg.com/articles/accessibility-deadlines-2026) — One standard, four timetables. The web-accessibility deadlines in the US, EU, UAE and India, what WCAG 2.1 AA requires, and what to fix first.
 
+## Concept projects
+
+Unbranded concepts: how Parallax would solve the most pressing product problem in each market. Outcomes are design targets, not client results.
+
+- [Sold before it's built. — Dubai real estate concept](https://www.parallaxorg.com/work/concept-off-plan-dubai) — A concept for Dubai's off-plan buyers: live inventory, payment milestones and construction progress in one app, from launch day to handover.
+
 ## Journal
 
 All articles: https://www.parallaxorg.com/articles.html · sitemap https://www.parallaxorg.com/sitemap-articles.xml

@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 393px; height: 852px; }
+  .sum { margin: 16px 20px 0; padding: 18px; border-radius: 20px; background: var(--ink); color: var(--paper); }
+  .sum p { font-size: 12px; opacity: .65; }
+  .sum b { font-size: 28px; font-weight: 600; display: block; margin-top: 4px; }
+  .sum b small { font-size: 14px; opacity: .6; font-weight: 500; }
+  .sum .bar { height: 6px; border-radius: 999px; background: rgba(255,255,255,.14); margin-top: 14px; overflow: hidden; }
+  .sum .bar i { display: block; height: 100%; width: 20%; background: var(--copper-2); border-radius: 999px; }
+  .sum .bl { display: flex; justify-content: space-between; font-size: 11.5px; opacity: .7; margin-top: 8px; }
+  .next { margin: 12px 20px 0; padding: 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; box-shadow: 0 0 0 2px var(--copper); }
+  .next .eyebrow { color: var(--copper); }
+  .next h3 { font-size: 20px; font-weight: 600; }
+  .next p { font-size: 12.5px; color: var(--ink-2); grid-column: 1; }
+  .next .btn { grid-row: 1 / span 3; grid-column: 2; height: 42px; padding: 0 18px; font-size: 14px; }
+  .tl { padding: 14px 20px 0; }
+  .tl h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .it { display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .it .ck { width: 22px; height: 22px; border-radius: 50%; background: var(--palm-t); display: grid; place-items: center; }
+  .it .ck.todo { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line); }
+  .it .ck.due { background: var(--copper-t); box-shadow: inset 0 0 0 1.5px var(--copper-2); }
+  .it h5 { font-size: 14px; font-weight: 600; }
+  .it p { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+  .it .a { font-size: 13.5px; font-weight: 600; text-align: right; }
+  .it .a small { display: block; font-size: 11px; color: var(--palm); font-weight: 600; margin-top: 2px; }
+</style></head>
+<body><div class="phone" data-tab="1">
+  <div class="ph-head">
+    <div class="top"><span class="eyebrow">Residence 2404</span><span class="ibtn">↓</span></div>
+    <h1 class="serif">Every dirham, <em>tracked.</em></h1>
+  </div>
+  <div class="sum">
+    <p>Paid towards your home</p>
+    <b class="num">AED 496,000 <small>of 2,480,000</small></b>
+    <div class="bar"><i></i></div>
+    <div class="bl"><span>20% paid</span><span>Keys Q4 2027</span></div>
+  </div>
+  <div class="card next">
+    <span class="eyebrow">Next · expected 15 Dec</span>
+    <h3 class="num">AED 248,000</h3>
+    <p>Instalment 2 of 5 · due at 70% built</p>
+    <span class="btn btn--copper">Pay</span>
+  </div>
+  <div class="tl">
+    <h4>Schedule</h4>
+    <div class="it"><span class="ck"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#3E6B57" stroke-width="2" stroke-linecap="round"/></svg></span><div><h5>Reservation · 10%</h5><p>12 Mar 2026 · receipt</p></div><div class="a num">248,000<small>Paid</small></div></div>
+    <div class="it"><span class="ck"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#3E6B57" stroke-width="2" stroke-linecap="round"/></svg></span><div><h5>DLD fee · 4%</h5><p>19 Mar 2026 · Oqood issued</p></div><div class="a num">99,200<small>Paid</small></div></div>
+    <div class="it"><span class="ck"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6" fill="none" stroke="#3E6B57" stroke-width="2" stroke-linecap="round"/></svg></span><div><h5>Instalment 1 · 10%</h5><p>1 Jul 2026 · at 50% built</p></div><div class="a num">248,000<small>Paid</small></div></div>
+    <div class="it"><span class="ck due"></span><div><h5>Instalment 2 · 10%</h5><p>At 70% built · est. 15 Dec</p></div><div class="a num">248,000<small style="color:var(--copper)">Due</small></div></div>
+    <div class="it"><span class="ck todo"></span><div><h5>Instalments 3–5 · 30%</h5><p>At 80, 90 and 100% built</p></div><div class="a num">744,000</div></div>
+    <div class="it" style="border:0"><span class="ck todo"></span><div><h5>Handover · 40%</h5><p>Q4 2027 · at keys</p></div><div class="a num">992,000</div></div>
+  </div>
+</div><script src="phone.js"></script></body></html>
