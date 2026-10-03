@@ -10,13 +10,12 @@
   .nav__right { margin-left: auto; display: flex; align-items: center; gap: 16px; font-size: 14px; color: var(--ink-2); }
   .live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--palm); font-weight: 600; }
   .live .dot { background: var(--palm); box-shadow: 0 0 0 4px var(--palm-t); }
-  .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--sand-2); display: grid; place-items: center; font-weight: 600; font-size: 13px; color: var(--ink); }
+  .avatar { width: 36px; height: 36px; background: var(--sand-2); display: grid; place-items: center; font-weight: 600; font-size: 13px; color: var(--ink); }
 
   .main { flex: 1; display: grid; grid-template-columns: 1fr 520px; min-height: 0; }
   .left { padding: 32px 40px 28px; display: flex; flex-direction: column; gap: 20px; min-height: 0; background: var(--sand); }
   .head { display: flex; align-items: flex-end; justify-content: space-between; }
   .head h1 { font-size: 40px; line-height: 1.05; margin-top: 8px; }
-  .head h1 em { font-style: italic; color: var(--copper); }
   .stock { display: flex; gap: 28px; text-align: right; }
   .stock div b { display: block; font-size: 22px; font-weight: 600; }
   .stock div span { font-size: 12px; color: var(--ink-3); }
@@ -28,9 +27,9 @@
   .stack { flex: 1; min-height: 0; display: grid; grid-template-columns: 44px 1fr; gap: 10px; }
   .floors { display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; color: var(--ink-3); text-align: right; padding: 2px 0; }
   .grid { display: grid; grid-template-rows: repeat(18, 1fr); gap: 4px; }
-  .row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; border-radius: 6px; position: relative; }
+  .row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; border-radius: 0; position: relative; }
   .row.sel { outline: 2px solid var(--ink); outline-offset: 3px; }
-  .u { border-radius: 4px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+  .u { border-radius: 0; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
   .u.av { background: #fff; box-shadow: inset 0 0 0 1px #D8CDBB; }
   .u.av.view { background: var(--copper-t); box-shadow: inset 0 0 0 1px #E6C6AE; }
   .u.held { background: var(--held); box-shadow: none; opacity: .55; }
@@ -41,7 +40,7 @@
   .right { background: var(--paper); border-left: 1px solid var(--line); display: flex; flex-direction: column; }
   .photo { height: 300px; background: url('img/interior.jpg') center/cover; position: relative; }
   .photo .chip { position: absolute; left: 20px; top: 20px; background: rgba(251,249,245,.92); box-shadow: none; }
-  .photo .count { position: absolute; right: 20px; bottom: 16px; font-size: 12px; color: #fff; background: rgba(29,26,22,.55); padding: 6px 10px; border-radius: 999px; }
+  .photo .count { position: absolute; right: 20px; bottom: 16px; font-size: 12px; color: #fff; background: rgba(29,26,22,.55); padding: 6px 10px; border-radius: 0; }
   .detail { padding: 26px 32px 28px; display: flex; flex-direction: column; gap: 20px; flex: 1; }
   .unit-h { display: flex; justify-content: space-between; align-items: flex-start; }
   .unit-h h2 { font-size: 34px; line-height: 1; }
@@ -56,7 +55,7 @@
   .specs span { font-size: 12px; color: var(--ink-3); }
   .plan h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; }
   .plan h3 span { color: var(--ink-3); font-weight: 500; }
-  .bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; gap: 3px; }
+  .bar { display: flex; height: 10px; border-radius: 0; overflow: hidden; gap: 3px; }
   .bar i { display: block; }
   .bar-l { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-2); margin-top: 10px; }
   .cta { margin-top: auto; display: flex; gap: 10px; }
@@ -67,6 +66,24 @@
   .ticks span { display: inline-flex; align-items: center; gap: 8px; }
   .ticks span::before { content: ''; width: 16px; height: 16px; border-radius: 50%; background: var(--palm-t) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2 4.8-4.8' fill='none' stroke='%233E6B57' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
   .note { font-size: 12px; color: var(--ink-3); text-align: center; }
+
+  /* Parallax language */
+  .stock div span, .specs span, .bar-l, .legend, .note, .photo .count, .nav__right > span:not(.avatar):not(.live) { font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; }
+  .nav__links { font-family: var(--font-m); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+  .live { font-family: var(--font-m); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+  .stock div b, .price b { font-weight: 700; letter-spacing: -0.03em; }
+  .head h1 { font-size: 42px; white-space: nowrap; }
+  .stock div span, .price b { white-space: nowrap; }
+  .price b { font-size: 24px; }
+  .unit-h p.eyebrow { font-size: 10.5px; }
+  .unit-h h2 { font-size: 36px; }
+  .unit-h p { font-size: 15px; }
+  .ticks { font-family: var(--font-m); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+  .plan h3 { font-family: var(--font-m); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; }
+  .plan h3 span { text-transform: none; letter-spacing: .04em; }
+  .avatar { font-family: var(--font-m); font-size: 11px; }
+  .row.sel { outline-color: var(--text); }
+  .photo .count { background: var(--text); }
 </style></head>
 <body>
   <nav class="nav">

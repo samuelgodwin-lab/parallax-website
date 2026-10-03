@@ -58,8 +58,8 @@ def section(c):
       </div>
       <a class="concept__media reveal" href="/work/{c['slug']}" tabindex="-1" aria-hidden="true">
         <picture>
-          <source type="image/webp" srcset="{base}/desktop-2400.webp">
-          <img src="{base}/desktop-2400.jpg" width="2400" height="1600" alt="{html.escape(c['alt'])}" loading="lazy" decoding="async">
+          <source type="image/webp" srcset="{base}/desktop-2400.webp?v=2">
+          <img src="{base}/desktop-2400.jpg?v=2" width="2400" height="1600" alt="{html.escape(c['alt'])}" loading="lazy" decoding="async">
         </picture>
         <span class="concept__flag">Concept</span>
       </a>

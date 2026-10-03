@@ -1,61 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Manrope:wght@400;500;600;700&display=swap');
+/* Concept app screens — Parallax design system (tokens.css, Brand Guidelines
+   v2.0): Bricolage Grotesque + JetBrains Mono, square corners, hairline
+   rules, mono uppercase labels, one accent word per heading, the 3px offset
+   shadow on the active button. Only the accent changes per concept. */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --sand:    #F4EFE7;
-  --sand-2:  #EAE2D5;
-  --paper:   #FBF9F5;
-  --ink:     #1D1A16;
-  --ink-2:   #5E574D;
-  --ink-3:   #8F877B;
-  --line:    #E0D7C8;
-  --copper:  #A4552A;
-  --copper-2:#C9774A;
-  --copper-t:#F3E3D6;
-  --palm:    #3E6B57;
-  --palm-t:  #DCEAE2;
-  --held:    #C9A86A;
-  --sold:    #CFC6B8;
-  --serif: 'Fraunces', Georgia, serif;
-  --sans:  'Manrope', system-ui, sans-serif;
+  /* Concept accent — Dubai: copper. 5.5:1 on --bg. */
+  --accent:         #A4552A;
+  --accent-hi:      #C9774A;
+  --accent-muted:   color-mix(in oklch, var(--accent) 16%, transparent);
+  --accent-soft:    color-mix(in oklch, var(--accent) 7%, transparent);
+
+  /* Parallax tokens, as tokens.css */
+  --bg:             oklch(1 0 0);
+  --surface:        oklch(0.98 0.001 0);
+  --surface-raised: oklch(0.96 0.001 0);
+  --text:           oklch(0 0 0);
+  --text-2:         oklch(0.40 0.005 0);
+  --text-3:         oklch(0.55 0.005 0);
+  --border:         oklch(0 0 0 / 0.15);
+  --border-strong:  oklch(0 0 0 / 0.30);
+  --success:        #15803d;
+  --success-soft:   #22c55e1f;
+  --warning:        #b45309;
+  --font-d: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-m: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --rule: 1px;
+
+  /* aliases the screen files use */
+  --ink: var(--text); --ink-2: var(--text-2); --ink-3: var(--text-3);
+  --line: var(--border); --paper: var(--bg); --sand: var(--surface); --sand-2: var(--surface-raised);
+  --copper: var(--accent); --copper-2: var(--accent-hi); --copper-t: var(--accent-muted);
+  --palm: var(--success); --palm-t: var(--success-soft);
+  --held: oklch(0.80 0.08 80); --sold: oklch(0.90 0.003 0);
+  --serif: var(--font-d); --sans: var(--font-d);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { background: var(--paper); color: var(--ink); font-family: var(--sans);
-  -webkit-font-smoothing: antialiased; }
+html, body { background: var(--bg); color: var(--text); font-family: var(--font-d);
+  -webkit-font-smoothing: antialiased; font-feature-settings: 'ss01' 1, 'kern' 1; }
 .num { font-variant-numeric: tabular-nums; }
-.eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
-.serif { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  height: 48px; padding: 0 22px; border-radius: 999px; font-weight: 600; font-size: 15px;
-  background: var(--ink); color: var(--paper); border: 0; }
-.btn--copper { background: var(--copper); }
-.btn--ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
-.chip { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px;
-  border-radius: 999px; font-size: 13px; font-weight: 500; background: var(--paper);
-  box-shadow: inset 0 0 0 1px var(--line); color: var(--ink-2); white-space: nowrap; }
-.chip--on { background: var(--ink); color: var(--paper); box-shadow: none; }
+
+/* .slabel — mono, uppercase, accent, with the rule */
+.eyebrow { font-family: var(--font-m); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent); font-weight: 500; display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ''; width: 18px; height: var(--rule); background: currentColor; }
+.eyebrow--plain { color: var(--text-3); }
+.eyebrow--plain::before, .eyebrow--bare::before { display: none; }
+
+/* .sh — display heading, accent word not italic */
+.serif { font-family: var(--font-d); font-weight: 700; letter-spacing: -0.042em; line-height: 1; }
+.serif em, h1 em, h2 em { font-style: normal; color: var(--accent); }
+
+/* .btn — square, mono, uppercase; primary carries the offset accent shadow */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  height: 46px; padding: 0 22px; border-radius: 0; font-family: var(--font-m); font-size: 11.5px;
+  font-weight: 500; letter-spacing: .11em; text-transform: uppercase;
+  background: var(--text); color: var(--bg); border: var(--rule) solid var(--text); }
+.btn--copper { background: var(--text); border-color: var(--accent);
+  box-shadow: 3px 3px 0 0 var(--accent); transform: translate(-1.5px, -1.5px); }
+.btn--ghost { background: transparent; color: var(--text-2); border-color: var(--border-strong); box-shadow: none; transform: none; }
+
+/* .tag — square, mono; the selected filter fills black */
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px;
+  font-family: var(--font-m); font-size: 10.5px; letter-spacing: .10em; text-transform: uppercase;
+  color: var(--text-2); border: var(--rule) solid var(--border); background: var(--bg); white-space: nowrap; }
+.chip--on { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* .badge — the only pill the system allows (status) */
+.badge { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 9px; border-radius: 999px;
+  font-family: var(--font-m); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
+  border: var(--rule) solid var(--border); color: var(--text-2); }
+.badge--ok { color: var(--success); border-color: color-mix(in oklch, var(--success) 30%, transparent); background: var(--success-soft); }
+.badge--accent { color: var(--accent); border-color: var(--accent-muted); background: var(--accent-soft); }
+
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.mark { display: inline-flex; align-items: center; gap: 10px; font-family: var(--serif);
-  font-size: 20px; letter-spacing: -.01em; }
-.mark i { width: 22px; height: 22px; border-radius: 6px 6px 2px 2px; background: var(--copper);
-  display: inline-block; position: relative; }
-.mark i::after { content: ''; position: absolute; left: 6px; right: 6px; bottom: 0; height: 9px;
-  border-radius: 4px 4px 0 0; background: var(--paper); }
+.mark { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-d);
+  font-weight: 800; font-size: 19px; letter-spacing: -0.045em; }
+.mark i { width: 20px; height: 20px; background: var(--accent); display: inline-block; position: relative; }
+.mark i::after { content: ''; position: absolute; left: 6px; right: 6px; bottom: 0; height: 9px; background: var(--bg); }
 
 /* ---- phone ---- */
-.phone { width: 393px; height: 852px; overflow: hidden; position: relative; display: flex; flex-direction: column; background: var(--paper); }
-.sbar { height: 54px; flex: 0 0 54px; display: flex; align-items: center; justify-content: space-between; padding: 6px 34px 0 42px; font-weight: 600; font-size: 16px; position: relative; }
+.phone { width: 393px; height: 852px; overflow: hidden; position: relative; display: flex; flex-direction: column; background: var(--bg); }
+.sbar { height: 54px; flex: 0 0 54px; display: flex; align-items: center; justify-content: space-between; padding: 6px 34px 0 42px; font-weight: 600; font-size: 16px; position: relative; font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif; letter-spacing: 0; }
 .sbar::after { content: ''; position: absolute; left: 50%; top: 11px; width: 124px; height: 36px; margin-left: -62px; background: #000; border-radius: 20px; }
 .sbar svg { height: 12px; }
 .sbar .ic { display: flex; gap: 6px; align-items: center; }
-.tabs { position: absolute; left: 0; right: 0; bottom: 0; height: 84px; flex: 0 0 84px; border-top: 1px solid var(--line); background: rgba(251,249,245,.96); display: grid; grid-template-columns: repeat(4,1fr); padding: 10px 8px 0; font-size: 10.5px; font-weight: 600; color: var(--ink-3); text-align: center; }
-.tabs span { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-.tabs span i { width: 24px; height: 24px; border-radius: 7px; box-shadow: inset 0 0 0 1.8px currentColor; }
-.tabs .on { color: var(--copper); }
-.tabs .on i { background: var(--copper); box-shadow: none; }
-.home-ind { position: absolute; left: 50%; bottom: 8px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: var(--ink); }
+.tabs { position: absolute; left: 0; right: 0; bottom: 0; height: 84px; border-top: var(--rule) solid var(--border); background: var(--bg); display: grid; grid-template-columns: repeat(4,1fr); padding: 10px 8px 0; font-family: var(--font-m); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); text-align: center; }
+.tabs span { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
+.tabs .on { color: var(--text); }
+.tabs .on::before { content: ''; position: absolute; top: -11px; left: 30%; right: 30%; height: 2px; background: var(--accent); }
+.home-ind { position: absolute; left: 50%; bottom: 8px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: var(--text); }
 .ph-head { padding: 8px 20px 0; }
 .ph-head .top { display: flex; justify-content: space-between; align-items: center; height: 44px; }
-.ph-head h1 { font-size: 30px; line-height: 1.08; margin-top: 6px; }
-.ph-head h1 em { font-style: italic; color: var(--copper); }
-.ibtn { width: 36px; height: 36px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; font-size: 16px; color: var(--ink-2); }
-.card { background: #fff; border-radius: 18px; box-shadow: 0 0 0 1px var(--line); }
+.ph-head h1 { font-size: 34px; line-height: 1; margin-top: 10px; }
+.ibtn { width: 36px; height: 36px; border: var(--rule) solid var(--border); display: grid; place-items: center; font-size: 16px; color: var(--text-2); background: var(--bg); }
+.card { background: var(--bg); border: var(--rule) solid var(--border); }

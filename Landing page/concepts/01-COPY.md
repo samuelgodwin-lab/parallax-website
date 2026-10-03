@@ -12,7 +12,8 @@ problem is most severe or worth the most. Every concept lives in two places:
 
 Rules across all four:
 - "Concept" in the label, the client field and the Work card. No brand names.
-- Outcomes are **design targets**, written as targets, never as results.
+- Outcomes are **design targets**: four per concept, a figure plus a two-to-three-word label
+  (the YVT format), under "What we'd *measure.*" — never presented as results.
 - **No quote block.** A quote with no client behind it would be a fabricated
   testimonial.
 - Figures come from the market research briefs only.
@@ -76,10 +77,11 @@ the same data.
 - 2 — Platforms (mobile, web)
 
 **heading_outcomes:** What we'd *measure.*
-**outcomes** (design targets):
-- **Under 5 min** — Target: from opening the launch to reserving a unit
-- **Zero** — Target: payment questions that need a phone call
-- **Monthly** — Target: progress updates every buyer sees, against the handover date
+**outcomes** (design targets: figure + two-to-three-word label, as YVT):
+- **<5 min** — Launch to reservation
+- **0** — Payment calls needed
+- **12** — Site updates a year
+- **100%** — Receipts in the app
 
 **heading_digital:** Every instalment, *every floor.*
 
@@ -140,10 +142,11 @@ claim, designed for the customer and checked against WCAG 2.2 AA at every step.
 - 2 — Languages (German, English)
 
 **heading_outcomes:** What we'd *measure.*
-**outcomes** (design targets):
-- **Under 4 min** — Target: from quote to signed policy
-- **One question** — Per screen, every answer explained in plain words
-- **Zero** — Target: BFSG blockers at launch audit
+**outcomes** (design targets: figure + two-to-three-word label, as YVT):
+- **<4 min** — Quote to policy
+- **1** — Question per screen
+- **AA** — WCAG 2.2, every screen
+- **0** — BFSG blockers at launch
 
 **heading_digital:** Quote to claim, *on one phone.*
 
@@ -204,10 +207,11 @@ on a design system the operator's own team can extend.
 - 24/7 — Designed for a night shift (dark mode first)
 
 **heading_outcomes:** What we'd *measure.*
-**outcomes** (design targets):
-- **3 alarms** — Target: what a storm front puts at the top of the screen
-- **One view** — Target: from fleet to a single turbine without switching tools
-- **Under 5 min** — Target: a full shift handover
+**outcomes** (design targets: figure + two-to-three-word label, as YVT):
+- **3** — Critical alarms on top
+- **1** — Screen, fleet to asset
+- **<5 min** — Shift handover
+- **0** — Handover spreadsheets
 
 **heading_digital:** The whole fleet, *on one screen.*
 
@@ -269,10 +273,11 @@ for low bandwidth first and checked against India's accessibility standard
 - 2G — Designed to work on it
 
 **heading_outcomes:** What we'd *measure.*
-**outcomes** (design targets):
-- **Zero** — Target: applications lost to a dropped signal
-- **Under 15 min** — Target: a complete application, documents included
-- **Every stage** — Status by SMS, so nobody queues to ask
+**outcomes** (design targets: figure + two-to-three-word label, as YVT):
+- **0** — Lost applications
+- **<15 min** — Full application
+- **2G** — Works on it
+- **5** — Status texts, by SMS
 
 **heading_digital:** The whole admission, *on a phone.*
 
