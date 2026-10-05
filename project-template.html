@@ -345,7 +345,8 @@
     .proj-hero__client { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
     .proj-hero__h1 {
       font-size: clamp(40px, 6.5vw, 96px); font-weight: 800;
-      letter-spacing: -0.052em; line-height: 0.92;
+      /* -0.052em / 0.92 made letters touch at 96px (Samuel, 5 Oct) */
+      letter-spacing: -0.028em; line-height: 1;
       color: white; margin-top: var(--s3); max-width: 900px;
     }
     .proj-hero__scroll {
