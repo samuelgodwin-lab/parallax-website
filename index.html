@@ -2742,8 +2742,8 @@
     <div class="w">
       <div class="work__hdr reveal">
         <div>
-          <p class="slabel">Investment</p>
-          <h2 class="sh">Transparent pricing.<br>No <em>surprises.</em></h2>
+          <p class="slabel">Engagements</p>
+          <h2 class="sh">Three ways to<br><em>work with us.</em></h2>
         </div>
         <a href="#contact" class="work__all">Start a Project &#8594;</a>
       </div>
@@ -2774,7 +2774,6 @@
           <div>
             <p class="prc__tag">Starter</p>
             <h3 class="prc__name">Foundation</h3>
-            <div class="prc__price"><span class="prc__price-k">From</span><span class="prc__price-v">₹75,000</span><span class="prc__price-n">+ GST · 4–6 weeks</span></div>
             <p class="prc__desc">Brand identity + single digital touchpoint. Ideal for early-stage companies that need to move fast without sacrificing quality.</p>
           </div>
           <div>
@@ -2805,7 +2804,6 @@
           <div>
             <p class="prc__tag">Most Popular</p>
             <h3 class="prc__name">Studio</h3>
-            <div class="prc__price"><span class="prc__price-k">Most projects</span><span class="prc__price-v">₹1.75–3 lakh</span><span class="prc__price-n">+ GST · from ₹1,75,000</span></div>
             <p class="prc__desc">Complete brand system, product UI, and build-ready design specifications. Our most requested engagement.</p>
           </div>
           <div>
@@ -2837,7 +2835,6 @@
           <div>
             <p class="prc__tag">Enterprise</p>
             <h3 class="prc__name">Partner</h3>
-            <div class="prc__price"><span class="prc__price-k">Typically</span><span class="prc__price-v">₹4 lakh+</span><span class="prc__price-n">+ GST · retainer or milestones</span></div>
             <p class="prc__desc">Multi-phase engagements, embedded design teams, and long-term partnerships. Scoped to your exact needs.</p>
           </div>
           <div>
@@ -2849,7 +2846,7 @@
 
       </div>
 
-      <p class="pricing__drivers reveal"><span>What moves the price</span>Number of touchpoints, pages or screens, and how fast you need it. Every quote is fixed before we start.</p>
+      <p class="pricing__drivers reveal"><span>How we quote</span>Every project gets a fixed quote after a short scoping call, so there are no surprises.</p>
 
       <a href="#contact" class="btn btn-p pricing__cta-mobile" style="border-color: white;">Start a Project &#8594;</a>
 
@@ -3442,8 +3439,6 @@
         starter: {
           tag: 'Starter',
           name: 'Foundation',
-          price: '₹75,000',
-          period: 'onwards + GST',
           includes: [
             'Brand strategy workshop (half-day)',
             'Logo mark + full identity system',
@@ -3458,8 +3453,6 @@
         studio: {
           tag: 'Most Popular',
           name: 'Studio',
-          price: '₹1,75,000',
-          period: 'onwards + GST',
           includes: [
             'Everything in Foundation',
             'Full product UI design (up to 40 screens)',
@@ -3470,14 +3463,12 @@
             'Three rounds of revisions',
             'Two weeks post-launch support',
           ],
-          note: 'Most Studio projects land between ₹1.75 and 3 lakh. Typical turnaround: 8–12 weeks. 40% upfront, 40% at mid-point, 20% on delivery.',
+          note: 'Typical turnaround: 8–12 weeks. 40% upfront, 40% at mid-point, 20% on delivery.',
           cta: 'Start a Studio Project',
         },
         custom: {
           tag: 'Enterprise',
           name: 'Partner',
-          price: '₹4 lakh+',
-          period: '+ GST',
           includes: [
             'Multi-phase brand + product engagements',
             'Embedded design team (2–4 designers)',
@@ -3486,7 +3477,7 @@
             'Priority scheduling & response',
             'White-label options available',
           ],
-          note: 'Scoped and priced to your engagement, billed as a retainer or by milestone. We take on 1–2 per quarter, so reach out early.',
+          note: 'Scoped to your engagement, billed as a retainer or by milestone. We take on 1–2 per quarter, so reach out early.',
           cta: 'Start a Conversation',
         },
       };
@@ -3497,8 +3488,7 @@
         body.innerHTML = `
           <p class="prc-drawer__tag">${p.tag}</p>
           <h2 class="prc-drawer__name">${p.name}</h2>
-          <div class="prc-drawer__price">${p.price}${p.period ? `<span> ${p.period}</span>` : ''}</div>
-          <div class="prc-drawer__divider"></div>
+                    <div class="prc-drawer__divider"></div>
           <p class="prc-drawer__section-label">What's included</p>
           <ul class="prc-drawer__list">
             ${p.includes.map(i => `<li>${i}</li>`).join('')}
