@@ -1581,6 +1581,9 @@
       margin-top: 2px;
       opacity: 0.7;
     }
+    .prc-drawer__list .inc { display: flex; flex-direction: column; gap: 2px; }
+    .prc-drawer__list .inc strong { font-weight: 600; }
+    .prc-drawer__list .inc span { opacity: 0.85; font-size: 0.92em; }
     .prc-drawer__note {
       font-size: 12.5px;
       color: oklch(0.97 0.002 35 / 0.65);
@@ -2774,7 +2777,7 @@
           <div>
             <p class="prc__tag">Starter</p>
             <h3 class="prc__name">Foundation</h3>
-            <p class="prc__desc">Brand identity + single digital touchpoint. Ideal for early-stage companies that need to move fast without sacrificing quality.</p>
+            <p class="prc__desc">The brand your company is built on: written strategy, a full identity system and a one-page site to launch it.</p>
           </div>
           <div>
             <p class="prc__cta">View what's included ↗</p>
@@ -2804,7 +2807,7 @@
           <div>
             <p class="prc__tag">Most Popular</p>
             <h3 class="prc__name">Studio</h3>
-            <p class="prc__desc">Complete brand system, product UI, and build-ready design specifications. Our most requested engagement.</p>
+            <p class="prc__desc">Everything in Foundation, plus the website and product your customers use. Our most requested engagement.</p>
           </div>
           <div>
             <p class="prc__cta">View what's included ↗</p>
@@ -2835,7 +2838,7 @@
           <div>
             <p class="prc__tag">Enterprise</p>
             <h3 class="prc__name">Partner</h3>
-            <p class="prc__desc">Multi-phase engagements, embedded design teams, and long-term partnerships. Scoped to your exact needs.</p>
+            <p class="prc__desc">A senior team inside yours, for as long as you&rsquo;re building. Scoped to your roadmap.</p>
           </div>
           <div>
             <p class="prc__cta">Start a conversation ↗</p>
@@ -3440,12 +3443,11 @@
           tag: 'Starter',
           name: 'Foundation',
           includes: [
-            'Brand strategy workshop (half-day)',
-            'Logo mark + full identity system',
-            'Typography + colour token set',
-            'One digital touchpoint (landing page or app screen set)',
-            'Brand guidelines document (PDF + Figma)',
-            'Two rounds of revisions',
+            '<span class="inc"><strong>Strategy &amp; positioning</strong><span>Discovery workshop, competitor scan, written positioning, messaging and tone of voice</span></span>',
+            '<span class="inc"><strong>Identity system</strong><span>Logo suite, motion logo, type and colour, icons</span></span>',
+            '<span class="inc"><strong>Brand toolkit</strong><span>Social templates and the brand applied to cards, decks and product mock-ups</span></span>',
+            '<span class="inc"><strong>One-page launch site</strong><span>A single landing page, designed and built</span></span>',
+            '<span class="inc"><strong>Brand guidelines</strong><span>PDF and Figma library</span></span>',
           ],
           note: 'Typical turnaround: 4–6 weeks. 50% upfront, 50% on delivery.',
           cta: 'Book a Discovery Call',
@@ -3454,28 +3456,25 @@
           tag: 'Most Popular',
           name: 'Studio',
           includes: [
-            'Everything in Foundation',
-            'Full product UI design (up to 40 screens)',
-            'Component library in Figma (design system)',
-            'Interaction & motion specifications',
-            'Developer handoff package',
-            'Frontend build (React / Next.js)',
-            'Three rounds of revisions',
-            'Two weeks post-launch support',
+            '<span class="inc"><strong>Builds on Foundation</strong><span>Strategy, identity, toolkit and guidelines</span></span>',
+            '<span class="inc"><strong>Product UX</strong><span>Flows, wireframes and an interactive prototype</span></span>',
+            '<span class="inc"><strong>Website &amp; product UI</strong><span>Up to 40 screens or pages, with motion specs</span></span>',
+            '<span class="inc"><strong>Design system</strong><span>Figma components and coded tokens</span></span>',
+            '<span class="inc"><strong>Frontend build</strong><span>React / Next.js, QA and developer handoff</span></span>',
+            '<span class="inc"><strong>Launch kit &amp; care</strong><span>Pitch or sales deck, and two weeks of post-launch support</span></span>',
           ],
-          note: 'Typical turnaround: 8–12 weeks. 40% upfront, 40% at mid-point, 20% on delivery.',
+          note: 'Typical turnaround: 10–14 weeks. 40% upfront, 40% at mid-point, 20% on delivery.',
           cta: 'Start a Studio Project',
         },
         custom: {
           tag: 'Enterprise',
           name: 'Partner',
           includes: [
-            'Multi-phase brand + product engagements',
-            'Embedded design team (2–4 designers)',
-            'Ongoing retainer or milestone-based billing',
-            'Direct access to founding team',
-            'Priority scheduling & response',
-            'White-label options available',
+            '<span class="inc"><strong>Embedded team</strong><span>2&ndash;4 designers and engineers</span></span>',
+            '<span class="inc"><strong>One roadmap</strong><span>Brand, product and growth phases planned together</span></span>',
+            '<span class="inc"><strong>Direct access</strong><span>The founding team, with priority scheduling</span></span>',
+            '<span class="inc"><strong>Ongoing output</strong><span>Features, campaigns and design system upkeep</span></span>',
+            '<span class="inc"><strong>White-label</strong><span>Delivery under your name or your agency’s</span></span>',
           ],
           note: 'Scoped to your engagement, billed as a retainer or by milestone. We take on 1–2 per quarter, so reach out early.',
           cta: 'Start a Conversation',

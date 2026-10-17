@@ -1363,6 +1363,9 @@ main:focus-visible { outline: none; }
   line-height: 1.5;
   color: var(--on);
 }
+.prc-pane__list .inc { display: flex; flex-direction: column; gap: 2px; }
+.prc-pane__list .inc strong { font-weight: 600; }
+.prc-pane__list .inc span { opacity: 0.85; font-size: 0.92em; }
 .prc-pane__list li::before {
   content: '\2192';
   font-family: var(--font-m);
