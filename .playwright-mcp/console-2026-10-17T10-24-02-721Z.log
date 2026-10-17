@@ -1,0 +1,12 @@
+[     398ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/denver/main.js?v=3:181
+[     398ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/denver/main.js?v=3:181
+[     398ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/denver/main.js?v=3:181
+[     398ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/denver/main.js?v=3:181
+[   13110ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ http://localhost:8123/:2432
+[   13132ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8123/_vercel/speed-insights/script.js:0
+[   16721ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ http://localhost:8123/:2432
+[   16732ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8123/_vercel/speed-insights/script.js:0
+[   23122ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/dubai/main.js?v=5:181
+[   23122ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/dubai/main.js?v=5:181
+[   23122ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/dubai/main.js?v=5:181
+[   23122ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://player.vimeo.com') does not match the recipient window's origin ('http://localhost:8123'). @ http://localhost:8123/dubai/main.js?v=5:181
