@@ -1358,7 +1358,46 @@
       line-height: 1.1;
       transition: color 240ms var(--ease-out);
     }
-    .prc__price { display: none; }
+    .prc__price {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: var(--s6);
+    }
+    .prc__price-k,
+    .prc__price-n {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .prc__price-v {
+      font-size: clamp(30px, 3.2vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+    .pricing .prc__price-k,
+    .pricing .prc__price-n { color: oklch(0.66 0.003 0); }
+    .pricing .prc__price-v { color: white; }
+    .pricing__drivers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px var(--s6);
+      align-items: baseline;
+      margin-top: var(--s12);
+      font-size: 14px;
+      line-height: 1.6;
+      color: oklch(0.72 0.003 0);
+    }
+    .pricing__drivers span {
+      font-family: var(--font-m);
+      font-size: 9.5px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
     .prc__desc {
       font-size: 13px;
       color: var(--text-2);
@@ -2735,7 +2774,7 @@
           <div>
             <p class="prc__tag">Starter</p>
             <h3 class="prc__name">Foundation</h3>
-            <div class="prc__price"><sup>€</sup>12,000<span> / project</span></div>
+            <div class="prc__price"><span class="prc__price-k">From</span><span class="prc__price-v">₹75,000</span><span class="prc__price-n">+ GST · 4–6 weeks</span></div>
             <p class="prc__desc">Brand identity + single digital touchpoint. Ideal for early-stage companies that need to move fast without sacrificing quality.</p>
           </div>
           <div>
@@ -2766,7 +2805,7 @@
           <div>
             <p class="prc__tag">Most Popular</p>
             <h3 class="prc__name">Studio</h3>
-            <div class="prc__price"><sup>€</sup>28,000<span> / project</span></div>
+            <div class="prc__price"><span class="prc__price-k">Most projects</span><span class="prc__price-v">₹1.75–3 lakh</span><span class="prc__price-n">+ GST · from ₹1,75,000</span></div>
             <p class="prc__desc">Complete brand system, product UI, and build-ready design specifications. Our most requested engagement.</p>
           </div>
           <div>
@@ -2776,7 +2815,7 @@
           <span class="prc__arrow">↗</span>
         </article>
 
-        <!-- Custom -->
+        <!-- Partner -->
         <article class="prc" data-plan="custom">
           <div class="prc__img">
             <svg class="prc__illus" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2797,8 +2836,8 @@
           </div>
           <div>
             <p class="prc__tag">Enterprise</p>
-            <h3 class="prc__name">Custom</h3>
-            <div class="prc__price" style="font-size:clamp(24px,3vw,36px);letter-spacing:-0.03em;">Let's talk</div>
+            <h3 class="prc__name">Partner</h3>
+            <div class="prc__price"><span class="prc__price-k">Typically</span><span class="prc__price-v">₹4 lakh+</span><span class="prc__price-n">+ GST · retainer or milestones</span></div>
             <p class="prc__desc">Multi-phase engagements, embedded design teams, and long-term partnerships. Scoped to your exact needs.</p>
           </div>
           <div>
@@ -2809,6 +2848,8 @@
         </article>
 
       </div>
+
+      <p class="pricing__drivers reveal"><span>What moves the price</span>Number of touchpoints, pages or screens, and how fast you need it. Every quote is fixed before we start.</p>
 
       <a href="#contact" class="btn btn-p pricing__cta-mobile" style="border-color: white;">Start a Project &#8594;</a>
 
@@ -3401,8 +3442,8 @@
         starter: {
           tag: 'Starter',
           name: 'Foundation',
-          price: '2,500€',
-          period: 'onwards',
+          price: '₹75,000',
+          period: 'onwards + GST',
           includes: [
             'Brand strategy workshop (half-day)',
             'Logo mark + full identity system',
@@ -3417,8 +3458,8 @@
         studio: {
           tag: 'Most Popular',
           name: 'Studio',
-          price: '5,000€',
-          period: 'onwards',
+          price: '₹1,75,000',
+          period: 'onwards + GST',
           includes: [
             'Everything in Foundation',
             'Full product UI design (up to 40 screens)',
@@ -3429,14 +3470,14 @@
             'Three rounds of revisions',
             'Two weeks post-launch support',
           ],
-          note: 'Typical turnaround: 8–12 weeks. 40% upfront, 40% at mid-point, 20% on delivery.',
+          note: 'Most Studio projects land between ₹1.75 and 3 lakh. Typical turnaround: 8–12 weeks. 40% upfront, 40% at mid-point, 20% on delivery.',
           cta: 'Start a Studio Project',
         },
         custom: {
           tag: 'Enterprise',
-          name: 'Custom',
-          price: 'Let\'s talk',
-          period: '',
+          name: 'Partner',
+          price: '₹4 lakh+',
+          period: '+ GST',
           includes: [
             'Multi-phase brand + product engagements',
             'Embedded design team (2–4 designers)',
@@ -3445,7 +3486,7 @@
             'Priority scheduling & response',
             'White-label options available',
           ],
-          note: 'We take on 1–2 custom engagements per quarter. Reach out early.',
+          note: 'Scoped and priced to your engagement, billed as a retainer or by milestone. We take on 1–2 per quarter, so reach out early.',
           cta: 'Start a Conversation',
         },
       };

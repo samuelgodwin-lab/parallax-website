@@ -13,7 +13,7 @@ Contact: projects@parallaxorg.com · https://www.linkedin.com/company/parallaxor
 
 ## Main site
 
-- [Home](https://www.parallaxorg.com/): the studio, work and euro pricing (Foundation from EUR 12,000, Studio from EUR 28,000).
+- [Home](https://www.parallaxorg.com/): the studio, work and rupee pricing for the Bengaluru studio (Foundation from INR 75,000; Studio typically INR 1.75–3 lakh; Partner typically INR 4 lakh and up; all plus GST).
 - [Services](https://www.parallaxorg.com/services.html)
 - [Work](https://www.parallaxorg.com/work.html)
 - [About](https://www.parallaxorg.com/about.html)
